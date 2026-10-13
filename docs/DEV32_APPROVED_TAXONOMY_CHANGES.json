@@ -1,0 +1,132 @@
+[
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Scissors",
+    "before": "B47_ToolsCutting",
+    "after": "B47_Stationery"
+  },
+  {
+    "fullType": "Base.ScissorsBlunt",
+    "before": "B47_ToolsCutting",
+    "after": "B47_Stationery"
+  }
+]

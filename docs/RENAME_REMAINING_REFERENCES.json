@@ -1,0 +1,1573 @@
+[
+  {
+    "path": "CHANGELOG.md",
+    "classification": "REQUIRED COMPATIBILITY",
+    "lines": [
+      3
+    ]
+  },
+  {
+    "path": "README.md",
+    "classification": "REQUIRED COMPATIBILITY",
+    "lines": [
+      7
+    ]
+  },
+  {
+    "path": "WORKSHOP_CHANGE_NOTE.txt",
+    "classification": "REQUIRED COMPATIBILITY",
+    "lines": [
+      4
+    ]
+  },
+  {
+    "path": "docs/RENAME_MIGRATION.md",
+    "classification": "REQUIRED COMPATIBILITY",
+    "lines": [
+      9,
+      10,
+      29,
+      37
+    ]
+  },
+  {
+    "path": "docs/RENAME_REFERENCE_BASELINE.txt",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58
+    ]
+  },
+  {
+    "path": "docs/V014_IMPLEMENTATION.md",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      17
+    ]
+  },
+  {
+    "path": "docs/WORKSHOP_PUBLICATION.md",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      11,
+      17,
+      18
+    ]
+  },
+  {
+    "path": "tests/run_tests.py",
+    "classification": "REQUIRED COMPATIBILITY",
+    "lines": [
+      61
+    ]
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/workshop.txt",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      27
+    ]
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/workshop.txt",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      28
+    ]
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/workshop.txt",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      28
+    ]
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/workshop.txt",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      28
+    ]
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/workshop.txt",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      28
+    ]
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/workshop.txt",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      27
+    ]
+  },
+  {
+    "path": "dist/workshop-publish/QuartermasterSimpleSorting.vdf",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      5,
+      6,
+      8,
+      9
+    ]
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/mod.info",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      2
+    ]
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/client/QuartermasterSimpleSorting/Adapter.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4,
+      150
+    ]
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/client/QuartermasterSimpleSorting/Model.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4
+    ]
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/AR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/CA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/CH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/CN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/CS/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/DA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/DE/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/EN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/ES/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/ES_CL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/ES_MX/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/FI/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/FR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/HU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/ID/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/IT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/JP/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/KO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/NL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/NO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/PL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/PT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/PTBR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/RO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/RU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/STREW/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/TH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/TR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044640/42/media/lua/shared/Translate/UA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/mod.info",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      2
+    ]
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/client/QuartermasterSimpleSorting/Adapter.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4,
+      158
+    ]
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/client/QuartermasterSimpleSorting/Model.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4
+    ]
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/AR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/CA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/CH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/CN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/CS/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/DA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/DE/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/EN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/ES/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/ES_CL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/ES_MX/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/FI/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/FR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/HU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/ID/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/IT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/JP/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/KO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/NL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/NO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/PL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/PT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/PTBR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/RO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/RU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/STREW/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/TH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/TR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/deployment-backups/QuartermasterSimpleSorting-20260924-044731-221/42/media/lua/shared/Translate/UA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/mod.info",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      2
+    ]
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Adapter.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4,
+      167
+    ]
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Model.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4
+    ]
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/AR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CS/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DE/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/EN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_CL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_MX/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FI/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/HU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ID/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/IT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/JP/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/KO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PTBR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/STREW/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-707df3a36d504dccb780bedf99c30e75/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/UA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/mod.info",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      2
+    ]
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Adapter.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      3,
+      5,
+      302
+    ]
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Model.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4
+    ]
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Ownership.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      3
+    ]
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/AR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CS/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DE/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/EN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_CL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_MX/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FI/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/HU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ID/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/IT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/JP/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/KO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PTBR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/STREW/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-740a00c6066143ddb088f4da9fd12fa1/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/UA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/mod.info",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      2
+    ]
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Adapter.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      3,
+      5,
+      302
+    ]
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Model.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4
+    ]
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Ownership.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      3
+    ]
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/AR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CS/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DE/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/EN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_CL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_MX/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FI/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/HU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ID/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/IT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/JP/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/KO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PTBR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/STREW/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-9b3e1e5513e5403daaf0a6953d94bc7a/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/UA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/mod.info",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      2
+    ]
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Adapter.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      3,
+      5,
+      304
+    ]
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Model.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4
+    ]
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Ownership.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      3
+    ]
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/AR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CS/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DE/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/EN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_CL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_MX/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FI/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/HU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ID/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/IT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/JP/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/KO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PTBR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/STREW/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-c28743ab47e44faea75b4b0b87d7836c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/UA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/mod.info",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      2
+    ]
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Adapter.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      3,
+      5,
+      302
+    ]
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Model.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4
+    ]
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Ownership.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      3
+    ]
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/AR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CS/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DE/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/EN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_CL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_MX/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FI/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/HU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ID/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/IT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/JP/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/KO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PTBR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/STREW/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-e1662fe5269243ddbd930db533f8950c/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/UA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/mod.info",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      1,
+      2
+    ]
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Adapter.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4,
+      158
+    ]
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/client/QuartermasterSimpleSorting/Model.lua",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": [
+      2,
+      4
+    ]
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/AR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/CS/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/DE/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/EN/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_CL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ES_MX/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FI/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/FR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/HU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/ID/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/IT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/JP/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/KO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/NO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PL/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PT/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/PTBR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RO/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/RU/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/STREW/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TH/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/TR/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  },
+  {
+    "path": "dist/staging-backup-ef40338441514e3c94a6dc7c03f1afaf/Contents/mods/QuartermasterSimpleSorting/42/media/lua/shared/Translate/UA/UI.json",
+    "classification": "HISTORICAL DOCUMENTATION",
+    "lines": []
+  }
+]

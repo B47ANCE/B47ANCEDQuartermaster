@@ -1,0 +1,51 @@
+B47ANCE'd Quartermaster adds container sorting, personal shopping lists and supply planning.
+
+[h2]Development testing build[/h2]
+[b]This build requires updating and restarting both client and server (movement capability 4). Older movement peers are rejected.[/b]
+Version 0.4.0-dev.46. Tested offline with regression and source checks. This is an experimental testing candidate. Native single-player, listen-server and dedicated multiplayer validation for this candidate are pending. Back up saves before testing; use the same version on all multiplayer peers.
+
+[h2]Standalone[/h2]
+No Quartermaster dependency. Disable older sorting versions when testing.
+
+[b]Incompatible Mods[/b]
+Original Quartermaster (Mod ID `Quartermaster`) and Better Sorting (Mod ID `BetterSortCC`) must be disabled. B47ANCE'd Quartermaster rejects active conflicts by exact Mod ID. Existing saved configuration is not itself a conflict. Better Containers coexistence is not yet verified.
+
+[h2]Window controls[/h2]
+• Native corner/bottom resizing, an adjustable container-panel divider, controller layout actions and saved local geometry.
+• Window Appearance provides live background opacity from 20–100% (default 82%), with separate local preferences and explicit appearance reset. Foreground controls and tooltips retain readable presentation. Native visual acceptance pending.
+
+[h2]Sorting[/h2]
+• Sorting waits briefly for server-confirmed arrival before pickup/deposit authorization, preserving native transfer checks.
+• A failed batch with no completed transfers stops safely; console summaries separate planning skips from transfer failures.
+• Weapons hierarchy: Explosives; Sharp with Spear and Blade (Long/Short); Blunt (Long/Short); Firearms with Handguns, Shotguns, Sub-Machine Guns, Assault Rifles, Sniper Rifles, Other Firearms and Attachments & Parts.
+• Tool use is always primary; weapon-capable tools also appear in the Weapons tree with shared selections and no duplicate item counts.
+• Open Quartermaster Menu lives in player inventory controls, including empty inventory and carried-bag views.
+• Server batches reuse destination configurations and preset rules; dedicated startup speed remains unverified.
+• Lua-only floor and resolvable aggregate sources, with native pickup and server-observed completion. Proximity UI/native multiplayer acceptance pending; persistent decoration protection is not included.
+• Broad category → physical subcategory → item hierarchy with native item icons and full, partial and unselected category states. A local Group Items by Mod setting adds mod headings when wanted.
+• Client inventory Category labels and native Category sorting share canonical UI row keys. Native item metadata stays unchanged; installed UI-mod compatibility awaits native testing.
+• Category and item search, Only Checked, Only Contents, presets and priorities.
+• Visible-row range selection, bulk selection and mouse/controller controls.
+• Multi-container configuration, world sprite rail and nested verified Whole Container groups with live inheritance, explicit section customization and confirmed reset.
+• Room-first view with Building/Room/Proximity choices; new sandbox configurations enable Whole Building discovery by default. Existing explicit settings remain unchanged.
+• Concise, bounded tooltips with full Help and controller inspection.
+• Server-controlled visit optimization keeps same-destination work together across batches; loaded same-floor navigation is approximated within a bounded budget. Native timing improvements and cross-floor routing remain unverified.
+• Server sandbox controls for Container Range and Whole Building discovery. The latter uses the player's native building and loaded squares.
+
+Click a category checkbox to select or clear it. Click its label to expand or collapse. Full categories use category rules; partial categories use explicit item-name rules. Identical display names share selections, and presets remain additive.
+
+[h2]Supply planning[/h2]
+• Dibs! item labels and separate Wanted and Needed supply lists.
+• Set target quantities, see how many qualifying items you currently carry, and send whatever is missing to Shopping.
+• Add Remaining and bulk Add Items to Shopping List keep linked possession demand synchronized; overlapping targets use the greater target.
+• Collect Remaining uses the existing collector for the selected Wanted or Needed goal.
+• Personal Shopping Preferences default to Any, with condition, food-state and remaining-use filters plus item overrides.
+• Source labels, duplicate confirmation and explicit Add Again preserve intent; replay and rapid double-fire protection remain active when optional confirmation is off.
+• Manual shopping items and native crafting/building project requirements.
+• Optional Project Cook shopping controls for native CraftRecipe and supported EvolvedRecipe full portions.
+• Optional Neat Crafting and Neat Building shopping controls; selected unsupported recipes explain their limits.
+
+Project Cook is optional. Cooking support is limited to the supported fresh-food full-portion path. Partial modes, water/fluid demands, non-Food seasonings, prefilled bases and conflicting whole-item/portion demands are unsupported. Shopping planning does not automatically craft, build or cook.
+
+Mod ID: B47ANCEDQuartermaster
+Original standalone implementation. No third-party mod source or assets are included.

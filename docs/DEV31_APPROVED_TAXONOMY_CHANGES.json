@@ -1,0 +1,4 @@
+[
+  {"fullType":"Base.Scissors","before":"B47_ToolsCutting","after":"B47_Stationery"},
+  {"fullType":"Base.ScissorsBlunt","before":"B47_ToolsCutting","after":"B47_Stationery"}
+]

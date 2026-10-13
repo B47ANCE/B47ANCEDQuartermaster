@@ -1,0 +1,17 @@
+# dev.25 Lua-only ground and aggregate sources
+
+Project Version: 0.4.0-dev.25. Compatible feature checkpoint in the 0.4.0 series; movement capability 3 requires matched peers. Taxonomy/configuration schemas unchanged.
+
+[VERIFIED — source] Floor and parentless aggregate source controls now start an explicit source snapshot. Each row resolves to its native world item or real physical container. The server re-resolves client lookup hints, retains exact world-object/item references, and validates live membership, access, eligibility, source/destination rules and capacity. Ambiguous IDs fail closed; repeated identical rows are deduplicated. Physical aggregate entries must belong to the server's existing discovery session. Ground snapshot reach uses the existing server Container Range setting; no new area scan or automatic sweep is added.
+
+Bounded planning uses these retained sources and existing carrier/destination reservations. Ground acquisition uses ordinary native ISInventoryTransferAction instances, the same class selected by vanilla multiplayer pickup; native inventory-pane transfers also use this class. Same-square compatible ground items may share a native queue when their resolved source container is identical. Different native sources remain separate. Server moveCarried observes the exact item in its authorized carrier before deposit grants; moveDone observes destination containment. No custom AddItem/remove operations or Java bridge were added. Existing inventory/bag/physical sources and Shopping retain their paths.
+
+The native final-mutation authority boundary remains unchanged: B47 owns planning/grants/confirmation; PZ owns native transactions. This is not proof of an atomic B47 callback within private native mutations. Retained references expire/cancel with existing movement runs and are never persisted. No decoration protection, historical Place inference or persistent item markers are implemented.
+
+[TESTED — offline] Full Lua/metadata/regression suite, source authority tests, and production ground pipeline scenarios with simulated engine/network leaves. Removed world objects, duplicate rows, ambiguous/large IDs, walls, safehouse rejection, malformed hints, revoked/changed physical sources, immediate action starts, native merge/perform and SP/MP branches are exercised. No custom mutation path is present.
+
+[RUNTIME GATE] Native SP, listen and dedicated execution are NOT TESTED. G7 BLOCKED/NOT TESTED; G8 BLOCKED. The installed Proximity Inventory presentation contract has not been runtime verified; supported inputs are native floor views and parentless aggregate ItemContainers with rows resolvable to actual sources. Special corpse/radio behavior, chunk unload, two-player pickup races and all-mod compatibility need native checks. Do not claim universal proximity integration or native MP readiness.
+
+Manual checks: use matching builds on server/client; sort loose items from Floor; test several identical items; test mixed aggregate ground/container rows and duplicate rows; cancel before/after pickup; change destination rules or fill carrier/destination; have a second player pick up a pending item; cross walls/safehouses/chunk boundaries. Confirm no duplication, false completion or decoration protection claims. Persistent protection remains a separate unresolved lifecycle feature.
+
+No package, deployment, publication or PZ/server launch performed.

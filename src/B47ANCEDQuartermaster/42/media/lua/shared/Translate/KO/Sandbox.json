@@ -1,0 +1,13 @@
+{
+  "Sandbox_B47ANCEDQuartermaster": "B47ANCE'd Quartermaster",
+  "Sandbox_B47ANCEDQuartermaster_ContainerRange": "Container Range",
+  "Sandbox_B47ANCEDQuartermaster_ContainerRange_tooltip": "Tiles from the opening container to show eligible storage on the same floor. Used when Whole Building is off or no building is available.",
+  "Sandbox_B47ANCEDQuartermaster_WholeBuilding": "Whole Building",
+  "Sandbox_B47ANCEDQuartermaster_WholeBuilding_tooltip": "Discover loaded containers in the current building. Enabled by default; the configuration menu initially shows the current room. Existing saved values are preserved.",
+  "Sandbox_B47ANCEDQuartermaster_ClassifyToolsByUse": "Classify multipurpose tools by use",
+  "Sandbox_B47ANCEDQuartermaster_ClassifyToolsByUse_tooltip": "Place tagged multipurpose tools in Tools and maintenance. Disable to prefer their weapon type. The server controls category routing.",
+  "Sandbox_B47ANCEDQuartermaster_SortBatchSize": "Sort planning batch size",
+  "Sandbox_B47ANCEDQuartermaster_SortBatchSize_tooltip": "Maximum items planned in each sorting batch. Smaller batches start sooner; the next batch is prepared while transfers run. Server-controlled; existing saves default to 20. Native transfer timing is unchanged.",
+  "Sandbox_B47ANCEDQuartermaster_RouteOptimization": "Optimize sorting visits",
+  "Sandbox_B47ANCEDQuartermaster_RouteOptimization_tooltip": "Keep feasible work at the same destination together across batches. Use bounded loaded-world route approximations; native walking and transfers remain unchanged. Server controlled; existing saves default to enabled."
+}

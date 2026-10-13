@@ -1,0 +1,3127 @@
+[
+  {
+    "fullType": "Base.3030Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.3030Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.308Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.308Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.556Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.556Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Aerosolbomb",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.AerosolbombRemote",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.AerosolbombSensorV1",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.AerosolbombSensorV2",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.AerosolbombSensorV3",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.AerosolbombTriggered",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.AmmoStrap_Brown_Bullets",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.AmmoStrap_Brown_Shells",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.AmmoStrap_Bullets",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.AmmoStrap_Bullets_308",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.AmmoStrap_Shells",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.AmmoStraps",
+    "before": "B47_WeaponParts",
+    "after": "B47_WeaponAttachments"
+  },
+  {
+    "fullType": "Base.AssaultRifle",
+    "before": "B47_LongGuns",
+    "after": "B47_AssaultRifles"
+  },
+  {
+    "fullType": "Base.AssaultRifle2",
+    "before": "B47_LongGuns",
+    "after": "B47_AssaultRifles"
+  },
+  {
+    "fullType": "Base.AthleticCup",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingUnderlayersArmor"
+  },
+  {
+    "fullType": "Base.Bag_FannyPackBack",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.Bag_FannyPackBack_Hide",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.Bag_FannyPackBack_Tarp",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.Bag_FannyPackFront",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.Bag_FannyPackFront_Hide",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.Bag_FannyPackFront_Tarp",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.BeerCanEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BeerEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Belt2",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.BottleCrafted",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Bracelet_BangleLeftGold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Bracelet_BangleLeftSilver",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Bracelet_BangleRightGold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Bracelet_BangleRightSilver",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Bracelet_ChainLeftGold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Bracelet_ChainLeftSilver",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Bracelet_ChainRightGold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Bracelet_ChainRightSilver",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Bracelet_LeftFriendshipTINT",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Bracelet_RightFriendshipTINT",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Bucket",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BucketCarved",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BucketEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BucketForged",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BucketLargeWood",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BucketWaterDebug",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.BucketWood",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Bullets357Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets357Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets38Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets38Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets44Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets44Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets45Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets45Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets9mmBox",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets9mmCarton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.BunnySuitBlack",
+    "before": "B47_ClothingUnderlayers",
+    "after": "B47_ClothingCostumes"
+  },
+  {
+    "fullType": "Base.BunnySuitPink",
+    "before": "B47_ClothingUnderlayers",
+    "after": "B47_ClothingCostumes"
+  },
+  {
+    "fullType": "Base.BunnyTail",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingCostumes"
+  },
+  {
+    "fullType": "Base.CannedFruitBeverage",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.CannedFruitBeverageOpen",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.CannedFruitBeverage_Box",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.CannedMilk",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.CannedMilkOpen",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.CannedMilk_Box",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.Canteen",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.CanteenClay",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.CanteenMilitary",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.CanteenMilitaryFull",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.Chainmail_Hand_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Chainmail_Hand_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Chainmail_SleeveFull_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Chainmail_SleeveFull_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ChokeTubeFull",
+    "before": "B47_WeaponParts",
+    "after": "B47_WeaponAttachments"
+  },
+  {
+    "fullType": "Base.ChokeTubeImproved",
+    "before": "B47_WeaponParts",
+    "after": "B47_WeaponAttachments"
+  },
+  {
+    "fullType": "Base.Codpiece_Leather",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Codpiece_Metal",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.CrudeShortSword",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeLongBlade"
+  },
+  {
+    "fullType": "Base.CrudeSword",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeLongBlade"
+  },
+  {
+    "fullType": "Base.CrudeSword_Broken",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeLongBlade"
+  },
+  {
+    "fullType": "Base.Cuirass_BasicBone",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingEquipmentArmor"
+  },
+  {
+    "fullType": "Base.Cuirass_Bone",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Cuirass_CoatOfPlates",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Cuirass_Magazine",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Cuirass_Metal",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Cuirass_MetalScrap",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Cuirass_Tire",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Cuirass_Wood",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.DrinkingGlass",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Earring_BirdSkull",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_BoarTusk",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_Dangly_Diamond",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_Dangly_Emerald",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_Dangly_Pearl",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_Dangly_Ruby",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_Dangly_Sapphire",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_LoopLrg_Gold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_LoopLrg_Silver",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_LoopMed_Gold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_LoopMed_Silver",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_LoopSmall_Gold_Both",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_LoopSmall_Silver_Both",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_Pearl",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_Stone_Emerald",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_Stone_Ruby",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_Stone_Sapphire",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_Stud_Gold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Earring_Stud_Silver",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.ElbowPad_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Left_Leather",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Left_Military",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Left_Sport",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Left_TINT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Left_Tactical",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Left_Workman",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Right_Leather",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Right_Military",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Right_Sport",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Right_TINT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Right_Tactical",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ElbowPad_Right_Workman",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.FeedingBottle",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.FlameTrap",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.FlameTrapRemote",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.FlameTrapSensorV1",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.FlameTrapSensorV2",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.FlameTrapSensorV3",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.FlameTrapTriggered",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.FountainCup",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.FountainCupWater",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.Gaiter_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Gaiter_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GlassChampagne",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.GlassShiv",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeShortBlade"
+  },
+  {
+    "fullType": "Base.GlassWine",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Glasses",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_3dGlasses",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_70s_Gold",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Aviators",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_CatsEye",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_CatsEye_Sun",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Cosmetic_70s_Gold",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Cosmetic_CatsEye",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Cosmetic_HalfMoon",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Cosmetic_MonocleLeft",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Cosmetic_MonocleRight",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Cosmetic_Normal",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Cosmetic_Normal_HornRimmed",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Cosmetic_Round_Normal",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Groucho",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_HalfMoon",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_JackieO",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Macho",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_MonocleLeft",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_MonocleRight",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_NewWave",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Normal",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Normal_HornRimmed",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Novelty_Xray",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_OldWeldingGoggles",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Prescription",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Prescription_Aviators",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Prescription_CatsEye_Sun",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Prescription_JackieO",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Prescription_Round_Shades",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Prescription_Shooting",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Prescription_Sun",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Reading",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Round_HoloSkulls",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Round_Normal",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Round_Shades",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_SafetyGoggles",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingEyesArmor"
+  },
+  {
+    "fullType": "Base.Glasses_Shooting",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_SkiGoggles",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Sun",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_SunCheap",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_SwimmingGoggles",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Glasses_Venetian",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingEyes"
+  },
+  {
+    "fullType": "Base.Gloves_BoxingBlue",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingGlovesArmor"
+  },
+  {
+    "fullType": "Base.Gloves_BoxingRed",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingGlovesArmor"
+  },
+  {
+    "fullType": "Base.Gloves_IceHockeyGloves",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingGlovesArmor"
+  },
+  {
+    "fullType": "Base.Gloves_IceHockeyGloves_Black",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingGlovesArmor"
+  },
+  {
+    "fullType": "Base.Gloves_IceHockeyGloves_Blue",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingGlovesArmor"
+  },
+  {
+    "fullType": "Base.Gloves_IceHockeyGloves_White",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingGlovesArmor"
+  },
+  {
+    "fullType": "Base.Gorget_Burlap",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Gorget_Denim",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Gorget_Leather",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Gorget_LeatherWrap",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Gorget_Metal",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Gorget_Rag",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Left_Army",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Left_Civ",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Left_Desert",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Left_Police",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Left_SWAT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Right_Army",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Right_Civ",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Right_Desert",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Right_Police",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBodyArmour_Right_SWAT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBone_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveBone_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveMagazine_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveMagazine_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveScrap_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveScrap_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveSpikeScrap_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveSpikeScrap_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveSpike_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveSpike_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveTire_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveTire_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveWood_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GreaveWood_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Greave_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Greave_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.GunLight",
+    "before": "B47_WeaponParts",
+    "after": "B47_WeaponAttachments"
+  },
+  {
+    "fullType": "Base.Hat_Army",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_ArmyDesert",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_ArmyDesertNew",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_BaseballHelmet",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_BaseballHelmet_KY",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_BaseballHelmet_Rangers",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_BaseballHelmet_Z",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_BicycleHelmet",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_BoneMask",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_BoxingBlue",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_BoxingRed",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_BuildersRespirator",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_BuildersRespirator_nofilter",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_BunnyEarsBlack",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingCostumes"
+  },
+  {
+    "fullType": "Base.Hat_BunnyEarsWhite",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingCostumes"
+  },
+  {
+    "fullType": "Base.Hat_CrashHelmet",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_CrashHelmetFULL",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_CrashHelmetFULL_Black",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_CrashHelmetFULL_Black_Spiked",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_CrashHelmetFULL_Spiked",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_CrashHelmet_Police",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_CrashHelmet_Stars",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_DustMask",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_Fireman",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_FootballHelmet",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_FootballHelmet_Blue",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_FootballHelmet_Red",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_FootballHelmet_White",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_GasMask",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_GasMask_nofilter",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HardHat",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HardHat_Miner",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HockeyHelmet",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HockeyHelmet_TINT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HockeyMask",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HockeyMask_Copper",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HockeyMask_Gold",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HockeyMask_Hide",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HockeyMask_Metal",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HockeyMask_MetalScrap",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HockeyMask_Silver",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_HockeyMask_Wood",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_ImprovisedGasMask",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_ImprovisedGasMask_nofilter",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_JockeyHelmet01",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_JockeyHelmet02",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_JockeyHelmet03",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_JockeyHelmet04",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_JockeyHelmet05",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_JockeyHelmet06",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_MetalHelmet",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_MetalScrapHelmet",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_NBCmask",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_NBCmask_nofilter",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_RidingHelmet",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_RiotHelmet",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_SPHhelmet",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_SWAT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingHeadwearArmor"
+  },
+  {
+    "fullType": "Base.Hat_Spiffo",
+    "before": "B47_ClothingHeadwear",
+    "after": "B47_ClothingCostumes"
+  },
+  {
+    "fullType": "Base.HolsterDouble",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.HolsterShoulder",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.HolsterSimple",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.HolsterSimple_Black",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.HolsterSimple_Brown",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.HolsterSimple_Green",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.Holster_DuctTape",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.Holster_Hide",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.HotDrink",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkClay",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkCopper",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkGold",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkMetal",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkRed",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkSilver",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkSpiffo",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkTea",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkTeaCeramic",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkTumbler",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkWhite",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotWaterBottle",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.HuntingRifle",
+    "before": "B47_LongGuns",
+    "after": "B47_SniperRifles"
+  },
+  {
+    "fullType": "Base.IceHockeyNeckGuard",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.JS14_Rifle",
+    "before": "B47_LongGuns",
+    "after": "B47_FirearmsOther"
+  },
+  {
+    "fullType": "Base.Jacket_Fireman",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.JuiceBox",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceBoxApple",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceBoxFruitpunch",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceBoxOrange",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceCranberry",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceFruitpunch",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceGrape",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceOrange",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceTomato",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.Katana",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeLongBlade"
+  },
+  {
+    "fullType": "Base.Katana_Broken",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeLongBlade"
+  },
+  {
+    "fullType": "Base.Kneepad_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Left_Leather",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Left_Military",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Left_Sport",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Left_TINT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Left_Tactical",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Left_Workman",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Right_Leather",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Right_Military",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Right_Sport",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Right_TINT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Right_Tactical",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Kneepad_Right_Workman",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.KnifeShiv",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeShortBlade"
+  },
+  {
+    "fullType": "Base.L92_Carbine",
+    "before": "B47_LongGuns",
+    "after": "B47_FirearmsOther"
+  },
+  {
+    "fullType": "Base.L94_Rifle",
+    "before": "B47_LongGuns",
+    "after": "B47_FirearmsOther"
+  },
+  {
+    "fullType": "Base.Laser",
+    "before": "B47_WeaponParts",
+    "after": "B47_WeaponAttachments"
+  },
+  {
+    "fullType": "Base.LetterOpener",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeShortBlade"
+  },
+  {
+    "fullType": "Base.Locket",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.MSR7T_Rifle",
+    "before": "B47_LongGuns",
+    "after": "B47_SniperRifles"
+  },
+  {
+    "fullType": "Base.MayonnaiseEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Medal_Bronze",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Medal_Gold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Medal_Silver",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Milk",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.MilkBottle",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.MilkChocolate_Personalsized",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.Milk_Personalsized",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.Molotov",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.NecklaceLong_Amber",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.NecklaceLong_Gold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.NecklaceLong_GoldDiamond",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.NecklaceLong_Silver",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.NecklaceLong_SilverDiamond",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.NecklaceLong_SilverEmerald",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.NecklaceLong_SilverSapphire",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.NecklaceLong_SkullMammal",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.NecklaceLong_SkullMammal_Multi",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.NecklaceLong_SkullSmall",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.NecklaceLong_SkullSmall_Multi",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.NecklaceLong_Teeth",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_BoarTusk",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_BoarTusk_Multi",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_Choker_Bone",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Necklace_Crucifix",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_DogTag",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_DogTag_Female",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_DogTag_Male",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_Gold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_GoldDiamond",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_GoldRuby",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_Pearl",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_Silver",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_SilverCrucifix",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_SilverDiamond",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_SilverSapphire",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_SkullMammal",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_SkullMammal_Multi",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_SkullSmall",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_SkullSmall_Multi",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_Teeth",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Necklace_YingYang",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.PaintbucketEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.PipeBomb",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.PipeBombRemote",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.PipeBombSensorV1",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.PipeBombSensorV2",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.PipeBombSensorV3",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.PipeBombTriggered",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.PlasticCup",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Pop",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.Pop2",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.Pop3",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.PopBottle",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.PopBottleRare",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.RecoilPad",
+    "before": "B47_WeaponParts",
+    "after": "B47_WeaponAttachments"
+  },
+  {
+    "fullType": "Base.RedDot",
+    "before": "B47_WeaponParts",
+    "after": "B47_WeaponAttachments"
+  },
+  {
+    "fullType": "Base.RemouladeEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.RopeBelt",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingEquipment"
+  },
+  {
+    "fullType": "Base.SCBA",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.SCBA_notank",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Scarf_StripeBlackWhite",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingAccessories"
+  },
+  {
+    "fullType": "Base.Scarf_StripeBlueWhite",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingAccessories"
+  },
+  {
+    "fullType": "Base.Scarf_StripeRedWhite",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingAccessories"
+  },
+  {
+    "fullType": "Base.Scarf_White",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingAccessories"
+  },
+  {
+    "fullType": "Base.Scissors",
+    "before": "B47_ToolsCutting",
+    "after": "B47_Stationery"
+  },
+  {
+    "fullType": "Base.ScissorsBlunt",
+    "before": "B47_ToolsCutting",
+    "after": "B47_Stationery"
+  },
+  {
+    "fullType": "Base.SharpBone_Long",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeShortBlade"
+  },
+  {
+    "fullType": "Base.ShemaghScarf",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingAccessories"
+  },
+  {
+    "fullType": "Base.ShemaghScarf_Green",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingAccessories"
+  },
+  {
+    "fullType": "Base.ShinKneeGuardSpike_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuardSpike_L_Baseball",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuardSpike_L_IceHockey",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuardSpike_L_Metal",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuardSpike_L_Protective",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuardSpike_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuardSpike_R_Baseball",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuardSpike_R_IceHockey",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuardSpike_R_Metal",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuardSpike_R_Protective",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_L_Baseball",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_L_IceHockey",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_L_Metal",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_L_Protective",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_L_TINT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_R_Baseball",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_R_IceHockey",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_R_Metal",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_R_Protective",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShinKneeGuard_R_TINT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_HockeyGoalie_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_HockeyGoalie_L_Blue",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_HockeyGoalie_L_Red",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_HockeyGoalie_L_White",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_HockeyGoalie_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_HockeyGoalie_R_Blue",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_HockeyGoalie_R_Red",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_HockeyGoalie_R_White",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_L_Blue",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_L_Rigid",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_L_White",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_R_Blue",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_R_Rigid",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shinpad_R_White",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ShortSword",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeLongBlade"
+  },
+  {
+    "fullType": "Base.ShortSword_Scrap",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeLongBlade"
+  },
+  {
+    "fullType": "Base.ShotgunShellsBox",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.ShotgunShellsCarton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Shoulderpad_ArticulatedSpike_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_ArticulatedSpike_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Articulated_L_Metal",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Articulated_R_Metal",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Bone_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Bone_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Football_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Football_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Football_Spiked_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Football_Spiked_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_MetalScrap_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_MetalScrap_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_MetalSpikeScrap_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_MetalSpikeScrap_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_MetalSpike_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_MetalSpike_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Metal_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Metal_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Tire_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Tire_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Wood_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpad_Wood_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpads_Football",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpads_FootballOnTop",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpads_FootballOnTop_Spiked",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpads_IceHockey",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Shoulderpads_IceHockeyOnTop",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.SmashedBottle",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeShortBlade"
+  },
+  {
+    "fullType": "Base.SmokeBomb",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.SmokeBombRemote",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.SmokeBombSensorV1",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.SmokeBombSensorV2",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.SmokeBombSensorV3",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.SmokeBombTriggered",
+    "before": "B47_WeaponsOther",
+    "after": "B47_Explosives"
+  },
+  {
+    "fullType": "Base.SodaCan",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.SpiffoSuit",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingCostumes"
+  },
+  {
+    "fullType": "Base.SpiffoTail",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingCostumes"
+  },
+  {
+    "fullType": "Base.Sportsbottle",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.Stake",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeShortBlade"
+  },
+  {
+    "fullType": "Base.Sword",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeLongBlade"
+  },
+  {
+    "fullType": "Base.Sword_Broken",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeLongBlade"
+  },
+  {
+    "fullType": "Base.Sword_Scrap",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeLongBlade"
+  },
+  {
+    "fullType": "Base.Sword_Scrap_Broken",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeLongBlade"
+  },
+  {
+    "fullType": "Base.TestHotDrink",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.TestWaterMug",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_L_Army",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_L_Civ",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_L_Desert",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_L_Police",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_L_SWAT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_R_Army",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_R_Civ",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_R_Desert",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_R_Police",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBodyArmour_R_SWAT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBone_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighBone_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighMagazine_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighMagazine_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighMetalSpike_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighMetalSpike_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighMetal_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighMetal_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighProtective_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighProtective_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighScrapMetalSpike_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighScrapMetalSpike_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighScrapMetal_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighScrapMetal_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighTire_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighTire_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighWood_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.ThighWood_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Thigh_ArticMetal_L",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Thigh_ArticMetal_R",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Toothbrush_Shiv",
+    "before": "B47_MeleeBlades",
+    "after": "B47_MeleeShortBlade"
+  },
+  {
+    "fullType": "Base.TrapperCarbine",
+    "before": "B47_LongGuns",
+    "after": "B47_FirearmsOther"
+  },
+  {
+    "fullType": "Base.TritiumSights",
+    "before": "B47_WeaponParts",
+    "after": "B47_WeaponAttachments"
+  },
+  {
+    "fullType": "Base.Trousers_Fireman",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingBottomsArmor"
+  },
+  {
+    "fullType": "Base.VambraceBone_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceBone_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceMagazine_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceMagazine_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceScrap_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceScrap_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceSpikeScrap_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceSpikeScrap_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceSpike_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceSpike_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceTire_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceTire_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceWood_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VambraceWood_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Left_Army",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Left_Civ",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Left_Desert",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Left_Police",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Left_SWAT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Right_Army",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Right_Civ",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Right_Desert",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Right_Police",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_BodyArmour_Right_SWAT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_FullMetal_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_FullMetal_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_LeatherSpike_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_LeatherSpike_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_Leather_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_Leather_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_Left",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vambrace_Right",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.VarmintRifle",
+    "before": "B47_LongGuns",
+    "after": "B47_SniperRifles"
+  },
+  {
+    "fullType": "Base.Vest_BulletArmy",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vest_BulletCivilian",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vest_BulletDesert",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vest_BulletDesertNew",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vest_BulletOliveDrab",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vest_BulletPolice",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vest_BulletSWAT",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vest_CatcherVest",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vest_CatcherVest_Blue",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vest_CatcherVest_Green",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.Vest_CatcherVest_Red",
+    "before": "B47_ClothingProtective",
+    "after": "B47_ClothingOuterwearArmor"
+  },
+  {
+    "fullType": "Base.WaterBottle",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.WaterDispenserBottle",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.WaterRationCan",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.WaterRationCan_Box",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.WateredCan",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.WristWatch_Left_ClassicBlack",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Left_ClassicBrown",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Left_ClassicGold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Left_ClassicMilitary",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Left_DigitalBlack",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Left_DigitalDress",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Left_DigitalRed",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Left_Expensive",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Right_ClassicBlack",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Right_ClassicBrown",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Right_ClassicGold",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Right_ClassicMilitary",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Right_DigitalBlack",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Right_DigitalDress",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Right_DigitalRed",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.WristWatch_Right_Expensive",
+    "before": "B47_ClothingAccessories",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.x2Scope",
+    "before": "B47_WeaponParts",
+    "after": "B47_WeaponAttachments"
+  },
+  {
+    "fullType": "Base.x4Scope",
+    "before": "B47_WeaponParts",
+    "after": "B47_WeaponAttachments"
+  },
+  {
+    "fullType": "Base.x8Scope",
+    "before": "B47_WeaponParts",
+    "after": "B47_WeaponAttachments"
+  }
+]

@@ -1,0 +1,35 @@
+VERSION = 1,
+option B47ANCEDQuartermaster.ContainerRange
+{
+    type = integer,
+    min = 1,
+    max = 30,
+    default = 10,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_ContainerRange,
+}
+option B47ANCEDQuartermaster.WholeBuilding
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_WholeBuilding,
+}
+
+option B47ANCEDQuartermaster.SortBatchSize
+{
+    type = integer,
+    min = 1,
+    max = 100,
+    default = 20,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_SortBatchSize,
+}
+
+option B47ANCEDQuartermaster.RouteOptimization
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_RouteOptimization,
+}

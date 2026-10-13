@@ -1,0 +1,597 @@
+[
+  {
+    "fullType": "Base.3030Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.3030Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.308Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.308Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.556Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.556Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.AmmoStrap_Brown_Bullets",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_ClothingAccessories"
+  },
+  {
+    "fullType": "Base.AmmoStrap_Brown_Shells",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingAccessories"
+  },
+  {
+    "fullType": "Base.AmmoStrap_Bullets",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_ClothingAccessories"
+  },
+  {
+    "fullType": "Base.AmmoStrap_Bullets_308",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingAccessories"
+  },
+  {
+    "fullType": "Base.AmmoStrap_Shells",
+    "before": "B47_ContainersBags",
+    "after": "B47_ClothingAccessories"
+  },
+  {
+    "fullType": "Base.BeerCanEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BeerEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BottleCrafted",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Bucket",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BucketCarved",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BucketEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BucketForged",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BucketLargeWood",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.BucketWaterDebug",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.BucketWood",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Bullets357Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets357Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets38Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets38Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets44Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets44Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets45Box",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets45Carton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets9mmBox",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.Bullets9mmCarton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.CannedFruitBeverage",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.CannedFruitBeverageOpen",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.CannedFruitBeverage_Box",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.CannedMilk",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.CannedMilkOpen",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.CannedMilk_Box",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.Canteen",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.CanteenClay",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.CanteenMilitary",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.CanteenMilitaryFull",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.DrinkingGlass",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.FeedingBottle",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.FountainCup",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.FountainCupWater",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.GlassChampagne",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.GlassWine",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.HotDrink",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkClay",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkCopper",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkGold",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkMetal",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkRed",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkSilver",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkSpiffo",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkTea",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkTeaCeramic",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkTumbler",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotDrinkWhite",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.HotWaterBottle",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.JuiceBox",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceBoxApple",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceBoxFruitpunch",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceBoxOrange",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceCranberry",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceFruitpunch",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceGrape",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceOrange",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.JuiceTomato",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.MayonnaiseEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Milk",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.MilkBottle",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.MilkChocolate_Personalsized",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.Milk_Personalsized",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesMilk"
+  },
+  {
+    "fullType": "Base.PaintbucketEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.PlasticCup",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Pop",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.Pop2",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.Pop3",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.PopBottle",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.PopBottleRare",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.RemouladeEmpty",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_MiddleFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Left_RingFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_MiddleFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_Gold",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_GoldDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_GoldRuby",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_Signet",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_Silver",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Ring_Right_RingFinger_SilverDiamond",
+    "before": "B47_ClothingOther",
+    "after": "B47_ClothingJewelry"
+  },
+  {
+    "fullType": "Base.Scissors",
+    "before": "B47_ToolsCutting",
+    "after": "B47_Stationery"
+  },
+  {
+    "fullType": "Base.ScissorsBlunt",
+    "before": "B47_ToolsCutting",
+    "after": "B47_Stationery"
+  },
+  {
+    "fullType": "Base.ShotgunShellsBox",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.ShotgunShellsCarton",
+    "before": "B47_AmmoBoxes",
+    "after": "B47_AmmoPackages"
+  },
+  {
+    "fullType": "Base.SodaCan",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesSoda"
+  },
+  {
+    "fullType": "Base.Sportsbottle",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.TestHotDrink",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesOther"
+  },
+  {
+    "fullType": "Base.TestWaterMug",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.WaterBottle",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.WaterDispenserBottle",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.WaterRationCan",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.WaterRationCan_Box",
+    "before": "B47_BeveragesNonAlcoholic",
+    "after": "B47_BeveragesWater"
+  },
+  {
+    "fullType": "Base.WateredCan",
+    "before": "B47_ContainersFluid",
+    "after": "B47_BeveragesEmptyWater"
+  }
+]

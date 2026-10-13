@@ -1,0 +1,8 @@
+name=B47ANCE'd Quartermaster
+id=B47ANCEDQuartermaster
+author=B47ANCE
+modversion=0.4.0-dev.46
+versionMin=42.20.3
+description=Standalone container sorting with category and item rules, presets, and native item transfers.
+poster=poster.png
+icon=icon.png

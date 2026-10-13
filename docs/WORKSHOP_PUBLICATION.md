@@ -1,0 +1,36 @@
+# Workshop publication
+
+2026-10-11: 0.4.0-dev.35 published to existing item 3807217050 under [private publisher account] using cached credentials. SteamCMD reported `Committing update...Success.` and exited 0. Full Build-Workshop regression, version, source/package/stage parity (127 files), newline serialization and exact approved taxonomy comparison passed (5,092 items; 562 cumulative reviewed changes). Includes dev.31–dev.35 category/hierarchy corrections, armor pairs, costumes and Bags. Development testing publication only: native UI and dedicated multiplayer acceptance remain NOT TESTED; G7/G8 certification BLOCKED. Local live installation unchanged. Receipt: dist/workshop-publish/dev35-publication-receipt.json. Automated public-page verification remains UNVERIFIED.
+
+2026-10-11: 0.4.0-dev.30 published to existing item 3807217050 under [private publisher account] using cached credentials. SteamCMD reported `Committing update...Success.` and exited 0. Full offline build, versions, newline serialization and source/package/staging parity passed (127 runtime files). Development testing publication only: native Category renderer compatibility, resizing/transparency visuals and dedicated MP acceptance remain NOT TESTED; G8 certification remains BLOCKED. No local live-mod installation changed. Public-page fetch was inaccessible, so rendered description remains UNVERIFIED. Receipt: dist/workshop-publish/dev30-publication-receipt.json.
+
+2026-09-26 hotfix: published the instructional row-hover popup removal as an update to version 0.1.4, item 3807217050, under [private publisher account]. SteamCMD reported `Committing update...Success.` and exited 0. All host suites, syntax, 29-language parity and 33-file source/staging/archive checks passed. Native hover and multiplayer testing remain pending; local live-mod deployment was not changed.
+
+2026-09-24 update: version 0.1.4 uploaded to the existing item 3807217050 under [private publisher account]. SteamCMD reported `Committing update...Success.` and exited 0. Full host regression suites, Lua syntax, 29-language parity, and all 33 runtime source/staging/archive file comparisons passed; upstream files remained unchanged. This release adds bulk/range controls, mod subgroups, category search, and the effective selected-item count. Native and multiplayer acceptance remain pending. The local live-mod deployment was not changed.
+
+2026-09-24 update: version 0.1.2 uploaded to the same item 3807217050 under [private publisher account]. SteamCMD reported `Committing update...Success.` and exited 0. Added item icons using Quartermaster's existing lookup/cache. Full host tests, including category/no-icon/offscreen icon regressions, and all 32 source/staging/archive file comparisons passed. Local live-mod deployment was not changed in this publication step.
+
+2026-09-24: SteamCMD authenticated using the selected account's cached credentials, created item 3807217050, uploaded content and preview, and reported `Committing update...Success.` Process exit code: 0.
+
+- Name: Quartermaster - Simple Sorting
+- Version: 0.1.1
+- Account: [private publisher account]
+- Requested visibility: public (0)
+- URL: https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050
+- Canonical item ID: ../WORKSHOP_ID.txt
+- Upload VDF: ../dist/workshop-publish/QuartermasterSimpleSorting.vdf (SteamCMD populated publishedfileid; retain it for updates)
+- Content: C:/Users/willi/Zomboid/Workshop/QuartermasterSimpleSorting/Contents
+- Validation: complete host suite, 29-language parity, 32 runtime source/staging/archive files verified.
+
+Native retest of the scrollbar fix and multiplayer acceptance remain pending and are disclosed in the published description. Quartermaster dependency is declared in mod.info and linked in the description. No Steam required-item relationship was configured in this upload.
+
+The independent web fetch could not access the newly created page immediately after upload. SteamCMD upload success is confirmed; moderation/visibility of the public page was not independently verified.
+
+Future updates must use publishedfileid 3807217050; never submit another new-item VDF for this project.
+
+2026-09-26 artwork update: user-provided thumbnail.png copied unchanged to source 42/poster.png and registered in mod.info. Workshop preview.jpg is a JPEG encoding of the same image (277535 bytes); Build-Workshop.ps1 stages it. Full host checks and 34-file package/staging parity passed. Original PNG preview exceeded Steam's 1 MB limit. JPEG preview uploaded, but the final commit returned Access Denied twice under [private publisher account]. Publication is NOT confirmed; prepared source and staging remain available for retry.
+
+2026-10-08: 0.4.0-dev.18 deployed locally and published to existing item 3807217050 using cached [private publisher account] credentials. SteamCMD reported `Committing update...Success.` and exited 0. `Deploy-Test.ps1` ran Build-Workshop/Build offline regression and version gates; package, staging and actual local installation matched all 116 runtime files. Backup: `dist/local-test-deployments/20261008-223134`. Upload VDF: `dist/workshop-publish/B47ANCEDQuartermaster-dev.vdf`. Development testing publication only: native SP/listen/dedicated acceptance remains untested, G7/G8 remain blocked. Remote dedicated installation was not changed by this local deployment.
+2026-10-09: 0.4.0-dev.20 published to existing item 3807217050 using cached [private publisher account] credentials. SteamCMD reported `Committing update...Success.` and exited 0. Build-Workshop.ps1 passed full offline regression, version and source/package/staging parity checks (116 runtime files). Includes Category column hotfix and retained dev.19 bounded Sort tracing/preparation acknowledgement. Development testing publication only; native UI, dedicated timing and G7 acceptance remain untested, G8 certification blocked. Local live-mod installation was not changed. Receipt: `dist/workshop-publish/dev20-publication-receipt.json`.
+
+2026-10-10T09:43:19.768205-07:00: 0.4.0-dev.23 published to existing item 3807217050 under [private publisher account], using cached credentials. SteamCMD reported `Committing update...Success.` and exited 0. Build-Workshop.ps1 passed full offline regression, versions and source/package/staging parity (118 runtime files). Container tooltip and native physical-object sprite previews included; taxonomy unchanged (5,092 items, zero category changes). Native visual/dedicated acceptance remains untested; G7/G8 certification blocked. User-authorized development testing publication only; local live installation unchanged. Receipt: `dist/workshop-publish/dev23-publication-receipt.json`.
