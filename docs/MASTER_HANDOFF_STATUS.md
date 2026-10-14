@@ -1,8 +1,12 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.4.0-dev.48
+Project Version: 0.4.0-dev.49
 
-## Current dev.48 native item lookup candidate
+## Current dev.49 Workshop corpus classification
+
+Compatible PATCH correction: 378 installed packages, 13,893 script files, 37,320 declarations and 27,274 distinct types inventoried read-only. Five metadata fallback meanings refine 298 declarations (274 distinct types); all other classifications and approved vanilla deviations stay unchanged. No third-party implementation/assets imported. See WORKSHOP_CORPUS_AUDIT.md for provenance, limits and validation. Native effective-load-order/SP/dedicated evidence remains pending; G7 NOT TESTED/BLOCKED, stable G8 BLOCKED. No deployment/publication.
+
+## Historical dev.48 native item lookup candidate
 
 [VERIFIED client log] Dev.46 Sort ends putting:cancelled:operationStateRejected, completed=0, sourceCount=1608, planningTargets=190. The local server copy is still stale; no refreshed server evidence was supplied. [INFERRED] Lua wrapper identity may lose the operation lookup. Use the existing numeric item ID, preserving state/containment/native/server checks. Equivalent-wrapper fixture fails before this change; dedicated retest remains mandatory. No package, deployment or publication. G7 NOT TESTED/BLOCKED; stable G8 BLOCKED.
 

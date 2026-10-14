@@ -2,7 +2,7 @@ B47ANCE'd Quartermaster adds container sorting, personal shopping lists and supp
 
 [h2]Development testing build[/h2]
 [b]This build requires updating and restarting both client and server (movement capability 4). Older movement peers are rejected.[/b]
-Version 0.4.0-dev.48. Tested offline with regression and source checks. This is an experimental testing candidate. Native single-player, listen-server and dedicated multiplayer validation for this candidate are pending. Back up saves before testing; use the same version on all multiplayer peers.
+Version 0.4.0-dev.49. Tested offline with regression and source checks. This is an experimental testing candidate. Native single-player, listen-server and dedicated multiplayer validation for this candidate are pending. Back up saves before testing; use the same version on all multiplayer peers.
 
 [h2]Standalone[/h2]
 No Quartermaster dependency. Disable older sorting versions when testing.

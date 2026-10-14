@@ -1,5 +1,5 @@
 -- Original functional taxonomy, based on vanilla B42 script metadata.
--- No third-party category IDs, item lists, classification code or runtime APIs.
+-- No third-party item lists, classification code, assets or runtime APIs.
 require 'B47ANCEDQuartermaster/Schema'
 local Migration=require 'B47ANCEDQuartermaster/Migration'
 local R={version=6,overrides={
@@ -272,6 +272,11 @@ local display={
  Water='BeveragesWater',FireSource='OutdoorFire',LightSource='OutdoorLighting',Furniture='HouseholdFurnishings',Security='HouseholdKeys'
 }
 local cache=setmetatable({},{__mode='k'})
+-- Public script-category hints are fallback evidence, never a copied mod list.
+-- Only structurally unclassified normal/drainable supplies use these meanings.
+-- Stronger native type, body slot, tag and tool evidence has already won.
+local supplyDisplays={toy='HouseholdKeepsakes',mineral='MaterialsOther',
+    tuning='VehicleOther',skilljournal='LiteratureNotes',ammoparts='MaterialsOther'}
 local firearmTypes={['Base.AssaultRifle']='AssaultRifles',['Base.AssaultRifle2']='AssaultRifles',
  ['Base.HuntingRifle']='SniperRifles',['Base.VarmintRifle']='SniperRifles',['Base.MSR7T_Rifle']='SniperRifles'}
 local function explosive(item,tags)
@@ -437,6 +442,14 @@ local function classify(item,tags,kind,existing,preferTools,skipPurpose)
     if kind=='weapon' then return melee() end
     if read(item,'isSurvivalGearLoot')==true then return result('OutdoorOther','survival-metadata') end
     if any(tags,{'bowl','mug','cup','plate','cookingpot','pan','fork','spoon'}) then return result('HouseholdKitchen','kitchen-tag') end
+    if kind=='normal' or kind=='drainable' then
+        local hint=atom(existing)
+        local category=supplyDisplays[hint]
+        if category then
+            if hint=='ammoparts' and tags.hasmetal then category='MaterialsMetal' end
+            return result(category,'mod-display-fallback')
+        end
+    end
     return result('Misc','fallback')
 end
 -- Rank evidence from the same canonical detector. Scores express evidence
@@ -452,7 +465,7 @@ local function ranked(item,tags,kind,existing,preferTools,detailed)
     end
     local strong=reason=='type' and (kind=='weaponpart' or kind=='key' or kind=='keyring')
         or reason=='key-semantics' or reason=='paintbrush-purpose'
-    add(current,reason,strong and 1000 or reason=='fallback' and 0 or reason=='vanilla-category' and 550 or 950)
+    add(current,reason,strong and 1000 or reason=='fallback' and 0 or (reason=='vanilla-category' or reason=='mod-display-fallback') and 550 or 950)
     -- The canonical result already has a strictly higher score than any
     -- secondary signal. Only diagnostics need to enumerate those signals.
     if detailed==false and current~='B47_Misc' then

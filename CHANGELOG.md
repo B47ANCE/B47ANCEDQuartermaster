@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.0-dev.49]
+- Compatible PATCH development iteration: audit installed Workshop item declarations and improve metadata-based fallback classification. Preserve taxonomy IDs, tool-first priority and native/server movement authority; no external classifier, source or assets imported.
+- Add reproducible corpus inventory including common-folder definitions and ambiguous ownership reporting. Static audit is not runtime effective-load-order proof; dedicated validation pending.
+
 ## [0.4.0-dev.48]
 - Compatible PATCH candidate: resolve native batch operations by the existing item ID rather than Lua wrapper table identity. Preserve operation state, containment, native and server authority checks.
 - New dev.46 runtime evidence: PUT cancelled with operationStateRejected, zero confirmed transfers. Equivalent-wrapper regression added; dedicated retest remains required. No deployment/publication.

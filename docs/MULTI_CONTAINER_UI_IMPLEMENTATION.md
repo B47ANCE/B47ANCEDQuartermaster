@@ -1,6 +1,6 @@
 # Multi-container editor implementation
 
-Project Version: 0.4.0-dev.48
+Project Version: 0.4.0-dev.49
 
 Implementation date: 2026-09-28. [TESTED: offline] Lua 5.1 host fixtures and installed Quartermaster 0.24.0 Picker integration. [RUNTIME GATE] SP, hosted, remote client and dedicated server are NOT TESTED. This is a development candidate, not a release-readiness claim.
 
