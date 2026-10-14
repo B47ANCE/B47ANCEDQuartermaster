@@ -54,11 +54,11 @@ function I.present(pane)
         if item then
             local ok,key=pcall(resolver.resolve,item)
             local previousCategory=row.b47Category
-            if previousCategory and row.cat==previousCategory then row.cat=row.b47NativeCat end
+            if previousCategory and row.cat==(row.b47CategorySort or previousCategory) then row.cat=row.b47NativeCat end
             row.b47Category=nil
             if ok and resolver.isLeaf(key) then
                 row.b47NativeCat=row.cat
-                row.b47Category=key;row.cat=key
+                row.b47Category=key;row.b47CategorySort=resolver.label(key);row.cat=row.b47CategorySort
                 diagnostic('ROW_CATEGORY','key='..tostring(key))
             end
         end

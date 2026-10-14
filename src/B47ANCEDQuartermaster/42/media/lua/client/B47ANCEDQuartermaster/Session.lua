@@ -19,7 +19,21 @@ function S:parent(token)
 end
 function S:setView(view,done)
  if self.busy then return end
- self.busy=true;self:request('viewSelect',{view=view},function(result) self.busy=false;if result.status=='ok' then self.view=result.view end;done(result.status) end)
+ self.busy=true;self:request('viewSelect',{view=view},function(result)
+  self.busy=false
+  if result.status=='ok' then
+   self.view=result.view
+   if self.selected then
+    local visible=false
+    for _,r in ipairs(self.targets) do
+     if (r==self.selected or self.selected.target.whole and r.target.group==self.selected.token)
+      and Q.DiscoveryView.includes(r.target,self.view,self.viewInfo,getSpecificPlayer(self.playerNum)) then visible=true;break end
+    end
+    if not visible then self.selected=nil end
+   end
+  end
+  done(result.status)
+ end)
 end
 function S:customize()
  local r=self.selected;if not r or r.configMode~='inherit' then return false end

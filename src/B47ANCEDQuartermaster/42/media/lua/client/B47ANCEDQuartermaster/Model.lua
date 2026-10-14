@@ -201,6 +201,7 @@ function Model:applyRows(rows, action)
         affected[group.id] = true
         if (row.kind == 'category' or row.kind=='subcategory') and action ~= 'invert' then
             whole[group.id] = { group = group, on = action == 'select' }
+            if action=='clear' then for _,name in ipairs(group.children) do clearNames[name]=true end end
         else
             local names = row.kind == 'item' and { row.key } or
                 (row.kind == 'mod' and row.mod.children or group.children)
@@ -212,8 +213,8 @@ function Model:applyRows(rows, action)
             end
         end
     end
-    -- Clearing descendants of a compatibility family must first preserve its
-    -- untouched members. This is a user edit, never a migration/open-time write.
+    -- Preserve untouched members of selected parent/compatibility families.
+    -- Independent leaf-category rules retain their existing additive semantics.
     local split={}
     for name in pairs(clearNames) do
         for _,membership in ipairs(self.memberships[name] or {}) do

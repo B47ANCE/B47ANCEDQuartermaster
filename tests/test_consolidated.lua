@@ -134,6 +134,19 @@ assert(P.snapshot(f.player).shopping['Base.Nails']==1 and not M.runs[f.player],'
 -- Same account after reconnect uses same list; native item serialization contract
 -- retains table data in fixtures. Actual native save/load remains untested.
 assert(P.snapshot(setmetatable({}, {__index=f.player})).shopping['Base.Nails']==1)
+-- A granted TAKE known not to have been submitted must not strand shopping.
+do
+ local value=item(100,a)
+ local pending={id='unsubmitted',time=getTimestampMs(),withdrawal=true,phase='take',item=value,carrier=carried}
+ M.runs[f.player]={id='cancel-probe',kind='shopping',time=getTimestampMs(),operations={unsubmitted=pending},collected=0}
+ assert(M.handle(f.player,'moveCancel',{operation=pending.id,outcome='invalid'}).status=='invalid')
+ assert(M.runs[f.player].operations[pending.id]==pending,'malformed cancellation released a grant')
+ assert(M.handle(f.player,'moveCancel',{operation=pending.id,outcome='notSubmitted'}).status=='ok')
+ assert(H.handle(f.player,'shoppingCancel',{run='cancel-probe'}).status=='ok')
+ assert(not M.runs[f.player],'known-unsubmitted TAKE kept the server busy')
+ assert(H.handle(f.player,'shoppingBegin',{}).status=='ok')
+ local run=M.runs[f.player];H.handle(f.player,'shoppingCancel',{run=run.id})
+end
 f.network(true,false)
 assert(A.handle(f.player,'personalChange',{}).status=='invalid')
 assert(not D.transition(f.player,x,'needed'))

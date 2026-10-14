@@ -38,7 +38,7 @@ local existing=setmetatable({inventory={},itemSortFunc=ISInventoryPane.itemSortB
 existing:renderdetails(false);assert(existing.b47CategoryRevision~=nil,'pre-existing native panes initialize before paint')
 local firstPaintCount=refreshes;existing:renderdetails(false);assert(refreshes==firstPaintCount)
 local a,b,c=p:refreshContainer();assert(a=='refresh' and b==nil and c==7)
-for _,r in ipairs(p.itemslist) do assert(r.cat==B47ANCEDQuartermaster.Categorizer.resolve(r.items[1])) end
+for _,r in ipairs(p.itemslist) do assert(r.cat==B47ANCEDQuartermaster.Categorizer.label(B47ANCEDQuartermaster.Categorizer.resolve(r.items[1]))) end
 assert(p.itemslist[1].cat<=p.itemslist[2].cat)
 local count=0;for _,v in pairs(p.selected) do count=count+1;assert(v==nails) end;assert(count==1)
 I.present(p);for _,r in ipairs(p.itemslist) do assert(r.b47NativeCat==r.items[1]:getDisplayCategory()) end
@@ -49,10 +49,17 @@ B47ANCEDQuartermaster.Categorizer.invalidate();p:renderdetails(false);assert(ref
 p:renderdetails(false);assert(refreshes==old+1)
 allowed=false;p:renderdetails(false);assert(p.itemslist[1].cat=='ZZZ')
 assert(nails:getDisplayCategory()=='ZZZ' and knife:getDisplayCategory()=='AAA')
-allowed=true;p:renderdetails(false);assert(p.itemslist[1].cat==B47ANCEDQuartermaster.Categorizer.resolve(p.itemslist[1].items[1]))
+allowed=true;p:renderdetails(false);assert(p.itemslist[1].cat==B47ANCEDQuartermaster.Categorizer.label(B47ANCEDQuartermaster.Categorizer.resolve(p.itemslist[1].items[1])))
 local inner=ISInventoryPane.refreshContainer;local late=0
 ISInventoryPane.refreshContainer=function(...) late=late+1;return inner(...) end
 start();local head=ISInventoryPane.refreshContainer;start();assert(ISInventoryPane.refreshContainer==head)
 p:refreshContainer();assert(late==1)
 for _,r in ipairs(p.itemslist) do assert(r.b47NativeCat==r.items[1]:getDisplayCategory()) end
+-- Display translations can order differently from canonical IDs.
+local resolver=B47ANCEDQuartermaster.Categorizer;local label=resolver.label
+resolver.label=function(key) return key==resolver.resolve(nails) and 'AAA readable label' or 'ZZZ readable label' end
+p.itemSortFunc=ISInventoryPane.itemSortByCatInc;p:refreshContainer()
+assert(p.itemslist[1].items[1]==nails and p.itemslist[1].cat=='AAA readable label','category ordering ignored translated labels')
+assert(p.itemslist[1].b47Category==resolver.resolve(nails),'presentation sort changed the canonical category ID')
+resolver.label=label;p:refreshContainer()
 print('PASS dev30 UI row keys/native category comparators, selection identity, invalidation, compatibility and bounded startup reconciliation (offline)')

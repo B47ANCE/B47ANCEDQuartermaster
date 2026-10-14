@@ -105,8 +105,10 @@ end
 function Window:onGainJoypadFocus(data) ISPanelJoypad.onGainJoypadFocus(self,data);self:restoreJoypadFocus() end
 function Window:render()
     ISPanelJoypad.render(self)
-    self:drawText(getText('UI_QMSS_'..(self.kind=='needed' and 'NeededAdd' or (self.kind=='wish' or self.kind=='wanted') and 'WishAdd' or self.kind=='override' and 'AddOverride' or 'ShoppingAdd')),12,10,1,1,1,1,UIFont.Small)
-    self:drawText(getText('UI_QMSS_SelectedType',self.selectedType or ''),12,self:getHeight()-44,1,1,1,1,UIFont.Small)
+    if not self.b47PickerShell then
+        self:drawText(getText('UI_QMSS_'..(self.kind=='needed' and 'NeededAdd' or (self.kind=='wish' or self.kind=='wanted') and 'WishAdd' or self.kind=='override' and 'AddOverride' or 'ShoppingAdd')),12,10,1,1,1,1,UIFont.Small)
+        self:drawText(getText('UI_QMSS_SelectedType',self.selectedType or ''),12,self:getHeight()-44,1,1,1,1,UIFont.Small)
+    end
     self:renderJoypadFocus()
 end
 return P

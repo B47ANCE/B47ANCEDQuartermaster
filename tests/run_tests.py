@@ -71,6 +71,7 @@ runtime().execute((ROOT / 'tests/test_shopping_recipe_safety.lua').read_text(enc
 runtime().execute((ROOT / 'tests/test_shopping_evolved_safety.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev18_remediation.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev18_ui.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_dev47_audit.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev19_trace.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev27_routes.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev27_tooltips.lua').read_text(encoding='utf-8'))
@@ -79,6 +80,8 @@ runtime().execute((ROOT / 'tests/test_dev26_furniture.lua').read_text(encoding='
 runtime().execute((ROOT / 'tests/test_dev25_ground.lua').read_text(encoding='utf-8'))
 pipeline_runtime=runtime();pipeline_runtime.globals().DEV25_GROUND=True
 pipeline_runtime.execute((ROOT / 'tests/test_dev24_pipeline.lua').read_text(encoding='utf-8'))
+native_lifecycle=runtime();native_lifecycle.globals().DEV47_NATIVE_TRANSACTIONS=True
+native_lifecycle.execute((ROOT / 'tests/test_dev24_pipeline.lua').read_text(encoding='utf-8'))
 # Independent binary32 oracle for the verified native regular/spice operations.
 arithmetic=runtime()
 arithmetic.execute("require 'B47ANCEDQuartermaster/EvolvedRequirements'; instanceof=function() return true end")
@@ -141,9 +144,13 @@ for path in (SOURCE / '42/media/lua').rglob('*.lua'):
     assert 'LootSorter' not in path.read_text(encoding='utf-8'), path
 # Upstream is optional: no production or test Lua is loaded from it.
 print('PASS metadata and 29-language fallback parity')
+import runpy
+runpy.run_path(str(ROOT / 'tests/test_runtime_directories.py'))['run']()
 
 if ARGS.package:
     sys.path.insert(0, str(ROOT / 'scripts'))
+    from runtime_directories import ensure
+    ensure(SOURCE)
     from check_deployment import validate
     validate()
     dist = ROOT / 'dist/current'

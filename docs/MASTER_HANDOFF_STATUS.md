@@ -1,6 +1,10 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.4.0-dev.46
+Project Version: 0.4.0-dev.47
+
+## Current dev.47 audit remediation
+
+Compatible PATCH iteration from dev.46. Source correction and regression work complete for selection, presentation, safe known-outcome cancellation, preferences and build reproducibility. Native continuation remains OPEN: no dev.46 Sort result is available. Expanded offline fixture executes installed vanilla constructor/start/update/validation/perform with simulated transaction acknowledgements. Full suite, 127-file source manifest, versions and 5,092-item approved taxonomy comparison PASS offline. See DEV47_AUDIT_REMEDIATION.md for all findings, commands and limits. G7 NOT TESTED/BLOCKED; stable-release G8 BLOCKED. No package build, deployment or publication. GitHub verification is recorded in the iteration report.
 
 ## Current dev.46 native stop-origin diagnostic
 

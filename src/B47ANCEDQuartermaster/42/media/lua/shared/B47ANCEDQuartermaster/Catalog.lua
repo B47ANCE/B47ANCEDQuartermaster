@@ -99,8 +99,14 @@ function C.build(observed,baseEntries)
             end
         end
     end
-    for _,item in ipairs(sourceEntries) do add(item.name,item.category,item.fullType,item.owner,item.legacy,item.semantic,item.historical,item.secondary) end
-    for _,item in ipairs(observed or {}) do add(item.name,item.category,item.fullType,item.owner,item.legacy,item.semantic,item.historical,item.secondary) end
+    local scriptNames={}
+    for _,item in ipairs(sourceEntries) do
+        add(item.name,item.category,item.fullType,item.owner,item.legacy,item.semantic,item.historical,item.secondary)
+        if item.fullType then scriptNames[item.fullType]=item.name end
+    end
+    -- Configure Sorting edits script-name rules, including renamed vehicle keys.
+    -- Keep runtime-only names only when no corresponding script is indexed.
+    for _,item in ipairs(observed or {}) do add(scriptNames[item.fullType] or item.name,item.category,item.fullType,item.owner,item.legacy,item.semantic,item.historical,item.secondary) end
     local function keys(set) local a={};for k in pairs(set) do a[#a+1]=k end;table.sort(a);return a end
     local catList,nameList=keys(categories),keys(names)
     local entries={}
@@ -110,7 +116,8 @@ function C.build(observed,baseEntries)
     end
     local api={entries=sourceEntries,isFamily=R.isCompatibility,categoryLabel=R.label,getCategories=function() return catList end,getItemNames=function() return nameList end,
         getItemsInCategory=function(cat) return entries[cat] or {} end,
-        getItemFullType=function(name) return types[name] end}
+        getItemFullType=function(name) return types[name] end,
+        getScriptName=function(fullType) return scriptNames[fullType] end}
     api.covered=function(category,name,cats)
         for rule in pairs(coverage[(category or '')..'\0'..name] or {}) do if cats[rule] then return true end end
         return false
@@ -138,7 +145,8 @@ end
 -- names that are already represented need no full index reconstruction.
 function C.forObserved(base,observed)
     for _,item in ipairs(observed or {}) do
-        if not item.category or base.getItemFullType(item.name)~=item.fullType or not base.covered(item.category,item.name,{[item.category]=true}) then
+        local name=base.getScriptName and base.getScriptName(item.fullType) or item.name
+        if not item.category or base.getItemFullType(name)~=item.fullType or not base.covered(item.category,name,{[item.category]=true}) then
             diagnostics.overlayFallbacks=diagnostics.overlayFallbacks+1
             return C.build(observed,base.entries)
         end

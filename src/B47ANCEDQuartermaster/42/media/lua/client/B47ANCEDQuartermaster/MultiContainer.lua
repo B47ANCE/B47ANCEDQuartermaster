@@ -208,7 +208,22 @@ function M.attach(p)
     end
     buttons.refresh=button('Refresh',refreshDiscovery)
     local function selectView(view)
-        capture();s:setView(view,function(result) refreshRail();if s.selected then bind() end;status(result=='ok' and 'Ready' or result) end)
+        capture();s:setView(view,function(result)
+            refreshRail()
+            if s.selected then bind()
+            elseif result=='ok' then
+                -- Retain staged records, but never keep a hidden target editable.
+                local empty=Q.Schema.empty()
+                p.selectedCats,p.selectedItems,p.selectedPresets=empty.cats,empty.items,empty.presets
+                p.selection=p.mode=='presets' and p.selectedPresets or p.selectedCats;p:setPriority(0)
+                p.qmss.catalog=Catalog.build({},{});p.qmss.model=Q.Model.new(p,p.qmss.catalog,tr('Other'),p.qmss.catalog.owner)
+                p.qmss.model.readOnly=true;p.qmss.rangeAnchor=nil
+                s.siblings={};buttons.whole:setVisible(false);buttons.apply:setVisible(false)
+                for _,control in ipairs({p.btnSave,p.btnPriorityDown,p.btnPriorityUp,p.priorityEntry,p.btnModePreset}) do control:setEnable(false) end
+                p:rebuild();p:configJoypad()
+            end
+            status(result=='ok' and (s.selected and 'Ready' or 'ChooseTarget') or result)
+        end)
     end
     buttons.containers=button('Containers',function()
         if not s.viewInfo then return end

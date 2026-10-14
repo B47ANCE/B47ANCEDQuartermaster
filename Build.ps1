@@ -4,6 +4,8 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 if (-not (Test-Path -LiteralPath $PythonPath)) { throw 'Pass -PythonPath with a Python runtime containing lupa, or install lupa into .test-deps.' }
+& $PythonPath (Join-Path $PSScriptRoot 'scripts\runtime_directories.py')
+if ($LASTEXITCODE -ne 0) { throw 'Required runtime directory preparation failed.' }
 & $PythonPath (Join-Path $PSScriptRoot 'scripts\check_versions.py') --root $PSScriptRoot
 if ($LASTEXITCODE -ne 0) { throw 'Version consistency failed.' }
 & $PythonPath (Join-Path $PSScriptRoot 'tests\run_tests.py') --package

@@ -288,21 +288,33 @@ reset();click('category','B',true)
 click('item','c2');shiftDown=true;click('item','a1');shiftDown=false
 assert(p.selectedCats.A and not p.selectedCats.B and not p.selectedItems.b1)
 assert(p.selectedItems.c1 and p.selectedItems.c2 and not p.selectedItems.c3)
--- Category range intentionally includes complete categories, using native rules.
+-- A direct checkbox retains whole-category semantics; ranges touch rendered items only.
 reset();Q.expandAll(p,false)
 click('category','A');shiftDown=true;click('category','C');shiftDown=false
+assert(p.selectedCats.A and not p.selectedCats.B and not p.selectedCats.C and p.qmss.count==3)
+allOpen();shiftDown=true;click('category','C');shiftDown=false
 assert(p.selectedCats.A and p.selectedCats.B and p.selectedCats.C and p.qmss.count==9)
 shiftDown=true;click('category','C');shiftDown=false
 assert(not p.selectedCats.A and not p.selectedCats.B and not p.selectedCats.C and p.qmss.count==0)
 -- Mixed-type endpoints act as normal target actions and establish a new anchor.
 allOpen();click('category','A');shiftDown=true;click('item','b1');shiftDown=false
 assert(p.qmss.rangeAnchor==find('item','b1').id and p.selectedItems.b1)
--- Mod range targets full group contents, including collapsed children.
+-- Mod ranges preserve collapsed children, then affect them once actually expanded.
 reset();Q.expandAll(p,false);click('category','A',true);click('category','B',true)
 local aMod=p.qmss.model.byId['c:A'].mods[1]
 local bMod=p.qmss.model.byId['c:B'].mods[1]
 click('mod',aMod.id);shiftDown=true;click('mod',bMod.id);shiftDown=false
+assert(not p.selectedCats.A and p.selectedItems.a1 and p.selectedItems.a2 and not p.selectedItems.b1)
+allOpen();shiftDown=true;click('mod',bMod.id);shiftDown=false
 assert(p.selectedCats.A and p.selectedItems.b1 and p.selectedItems.b2 and not p.selectedItems.b3)
+-- Item-only filtering also bounds category ranges, rather than selecting entire groups.
+reset();search('1')
+p.qmss.rangeAnchor=find('category','A').id
+shiftDown=true;click('category','C');shiftDown=false
+assert(p.selectedItems.a1 and p.selectedItems.b1 and p.selectedItems.c1 and p.qmss.count==3)
+assert(not p.selectedCats.A and not p.selectedItems.a2 and not p.selectedItems.b2 and not p.selectedItems.c2)
+shiftDown=true;click('category','C');shiftDown=false;assert(p.qmss.count==0)
+search('')
 -- Visible commands see only item rows, not collapsed category or mod descendants.
 reset();click('category','B',true)
 local hiddenMod=p.qmss.model.byId['c:A'].mods[2]

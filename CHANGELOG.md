@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.0-dev.47]
+
+Compatible PATCH correction pass: category clearing/ranges, renamed-item presentation, hidden container selection, inventory category ordering, picker text/layout, preference preservation, known-unsubmitted shopping cancellation and reproducible runtime directories. Native continuation investigation and expanded transaction lifecycle coverage; no dedicated success claim. No deployment/publication.
+
 ## [0.4.0-dev.46]
 
 Compatible diagnostic PATCH iteration. Distinguish operation-state, pending-item guard, native validation, transaction rejection and native cancellation before/after perform. Transfer execution and authority unchanged. Dev.45 live dedicated attempts still stop after one item; root cause remains unproven. No deployment/publication.
