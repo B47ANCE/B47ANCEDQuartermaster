@@ -64,8 +64,9 @@ local function transfer(b,leg)
     end
     function head:isValid()
         if b.closed then return false end
-        local op=b.byItem[self.item]
-        if not op or op.state~=wanted then self.b47Invalid='operationStateRejected';return false end
+        local op=self.item and b.byID[self.item:getID()]
+        if not op then self.b47Invalid='operationItemMissing';return false end
+        if op.state~=wanted then self.b47Invalid='operationStateRejected:'..tostring(op.state);return false end
         -- Completed MP transactions have already changed client containment.
         -- Source removal and destination replication need not arrive together.
         -- Vanilla owns validation of the already-submitted transaction; B47
@@ -81,7 +82,7 @@ local function transfer(b,leg)
         native.checkQueueList(self)
         for _,group in ipairs(self.queueList) do
             for _,item in ipairs(group.items) do
-                local op=b.byItem[item]
+                local op=b.byID[item:getID()]
                 if not op or op.state~=wanted or (not (isClient() and self.dispatched and item:getContainer()==dst)
                     and not E.check(op,leg,item,src,dst)) then error('B47 batch dispatch rejected') end
             end
@@ -151,7 +152,7 @@ local function requestAll(b,command,fromState,toState,nextPhase)
                 if toState=='carried' then
                     op.item=op.carrier:getItemWithID(op.itemID)
                     if not op.item then done(b,'uncertain');return end
-                    b.byItem[op.item]=op
+                    b.byID[op.itemID]=op
                 elseif toState=='done' then op.closed=true;b.completed=b.completed+1 end
             elseif result.status=='waiting' then b.nextRequestAt=getTimestampMs()+250
             else
@@ -171,7 +172,7 @@ end
 function E.startBatch(playerNum,offers,callback)
     local player=getSpecificPlayer(playerNum)
     if not E.batchSupported() or not player or E.active[playerNum] or E.batches[playerNum] or #queue(player)>0 or #offers<1 or #offers>100 then return false end
-    local b={player=player,playerNum=playerNum,time=getTimestampMs(),phase='resolve',ops={},byItem={},callback=callback,completed=0,failed=0,trace=offers[1].trace}
+    local b={player=player,playerNum=playerNum,time=getTimestampMs(),phase='resolve',ops={},byID={},callback=callback,completed=0,failed=0,trace=offers[1].trace}
     local ids={}
     for _,offer in ipairs(offers) do
         if ids[offer.operation] or offer.withdrawal then return false end
@@ -212,7 +213,7 @@ local function tick(b)
             local first=b.ops[1]
             if op.destination.container~=first.destination.container or op.carrier~=first.carrier or (op.source and op.source.container)~=(first.source and first.source.container) then done(b,'invalid');return end
             op.item=op.source and op.source.ground and op.source.item or (op.source and op.source.container or op.carrier):getItemWithID(op.itemID)
-            if not op.item then fail(b,op) else b.byItem[op.item]=op;op.state=op.source and 'planned' or 'unconfirmed' end
+            if not op.item then fail(b,op) else b.byID[op.itemID]=op;op.state=op.source and 'planned' or 'unconfirmed' end
         end
         local first=b.ops[1]
         if first.source then walk(b,first.source,'grantTake') else b.phase='confirmCarried';b.phaseTime=getTimestampMs() end

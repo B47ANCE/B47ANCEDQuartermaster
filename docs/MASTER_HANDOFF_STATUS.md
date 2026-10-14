@@ -1,8 +1,12 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.4.0-dev.47
+Project Version: 0.4.0-dev.48
 
-## Current dev.47 audit remediation
+## Current dev.48 native item lookup candidate
+
+[VERIFIED client log] Dev.46 Sort ends putting:cancelled:operationStateRejected, completed=0, sourceCount=1608, planningTargets=190. The local server copy is still stale; no refreshed server evidence was supplied. [INFERRED] Lua wrapper identity may lose the operation lookup. Use the existing numeric item ID, preserving state/containment/native/server checks. Equivalent-wrapper fixture fails before this change; dedicated retest remains mandatory. No package, deployment or publication. G7 NOT TESTED/BLOCKED; stable G8 BLOCKED.
+
+## Historical dev.47 audit remediation
 
 Compatible PATCH iteration from dev.46. Source correction and regression work complete for selection, presentation, safe known-outcome cancellation, preferences and build reproducibility. Native continuation remains OPEN: no dev.46 Sort result is available. Expanded offline fixture executes installed vanilla constructor/start/update/validation/perform with simulated transaction acknowledgements. Full suite, 127-file source manifest, versions and 5,092-item approved taxonomy comparison PASS offline. See DEV47_AUDIT_REMEDIATION.md for all findings, commands and limits. G7 NOT TESTED/BLOCKED; stable-release G8 BLOCKED. No package build, deployment or publication. GitHub verification is recorded in the iteration report.
 

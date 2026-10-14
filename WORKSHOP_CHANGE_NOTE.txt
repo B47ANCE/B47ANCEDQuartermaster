@@ -1,2 +1,2 @@
-[b]Version 0.4.0-dev.47[/b]
-Development correction candidate: selection visibility, category clearing, item and container presentation, preference preservation, shopping cancellation and build reproducibility. Dedicated multiplayer and native UI validation remain pending. The one-item transfer failure is not certified resolved.
+[b]Version 0.4.0-dev.48[/b]
+Development correction candidate: native batch lookup by stable item ID, plus selection visibility, category clearing, item and container presentation, preference preservation, shopping cancellation and build reproducibility. Dedicated multiplayer and native UI validation remain pending. The one-item transfer failure is not certified resolved.

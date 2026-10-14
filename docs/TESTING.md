@@ -1,6 +1,6 @@
 # Testing
 
-Project Version: 0.4.0-dev.47
+Project Version: 0.4.0-dev.48
 
 ## Current dev.25 ground source implementation
 
@@ -15,7 +15,7 @@ User confirms dev.20 loaded but visible Category labels remained vanilla with Ne
 
 Compatible PATCH correction on dev.19: Category cells use the canonical resolver cache and current localized labels. Compatibility is checked during rendering rather than permanently skipping registration during early Lua loading. Native row.cat, sorting, grouping and item definitions stay unchanged. Full offline regression and frozen 5,092-item comparison passed; actual B42.21 inventory/loot/controller/scaling and second-language client acceptance remain UNTESTED. Dev.19 Stage A instrumentation is retained; its dedicated timing gate remains BLOCKED. See `dist/handoffs/dev20-inventory-category.md`. No deployment or publication.
 
-Current source version: 0.4.0-dev.47. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
+Current source version: 0.4.0-dev.48. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
 
 Historical dev.15 offline gates add a 5,092-item vanilla membership comparison, deterministic scoring and mod-neutrality fixtures, local grouping/persistence fixtures, and a read-only installed Workshop definition audit. Placed-item registration and ground sorting are not implemented because their server authority path remains unproven. Dev.14 offline tests add native-shaped loaded-building discovery beyond radius, same-window event-driven refresh, Shopping access during discovery, broad/physical/mod/item tree presentation, and inventory Category display/sort without item mutation. Dev.13 offline tests cover exact activated-Mod-ID rejection and pre-registration authority guard, old saved data without active conflict, selected-object outline ownership/cleanup, repeated-open catalog reuse, large catalog preparation and font-scaled geometry/action visibility. These are Lua/native-shaped offline checks, not in-game rendering, timing or multiplayer proof. Native acceptance must test object outlines and cleanup, repeated-open latency, 1080p/1440p/2160p clipping, keyboard/controller controls and exact-ID conflict behavior in SP, listen and dedicated sessions.
 

@@ -120,11 +120,19 @@ N.transferItem=function(self,it) nativeMove(it,self.srcContainer,self.destContai
 local cancelQueued=false
 local rejectNextTransaction=false
 local replicationGapChecks=0
+local aliasItem=false
+local aliasMeta={__eq=function(a,b) return a.id==b.id end}
+aliasMeta.__index=function(t,k) local original=rawget(t,'original');return original and original[k] end
 local function pump()
  local a=q.queue[1];if not a then return end
  if cancelQueued and a.leg=='take' then cancelQueued=false;S.cancel(0);return end
  if not a.started then a:start() end
  if q.queue[1]~=a then return end
+ if aliasItem and a.leg then
+  local original=a.item;setmetatable(original,aliasMeta)
+  a.item=setmetatable({original=original},aliasMeta)
+  assert(a:isValid(),'equivalent native item wrapper lost its authorized operation')
+ end
  if getmetatable(a)==W then a:perform();return end
  if not singlePlayer and a.dispatched then
   -- Native MP source removal may precede the destination containment update.
@@ -214,6 +222,11 @@ for _,case in ipairs({{0,1},{1,1},{2,1},{3,1},{5,2},{6,3},{7,3},{20,20},{21,20},
  if case[1]>1 and case[2]>1 then assert(opened<case[1]*2,'container reopened per item') end
  if case[1]>case[2] and case[2]>1 then assert(prefetch,'next batch not prefetched during execution') end
 end
+inventoryMode=true;aliasItem=true
+local aliasStatus,aliasMoved=scenario(41,20)
+assert(aliasStatus=='ok' and aliasMoved==41,'equivalent item wrappers stopped PUT')
+aliasItem=false
+print('PASS OFFLINE dev48 stable item ID lookup across equivalent wrappers')
 inventoryMode=true
 local normalMaxWeight=f.player.getMaxWeight
 f.player.getMaxWeight=function() return 1 end -- Already-carried items can be deposited while overweight.

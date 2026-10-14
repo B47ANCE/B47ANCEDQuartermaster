@@ -1,6 +1,6 @@
 # Audit remediation candidate
 
-Project Version: 0.4.0-dev.47
+Project Version: 0.4.0-dev.48
 
 Compatible PATCH iteration from dev.46. Runtime remains Lua-only. Category IDs,
 configuration schema, additive presets and vanilla item-transfer authority are
@@ -9,7 +9,7 @@ launch is authorized by this correction pass.
 
 | Audit finding | Disposition and evidence |
 | --- | --- |
-| One-item native Sort stop | OPEN / RUNTIME GATE. Historical dev.45 attempts cancel during PUT. No dev.46 Sort result is available in the current client/server copies. No speculative native behavior change is claimed as a fix. |
+| One-item native Sort stop | RUNTIME GATE. New dev.46 client attempt confirms putting:cancelled:operationStateRejected with zero confirmed transfers. dev.48 replaces Lua-object-key lookup with existing item-ID lookup; a regression reproduces failure with equivalent wrappers before the change and passes afterward. This is a candidate cause, not proof of the live wrapper mechanism. Native/state/containment and server guards remain; dedicated retest required. |
 | Cancelled shopping TAKE remains busy | Known-unsubmitted and native-rejected cancellations relinquish the player's grant without moving or crediting items. Unknown submitted outcomes retain authoritative observation; they are not replayed or silently cleared. Offline cancellation/restart, malformed outcome and existing late-arrival tests pass. |
 | Child category clear retains parent coverage | Clear names are collected before compatibility-family splitting, preserving untouched members. Offline parent-clear regression passes. Independent leaf-category rules retain their existing additive semantics. |
 | Category/mod ranges affect hidden children | Range edits expand only into rendered item rows; direct category checkboxes retain whole-category behavior. Offline collapsed, item-filtered, forward/reverse and target-state tests pass. |
@@ -46,7 +46,7 @@ The published dev.46 package is retained under dist/history/0.4.0-dev.46 with
 unchanged SHA-256; no current dev.47 package is claimed. Local diagnostic logs
 and test reports are not public repository content.
 
-[UNKNOWN / RUNTIME GATE] Actual dev.46 native stop reason, engine cancellation,
+[UNKNOWN / RUNTIME GATE] Dedicated verification of the dev.48 lookup candidate, engine cancellation,
 dedicated transaction continuation, native visuals and concurrent-peer/restart
 acceptance require runtime evidence. SFTP console listing still crashes; no new
 server log was retrieved. G7 NOT TESTED/BLOCKED; stable-release G8 BLOCKED.

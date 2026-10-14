@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.0-dev.48]
+- Compatible PATCH candidate: resolve native batch operations by the existing item ID rather than Lua wrapper table identity. Preserve operation state, containment, native and server authority checks.
+- New dev.46 runtime evidence: PUT cancelled with operationStateRejected, zero confirmed transfers. Equivalent-wrapper regression added; dedicated retest remains required. No deployment/publication.
+
 ## [0.4.0-dev.47]
 
 Compatible PATCH correction pass: category clearing/ranges, renamed-item presentation, hidden container selection, inventory category ordering, picker text/layout, preference preservation, known-unsubmitted shopping cancellation and reproducible runtime directories. Native continuation investigation and expanded transaction lifecycle coverage; no dedicated success claim. No deployment/publication.
