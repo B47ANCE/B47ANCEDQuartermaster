@@ -69,6 +69,10 @@
     {
       "path": "docs/DEV47_AUDIT_REMEDIATION.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/DEV50_NATIVE_QUEUE.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {

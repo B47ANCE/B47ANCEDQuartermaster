@@ -5,12 +5,18 @@ local f=CONTAINER_FIXTURE
 local q={queue={}}
 local Base={}
 function Base:derive(name) local c={Type=name};c.__index=c;return setmetatable(c,{__index=self}) end
+function Base:new(player) return setmetatable({character=player},self) end
+function Base:beginAddingActions() self._isAddingActions=true;self._numAddedActions=0 end
+function Base:endAddingActions() local n=self._numAddedActions or 0;self._isAddingActions=nil;self._numAddedActions=nil;return n>0 end
+function Base:forceComplete() self.completed=true end
 function Base:setOnComplete(fn) self.onCompleteFunc=fn;self.onCompleteArgs={} end
 function Base:forceStop() self:stop() end
 function Base:perform() for i,a in ipairs(q.queue) do if a==self then table.remove(q.queue,i);break end end end
 Base.stop=Base.perform
 ISBaseTimedAction=Base;ISInventoryPage={};package.loaded['TimedActions/ISBaseTimedAction']=true
 dofile(GAME_ROOT..'/media/lua/client/TimedActions/ISInventoryTransferAction.lua')
+dofile(GAME_ROOT..'/media/lua/client/TimedActions/ISQueueActionsAction.lua')
+package.loaded['TimedActions/ISQueueActionsAction']=true
 local N=ISInventoryTransferAction
 local nativeQueueList,nativePerform,nativeValid=N.checkQueueList,N.perform,N.isValid
 local nativeNew,nativeStart,nativeUpdate,nativeStop=N.new,N.start,N.update,N.stop
@@ -18,6 +24,7 @@ local lifecycle=DEV47_NATIVE_TRANSACTIONS==true
 round=function(n,d) return math.floor(n*10^d+.5)/10^d end
 table.wipe=function(t) for k in pairs(t) do t[k]=nil end end
 local opens,groups,maxGroup=0,0,0
+local firstSubmitted,gateCount
 local actionLeaves={setTime=function() end,reset=function(self) self.completed=false end,stopTimedActionAnim=function() end,setLoopedAction=function() end,setWaitForFinished=function() end,
  getJobDelta=function() return 0 end,forceComplete=function(self) self.completed=true end}
 function N:new(player,item,src,dst)
@@ -35,6 +42,7 @@ local transactions,transactionSerial={},0
 if lifecycle then
  N.playSourceContainerOpenSound=function() end;N.playDestContainerOpenSound=function() end;N.getTransferStartSoundName=function() end
  createItemTransaction=function(player,items,src,dst)
+  firstSubmitted=firstSubmitted or #items
   transactionSerial=transactionSerial+1;local copy={};for _,it in ipairs(items) do copy[#copy+1]=it end
   transactions[transactionSerial]={items=copy,src=src,dst=dst,status='pending'};return transactionSerial
  end
@@ -53,7 +61,12 @@ function W:start() self.started=true end
 function W:perform() f.player.square=self.square;Base.perform(self);if self.onCompleteFunc then self.onCompleteFunc() end end
 W.stop=Base.stop
 local immediateStart=false
-ISTimedActionQueue={getTimedActionQueue=function() return q end,add=function(a) q.queue[#q.queue+1]=a;if immediateStart and #q.queue==1 then a:start() end end}
+ISTimedActionQueue={getTimedActionQueue=function() return q end,add=function(a)
+ local current=q.queue[1]
+ if current and current._isAddingActions then
+  table.insert(q.queue,2+current._numAddedActions,a);current._numAddedActions=current._numAddedActions+1
+ else q.queue[#q.queue+1]=a;if immediateStart and #q.queue==1 then a:start() end end
+end}
 function q:indexOf(a) for i,v in ipairs(self.queue) do if v==a then return i end end;return -1 end
 AdjacentFreeTileFinder={Find=function(sq) return sq end}
 for _,path in ipairs({'ISInventoryTransferAction','ISTimedActionQueue','WalkToTimedAction'}) do package.loaded['TimedActions/'..path]=true end
@@ -118,6 +131,7 @@ local function nativeMove(item,source,dest)
 end
 N.transferItem=function(self,it) nativeMove(it,self.srcContainer,self.destContainer) end
 local cancelQueued=false
+local cancelGate,protectGate=false,false
 local rejectNextTransaction=false
 local replicationGapChecks=0
 local aliasItem=false
@@ -126,6 +140,16 @@ aliasMeta.__index=function(t,k) local original=rawget(t,'original');return origi
 local function pump()
  local a=q.queue[1];if not a then return end
  if cancelQueued and a.leg=='take' then cancelQueued=false;S.cancel(0);return end
+ if getmetatable(a)==ISQueueActionsAction then
+  if a.b47Batch.phase=='putting' then
+   if cancelGate then cancelGate=false;S.cancel(0);return end
+   if protectGate then protectGate=false;for _,it in ipairs(carried.items) do it.favorite=true end end
+  end
+  gateCount=(gateCount or 0)+1
+  if not a.completed then a:start() end
+  if a.completed then a:perform() end
+  return
+ end
  if not a.started then a:start() end
  if q.queue[1]~=a then return end
  if aliasItem and a.leg then
@@ -179,7 +203,7 @@ local function scenario(count,size,hook,weight)
  if inventoryMode then src=carried end
  routeOrder={};routeBookAfterFar=false
  f.network(false,true);f.player.square=f.a.sq;src.items={};dst.items={};carried.items={};dst.capacity=1000;carried.capacity=1000
- q.queue={};RPC={};opens,groups,maxGroup=0,0,0;prefetched=false;maxOutstanding=0
+ q.queue={};RPC={};opens,groups,maxGroup=0,0,0;firstSubmitted=nil;gateCount=0;prefetched=false;maxOutstanding=0
  E.active={};E.batches={};S.active={};Q.Movement.runs={};Q.Movement.operations={};Q.Bindings.sessions={}
  SandboxVars.B47ANCEDQuartermaster.SortBatchSize=size
  worlds={};f.a.sq.blocked=false
@@ -337,6 +361,30 @@ status,moved=scenario(41,20);assert(status=='ok' and moved==41)
 immediateStart=false;singlePlayer=true
 status,moved=scenario(41,20);assert(status=='ok' and moved==41)
 singlePlayer=false
+if lifecycle then
+ immediateStart=true;inventoryMode=true
+ status,moved=scenario(20,20)
+ assert(status=='ok' and moved==20 and firstSubmitted==20,'first native transaction started before the authorized light-item batch was queued')
+ assert(opens==1 and gateCount==1,'same-container batch reopened or used multiple queue gates')
+ status,moved=scenario(8,20,nil,.2)
+ assert(status=='ok' and moved==8 and opens==1 and firstSubmitted==1,'heavy items lost native individual transfer semantics or continuous queue')
+ status,moved=scenario(20,20,function(step)
+  if step==1 then for i,it in ipairs(carried.items) do local name=i%2==0 and 'Fixture.LightA' or 'Fixture.LightB';it.getFullType=function() return name end end end
+ end)
+ assert(status=='ok' and moved==20 and opens==1 and firstSubmitted==10,'mixed light types failed native grouping within one continuous queue')
+ for _,instant in ipairs({false,true}) do
+  immediateStart=instant
+  status,moved=scenario(20,20,function(step) if step==1 then cancelGate=true end end)
+  assert(status=='cancelled' and moved==0 and firstSubmitted==nil,'queue-gate cancellation submitted items')
+  for _=1,25 do if #q.queue>0 then pump() end end
+  assert(firstSubmitted==nil,'cancelled gate donors escaped batch guards')
+ end
+ immediateStart=false
+ status,moved=scenario(20,20,function(step) if step==1 then protectGate=true end end)
+ assert(status~='ok' and moved==0 and firstSubmitted==nil,'stale favorite state bypassed final native-start guard')
+ immediateStart=false;inventoryMode=false
+ print('PASS OFFLINE dev50 complete native batch before immediate start, one container open, native heavy-item timing retained')
+end
 for _,value in ipairs({-1,0,101,1000}) do SandboxVars.B47ANCEDQuartermaster.SortBatchSize=value;assert(Q.Trips.batchSize()==math.max(1,math.min(100,value))) end
 if DEV25_GROUND then
  groundMode=true
