@@ -27,6 +27,13 @@ API 1, `ready=true` and cleaning capability 1. Older Rooms builds fail closed.
 Quartermaster's native-only sorting fallback remains available without Rooms;
 Clean Building has no menu or network ingress without the required service.
 
+Workshop follow-up: the user authorized a new Rooms item, assigned ID 3820077442.
+Subscribe to that Rooms item and Quartermaster item 3807217050, then enable both
+Mod IDs (`B47ANCEDRooms`, `B47ANCEDQuartermaster`) on the server and every client.
+Rooms 0.1.0-dev.1 provides cleaning capability 1. The source-only installation
+limitation in earlier dated publication notes is superseded by this distribution;
+single-player cleaning and native/dedicated gates remain unchanged.
+
 Right-click while standing inside a loaded native building with an empty native
 action queue and choose **Clean Building**. The command selects the actor's
 current native building, rather than the clicked object's building. Rooms owns

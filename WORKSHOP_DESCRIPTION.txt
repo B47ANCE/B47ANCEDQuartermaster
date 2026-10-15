@@ -12,7 +12,7 @@ Optional Better Sorting (BetterSortCC) supplies native categories. Better Contai
 Better Containers categories save as explicit item choices. Reselect after category changes/new types. Other UI combinations are not certified.
 
 [h2]Clean Building — experimental multiplayer[/h2]
-Requires the matching B47ANCE'd Rooms development source, API 1 with cleaning capability 1, installed separately on server and clients. Rooms currently has no Workshop item; subscribing to Quartermaster alone does not enable Clean Building. [url=https://github.com/B47ANCE/B47ANCEDRooms/tree/d603cd53903e01b6c575f4e1efcfa6da555e4a70]Matching Rooms source[/url]
+Requires B47ANCE'd Rooms 0.1.0-dev.1, API 1 with cleaning capability 1. Subscribe to both Workshop items and enable both mods on the server and every client. Rooms Workshop ID: 3820077442; Mod ID: B47ANCEDRooms. Subscribing to Quartermaster alone does not enable Clean Building. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]Get B47ANCE'd Rooms on Workshop[/url]
 
 With Rooms available, right-click while inside a loaded native building and choose Clean Building. The server selects eligible supplies from carried inventory and configured physical storage, directs fetching and equipping, adds 10 mL bleach by default before filling the remaining 10 L bucket capacity with water, and uses native blood/grime cleaning actions. Supported prepared solution is reused; refills account for residual bleach. Eligible borrowed supplies are returned to their original storage when current permission and capacity allow. Cancel Cleaning stops the job; supplies can remain carried. The summary reports actual actions, skips and retained items.
 
