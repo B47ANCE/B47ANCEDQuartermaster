@@ -1,52 +1,49 @@
-B47ANCE'd Quartermaster adds container sorting, personal shopping lists and supply planning.
+B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep track of what you need.
 
-[h2]Development testing build[/h2]
-[b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.11.0-dev.1. Tested offline with regression and source checks against Build 42.21. In-game single-player, listen-server and dedicated acceptance are pending. Back up saves before testing. Update and restart both client and server together: configuration capability 5, movement 8, rooms 2. Older movement peers are rejected.
+Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
-[h2]Requirements and compatibility[/h2]
-Rooms is required for Quartermaster: native dependency B47ANCEDRooms; required Workshop item 3820077442. Disable original Quartermaster and duplicate B47 sorting copies. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]Get required Rooms on Workshop[/url]
+[h2]Sorting made simple[/h2]
+• Choose whole categories or individual items in a searchable tree with native item icons.
+• Configure several containers in one window. Give sections their own rules or share settings across a Whole Container.
+• Save and reuse sorting presets, copy settings between containers and set destination priorities.
+• Sort your carried inventory, a selected container, the current room or the entire building. Room and building sorting include your carried bags.
+• Sort supported floor and Proximity Inventory items into configured storage.
+• Find what you need with category/item search, Only Checked, Only Contents and optional grouping by mod.
+• Make quick changes with Shift-click ranges, Ctrl-click, Select All Visible, Clear All Visible and Invert Visible.
 
-Optional Better Sorting (BetterSortCC) supplies native categories. Better Containers (EURY_CONTAINERS / REORDER_CONTAINERS) retains its inventory UI; B47 uses its exposed categories. Both may be enabled; effective categories follow native metadata/load order. Optional-mod runtime acceptance is pending. Multiplayer peers need matching versions/mods.
+Open Quartermaster from your player inventory. Select categories to include them, expand them to choose individual items, then save your container's rules.
 
-Better Containers categories save as explicit item choices. Reselect after category changes/new types. Other UI combinations are not certified.
+[h2]Shopping lists[/h2]
+Plan a supply run without keeping a separate checklist.
+• Add items manually or from supported crafting, building and cooking recipes.
+• Set quantities and see what you carry and what is still missing.
+• Collect remaining items from eligible nearby storage.
+• Choose acceptable condition, food state and remaining uses, with preferences for individual items.
 
-[h2]Supply API and separate Auto Clean[/h2]
-Quartermaster exposes SupplyAPI 1 for authority-bound configured storage, bounded supply queries and guarded native transfers. Clean Building is no longer embedded. The separate B47ANCEDAutoClean mod requires Quartermaster and Rooms. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820151540]Get separate Auto Clean on Workshop[/url] (item 3820151540). Enable all three mods on every peer to retain Clean Building. Quartermaster alone does not add a Clean Building menu.
+[h2]Dibs! Wanted & Needed[/h2]
+Give supplies a purpose and keep your goals together.
+• Add personal Dibs! labels to items.
+• Keep separate Wanted and Needed lists with target quantities.
+• Track the supplies you carry, add missing amounts to Shopping and collect what remains.
 
-[h2]Rooms and area sorting[/h2]
-Required Rooms supplies independent designation, native-room overrides, delegated ownership, per-action policies and boundary approval. Use Designate Room to open its editor. Native room/building scopes and vanilla safehouse checks remain part of the integration; this build requires Rooms to load.
+[h2]Rooms and your base[/h2]
+Use [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url] to designate rooms and organize storage around your base. Open Designate Room from Quartermaster, then choose room or building sorting when putting supplies away.
 
-Inventory Sort offers the entire building, current room or current inventory/container. Both area choices include full carried inventory and bags, followed by configured physical storage. Restricted storage is filtered; withdrawal, deposit and configuration are independently checked on authority. Parent/admin metadata control does not grant gameplay access. Room policies do not lock unrelated vanilla transfers, entry or doors, or revoke a native transfer after dispatch. Legacy room records are imported by Rooms without deleting Quartermaster recovery data.
+Quartermaster checks container and room access when sorting. Room policies apply to supported mod actions; they do not lock ordinary game interactions.
 
-[h2]Sorting and window controls[/h2]
-• Native category → item hierarchy with icons and full, partial and unselected states. Optional Group Items by Mod adds mod headings.
-• Category/item search, Only Checked, Only Contents, presets and priorities; visible-row ranges, bulk selection and mouse/controller controls.
-• Multi-container configuration, world sprite rail and verified Whole Container groups with inheritance and explicit customization/reset.
-• Building/Room/Proximity choices. New sandbox configurations enable Whole Building discovery; existing explicit settings remain unchanged. Server settings control discovery range and visit optimization.
-• Bounded movement queries reduce gaps between batches while preserving native per-item timing, permissions and server-observed arrival/completion. A failed batch without completed transfers stops safely; summaries distinguish planning skips from transfer failures.
-• Native getter checks avoid category lookup errors. Floor/aggregate sources use native pickup; native acceptance pending.
-• Native categories replace the retired B47 taxonomy. Server cleanup removes obsolete owned formats/category rules, retaining native rules, item choices, priorities and owned presets. Removed rules do not return on downgrade; back up saves.
-• Open Quartermaster Menu is available in player inventory controls, including empty inventory and carried bags.
-• Native resizing, adjustable container divider, controller layout actions and saved local geometry. Window Appearance controls background opacity from 20–100% (default 82%) with explicit reset.
-• Tooltips, Help and controller inspection; native visual/scaling and cross-floor routing acceptance pending.
+For automated cleaning, add the separate [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820151540]B47ANCE'd Auto Clean[/url] mod.
 
-Click a category checkbox to select/clear or its label to expand/collapse. Full categories use native rules; partial selections use item names. Identical names share selections; presets are additive. Vanilla/installed UI mods retain native inventory presentation.
+[h2]Make it yours[/h2]
+Resize the window, adjust the container divider and set background transparency. Mouse, keyboard and controller controls are included. Server sandbox settings control discovery range and area sorting.
 
-[h2]Supply planning[/h2]
-• Dibs! item labels and Wanted/Needed lists with target quantities, qualifying carried counts and missing-demand Shopping.
-• Add Remaining, bulk Add Items and Collect Remaining reuse authoritative Shopping; overlapping linked targets use the greater demand.
-• Personal Shopping Preferences support condition, food state and remaining-use filters with item overrides.
-• Source labels, duplicate confirmation and explicit Add Again preserve intent; replay/double-fire protection remains active.
-• Manual Shopping and native crafting/building requirements, optional Project Cook CraftRecipe/supported EvolvedRecipe portions, and optional Neat Crafting/Neat Building controls.
+[h2]Compatibility[/h2]
+• Project Zomboid Build 42.21.
+• Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url]. Enable it alongside Quartermaster.
+• Supports Better Sorting and Better Containers categories. Without them, Quartermaster uses vanilla categories.
+• Optional shopping-list controls for Project Cook, Neat Crafting and Neat Building. Supported recipes only; shopping does not automatically craft, build or cook.
+• Disable original Quartermaster and older B47 sorting copies.
+• In multiplayer, use matching mod versions on the server and all clients.
 
-Project Cook is optional. Cooking planning supports fresh-food full portions only. Partial modes, fluid demands, non-Food seasonings, prefilled bases and conflicting whole-item/portion demands are unsupported. Planning does not automatically craft, build or cook.
-
-[h2]Known issues[/h2]
-The prior one-item Sort stop was reported fixed on dev.49. Queue/throughput changes require native and dedicated retesting. A batch-validation stop after 272 transfers remains under investigation. Catalog preparation and Sort-start timing remain unverified. Static metadata audits do not certify optional variants, runtime-created items or effective mod load order. G7 remains NOT TESTED/BLOCKED; stable G8 BLOCKED.
-
-[h2]Credits and permissions[/h2]
-Mod ID: B47ANCEDQuartermaster. Original standalone implementation; no third-party mod source or assets included. Lua-only runtime.
-
-[h2]Source code and development[/h2]
-[url=https://github.com/B47ANCE/B47ANCEDQuartermaster]GitHub — Source Code & Issues[/url]
+[b]Mod ID:[/b] B47ANCEDQuartermaster
+Created by B47ANCE. Original Lua-only implementation.
+[url=https://github.com/B47ANCE/B47ANCEDQuartermaster]GitHub - Source Code & Issues[/url]

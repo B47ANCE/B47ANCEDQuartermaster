@@ -19,10 +19,6 @@
       "pattern": "Development candidate \\*\\*(?P<version>[^*]+)\\*\\*"
     },
     {
-      "path": "WORKSHOP_DESCRIPTION.txt",
-      "pattern": "Version (?P<version>\\S+)\\. Tested"
-    },
-    {
       "path": "WORKSHOP_CHANGE_NOTE.txt",
       "pattern": "^\\[b\\]Version (?P<version>[^\\[]+)\\[/b\\]$"
     },
@@ -200,6 +196,10 @@
     {
       "reference": "docs/CLEAN_BUILDING.md; docs/CLEAN_BUILDING_SINGLE_PLAYER.md; research/auto-clean; tests/run_auto_clean_*.py; tests/test_auto_clean_*.lua; dist/workshop-publish/0.10.0-dev.1-single-player",
       "reason": "Embedded 0.10 cleaning implementation/evidence frozen by extraction. Current production and cleaning regression suite now belong to B47ANCEDAutoClean."
+    },
+    {
+      "reference": "docs/WORKSHOP_DESCRIPTION_UPDATE_2026-10-15.md; prior Workshop receipts and WORKSHOP_CHANGE_NOTE.txt runtime-test wording",
+      "reason": "Description-only update for the existing published runtime. Public feature prose intentionally omits a project version; root VERSION, runtime metadata, package and prior upload evidence retain their exact identity. Older validation wording remains an upload-time snapshot."
     }
   ]
 }
