@@ -86,6 +86,16 @@ manifest, package hashes, preservation ledger and actual upload/download receipt
 belong under dist/workshop-publish/0.10.0-dev.1-single-player/. The exact preceding
 0.9.0-dev.1 ZIP/hash/provenance are retained in dist/history.
 
+[VERIFIED distribution] Uploaded to existing Workshop item 3807217050 from
+public release commit 08399c47a23cdb1f248d22fd68882af5edc8093d. Package SHA-256:
+0ef279848e4aaa111d339747bd9bebb1e29dd068f631290e6b81ea0ac8b1d890.
+SteamCMD reported successful upload/download; all 142 downloaded files match
+the source/package/stage hashes. The live page shows 0.10.0-dev.1, SP enabled
+for testing and Rooms under Required Items, with unchanged public visibility.
+All 102 focused offline scenarios and the full build passed. Steam desktop
+was gracefully restarted and its process verified. The local receipt binds
+these observations to the exact release manifest; no in-game result is claimed.
+
 [RUNTIME GATE] Actual PZ single-player, split-screen, saving/reloading mid-job,
 listen-server and dedicated execution remain NOT TESTED. G7 BLOCKED / NOT TESTED;
 stable G8 BLOCKED. Explicit authorization permits a labeled Workshop testing
