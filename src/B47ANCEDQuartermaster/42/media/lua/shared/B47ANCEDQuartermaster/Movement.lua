@@ -129,6 +129,25 @@ local function forget(player,op)
 end
 function M.handle(player,command,args)
     if isClient() or not player or type(args)~='table' then return {status='invalid'} end
+    if command=='moveBatch' then
+        local allowed={moveTake=true,moveCarried=true,movePut=true,moveDone=true}
+        local ids=args.operations
+        if not allowed[args.phase] or type(ids)~='table' or getmetatable(ids)~=nil or #ids<1 or #ids>100 then return {status='invalid'} end
+        local seen={};local count=0
+        -- Validate the entire bounded payload before changing any grant state.
+        for index,id in pairs(ids) do
+            if type(index)~='number' or index<1 or index>#ids or index~=math.floor(index)
+                or type(id)~='string' or #id<1 or #id>128 or id:find('%c') or seen[id] then return {status='invalid'} end
+            seen[id]=true;count=count+1
+        end
+        if count~=#ids then return {status='invalid'} end
+        local results={}
+        for i,id in ipairs(ids) do
+            local result=M.handle(player,args.phase,{operation=id,trace=args.trace})
+            results[i]={operation=id,status=result.status,reason=result.reason}
+        end
+        return {status='ok',results=results}
+    end
     local op=M.operations[player]
     if M.runs[player] and args.operation then op=M.runs[player].operations[args.operation] end
     if op and getTimestampMs()-op.time>=lifetime then M.operations[player]=nil;op=nil end

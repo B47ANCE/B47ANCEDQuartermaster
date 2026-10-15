@@ -1,6 +1,10 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.6.0-dev.1
+Project Version: 0.6.0-dev.2
+
+## Current transfer throughput correction
+
+Aggregate per-phase movement requests preserve individual server checks while reducing message overhead. Ready batch phases dispatch without quarter-second polling gaps; vanilla action timing is unchanged. See TRANSFER_THROUGHPUT.md for measured offline overhead, authority boundaries, exact commands and pending runtime gates. A separate observed batch-guard stop is instrumented with precise reasons; no runtime fix is claimed. No deployment/publication.
 
 ## Current native-only storage cleanup
 

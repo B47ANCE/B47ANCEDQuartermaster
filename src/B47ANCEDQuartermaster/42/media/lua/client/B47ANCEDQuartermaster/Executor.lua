@@ -49,20 +49,27 @@ local function request(op,command,done)
     end)
 end
 local function check(op,leg,item,source,destination)
-    if op.closed or getTimestampMs()-op.time>=1800000 or (not op.offer.withdrawal and not alive(op.destination,op.player)) then return false end
-    if op.offer.withdrawal and leg~='take' then return false end
-    if (op.player.pressedMovement and op.player:pressedMovement(false)) or (op.player.pressedCancelAction and op.player:pressedCancelAction()) then return false end
-    if B47ANCEDQuartermaster.Movement.carrier(op.player,op.offer.carrierID)~=op.carrier then return false end
-    if leg=='take' and not alive(op.source,op.player) then return false end
+    if op.closed then return false,'operationClosed' end
+    if getTimestampMs()-op.time>=1800000 then return false,'operationExpired' end
+    if not op.offer.withdrawal and not alive(op.destination,op.player) then return false,'destinationInvalidated' end
+    if op.offer.withdrawal and leg~='take' then return false,'withdrawalLegRejected' end
+    if (op.player.pressedMovement and op.player:pressedMovement(false)) or (op.player.pressedCancelAction and op.player:pressedCancelAction()) then return false,'playerCancelled' end
+    if B47ANCEDQuartermaster.Movement.carrier(op.player,op.offer.carrierID)~=op.carrier then return false,'carrierChanged' end
+    if leg=='take' and not alive(op.source,op.player) then return false,'sourceInvalidated' end
     local square=(leg=='take' and op.source or op.destination).obj:getSquare()
-    if not T.sameFloor(op.player,square) or math.max(math.abs(op.player:getX()-square:getX()),math.abs(op.player:getY()-square:getY()))>2 then return false end
-    if item~=op.item or item:getID()~=op.itemID or item:getContainer()~=source or (not (op.source and op.source.ground and leg=='take') and source:getItemWithID(op.itemID)~=item) then return false end
-    if item:isFavorite() or item:isEquipped() or item:getAttachedSlot()~=-1 or item:getIsCraftingConsumed() then return false end
+    if not T.sameFloor(op.player,square) or math.max(math.abs(op.player:getX()-square:getX()),math.abs(op.player:getY()-square:getY()))>2 then return false,'playerOutOfReach' end
+    if item~=op.item or item:getID()~=op.itemID then return false,'itemIdentityChanged' end
+    if item:getContainer()~=source or (not (op.source and op.source.ground and leg=='take') and source:getItemWithID(op.itemID)~=item) then return false,'sourceContainmentChanged' end
+    if item:isFavorite() or item:isEquipped() or item:getAttachedSlot()~=-1 or item:getIsCraftingConsumed() then return false,'itemProtected' end
     local expectedSource=leg=='take' and op.source.container or op.carrier
     local expectedDest=leg=='take' and op.carrier or op.destination.container
-    return source==expectedSource and destination==expectedDest
-        and source:isRemoveItemAllowed(item) and destination:isItemAllowed(item) and destination:hasRoomFor(op.player,item)
-        and (op.offer.withdrawal or alive(op.destination,op.player)) and (leg~='take' or alive(op.source,op.player))
+    if source~=expectedSource or destination~=expectedDest then return false,'containerPairChanged' end
+    if not source:isRemoveItemAllowed(item) then return false,'removalDenied' end
+    if not destination:isItemAllowed(item) then return false,'destinationDenied' end
+    if not destination:hasRoomFor(op.player,item) then return false,'destinationFull' end
+    if not op.offer.withdrawal and not alive(op.destination,op.player) then return false,'destinationInvalidated' end
+    if leg=='take' and not alive(op.source,op.player) then return false,'sourceInvalidated' end
+    return true
 end
 -- Networked timed actions serialize their metatable Type and that class's raw
 -- constructor. Client-only derived classes cannot be reconstructed by a

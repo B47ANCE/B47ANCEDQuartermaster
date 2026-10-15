@@ -69,6 +69,10 @@
     {
       "path": "docs/NATIVE_CATEGORIES_COMPATIBILITY.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/TRANSFER_THROUGHPUT.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {

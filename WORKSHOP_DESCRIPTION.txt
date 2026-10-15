@@ -2,8 +2,8 @@ B47ANCE'd Quartermaster adds container sorting, personal shopping lists and supp
 
 [h2]Development testing build[/h2]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-[b]This build requires updating and restarting both client and server (movement capability 5). Older movement peers are rejected.[/b]
-Version 0.6.0-dev.1. Tested offline with regression and source checks. This is an experimental testing candidate. Native single-player, listen-server and dedicated multiplayer validation for this candidate are pending. Back up saves before testing; use the same version on all multiplayer peers.
+[b]This build requires updating and restarting both client and server (movement capability 6). Older movement peers are rejected.[/b]
+Version 0.6.0-dev.2. Tested offline with regression and source checks. This is an experimental testing candidate. Native single-player, listen-server and dedicated multiplayer validation for this candidate are pending. Back up saves before testing; use the same version on all multiplayer peers.
 
 [h2]Standalone[/h2]
 No Quartermaster dependency. Disable older sorting versions when testing.
@@ -18,7 +18,8 @@ Better Containers custom categories can be client-local, so B47 saves category s
 • Window Appearance provides live background opacity from 20–100% (default 82%), with separate local preferences and explicit appearance reset. Foreground controls and tooltips retain readable presentation. Native visual acceptance pending.
 
 [h2]Sorting[/h2]
-• Sorting waits briefly for server-confirmed arrival before pickup/deposit authorization, preserving native transfer checks.
+• Sorting uses bounded per-phase movement queries and prompt queue scheduling to reduce gaps between batches, preserving native per-item timing and server checks. Dedicated throughput acceptance remains pending.
+• Sorting waits for server-confirmed arrival before pickup/deposit authorization, preserving native transfer checks.
 • A failed batch with no completed transfers stops safely; console summaries separate planning skips from transfer failures.
 • Native categories: vanilla by default, or categories exposed by enabled sorting/container mods. The former B47 taxonomy is retired.
 • Server-side cleanup removes obsolete B47 category rules and owned legacy formats, preserving native rules, explicit items, priorities and owned presets. Back up saves before upgrading; removed rules do not return on downgrade.
@@ -54,7 +55,7 @@ Mod ID: B47ANCEDQuartermaster
 Original standalone implementation. No third-party mod source or assets are included.
 
 [h2]Known issues in this testing build[/h2]
-The user confirms the prior one-item Sort stop fixed on dev.49. The newer native queue-assembly adjustment still requires in-game and dedicated-server retesting. The reported delay before Sort starts remains under investigation; this build does not claim a startup-latency fix. Native metadata audits do not certify optional variants, runtime-created items or effective mod load order.
+The user confirms the prior one-item Sort stop fixed on dev.49. The new queue/phase throughput changes require in-game and dedicated-server retesting. A local batch-validation stop after 272 transfers is under investigation; failure reasons are now more specific. The reported delay before Sort starts remains under investigation; this build does not claim a startup-latency fix. Native metadata audits do not certify optional variants, runtime-created items or effective mod load order.
 
 [h2]Source code and development[/h2]
 [url=https://github.com/B47ANCE/B47ANCEDQuartermaster]GitHub — Source Code & Issues[/url]
