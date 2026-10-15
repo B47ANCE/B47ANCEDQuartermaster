@@ -36,6 +36,7 @@ def runtime():
 for path in (SOURCE / '42/media/lua').rglob('*.lua'):
     runtime().execute('assert(loadstring(...))', path.read_text(encoding='utf-8'))
 print('PASS Lua 5.1 syntax')
+runtime().execute((ROOT / 'tests/test_supply_api.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_native_categories.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_sorting_data_cleanup.lua').read_text(encoding='utf-8'))
 # Embedded 0.7 room tests remain historical; standalone production tests live in Rooms.

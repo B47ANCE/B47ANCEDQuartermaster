@@ -3,15 +3,7 @@
   "canonical": "VERSION",
   "mirrors": [
     {
-      "path": "docs/CLEAN_BUILDING_SINGLE_PLAYER.md",
-      "pattern": "^Project Version: (?P<version>\\S+)$"
-    },
-    {
       "path": "docs/REQUIRED_ROOMS_DEPENDENCY.md",
-      "pattern": "^Project Version: (?P<version>\\S+)$"
-    },
-    {
-      "path": "docs/CLEAN_BUILDING.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
@@ -84,6 +76,10 @@
     },
     {
       "path": "docs/ROOMS_INTEGRATION.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/SUPPLY_API.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
@@ -200,6 +196,10 @@
     {
       "reference": "dist/history/0.9.0-dev.1-single-player-predecessor; docs/REQUIRED_ROOMS_DEPENDENCY.md publication record",
       "reason": "Immutable required-dependency publication and exact predecessor package/provenance retained. SP was disabled in that historical release."
+    },
+    {
+      "reference": "docs/CLEAN_BUILDING.md; docs/CLEAN_BUILDING_SINGLE_PLAYER.md; research/auto-clean; tests/run_auto_clean_*.py; tests/test_auto_clean_*.lua; dist/workshop-publish/0.10.0-dev.1-single-player",
+      "reason": "Embedded 0.10 cleaning implementation/evidence frozen by extraction. Current production and cleaning regression suite now belong to B47ANCEDAutoClean."
     }
   ]
 }

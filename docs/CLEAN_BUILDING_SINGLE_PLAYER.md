@@ -1,5 +1,7 @@
 # Clean Building single-player execution
 
+> Historical embedded 0.10.0-dev.1 checkpoint. Current cleaning source/tests live in B47ANCEDAutoClean; see SUPPLY_API.md for Quartermaster’s current provider.
+
 Project Version: 0.10.0-dev.1
 
 Compatible MINOR addition from 0.9.0-dev.1. Rooms 0.1.0-dev.1 remains required

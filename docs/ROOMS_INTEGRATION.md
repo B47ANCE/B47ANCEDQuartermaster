@@ -1,6 +1,6 @@
 # Required Rooms integration and scoped sorting
 
-Project Version: 0.10.0-dev.1
+Project Version: 0.11.0-dev.1
 
 ## Baseline and ownership
 

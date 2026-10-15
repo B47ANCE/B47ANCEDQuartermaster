@@ -1,6 +1,10 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.10.0-dev.1
+Project Version: 0.11.0-dev.1
+
+## Separate Auto Clean and supply API — current 0.11.0-dev.1
+
+Clean Building's production modules/menu/jobs now belong to B47ANCEDAutoClean. Quartermaster provides SupplyAPI 1 for configured storage, live permission/capacity checks and exact native transfers. Auto Clean requires Quartermaster and Rooms; no reverse dependency was added. Storage/save schemas and Rooms sandbox settings remain unchanged. See [current contract and validation](SUPPLY_API.md). This extraction is not deployed or published. SP/dedicated acceptance remains NOT TESTED; G7/stable G8 BLOCKED. Earlier embedded-cleaning sections below are historical checkpoints.
 
 ## Single-player Clean Building — current 0.10.0-dev.1
 

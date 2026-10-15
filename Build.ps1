@@ -17,7 +17,5 @@ if ($LASTEXITCODE -ne 0) { throw 'Quartermaster Balanced Sorting validation/pack
 if ($LASTEXITCODE -ne 0) { throw 'Source/package parity failed.' }
 & $PythonPath (Join-Path $PSScriptRoot 'tests\test_deployment.py')
 if ($LASTEXITCODE -ne 0) { throw 'Deployment gate regression failed.' }
-& $PythonPath (Join-Path $PSScriptRoot 'tests\run_auto_clean_single_player.py') --game $GamePath --rooms (Join-Path $PSScriptRoot '..\B47ANCEDRooms')
-if ($LASTEXITCODE -ne 0) { throw 'Clean Building SP/MP guard regression failed.' }
 & $PythonPath (Join-Path $PSScriptRoot 'scripts\check_versions.py') --root $PSScriptRoot --release
 if ($LASTEXITCODE -ne 0) { throw 'Artifact version consistency failed.' }

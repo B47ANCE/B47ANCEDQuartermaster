@@ -1,6 +1,8 @@
 # Required Rooms dependency
 
-Project Version: 0.10.0-dev.1
+Project Version: 0.11.0-dev.1
+
+Current source still requires Rooms. Auto Clean is now a separate consumer requiring Quartermaster SupplyAPI 1 and Rooms, described in [SUPPLY_API.md](SUPPLY_API.md). The bundled Auto Clean statements below describe the historical 0.9/0.10 publication.
 
 The dependency/publication record below is historical to 0.9.0-dev.1; current SP support is documented in [CLEAN_BUILDING_SINGLE_PLAYER.md](CLEAN_BUILDING_SINGLE_PLAYER.md). Rooms remains required.
 

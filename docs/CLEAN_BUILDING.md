@@ -1,5 +1,7 @@
 # Clean Building source testing
 
+> Historical embedded 0.10.0-dev.1 checkpoint. Current cleaning source/tests live in B47ANCEDAutoClean; see SUPPLY_API.md for Quartermaster’s current provider.
+
 Project Version: 0.10.0-dev.1
 
 Current dependency contract: Rooms is mandatory for Quartermaster and its embedded Auto Clean. Native `mod.info` requires `B47ANCEDRooms`; Quartermaster Workshop item 3807217050 requires Rooms item 3820077442. Auto Clean has no separate Mod ID or Workshop item here. The current single-player adapter is documented in [CLEAN_BUILDING_SINGLE_PLAYER.md](CLEAN_BUILDING_SINGLE_PLAYER.md); multiplayer guards are unchanged.

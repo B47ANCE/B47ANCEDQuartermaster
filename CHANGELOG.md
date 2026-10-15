@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.11.0-dev.1] - 2026-10-15
+
+- Extract Clean Building into the separate B47ANCEDAutoClean mod; Quartermaster no longer registers cleaning actions, jobs or menus. Breaking 0.x packaging change: users enable the new mod to retain cleaning.
+- Add SupplyAPI 1 for authority-bound configured-storage queries, live withdrawal/deposit checks and replay-protected native transfer actions. Auto Clean requires this provider and Rooms; no dependency cycle.
+- Preserve sorting behavior, configured storage/save schemas and existing sandbox settings. SP/dedicated runtime NOT TESTED; G7 and stable G8 BLOCKED. No Workshop upload is part of this extraction.
+
 ## [0.10.0-dev.1] - 2026-10-15
 
 - Add Lua-only single-player Clean Building through the vanilla timed-action queue with the same Rooms job, supply and footprint guards.

@@ -33,6 +33,7 @@ def validate(stage=None, local=None, package=False):
     assert info['modversion'] == version and info.get('require') == 'B47ANCEDRooms'
     assert re.findall(r'^require=(.*)$', info_text, re.M) == ['B47ANCEDRooms']
     for name in expected:
+        assert '/AutoClean/' not in name, 'Embedded cleaning returned to Quartermaster: '+name
         p = SOURCE / name
         if p.suffix in ('.lua', '.json', '.txt', '.info'):
             code = p.read_text(encoding='utf-8')
