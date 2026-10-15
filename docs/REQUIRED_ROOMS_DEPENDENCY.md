@@ -55,6 +55,18 @@ WORKSHOP_CHANGE_NOTE.txt, rendered into an immutable VDF by
 Prepare-WorkshopVdf.ps1. Fresh manifests and actual upload/download receipts
 belong under ignored dist/workshop-publish/0.9.0-dev.1-required-rooms/.
 
+[VERIFIED distribution] Published 0.9.0-dev.1 from public source commit
+247ec7b11f14f03b902082704b83eb35882aa448 to existing Workshop item 3807217050.
+SteamCMD reported successful upload and fresh download. All 141 downloaded
+runtime files exactly match the source/stage/package SHA-256 inventory,
+including require=B47ANCEDRooms and modversion=0.9.0-dev.1. Package SHA-256:
+e1fd0d6365d4b6ac3caa18fb34fad28584602b4f82383794e78ca5a3c08aa80b.
+The live public description matches the canonical text, visibility remains
+public, and the owner page still shows Rooms item 3820077442 under Required
+Items after upload. Steam desktop was gracefully restarted and its process
+verified. These observations prove distribution only; no game/server was
+launched and no dedicated configuration was changed.
+
 [RUNTIME GATE] Native enabling and load-order behavior, SP UI, real save/load,
 dedicated joins/rejoins, observers and server restarts remain NOT TESTED. G7
 BLOCKED / NOT TESTED; stable G8 BLOCKED. Single-player Clean Building remains
