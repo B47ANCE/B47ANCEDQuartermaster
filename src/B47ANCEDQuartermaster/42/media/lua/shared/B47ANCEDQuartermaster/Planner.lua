@@ -4,6 +4,7 @@ require 'B47ANCEDQuartermaster/Catalog'
 local P={}
 local Trace=require 'B47ANCEDQuartermaster/SortTrace'
 B47ANCEDQuartermaster.Planner=P
+local Allocation=require 'B47ANCEDQuartermaster/AllocationRuntime'
 -- Server/SP planning primitive, not a network command or movement implementation.
 -- Callers provide an authoritative inventory item, authoritative preset definitions,
 -- and the transfer-specific access/capacity predicate. No client rule/category input.
@@ -51,6 +52,7 @@ function P.choose(player,sessionID,item,presets,accepts,trace,prepared)
         return B.target(player,sessionID,candidate.key)~=nil and B47ANCEDQuartermaster.RoomAccess.can(player,candidate.target,'deposit') and accepts(candidate.target,actualItem,candidate)==true
     end)
     Trace.emit(trace,'RULE_RESOLUTION',choice and 'matched' or 'no-match',nil,nil,rulesAt,#candidates)
+    Allocation.observe(player,batch,item,choice,presets)
     return choice,not choice and (matched==0 and 'noMatchingRule' or 'destinationRejected') or nil
 end
 return P

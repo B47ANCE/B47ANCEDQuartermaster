@@ -25,7 +25,7 @@ assert(P.resolve(linked).items['Key Ring'])
 local legacy=S.empty();legacy.presets.Keys=1
 assert(P.resolve(legacy)==nil,'legacy generation silently attached to an owned definition')
 legacy.presets.Keys=true;assert(P.resolve(legacy)==nil,'legacy boolean link silently attached')
-assert(S.valid(linked) and S.envelope(linked,1).schemaVersion==2)
+assert(S.valid(linked) and S.envelope(linked,1).schemaVersion==S.version)
 -- Other players can read/link shared presets, but cannot edit another owner's definition.
 f.player.getPlayerNum=function() return 1 end
 assert(request(2,1).status=='PresetDenied')

@@ -1,10 +1,5 @@
-[b]Version 0.8.0-dev.1[/b]
-MP testing build - dedicated multiplayer NOT TESTED
-
-Activate the experimental multiplayer Clean Building source: fetch eligible supplies, equip, add 10 mL bleach first by default, fill remaining bucket capacity with water, clean supported native blood/grime, then return borrowed supplies when permitted. Sender-bound commands and guarded server action reconstruction preserve server authority.
-
-Rooms is now available as Workshop item 3820077442, Mod ID B47ANCEDRooms (version 0.1.0-dev.1; API 1, cleaning capability 1). Subscribe to and enable both Rooms and Quartermaster on the server and every client. This update links the Rooms distribution; Quartermaster's runtime/package is unchanged. Single-player Clean Building is disabled. Finite pure-water sources and supported equipment are required. Conservative cross-level footprint checks may skip many or all targets. Cancellation can retain supplies; jobs do not resume after reconnect/restart. Native packet processing can interrupt an earlier action before Lua confirmation.
-
-Includes optional standalone Rooms integration and building/room/current-source Sort scopes. Area sorting includes full carried inventory/bags and configured physical storage, with independent source/destination checks. Without Rooms, native room/building sorting remains available. Policies do not lock unrelated vanilla gameplay.
-
-Update/restart both Quartermaster peers: configuration 5, movement 8, rooms 2. Offline regressions and source/package checks pass; native UI/save/persistence, optional-mod and dedicated acceptance remain NOT TESTED. G7 and stable G8 BLOCKED. Back up saves; no local deployment or server changes.
+[b]Version 0.9.0-dev.1[/b]
+Development packaging candidate only. Sparse allocation profiles and virtual controls, complete container/Whole/preset persistence, optional room profiles and bounded native-shaped admission/shadow evaluation. Server defaults: Primary 60%, Secondary 80%.
+Off/Shadow only: allocation enforcement and live room-role routing remain blocked pending native compatibility and dedicated acceptance. Legacy sorting remains authoritative. Native G6 and dedicated G7 NOT TESTED; stable G8 BLOCKED. No deployment, Workshop staging or publication in this pass.
+Includes the upstream Auto Clean functionality and its separate authority/test gates; allocation profiles do not change cleaning behavior.
+Rooms Workshop identity: 3820077442. The new allocation editor requires the paired 0.2.0-dev.1 development source; published older Rooms remains separate distribution evidence.

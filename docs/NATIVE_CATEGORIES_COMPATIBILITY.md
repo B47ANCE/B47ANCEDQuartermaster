@@ -1,6 +1,8 @@
 # Native categories and sorting-data retirement
 
-Project Version: 0.8.0-dev.1
+Project Version: 0.9.0-dev.1
+
+Current allocation development: see [ALLOCATION_SYSTEM.md](ALLOCATION_SYSTEM.md) for schema 3, virtual controls, optional room profiles, native-weight accounting and the closed enforcement gate. Off/Shadow only; native G6/dedicated G7 NOT TESTED, stable G8 BLOCKED. Detailed prior implementation milestones below remain historical context unless explicitly reassessed there.
 
 ## Compatibility decision
 
