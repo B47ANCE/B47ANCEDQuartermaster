@@ -80,7 +80,7 @@ source synchronization were inspected. No game files or third-party mod source
 are modified or copied into runtime packages. Source provenance/fingerprints are
 recorded by the Auto Clean extraction ledger.
 
-[TESTED offline] `python tests/run_tests.py` includes 29 SupplyAPI cases using
+[TESTED offline] `python tests/run_tests.py` includes 30 SupplyAPI cases using
 the installed native Lua helper and simulated engine/inventory/permission state.
 The separate Auto Clean suite tests actual provider/Rooms and native Lua actions,
 including full fetch/clean/return in SP and authenticated MP transport doubles.

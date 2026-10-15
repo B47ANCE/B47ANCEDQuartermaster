@@ -81,6 +81,12 @@ check('server binding uses online player identity and native synchronization exa
  local f=fixture();server=true;local a=assert(A.transferAction(f.actor,f.record,'fetch',1));assert(a:serverStart() and a:complete());assert(not a:complete())
  assert(f.adds==1 and f.removes==1)
 end)
+check('headless server cancellation never requires a client action queue',function()
+ local f=fixture();server=true;local a=assert(A.transferAction(f.actor,f.record,'fetch',1))
+ local stop=ISBaseTimedAction.stop;ISBaseTimedAction.stop=function() error('headless server touched local action queue') end
+ a:stop();ISBaseTimedAction.stop=stop
+ assert(not a:complete() and f.storage:getItemWithID(1)==f.item)
+end)
 for _,kind in ipairs({'client','combined','foreign','offlinePlayer','dead','movement','permission','inspect','configuration','removed','replacement','unloaded','floor','itemOwned','favorite','consumed','equipped','attached','capacity','removeDenied','addDenied','substitution','expired','cancelled','volatile'}) do
  check('transfer admission/completion fails closed on '..kind,function()
   local f=fixture();local a=assert(A.transferAction(f.actor,f.record,'fetch',1));assert(a:serverStart())

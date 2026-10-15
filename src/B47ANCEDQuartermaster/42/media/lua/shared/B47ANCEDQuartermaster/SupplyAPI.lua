@@ -111,7 +111,7 @@ function A.transferAction(actor,record,direction,seconds)
   return true
  end
  function a:serverStop() closed=true end
- function a:stop() closed=true;ISBaseTimedAction.stop(self) end
+ function a:stop() closed=true;if not isServer() then ISBaseTimedAction.stop(self) end end
  function a:forceCancel() closed=true end
  return a
 end
