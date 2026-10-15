@@ -1,6 +1,36 @@
 # Native transfer queue throughput
 
-Project Version: 0.6.0-dev.2
+Project Version: 0.6.0-dev.3
+
+## dev.3 category lookup correction
+
+[VERIFIED client log, 2026-10-14 18:07 Phoenix] The running 0.5.0-dev.1
+catalog logged repeated Categorizer.lua missing-method exceptions and completed
+10,380 entries in 66,816 ms; the following discovery reply took 168 ms. No Sort
+result was present in that log segment. The exception contribution to total
+preparation time is not measured.
+
+[VERIFIED installed B42.21.0 class metadata] Script Item exposes
+getDisplayCategory/getItemType but lacks getScriptItem/getCategory. InventoryItem
+exposes all four. Categorizer.read previously attempted every requested getter
+inside pcall, including absent methods. The engine still logged those failures.
+It now checks object shape and callable method presence before invocation.
+Existing native category results, callable-getter protection and fallback values
+are preserved. No taxonomy, ownership, persistence or sandbox option changes.
+
+[TESTED offline] The new regression failed before the fix and passed afterward.
+It counts failed protected calls for script definitions, inventory fallbacks,
+missing/non-callable getters and invalid inputs. No failed calls occur for these
+cases after the fix. Full Build-Workshop.ps1 regression, 29-language fallback
+parity, Lua syntax, native membership, artifact versions and exact 126-file
+source/package/stage parity PASS for dev.3. The dev.3 benchmark repeats the
+dev.2 results below. Native
+catalog timing and optional-mod acceptance remain NOT TESTED.
+
+This candidate includes the dev.2 transfer correction below and is authorized
+for Workshop MP test distribution. Prior dev.2 work was source-only. Actual
+upload outcome/commit/hashes belong to the publication manifest and receipt;
+G7 and stable G8 remain blocked. No local live-mod deployment is authorized.
 
 ## Evidence and scope
 
@@ -95,5 +125,6 @@ arrival/capacity waits, no retries of native transactions, replication gaps and
 
 [RUNTIME GATE] Actual SP/optional-mod and dedicated MP throughput, complete Sort,
 late server responses, protection/capacity changes, cancellation, join/rejoin and
-restart remain NOT TESTED. G7 BLOCKED; stable G8 BLOCKED. No package/deploy/
-publish/game/server launch for this iteration. Workshop remains 0.5.0-dev.1.
+restart remain NOT TESTED. G7 BLOCKED; stable G8 BLOCKED. The last confirmed
+Workshop upload before this candidate was 0.5.0-dev.1. Publication is a test
+distribution step, not runtime proof; no game/server launch is authorized.

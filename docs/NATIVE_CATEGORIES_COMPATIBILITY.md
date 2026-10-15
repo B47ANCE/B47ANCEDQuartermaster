@@ -1,6 +1,6 @@
 # Native categories and sorting-data retirement
 
-Project Version: 0.6.0-dev.2
+Project Version: 0.6.0-dev.3
 
 ## Compatibility decision
 
@@ -113,6 +113,7 @@ Its release manifest/receipt and earlier published packages remain unchanged.
 
 [RUNTIME GATE] Native save/load, optional mods, dedicated two-client concurrent
 editing, join/rejoin, persistence, object replication and server restart NOT TESTED.
-G7 NOT TESTED/BLOCKED; stable G8 BLOCKED. No package/deploy/publish/game/server
-launch is authorized or performed for this iteration. Published 0.5.0-dev.1 and its
-receipt/provenance are retained; it remains the Workshop build.
+G7 NOT TESTED/BLOCKED; stable G8 BLOCKED. The dev.3 candidate includes this
+cleanup and is authorized for Workshop MP testing distribution. Its manifest and
+receipt record the actual upload outcome. Published 0.5.0-dev.1 package and
+provenance are retained for recovery. No live deployment or game/server launch.

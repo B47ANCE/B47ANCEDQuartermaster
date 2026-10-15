@@ -1,7 +1,7 @@
 name=B47ANCE'd Quartermaster
 id=B47ANCEDQuartermaster
 author=B47ANCE
-modversion=0.6.0-dev.2
+modversion=0.6.0-dev.3
 versionMin=42.20.3
 description=Standalone container sorting and supply planning. Obsolete B47 sorting formats/category rules are removed on authority; native rules, item selections, priorities and owned presets are retained. Back up saves before upgrading. Vanilla categories when used alone. Optional Better Sorting (BetterSortCC) and Better Containers (EURY_CONTAINERS / REORDER_CONTAINERS) integrations use native categories; Better Containers category selections save explicit item choices. Disable original Quartermaster (Quartermaster) and older B47 sorting copies. Experimental MP testing build - dedicated multiplayer NOT TESTED; optional-mod runtime acceptance and Sort startup delay investigation remain pending.
 poster=poster.png
