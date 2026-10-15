@@ -2,6 +2,12 @@
 
 Project Version: 0.8.0-dev.1
 
+## Confirmed Workshop MP testing upload — 2026-10-15 UTC
+
+Quartermaster 0.8.0-dev.1 was uploaded successfully to existing Workshop item 3807217050 at 05:48:48 UTC. SteamCMD reported `Committing update...Success`; the Steam published-file API returned the exact canonical description, matching item/app/title, newer update timestamp and unchanged public visibility. Release commit: `71e1ca81dc3fc20ba8533d60d3aa2e7b308be359`; ZIP SHA-256: `4f9253e549d80a8ab59a211f3edf54baa1d2522d0f4e0d34d24a96e982767bfa`. The local publication receipt and prior-package preservation ledger are under `dist/workshop-publish/0.8.0-dev.1-clean-building/`.
+
+Both public feature branches were pushed and verified. Required Rooms source is commit `d603cd53903e01b6c575f4e1efcfa6da555e4a70`, version 0.1.0-dev.1; it has no Workshop item and was not uploaded. The description links that exact source and explains separate installation. The 141-file source/package/stage parity, archive integrity, Lua-only, version and offline checks passed, including 83 Clean Building scenarios. Steam was gracefully restarted and a new client process verified. Subscription/download agreement, native acceptance and dedicated G7 remain NOT TESTED; stable G8 BLOCKED. Single-player cleaning is disabled. No local SP deployment, game/server launch or server changes. The older checkpoint notes below retain their original context.
+
 ## Clean Building source activation
 
 [VERIFIED source] Quartermaster now auto-installs its Clean Building server/client integration through verified multiplayer lifecycle events. Matching Rooms source supplies cleaning capability 1, settings and policy. The default recipe is 10 mL bleach first, followed by water to fill the 10 L bucket. [TESTED offline] Production-module workflow, sender/reconstruction guards and lifecycle tests pass. [RUNTIME GATE] Single-player remains disabled; native client/server acceptance and dedicated G7 are NOT TESTED, stable G8 BLOCKED. Existing packaged artifacts predate activation and remain unchanged. See [exact scope, commands and test prerequisites](CLEAN_BUILDING.md).
