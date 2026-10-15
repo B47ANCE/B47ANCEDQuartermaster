@@ -8,8 +8,10 @@ Version 0.5.0-dev.1. Tested offline with regression and source checks. This is a
 [h2]Standalone[/h2]
 No Quartermaster dependency. Disable older sorting versions when testing.
 
-[b]Incompatible Mods[/b]
-Original Quartermaster (Mod ID Quartermaster) must be disabled. Better Sorting and Better Containers coexistence is implemented for testing. Categories come from native item metadata. Better Containers category selections save explicit item choices because custom categories can be client-local. Actual optional-mod SP/dedicated acceptance remains pending.
+[h2]Compatibility[/h2]
+No category mod is required: standalone uses vanilla categories. Optional Better Sorting (Mod ID BetterSortCC) supplies its categories through native item metadata. Optional Better Containers (Mod IDs EURY_CONTAINERS / REORDER_CONTAINERS) retains its inventory labels, sorting, filters and pinned ordering; B47 uses its exposed native categories. Both may be enabled; effective categories follow their native metadata and load order. These integrations are implemented for testing; actual optional-mod single-player and dedicated multiplayer acceptance remains pending.
+
+Better Containers custom categories can be client-local, so B47 saves category selections as explicit item choices. Reselect a group after category membership edits or new item types. Original Quartermaster (Mod ID Quartermaster) and older B47 sorting copies must be disabled. All multiplayer peers need the same intended B47 version and shared mods. Other inventory UI combinations are not certified.
 
 [h2]Window controls[/h2]
 • Native corner/bottom resizing, an adjustable container-panel divider, controller layout actions and saved local geometry.
@@ -52,7 +54,7 @@ Mod ID: B47ANCEDQuartermaster
 Original standalone implementation. No third-party mod source or assets are included.
 
 [h2]Known issues in this testing build[/h2]
-The user confirms the prior one-item Sort stop fixed on dev.49. The newer native queue-assembly adjustment still requires in-game and dedicated-server retesting. Installed Workshop classification uses metadata; optional variants, runtime-created items and effective load order are not certified by the offline audit.
+The user confirms the prior one-item Sort stop fixed on dev.49. The newer native queue-assembly adjustment still requires in-game and dedicated-server retesting. The reported delay before Sort starts remains under investigation; this build does not claim a startup-latency fix. Native metadata audits do not certify optional variants, runtime-created items or effective mod load order.
 
 [h2]Source code and development[/h2]
 [url=https://github.com/B47ANCE/B47ANCEDQuartermaster]GitHub — Source Code & Issues[/url]
