@@ -15,10 +15,6 @@
       "pattern": "^modversion=(?P<version>\\S+)$"
     },
     {
-      "path": "README.md",
-      "pattern": "Development candidate \\*\\*(?P<version>[^*]+)\\*\\*"
-    },
-    {
       "path": "WORKSHOP_CHANGE_NOTE.txt",
       "pattern": "^\\[b\\]Version (?P<version>[^\\[]+)\\[/b\\]$"
     },
@@ -47,10 +43,6 @@
       "pattern": "version='(?P<version>[0-9][^']*)'"
     },
     {
-      "path": "README.md",
-      "pattern": "Current source version: (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+)\\."
-    },
-    {
       "path": "docs/ARCHITECTURE.md",
       "pattern": "Current source version: (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+)\\."
     },
@@ -61,10 +53,6 @@
     {
       "path": "docs/ROADMAP.md",
       "pattern": "Current source version: (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+)\\."
-    },
-    {
-      "path": "README.md",
-      "pattern": "Current source is (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+);"
     },
     {
       "path": "docs/NATIVE_CATEGORIES_COMPATIBILITY.md",
@@ -200,6 +188,10 @@
     {
       "reference": "docs/WORKSHOP_DESCRIPTION_UPDATE_2026-10-15.md; prior Workshop receipts and WORKSHOP_CHANGE_NOTE.txt runtime-test wording",
       "reason": "Description-only update for the existing published runtime. Public feature prose intentionally omits a project version; root VERSION, runtime metadata, package and prior upload evidence retain their exact identity. Older validation wording remains an upload-time snapshot."
+    },
+    {
+      "reference": "docs/historical/README_BEFORE_2026-10-15_CURRENT_SOURCE.md",
+      "reason": "Exact prior README preserved as dated source/history evidence. The root README now describes the current Workshop product and links its current source; it intentionally contains no source version mirror. Canonical VERSION and all runtime/version-bearing mirrors are unchanged."
     }
   ]
 }

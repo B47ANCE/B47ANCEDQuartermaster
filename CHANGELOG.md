@@ -2,6 +2,8 @@
 
 ## [0.11.0-dev.1] - 2026-10-15
 
+- Documentation-only README refresh: describe the current Workshop features, required Rooms and optional integrations; link current published source, preserve the previous README as dated history and retire obsolete README version selectors. No gameplay or project-version changes.
+
 - Workshop description follow-up: owner reports Quartermaster dedicated MP tests PASS and approves stable presentation. Replace development/test warnings and technical history with feature-focused copy and a short compatibility section. Description-only metadata update; no runtime/package version or gameplay changes.
 
 - Extract Clean Building into the separate B47ANCEDAutoClean mod; Quartermaster no longer registers cleaning actions, jobs or menus. Breaking 0.x packaging change: users enable the new mod to retain cleaning.
