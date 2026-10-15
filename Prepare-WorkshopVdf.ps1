@@ -21,5 +21,6 @@ $fields = [ordered]@{appid='108600';publishedfileid=$id;contentfolder=(Join-Path
 $lines = @('"workshopitem"','{')
 foreach ($key in $fields.Keys) { $lines += '    "'+$key+'" "'+(VdfEscape $fields[$key])+'"' }
 $lines += '}'
-[IO.File]::WriteAllText([IO.Path]::GetFullPath($OutputPath), ($lines -join "`n")+"`n", [Text.UTF8Encoding]::new($false))
+# SteamCMD on Windows needs the UTF-8 BOM to preserve non-ASCII Workshop prose.
+[IO.File]::WriteAllText([IO.Path]::GetFullPath($OutputPath), ($lines -join "`n")+"`n", [Text.UTF8Encoding]::new($true))
 Write-Output ([IO.Path]::GetFullPath($OutputPath))
