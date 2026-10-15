@@ -2,6 +2,8 @@
 
 ## [0.11.0-dev.1] - 2026-10-15
 
+- Approved artwork follow-up: replace the crowded thumbnail/poster with a simple crate-and-checklist design and a matching transparent icon. Preserve the original masters and reproducible size/format exports. Presentation-only source update; runtime version, gameplay and previously published package are unchanged. Not deployed or uploaded by this change.
+
 - Documentation-only README refresh: describe the current Workshop features, required Rooms and optional integrations; link current published source, preserve the previous README as dated history and retire obsolete README version selectors. No gameplay or project-version changes.
 
 - Workshop description follow-up: owner reports Quartermaster dedicated MP tests PASS and approves stable presentation. Replace development/test warnings and technical history with feature-focused copy and a short compatibility section. Description-only metadata update; no runtime/package version or gameplay changes.

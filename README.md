@@ -1,5 +1,7 @@
 # B47ANCE'd Quartermaster
 
+<img src="preview-client.png" alt="B47ANCE'd Quartermaster: wooden storage crate with a supply checklist" width="320">
+
 Organize storage, put supplies away and keep track of what you need in Project Zomboid.
 
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
@@ -79,6 +81,7 @@ python -B tests/run_tests.py --require-rooms
 - [Rooms integration](https://github.com/B47ANCE/B47ANCEDQuartermaster/blob/feature/rooms-extraction/docs/ROOMS_INTEGRATION.md)
 - [Supply API for other mods](https://github.com/B47ANCE/B47ANCEDQuartermaster/blob/feature/rooms-extraction/docs/SUPPLY_API.md)
 - [Version policy](https://github.com/B47ANCE/B47ANCEDQuartermaster/blob/feature/rooms-extraction/docs/VERSION_POLICY.md)
+- [Artwork sources and exports](assets/branding/README.md)
 - [Issues and feedback](https://github.com/B47ANCE/B47ANCEDQuartermaster/issues)
 
 Dedicated multiplayer tests passed according to the owner's report on 2026-10-15. Historical implementation and validation notes retain their original context in the repository and Git history.

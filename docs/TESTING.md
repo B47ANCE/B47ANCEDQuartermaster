@@ -2,6 +2,10 @@
 
 Project Version: 0.11.0-dev.1
 
+## Approved artwork follow-up — 2026-10-15
+
+The owner approved the new crate-and-checklist thumbnail and matching transparent icon before replacement. This change updates source artwork only; no Lua, metadata, networking, saves or gameplay changed. See [artwork provenance, export commands and validation](../assets/branding/README.md). The existing published package remains an unchanged historical baseline and is not expected to match these two new source PNGs until a separately authorized build. No package, deployment, Workshop upload or native runtime check is part of this artwork update. G7 is N/A for this local-presentation-only difference; this does not reclassify earlier gameplay evidence.
+
 ## Separate Auto Clean and supply API — current 0.11.0-dev.1
 
 Clean Building's production modules/menu/jobs now belong to B47ANCEDAutoClean. Quartermaster provides SupplyAPI 1 for configured storage, live permission/capacity checks and exact native transfers. Auto Clean requires Quartermaster and Rooms; no reverse dependency was added. Storage/save schemas and Rooms sandbox settings remain unchanged. See [current contract and validation](SUPPLY_API.md). This extraction is not deployed or published. SP/dedicated acceptance remains NOT TESTED; G7/stable G8 BLOCKED. Earlier embedded-cleaning sections below are historical checkpoints.

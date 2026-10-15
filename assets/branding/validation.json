@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-15",
+  "version": "0.11.0-dev.1",
+  "source_baseline_commit": "398ce01b44a966540127a2596738160dd47b7c0b",
+  "scope": "Approved artwork source update; no new runtime version, package, deployment or upload",
+  "environment": "Windows host, System.Drawing exports, Pillow read-only decode/hash checks",
+  "assets": {
+    "assets/branding/quartermaster-thumbnail-master.png": {
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "bytes": 1263239,
+      "sha256": "7caf79e7474cc3de3bb773ba3bf22b6ce860ed94b0df886966ba159d78fbe673"
+    },
+    "assets/branding/quartermaster-icon-master.png": {
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "bytes": 1108655,
+      "sha256": "80bf5ef2c8b198482df66315b8cb48684f5d51b4da041d8507093ad4d694a75d"
+    },
+    "preview.png": {
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "bytes": 1263239,
+      "sha256": "7caf79e7474cc3de3bb773ba3bf22b6ce860ed94b0df886966ba159d78fbe673"
+    },
+    "preview-client.png": {
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "bytes": 320808,
+      "sha256": "26dff08533cf806b56c106e5cd72d3627dd57179d00db505e7d201fe9d9db0c1"
+    },
+    "preview.jpg": {
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "bytes": 252726,
+      "sha256": "419c1235a1ceae0089c69d7536473bdfec8e3460b629f45d4234b35c5541f103"
+    },
+    "src/B47ANCEDQuartermaster/42/poster.png": {
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "bytes": 1263239,
+      "sha256": "7caf79e7474cc3de3bb773ba3bf22b6ce860ed94b0df886966ba159d78fbe673"
+    },
+    "src/B47ANCEDQuartermaster/42/icon.png": {
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "bytes": 89850,
+      "sha256": "7226e0f236c708ff6349a3fc714674881c00010790e81474c12f1a1e2832b6b3"
+    }
+  },
+  "checks": {
+    "decode_size_alpha": "PASS offline",
+    "thumbnail_under_1_MiB": "PASS offline",
+    "approved_master_hashes": "PASS offline",
+    "preview_poster_exact_master_bytes": "PASS offline",
+    "source_inventory": "PASS offline: 131 files",
+    "canonical_versions": "PASS offline",
+    "diff_whitespace": "PASS offline",
+    "runtime_source_changes": [
+      "42/icon.png",
+      "42/poster.png"
+    ],
+    "other_runtime_files": "129 unchanged compared with previous published package",
+    "published_package_unchanged": true,
+    "published_package_sha256": "23a9e39db322a608196d7642470a2e127b36ced43bfd8c5807931d9c90170557",
+    "published_package_CRC": "PASS offline",
+    "unrelated_local_work": "unchanged",
+    "G7": "N/A for artwork-only difference; gameplay evidence not reclassified",
+    "native_artwork_rendering": "NOT TESTED",
+    "workshop_artwork_display": "NOT TESTED",
+    "repeated_export_hashes": "PASS offline: all outputs reproduced byte for byte"
+  },
+  "commands": [
+    "./scripts/Export-Artwork.ps1",
+    "python -B scripts/check_versions.py",
+    "python -B scripts/check_deployment.py",
+    "git diff --check"
+  ]
+}
