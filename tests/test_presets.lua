@@ -50,7 +50,7 @@ sendServerCommand=function(player,module,command,args)
     assert(args.revision==5 and args.definitions==nil);notices=notices+1
 end
 assert(A.handle(f.player,'presetChange',{session=discovery.session,token=token,name='Server kit',
-    revision=4,generation=0,config=config,taxonomyVersion=6}).status=='ok')
+    revision=4,generation=0,config=config,taxonomyVersion=7}).status=='ok')
 assert(notices==1 and P.snapshot().definitions['Server kit'].owner=='fixture-player')
 before=5;f.network(false,false)
 Q.Bindings.invalidate(Q.Bindings.sessions[f.player].records[token].target.obj)

@@ -75,7 +75,7 @@ function C.build(observed,baseEntries)
         names[name]=true
         if text(fullType) and (not types[name] or fullType<types[name]) then types[name]=fullType end
         if not text(category) then return end
-        semantic=semantic or category;category=R.families.destination(category)
+        semantic=semantic or category
         categories[category]=true
         if secondary and not (R.nativeName and R.nativeName(category)) then categories[secondary]=true end
         local memberships=R.memberships(category,legacy,semantic,historical,secondary)

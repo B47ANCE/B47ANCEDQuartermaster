@@ -1,7 +1,6 @@
 -- Active categories are native metadata, never an owned or imported item taxonomy.
 require 'B47ANCEDQuartermaster/Schema'
-local L=require 'B47ANCEDQuartermaster/LegacyCategorizer'
-local R={version=L.version,labels={},families=L.families}
+local R={version=7,labels={}}
 B47ANCEDQuartermaster.Categorizer=R
 local function read(value,key)
     if not value then return end
@@ -42,38 +41,27 @@ function R.label(id)
         local key='IGUI_ItemCat_'..native;local label=getText(key)
         return label==key and native or label
     end
-    if L.known(id) then return getText('UI_QMSS_PreviousCategoryRule',L.label(id)) end
     return id
 end
-function R.known(id) return R.nativeName(id)~=nil or L.known(id) end
-function R.isLeaf(id) return R.nativeName(id)~=nil or L.isLeaf(id) end
-function R.isFamily(id) return L.isFamily(id) end
-function R.isLegacy(id) return L.isLegacy(id) end
-function R.isCompatibility(id) return L.known(id) end
-function R.validRules(cats,previous)
+function R.known(id) return R.nativeName(id)~=nil end
+function R.isLeaf(id) return R.known(id) end
+function R.isFamily() return false end
+function R.isCompatibility() return false end
+function R.validRules(cats)
     for id,on in pairs(cats) do
-        if on~=true or not (R.known(id) or previous and previous[id]==true) then return false end
+        if on~=true or not R.known(id) then return false end
     end
     return true
 end
 function R.resolve(value)
     local category=R.nativeID(R.nativeCategory(value))
-    -- Supplemental evidence interprets old saved rules only, never active categories.
-    local _,_,legacy,semantic,historical,secondary=L.resolve(value)
-    return category,'native-category',legacy,semantic,historical,secondary
+    return category,'native-category'
 end
-function R.memberships(category,legacy,semantic,historical,secondary)
-    local out={[category]=true}
-    if semantic then
-        for id in pairs(L.memberships(L.families.destination(semantic),legacy,semantic,historical,secondary)) do out[id]=true end
-    end
-    return out
+function R.memberships(category)
+    return R.known(category) and {[category]=true} or {}
 end
-function R.match(category,cats,legacy,semantic,historical,secondary)
-    if not R.known(category) then return 0 end
-    if cats[category] then return 3 end
-    if semantic then return L.match(L.families.destination(semantic),cats,legacy,semantic,historical,secondary) end
-    return 0
+function R.match(category,cats)
+    return R.known(category) and cats[category] and 3 or 0
 end
 function R.rank(value)
     local id,reason=R.resolve(value)
@@ -83,8 +71,15 @@ function R.inspect(value)
     local id,reason,legacy=R.resolve(value)
     return id,reason,legacy,{{category=id,reason=reason}}
 end
-function R.semantic(value) return R.resolve(value) end
-function R.invalidate() L.invalidate() end
-function R.catalogEligible(value) return L.catalogEligible(value) end
-function R.migrate(...) return L.migrate(...) end
+function R.semantic(value) local category=R.resolve(value);return category end
+function R.invalidate() end
+function R.catalogEligible(item)
+    if read(item,'isHidden')==true or read(item,'getObsolete')==true then return false,'native-hidden-obsolete' end
+    local full=read(item,'getFullName');local display=read(item,'getDisplayCategory')
+    if display=='Hidden' then return false,'native-hidden-category' end
+    local kind=tostring(read(item,'getItemType') or ''):lower():gsub('^.-:','')
+    if type(full)=='string' and full:match('^Base%.') and kind=='clothing' and (display=='Wound' or display=='ZedDmg') then return false,'native-body-damage-representation' end
+    if full=='Base.Animal_Item_Dummy' or full=='Base.FISH_DEV_ITEM' or full=='Base.TestDebugWater' or full=='Base.DebugFluid' then return false,'verified-development-definition' end
+    return true
+end
 return R

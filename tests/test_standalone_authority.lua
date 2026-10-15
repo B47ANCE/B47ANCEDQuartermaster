@@ -23,7 +23,8 @@ local saved=A.handle(f.player,'commit',{session=discovered.session,token=token,c
 assert(saved.status=='ok' and saved.config.priority==23 and f.sent()==before+1)
 local own=f.a.md.B47ANCEDQuartermaster
 assert(own.schemaVersion==1 and own.containers['0'].config.priority==23 and own.containers['0'].revision==1)
-assert(own.containers['0'].legacyImported and own.containers['0'].taxonomyVersion==6)
+assert(own.containers['0'].legacyImported==nil and own.containers['0'].taxonomyVersion==7)
+assert(not loaded.config.items.Apple and loaded.config.priority==0,'foreign registry imported')
 assert(A.handle(f.player,'commit',{session=discovered.session,token=token,config=config,revision=0}).status=='conflict','duplicate write accepted')
 for k,v in pairs(originalLegacy) do assert(B47ANCEDQuartermaster.Configuration.equal(v,f.a.md[k]),'foreign data modified') end
 config.priority=24;config.WholeContainer=true

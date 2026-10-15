@@ -450,7 +450,7 @@ if lifecycle then
  print('PASS OFFLINE dev47 actual native update/stop rejection after first submitted transaction, with exact diagnostic classification')
 end
 local P=require 'B47ANCEDQuartermaster/Protocol'
-assert(P.version('tripNext')==4 and not P.accepts('tripNext',{protocol=1}) and not P.accepts('movePut',{protocol=3}))
+assert(P.version('tripNext')==5 and not P.accepts('tripNext',{protocol=1}) and not P.accepts('movePut',{protocol=3}))
 assert(replicationGapChecks>0,'replication-gap guard regression was not exercised')
 print('PASS OFFLINE dev45 native in-flight replication gap validation')
 print('PASS OFFLINE dev24: 29 production pipeline scenarios, native donor merge/perform, bounded overlap, capacity, cancellation and mixed-peer rejection')

@@ -1,10 +1,10 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.5.0-dev.1
+Project Version: 0.6.0-dev.1
 
-## Current native categories and optional-mod integration
+## Current native-only storage cleanup
 
-The active category source is native DisplayCategory/getCategory metadata. Vanilla standalone, Better Sorting categories and Better Containers coexistence replace the former owned taxonomy. Original Quartermaster remains blocked. Better Containers client-local category groups save explicit item selections rather than client category authority. Inventory rendering/sorting is untouched; loading uses the custom B47 shell. Previous rules are preserved as visibly marked compatibility selections. See NATIVE_CATEGORIES_COMPATIBILITY.md for source boundaries, tests, migration limitations and G7 runtime gates. No deployment/publication.
+Server-only, one-way sorting-data retirement removes obsolete categories/formats while preserving native rules, explicit items, priorities, owned preset generations and whole-container identities. Retired taxonomy modules are excluded from runtime. Foreign LSBox registries and unrelated personal/gameplay state remain untouched. See NATIVE_CATEGORIES_COMPATIBILITY.md for exact scope, protocol versions and validation. Runtime/dedicated acceptance pending; no deployment/publication.
 
 Historical implementation notes below describe their original versions, not the current category architecture.
 

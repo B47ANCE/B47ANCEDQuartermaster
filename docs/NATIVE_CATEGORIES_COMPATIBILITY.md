@@ -1,69 +1,61 @@
-# Native categories and optional inventory mods
+# Native categories and sorting-data retirement
 
-Project Version: 0.5.0-dev.1
+Project Version: 0.6.0-dev.1
 
-## Decision and behavior
+## Compatibility decision
 
-The user explicitly retires the B47 taxonomy. This starts the 0.5 development
-line: an intentional change to default category presentation in this 0.x
-project. Persisted config/schema and movement capability are unchanged. There
-is no B47/native taxonomy switch: active categories always come from native
-DisplayCategory, then native getCategory/type fallback when absent.
+The owner explicitly requests deletion of obsolete sorting formats and category
+rules, while preserving current native rules, item selections, priorities and
+valid owned preset links. This is an intentional breaking cleanup in the 0.x
+line. New active/routed categories remain native: vanilla alone, or metadata
+exposed by Better Sorting / Better Containers. Better Containers category clicks
+still save explicit member selections, so client-local categories never become
+server category authority. Reselect after category membership changes.
 
-- Standalone: vanilla category values and vanilla inventory presentation.
-- Better Sorting: category values it exposes through native item/script metadata
-  appear in B47's picker and are resolved on actual server items for routing.
-- Better Containers: native metadata exposes its customized categories in the
-  picker; B47 leaves its inventory labels, filtering, pinned ordering and render
-  methods untouched. Its category edits can be client-local, so category clicks
-  store the displayed members as ordinary explicit item-name selections.
-- Both enabled: use whatever native metadata the configured mods/load order
-  expose. B47 neither imports nor arbitrates their category databases.
+## One-way cleanup and ownership
 
-Better Containers selections are snapshots of known script types, not counts of
-physical items. New instances with matching names remain eligible. Reselect a
-category after changing its membership or installing new types. Existing shared
-display-name semantics remain: identical names share explicit selections.
-Normal visible-range/bulk operations still edit only displayed item rows.
+SortingData runs only on authority when owned container data is accessed. It
+validates and stages every slot before any object write. Recognized schema 1/2
+envelopes and taxonomy revisions 0-6 are retired into the current schema 2 /
+taxonomy 7 envelope. Only canonical native category tokens, explicit item names,
+priority and owned b47:generation preset links survive. This parser is a bounded
+one-way retirement step; it cannot route retired categories or recreate aliases.
+Current entries win over old aliases. Known old owned namespaces are removed
+after their entries have been safely carried forward. All slots are committed
+with native transmitModData; changed configurations receive new revisions.
 
-Category IDs use an owned bounded canonical hex encoding of the native token;
-localized display names never become persisted keys. Vanilla IGUI_ItemCat_
-translations are read through getText, including translations injected by mods.
-No temporary items, native mutation or external classifier calls are needed.
+Whole Container parents are normalized without changing physical membership,
+parent identity or child inherit/custom modes. Owned preset definitions retain
+their name, generation, owner and explicit items; removal of retired categories
+bumps definition/library revisions. Existing owned links keep their generation;
+missing/deleted presets are not recreated. Numeric/boolean foreign preset links
+are removed from container configs. Unresolved owned generation links remain
+inert under the existing preset validation.
 
-## Authority, configuration and previous rules
+Foreign LSBox registries are no longer read or imported and are left untouched.
+Unrelated object ModData, Shopping, Wanted/Needed, Dibs!, personal state and
+sandbox-option aliases are outside this cleanup. There is no unbounded world or
+inventory scan, new network mutation command, client cleanup or gameplay option.
+This is a storage-format transition, not a configurable alternate taxonomy.
 
-Clients submit container configuration intent. Server access/revision validation
-and native movement guards are unchanged. The server independently reads each
-real item's native category when evaluating a native category rule. A forged or
-different client category token does not recategorize a server item. Explicit
-item selections are existing authorized configuration, not category assertions.
-Better Containers local metadata is never promoted into shared server authority.
+Unknown/corrupt/future schemas, invalid config shapes or mismatched physical
+container identity fail closed with no staged object writes. Repeated loads are
+idempotent. Do not downgrade after cleanup expecting retired rules to return;
+restore a save backup for recovery. No real save is modified by offline tests.
 
-The retired owned resolver is frozen as LegacyCategorizer for compatibility
-with previous saved B47 rules and presets. It does not choose active categories.
-Previous selected rules are visibly prefixed and shown without recreating the
-old hierarchy; opening a window does not rewrite or delete saved data. Their
-original priorities/membership evidence remain available. External mods changing
-metadata can affect interpretation of old rules; review previous selections
-when changing the mod set. Removing those mods leaves their stored native rules
-intact but inert if their category no longer exists. No destructive migration or
-automatic rollback is claimed.
+Configuration capability 3, presets 2, movement 5 and taxonomy 7 reject older
+peers on the affected paths. All clients/server must update together. Existing
+server access checks, object handles, revisions and native item movement remain
+required. Dedicated restart/reconnect/sync acceptance is a runtime gate.
 
-There is no new meaningful global gameplay mode to configure: the owner removed
-the alternate taxonomy. Existing server sandbox settings remain authoritative.
-The category-token size/encoding bounds are internal protocol safety limits.
-All peers must run the same intended version and optional shared mods. Client
-local UI preferences do not grant shared item movement or bypass access checks.
+## Runtime removal
 
-## Preparation UI
-
-The loading window disables native frame/title painting and paints the B47
-background, border, product heading, preparation text and progress itself.
-Existing native drag/close/controller actions remain. Cancel, progress and title
-geometry follow current font metrics; cancel does not open a hidden editor or
-start gameplay requests. Better Containers sessions rebuild the bounded local
-catalog on opening so changed local script categories are picked up.
+LegacyCategorizer, Taxonomy and StorageSemantics are removed from production
+source/manifest. Owned snapshots remain only under tests/historical as historical
+evidence; they are not loaded, tested as current contracts or packaged. Their
+previous taxonomy-specific tests remain historical. Current native category,
+UI/grouping, persistence, authority and movement tests remain active. Catalog
+preparation uses the existing custom B47 UI. No inventory labels are overridden.
 
 ## Clean-room provenance
 
@@ -91,13 +83,13 @@ Independent clean-room reviewer signoff is pending on the draft PR.
   `b8d6018ee316263c1317bd895ca191ccaf4d14548dda9caaf61f23910d1ea23c`.
 
 Source/data/assets imported: NONE. Existing team-owned taxonomy code is retained
-as retired compatibility evidence. No new third-party attribution obligation is
+only as historical test evidence outside runtime source. No new third-party attribution obligation is
 introduced; this is not a legal clearance or permission to redistribute mods.
 Original Quartermaster remains an exact-ID conflict.
 
-## Validation and runtime gates
+## Validation
 
-Commands using configured Python from repository root:
+Commands from repository root with configured Python:
 
 ```text
 python tests/run_tests.py
@@ -106,29 +98,21 @@ python scripts/check_versions.py --root .
 python scripts/check_deployment.py
 ```
 
-The native audit reads script definitions and vanilla class getCategory constants
-without executing/building Java. It compares the Lua resolver to native metadata,
-including fallbacks. Historical owned-taxonomy tests now explicitly exercise
-LegacyCategorizer; the removed inventory-interception contract tests are retained
-as historical files and replaced by a no-interception assertion. Active authority,
-planner/executor, 701-item transfers, native queue, UI, filters, ranges, data,
-persistence and safety regressions still run against the current native resolver.
-New tests cover native metadata, category tokens, server mismatch rejection,
-retired rules, standalone/optional-mod combinations, explicit category snapshots,
-selection counts, untouched inventory methods and loading layout at 14/24/32 fonts.
+[TESTED offline] Full regression suite PASS. Native metadata comparison: 5,105
+declarations / 5,092 unique types / zero mismatches. Version consistency and
+126-file runtime source manifest PASS. Disposable fixtures cover native/item/priority
+and owned-link preservation, all former owned namespaces, current precedence,
+repeat load/save/reload, malformed/future data, physical identity, client rejection,
+whole-container state, preset ownership/generations and unrelated data. Source
+manifest excludes retired runtime modules.
 
-[TESTED offline] Full suite PASS. Native metadata comparison: 5,105 declarations,
-5,092 unique full types, zero mismatches. Version consistency and the 128-file
-source manifest PASS. These replace the former 625 approved B47 deviations as
-the current category comparison; the old audit/baselines remain historical.
+The published 0.5.0-dev.1 ZIP was moved from dist/current to its historical
+archive without deletion; SHA-256 remains
+505ea0b59f155c39e8130620ffb30aac0995072029ee2b4db053066a302e0c9b.
+Its release manifest/receipt and earlier published packages remain unchanged.
 
-[RUNTIME GATE] Offline optional-mod fixtures do not execute third-party Lua or
-the native UI. Verify standalone, each optional mod, both, custom category edits,
-load-order changes, native/proximity controls, filters/pins, game restart,
-client join/rejoin, shared persistence and cancellation on dedicated MP. Existing
-source validation for physical/ground handles remains; unresolved nested or
-synthetic sources still fail closed. Better Containers nested MP restrictions
-are not bypassed. No blanket compatibility or MP PASS is claimed.
-
-G7 NOT TESTED/BLOCKED; stable G8 BLOCKED. No package, deploy, Workshop upload,
-Steam restart or game/server launch is performed for this source iteration.
+[RUNTIME GATE] Native save/load, optional mods, dedicated two-client concurrent
+editing, join/rejoin, persistence, object replication and server restart NOT TESTED.
+G7 NOT TESTED/BLOCKED; stable G8 BLOCKED. No package/deploy/publish/game/server
+launch is authorized or performed for this iteration. Published 0.5.0-dev.1 and its
+receipt/provenance are retained; it remains the Workshop build.

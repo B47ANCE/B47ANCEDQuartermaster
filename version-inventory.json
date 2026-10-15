@@ -156,6 +156,10 @@
     {
       "reference": "docs/DEV50_NATIVE_QUEUE.md",
       "reason": "Frozen dev.50 evidence/document snapshot, not a current project-version mirror."
+    },
+    {
+      "reference": "docs/NATIVE_CATEGORIES_0_5_HISTORICAL.md; tests/historical; dist/history/0.5.0-dev.1",
+      "reason": "Published 0.5 native integration and retired owned taxonomy snapshots; never current migration/runtime evidence."
     }
   ]
 }

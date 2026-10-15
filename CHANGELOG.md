@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.6.0-dev.1]
+- Breaking 0.x storage cleanup requested by owner: remove obsolete category rules and runtime taxonomy; retain native rules, explicit items, priorities and owned preset links through server-only, idempotent normalization.
+- Remove old storage fallback routing; owned legacy envelopes are converted once and deleted, while unrelated mod/player data and historical evidence remain protected.
+- No deployment/publication; native persistence and dedicated restart/reconnect acceptance pending.
+
 ## [0.5.0-dev.1]
 - New 0.5 development line: intentionally replace the default B47 taxonomy with native item DisplayCategory/fallback categories. Retain retired rule interpretation only for saved-configuration compatibility; no third-party mappings imported.
 - Permit Better Sorting and preserve Better Containers inventory UI; client-local category selections use explicit item rules on authority.

@@ -64,7 +64,7 @@ end
 p.getWidth,p.getHeight=oldWidth,oldHeight
 p:layout()
 local before=f.sent()
-p.selectedCats={B47_Ammo=true};p:rebuild()
+p.selectedCats={B47_Native_4974656D=true};p:rebuild()
 assert(p.qmsSession:dirty(p.qmsSession.selected))
 assert(f.sent()==before,'UI edit wrote world state')
 assert(p.qmss.count>=3)
@@ -150,7 +150,7 @@ dofile(TEST_ROOT..'/fixtures/containers.lua');f=CONTAINER_FIXTURE;Q.Bindings.ses
 local d=assert(Q.Bindings.discover(f.player,{scope={x=0,y=0,z=0}}));local token
 for _,meta in ipairs(d.targets) do if Q.Bindings.sessions[f.player].records[meta.token].target.obj==f.a then token=meta.token end end
 local initial=Q.Authority.handle(f.player,'load',{session=d.session,token=token,whole=true})
-assert(Q.Authority.handle(f.player,'groupChange',{session=d.session,token=token,whole=true,revision=initial.revision,config=Q.Schema.empty(),taxonomyVersion=6}).status=='ok')
+assert(Q.Authority.handle(f.player,'groupChange',{session=d.session,token=token,whole=true,revision=initial.revision,config=Q.Schema.empty(),taxonomyVersion=7}).status=='ok')
 Q.openPicker(f.a,0,0);p=Q.picker
 assert(p.qmsSession.selected.configMode=='inherit' and p.qmss.model.readOnly)
 local parent,child

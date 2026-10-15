@@ -1,5 +1,6 @@
 require 'B47ANCEDQuartermaster/Schema'
 local S=B47ANCEDQuartermaster.Schema
+local SortingData=require 'B47ANCEDQuartermaster/SortingData'
 local P={}
 B47ANCEDQuartermaster.Presets=P
 local function integer(v) return type(v)=='number' and v>=0 and v<2^53 and v==math.floor(v) end
@@ -11,6 +12,20 @@ local function root()
     local lib=data.presetLibrary
     if type(lib)~='table' or lib.schema~=1 or not integer(lib.revision) or not integer(lib.serial)
         or type(lib.definitions)~='table' then return nil end
+    if not P.validDefinitions(lib.definitions) then return nil end
+    local definitions={};local changed=false
+    for key,def in pairs(lib.definitions) do
+        local config,err,cleaned=SortingData.config({cats=def.cats,items=def.items,presets={},priority=0})
+        if not config then return nil end
+        if cleaned then
+            if not integer(def.rev+1) then return nil end
+            definitions[key]={cats=config.cats,items=config.items,gen=def.gen,rev=def.rev+1,owner=def.owner,owned=true};changed=true
+        else definitions[key]=def end
+    end
+    if changed then
+        if not integer(lib.revision+1) then return nil end
+        lib={schema=1,revision=lib.revision+1,serial=lib.serial,definitions=definitions};data.presetLibrary=lib
+    end
     return lib,data
 end
 function P.validDefinitions(defs)

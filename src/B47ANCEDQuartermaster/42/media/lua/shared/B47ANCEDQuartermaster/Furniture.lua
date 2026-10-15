@@ -45,6 +45,12 @@ function F.load(t,player,whole,details)
  if not whole and not state then return Store.rawLoad(t) end
  if not whole and state and state.mode=='custom' and not details then local c,e,revision=Store.rawLoad(t);return c,e,revision,{mode='custom'} end
  local group,err=F.group(t,player)
+ if group and group.parent and not isClient() then
+  local data=root(group.anchor)
+  local cleaned,cleanupError=require('B47ANCEDQuartermaster/SortingData').furniture(group.anchor.obj,data)
+  if not cleaned then return nil,cleanupError end
+  if cleaned~=data then group,err=F.group(t,player) end
+ end
  if whole then
   if not group then return nil,err or 'invalid' end
   local p=group.parent;return p and S.copy(p.config) or S.empty(),nil,p and p.revision or 0,{mode='whole',active=p~=nil}
@@ -92,7 +98,7 @@ function F.change(player,record,args)
    ensure(group.anchor).parents[slot(group.anchor)]=nil;group.anchor.obj:transmitModData()
    return {status='ok',config=S.empty(),revision=0,mode='whole'}
   end
-  if not S.valid(args.config) or not B47ANCEDQuartermaster.Categorizer.validRules(args.config.cats,current.cats) then return {status='invalid'} end
+  if not S.current(args.config) then return {status='invalid'} end
   if not group.parent then
    -- Explicit activation preserves every existing/imported per-section envelope.
    local existing={};local seenIDs={}
@@ -114,7 +120,7 @@ function F.change(player,record,args)
   state.mode='inherit';state.revision=state.revision+1;record.target.obj:transmitModData()
  else
   if state.mode=='inherit' and args.action~='custom' then return {status='invalid'} end
-  if not S.valid(args.config) then return {status='invalid'} end
+  if not S.current(args.config) then return {status='invalid'} end
   local old,e,rev=Store.rawLoad(record.target);if not old then return {status=e} end
   local saved,error=Store.rawCommit({target=record.target,original=old,revision=rev},args.config);if not saved then return {status=error} end
   state.mode='custom';state.revision=state.revision+1;record.target.obj:transmitModData()

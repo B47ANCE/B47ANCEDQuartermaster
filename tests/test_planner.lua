@@ -12,7 +12,7 @@ local a,b=record(f.a),record(f.b)
 local function save(r,explicit)
     r.original=S.empty();r.revision=0
     local c=S.empty()
-    if explicit then c.items.RoundA=true else c.cats.B47_Ammo=true;c.priority=100 end
+    if explicit then c.items.RoundA=true else c.cats.B47_Native_4974656D=true;c.priority=100 end
     assert(Store.commit(r,c))
 end
 save(a,false);save(b,true)
@@ -69,7 +69,7 @@ assert(C.destination(key,candidates)==destination,'existing instance-specific ru
 assert(C.destination(instance('Other Sedan Key','Vehicle Key','key'),candidates)==nil)
 assert(C.destination(key,candidates,{},function() return false end)==nil,'script match bypassed eligibility')
 cfg.items={['Vehicle Key']=true}
-local broad=S.empty();broad.cats.B47_Household=true;broad.priority=100
+local broad=S.empty();broad.cats[B47ANCEDQuartermaster.Categorizer.nativeID('Key')]=true;broad.priority=100
 assert(C.destination(key,{destination,{key='broad',container='other',config=broad}})==destination,
     'script-name explicit rule lost precedence to category priority')
 print('PASS renamed keys: script-name match, retained instance rule, keyring/type isolation and authority eligibility')
