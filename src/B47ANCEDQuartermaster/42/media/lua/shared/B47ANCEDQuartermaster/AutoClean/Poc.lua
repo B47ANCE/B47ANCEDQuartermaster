@@ -16,7 +16,9 @@ function P.new(port)
         function action:serverStart()
             local allowed,reason=guard.start(actor,id,self)
             if not allowed then return false,reason end
-            if serverStart then
+            -- Native serverStart installs netAction animation events. Offline
+            -- actions use native start/update/complete on LuaTimedActionNew.
+            if serverStart and not port.localAuthority then
                 local success=pcall(serverStart,self)
                 if not success then guard.cancel(actor,id,'serverStartFailed');return false,'serverStartFailed' end
             end

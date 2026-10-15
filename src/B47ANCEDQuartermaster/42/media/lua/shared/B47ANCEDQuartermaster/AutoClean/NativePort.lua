@@ -6,7 +6,13 @@ function P.new(options)
     for _,name in ipairs({'Fluids/ISFluidContainer','Fluids/ISFluidUtil','Fluids/ISFluidTransferAction',
         'TimedActions/ISTakeWaterAction','TimedActions/ISCleanBlood'}) do require(name) end
     local port={dose=options.dose or 0.01} -- building adapter uses authoritative Rooms settings
-    function port.server() return isServer() and not isClient() end
+    -- Only the explicit offline installer may select local authority. A network
+    -- client (including an ambiguous combined role) can never use this path.
+    port.localAuthority=options.singlePlayer==true
+    function port.server()
+        if port.localAuthority then return not isServer() and not isClient() end
+        return isServer() and not isClient()
+    end
     port.now=getTimestampMs;port.id=getRandomUUID
     function port.tolerance(a,b)
         -- Eight float32 ULPs for the measured operands; never a recipe/minimum dose.
@@ -17,6 +23,7 @@ function P.new(options)
     function port.cleanAmount() return ZomboidGlobals.CleanBloodBleachAmount end
     function port.actorValid(actor)
         if not port.server() or not actor or actor:isDead() then return false end
+        if port.localAuthority then return getSpecificPlayer(actor:getPlayerNum())==actor end
         local players=getOnlinePlayers()
         for i=0,players:size()-1 do if players:get(i)==actor then return true end end
         return false

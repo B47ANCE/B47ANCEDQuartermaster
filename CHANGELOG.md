@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0-dev.1] - 2026-10-15
+
+- Add Lua-only single-player Clean Building through the vanilla timed-action queue with the same Rooms job, supply and footprint guards.
+- Bind local authority to the engine's exact local-player instance. Multiplayer sender binding and action reconstruction remain unchanged.
+- Preserve native timing, guarded mutation, cancellation, borrowing/return, bleach-first mixing and Rooms sandbox settings. Compatible MINOR feature addition; no protocol or save-schema change.
+- Offline tests are distinct from native acceptance. SP NOT TESTED; dedicated G7 BLOCKED / NOT TESTED and stable G8 BLOCKED. Authorized Workshop testing distribution only.
+
 ## [0.9.0-dev.1]
 - Breaking 0.x dependency contract: Rooms (Mod ID B47ANCEDRooms, Workshop item 3820077442) is now required for Quartermaster and its embedded Auto Clean/Clean Building feature. No separate Auto Clean Mod ID or Workshop item exists in this distribution.
 - Add the native mod.info dependency and Steam Required Items relationship; update packaging gates to reject missing or incorrect requirements. Enable Rooms on server and clients before updating. Existing saves, registry schemas, protocols, recipes and server mutation guards are unchanged.

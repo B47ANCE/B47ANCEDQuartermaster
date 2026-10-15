@@ -1,6 +1,12 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.9.0-dev.1
+Project Version: 0.10.0-dev.1
+
+## Single-player Clean Building — current 0.10.0-dev.1
+
+Lua-only SP support now queues the retained guarded Job/Poc native actions locally. Exact local-player binding, Rooms settings/permissions, supply locks, measured recipe and cross-level footprint checks remain active. Multiplayer command authentication and reconstruction are unchanged. Offline SP/native-Lua regression tests pass; real PZ SP and dedicated acceptance remain NOT TESTED, G7 and stable G8 BLOCKED. See [SP design, exact validation commands and runtime gates](CLEAN_BUILDING_SINGLE_PLAYER.md).
+
+The earlier version sections below are historical checkpoints. Their disabled-SP status and prior publication/restart observations do not describe the current source.
 
 ## Required Rooms dependency — 0.9.0-dev.1
 

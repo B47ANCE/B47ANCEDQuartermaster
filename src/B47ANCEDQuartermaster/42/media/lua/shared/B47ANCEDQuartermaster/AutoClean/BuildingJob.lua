@@ -174,6 +174,7 @@ function B.new(rooms,native)
   if not action then close(j,'cancelled','constructionFailed');return nil,'constructionFailed' end
   j.action=action
   local start,complete,update,transfer=action.serverStart,action.complete,action.update,action.transferFluid
+  local stop,forceCancel=action.stop,action.forceCancel
   local started,completing=false,false
   local function check(self)
    return self==j.action and valid(j) and (phase=='bleach' or phase=='water' or phase=='clean' or native.actionValid(actor,phase,j.record,self,j.options))
@@ -211,8 +212,16 @@ function B.new(rooms,native)
   if update then function action:update() if started and check(self) then return update(self) end;return false end end
   if transfer then function action:transferFluid(n) if started and check(self) then return transfer(self,n) end;return false end end
   function action:serverStop() return api.cancel(actor,id,'nativeStopped') end
-  function action:stop() return api.cancel(actor,id,'nativeStopped') end
-  function action:forceCancel() return api.cancel(actor,id,'nativeCancelled') end
+  function action:stop()
+   local result=api.cancel(actor,id,'nativeStopped')
+   if native.localAuthority and stop then stop(self) end
+   return result
+  end
+  function action:forceCancel()
+   local result=api.cancel(actor,id,'nativeCancelled')
+   if native.localAuthority and forceCancel then forceCancel(self) end
+   return result
+  end
   return action,phase
  end
  function api.cancel(actor,id,reason) local j=find(actor,id);if not j or j.closed then return false end;return close(j,'cancelled',reason or 'cancelled') end

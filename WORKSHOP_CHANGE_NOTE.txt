@@ -1,8 +1,8 @@
-[b]Version 0.9.0-dev.1[/b]
+[b]Version 0.10.0-dev.1[/b]
 MP testing build - dedicated multiplayer NOT TESTED
 
-Rooms is now a required Workshop item and native mod.info dependency for Quartermaster and its embedded Auto Clean/Clean Building feature. Subscribe to Workshop item 3820077442 and enable Mod ID B47ANCEDRooms alongside B47ANCEDQuartermaster on the server and every client. Auto Clean is bundled in this item; there is no separate Auto Clean item to install.
+Clean Building now supports single-player through the vanilla timed-action queue. Enable Rooms and Quartermaster, then right-click inside a loaded native building and select Clean Building. The local authority fetches eligible supplies, equips a supported tool, adds 10 mL bleach by default before filling the rest of the bucket with water, cleans eligible blood/grime and returns borrowed supplies when permitted.
 
-This is a breaking dependency change in the 0.x development line: Quartermaster now requires Rooms even for sorting. Existing save formats, registry schemas, network protocols and server-authority guards remain unchanged. The default cleaning preparation still adds 10 mL bleach before water. Preserve backups and update matching peers together.
+The same Rooms settings, permission checks, resource identity checks, guarded native mutations and conservative footprint restrictions remain active. Local actions are bound to the actual local-player instance. Multiplayer sender binding, reconstruction, protocols and save schemas are unchanged. Rooms remains required (Workshop 3820077442 / Mod ID B47ANCEDRooms).
 
-Offline checks and packaging gates enforce the exact dependency. Native UI/load-order, real persistence and dedicated multiplayer acceptance remain NOT TESTED. Single-player Clean Building is disabled; conservative footprint checks can skip targets. G7 and stable G8 BLOCKED. No local SP deployment or server changes.
+Offline source, regression and packaging checks pass; actual in-game SP and dedicated MP acceptance remain NOT TESTED. Many or all targets may be skipped by the existing cross-level footprint guard. Finite pure water is required. Jobs do not resume after reload. G7 and stable G8 BLOCKED. This is a testing build; back up saves. No local SP deployment or server changes.

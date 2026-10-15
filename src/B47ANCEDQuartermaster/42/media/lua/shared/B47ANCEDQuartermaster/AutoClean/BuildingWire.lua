@@ -57,9 +57,7 @@ function W.server()
  transport.jobs=job
  return transport
 end
-function W.client()
- local rooms,why=service();if not rooms then return nil,why end
- if not isClient() or isServer() then return nil,'notClient' end
+local function presentation(rooms,localJob,localNative)
  require 'TimedActions/WalkToTimedAction'
  require 'TimedActions/ISEquipWeaponAction'
  require 'TimedActions/ISUnequipAction'
@@ -84,13 +82,34 @@ function W.client()
   function a:start() self.character:faceThisObject(obj);self:setActionAnim('Loot');self.character:reportEvent('EventLootItem') end
   return a -- client has no transfer callback; server calls the native transfer helper
  end
- local transport,err=Wire.client({resolve=resolve})
+ local transport,err
+ if localJob then transport,err=require('B47ANCEDQuartermaster/AutoClean/LocalQueue').new(localJob,localNative)
+ else transport,err=Wire.client({resolve=resolve}) end
  if not transport then return nil,err end
- local active={};local api={active=active}
+ local active={};local api={active=active,jobs=localJob}
+ local handler
  local function send(actor,command,r)
   r.pending=getRandomUUID();r.sent=getTimestampMs()
   if command=='buildingBegin' then r.begin=r.pending end
-  sendClientCommand(actor,Server.module,command,{protocol=1,request=r.pending,operation=r.operation,begin=command=='buildingCancel' and r.begin or nil})
+  if localJob then
+   local ok,result=pcall(function()
+    if not localNative.actorValid(actor) then return {status='cancelled',closed=true} end
+    if command=='buildingBegin' then return localJob.begin(actor,r.begin) end
+    if command=='buildingCancel' then
+     localJob.cancelRequest(actor,r.begin)
+     return r.operation and localJob.status(actor,r.operation) or {status='cancelled',closed=true}
+    end
+    return localJob.directive(actor,r.operation)
+   end)
+   if not ok or not result then
+    if r.operation then localJob.cancel(actor,r.operation,'nativeReadFailed') end
+    result={status='cancelled',closed=true}
+   end
+   result.protocol=1;result.request=r.pending
+   handler(Server.module,'buildingState',result)
+  else
+   sendClientCommand(actor,Server.module,command,{protocol=1,request=r.pending,operation=r.operation,begin=command=='buildingCancel' and r.begin or nil})
+  end
  end
  local function done(actor,r,state)
   active[actor]=nil
@@ -110,10 +129,11 @@ function W.client()
   if r.walk and r.walk.forceStop then pcall(r.walk.forceStop,r.walk) end
  end
  function api.start(actor)
+  if localJob and not localNative.actorValid(actor) then return false end
   if active[actor] or not idle(actor) or not rooms.cleaningOptions().enabled then return false end
   local r={time=getTimestampMs(),next=0};active[actor]=r;send(actor,'buildingBegin',r);return true
  end
- local function handler(module,command,state)
+ handler=function(module,command,state)
   if module~=Server.module or command~='buildingState' or type(state)~='table' or state.protocol~=1 then return end
   local actor,r
   for a,v in pairs(active) do if v.pending==state.request then actor=a;r=v;break end end
@@ -138,6 +158,7 @@ function W.client()
   end
  end
  local function tick()
+  if localJob then transport.tick() end
   for actor,r in pairs(active) do
    if actor:isDead() or getTimestampMs()-r.time>=1800000 or r.pending and getTimestampMs()-r.sent>=5000
     or r.walk and getTimestampMs()-r.walkAt>=30000 then api.cancel(actor)
@@ -155,13 +176,29 @@ function W.client()
    context:addOption(getText('UI_B47Rooms_CleanBuilding'),nil,function() api.start(actor) end)
   end
  end
- Events.OnServerCommand.Add(handler);Events.OnTick.Add(tick);Events.OnFillWorldObjectContextMenu.Add(menu)
+ if not localJob then Events.OnServerCommand.Add(handler) end
+ Events.OnTick.Add(tick);Events.OnFillWorldObjectContextMenu.Add(menu)
  local closed=false
  function api.uninstall()
   if closed then return end;closed=true
   for actor in pairs(active) do api.cancel(actor) end
-  Events.OnServerCommand.Remove(handler);Events.OnTick.Remove(tick);Events.OnFillWorldObjectContextMenu.Remove(menu);transport.uninstall()
+  if not localJob then Events.OnServerCommand.Remove(handler) end
+  Events.OnTick.Remove(tick);Events.OnFillWorldObjectContextMenu.Remove(menu);transport.uninstall()
  end
+ return api
+end
+function W.client()
+ if not isClient() or isServer() then return nil,'notClient' end
+ local rooms,why=service();if not rooms then return nil,why end
+ return presentation(rooms)
+end
+function W.singlePlayer()
+ if isClient() or isServer() then return nil,'notSinglePlayer' end
+ local rooms,why=service();if not rooms then return nil,why end
+ local native=Native.new(rooms,{singlePlayer=true})
+ local job=Job.new(rooms,native)
+ local api,err=presentation(rooms,job,native)
+ if not api then job.close();return nil,err end
  return api
 end
 return W

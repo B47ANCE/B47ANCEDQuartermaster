@@ -1,6 +1,8 @@
 # Required Rooms dependency
 
-Project Version: 0.9.0-dev.1
+Project Version: 0.10.0-dev.1
+
+The dependency/publication record below is historical to 0.9.0-dev.1; current SP support is documented in [CLEAN_BUILDING_SINGLE_PLAYER.md](CLEAN_BUILDING_SINGLE_PLAYER.md). Rooms remains required.
 
 The user explicitly replaced the optional-Rooms contract with a required
 dependency for Quartermaster and Auto Clean. This is a breaking 0.x dependency
@@ -69,6 +71,5 @@ launched and no dedicated configuration was changed.
 
 [RUNTIME GATE] Native enabling and load-order behavior, SP UI, real save/load,
 dedicated joins/rejoins, observers and server restarts remain NOT TESTED. G7
-BLOCKED / NOT TESTED; stable G8 BLOCKED. Single-player Clean Building remains
-disabled. The source's conservative cross-level footprint restriction remains
+BLOCKED / NOT TESTED; stable G8 BLOCKED. Single-player was disabled in 0.9.0-dev.1 and is now enabled through the guarded local adapter. The source's conservative cross-level footprint restriction remains
 intact and can skip many or all targets. No game/server launch is authorized.

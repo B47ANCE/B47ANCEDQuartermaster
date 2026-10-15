@@ -3,6 +3,10 @@
   "canonical": "VERSION",
   "mirrors": [
     {
+      "path": "docs/CLEAN_BUILDING_SINGLE_PLAYER.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
       "path": "docs/REQUIRED_ROOMS_DEPENDENCY.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
@@ -192,6 +196,10 @@
     {
       "reference": "dist/history/0.8.0-dev.1-required-rooms-predecessor; docs/audits/AUTO_CLEAN_*",
       "reason": "Immutable optional-Rooms source/package/runtime evidence; never relabeled as the 0.9 required-dependency candidate."
+    },
+    {
+      "reference": "dist/history/0.9.0-dev.1-single-player-predecessor; docs/REQUIRED_ROOMS_DEPENDENCY.md publication record",
+      "reason": "Immutable required-dependency publication and exact predecessor package/provenance retained. SP was disabled in that historical release."
     }
   ]
 }

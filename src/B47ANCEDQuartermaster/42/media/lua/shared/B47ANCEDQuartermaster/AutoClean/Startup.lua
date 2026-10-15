@@ -7,12 +7,13 @@ Q.AutoClean=S
 function S.start()
  if S.instance then return true end
  local role=isClient() and not isServer() and 'client' or isServer() and not isClient() and 'server'
- if not role then S.status='singlePlayerUnsupported';return false end
+  or not isClient() and not isServer() and 'singlePlayer'
+ if not role then S.status='ambiguousRole';return false end
  local compatible=require 'B47ANCEDQuartermaster/Compatibility'
  local allowed,_,_,reason=compatible.allowed()
  if not allowed then S.status=reason;return false end
  -- Complete Quartermaster's server readers before the first building survey.
- if role=='server' then require 'B47ANCEDQuartermaster/Authority' end
+ if role~='client' then require 'B47ANCEDQuartermaster/Authority' end
  local ok,instance,why=pcall(function() return require('B47ANCEDQuartermaster/AutoClean/BuildingWire')[role]() end)
  if not ok then
   S.status='installationFailed'

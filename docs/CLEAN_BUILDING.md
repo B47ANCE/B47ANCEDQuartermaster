@@ -1,24 +1,24 @@
 # Clean Building source testing
 
-Project Version: 0.9.0-dev.1
+Project Version: 0.10.0-dev.1
 
-Current dependency contract: Rooms is mandatory for Quartermaster and its embedded Auto Clean. Native `mod.info` requires `B47ANCEDRooms`; Quartermaster Workshop item 3807217050 requires Rooms item 3820077442. Auto Clean has no separate Mod ID or Workshop item here. Historical source-activation notes below describe the earlier optional-service checkpoint; server guards are unchanged.
+Current dependency contract: Rooms is mandatory for Quartermaster and its embedded Auto Clean. Native `mod.info` requires `B47ANCEDRooms`; Quartermaster Workshop item 3807217050 requires Rooms item 3820077442. Auto Clean has no separate Mod ID or Workshop item here. The current single-player adapter is documented in [CLEAN_BUILDING_SINGLE_PLAYER.md](CLEAN_BUILDING_SINGLE_PLAYER.md); multiplayer guards are unchanged.
 
 [VERIFIED source] The existing Quartermaster Mod ID now includes the AutoClean
 modules under `42/media/lua/shared/B47ANCEDQuartermaster/AutoClean`. No new mod
 identity or Java dependency is introduced. `Startup.lua` registers the
-vanilla `OnGameStart` and `OnServerStarted` events, selects the current multiplayer
+vanilla `OnGameStart` and `OnServerStarted` events, selects the current multiplayer or offline
 role at dispatch and installs exactly once. These events are used together by
 the installed Build 42.21 `shared/Util/CustomTileProps.lua`. Server initialization
 requires Quartermaster's authoritative readers; client initialization creates
 presentation, command listeners and the world context menu. Startup does not
 scan the world or create jobs.
 
-This is the compatible MINOR Clean Building feature within the existing open
-0.8.0-dev.1 development checkpoint. Rooms remains at its open 0.1.0-dev.1
+Single-player support is a compatible MINOR addition in 0.10.0-dev.1; earlier
+0.8.0-dev.1 activation notes are historical. Rooms remains at its open 0.1.0-dev.1
 construction checkpoint. Existing sorting APIs, Mod IDs and save namespaces are
 preserved. Cleaning capability/protocol 1 is independent of project versions.
-The new implementation and current metadata use the existing canonical version;
+Current metadata follows the canonical VERSION;
 historical audit reports retain the versions/hashes they actually observed.
 
 ## Test entry and supported scope
@@ -26,15 +26,16 @@ historical audit reports retain the versions/hashes they actually observed.
 After a separately authorized test installation, enable matching current
 Quartermaster and Rooms source on both server and clients. Rooms must expose
 API 1, `ready=true` and cleaning capability 1. Older Rooms builds fail closed.
-Quartermaster's native-only sorting fallback remains available without Rooms;
-Clean Building has no menu or network ingress without the required service.
+Rooms is required by native mod.info and Workshop. Missing/incompatible cleaning
+capability fails closed without a cleaning menu or ingress.
 
 Workshop follow-up: the user authorized a new Rooms item, assigned ID 3820077442.
 Subscribe to that Rooms item and Quartermaster item 3807217050, then enable both
 Mod IDs (`B47ANCEDRooms`, `B47ANCEDQuartermaster`) on the server and every client.
 Rooms 0.1.0-dev.1 provides cleaning capability 1. The source-only installation
 limitation in earlier dated publication notes is superseded by this distribution;
-single-player cleaning and native/dedicated gates remain unchanged.
+single-player now uses the guarded native local queue. In-game SP and dedicated
+acceptance remain NOT TESTED.
 
 Right-click while standing inside a loaded native building with an empty native
 action queue and choose **Clean Building**. The command selects the actor's
@@ -43,7 +44,7 @@ the bounded native-building scope and independent `clean` permissions. Custom
 room policies can restrict those tiles; this entry does not select a standalone
 custom room or expand beyond the native building.
 
-The server surveys loaded tiles and eligible configured physical storage, selects
+The authority (server or the offline local world) surveys loaded tiles and eligible configured physical storage, selects
 the exact bucket, bleach, cleaning tool and finite pure-water source, then directs
 fetching, walking, equipping, preparation, cleaning and optional return. Existing
 eligible carried supplies are reused. With defaults, an empty supported 10 L
@@ -73,10 +74,11 @@ the packet's character alone is insufficient. Reconstruction preserves the
 instance guard closures. No client completion grants shared gameplay results.
 The original sender/transport audit is retained under `docs/audits`.
 
-Single-player and an ambiguous combined client/server Lua role are deliberately
-disabled: no verified local-authority native scheduler adapter exists in this
-slice. No client-authoritative fallback is provided. The console startup state
-is `server`, `client`, `RoomsCleaningUnavailable`, a compatibility failure, or
+Single-player uses LocalQueue to run the exact retained guarded actions through
+the vanilla local scheduler, with exact local-player binding and no network
+ingress. Multiplayer clients cannot select this authority. Ambiguous combined
+client/server roles still fail closed. The console startup state
+is `singlePlayer`, `server`, `client`, `RoomsCleaningUnavailable`, a compatibility failure, or
 `installationFailed`. Source tests verify that an occupied native class cannot
 be overwritten and repeated lifecycle events cannot register duplicate handlers.
 

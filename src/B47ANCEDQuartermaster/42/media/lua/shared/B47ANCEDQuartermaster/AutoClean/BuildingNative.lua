@@ -6,12 +6,13 @@ local function point(s) return {x=s:getX(),y=s:getY(),z=s:getZ()} end
 local function cleanItem(item)
  return item and not item:isFavorite() and not item:getIsCraftingConsumed() and item:getAttachedSlot()==-1
 end
-function N.new(rooms)
+function N.new(rooms,options)
  require 'TimedActions/ISTransferAction'
  require 'TimedActions/ISEquipWeaponAction'
  require 'TimedActions/ISUnequipAction'
- local probe=NativePort.new()
- local p={server=probe.server,now=probe.now,id=probe.id,position=point,hand=function(a) return a:getPrimaryHandItem() end}
+ local singlePlayer=options and options.singlePlayer==true
+ local probe=NativePort.new({singlePlayer=singlePlayer})
+ local p={server=probe.server,localAuthority=probe.localAuthority,now=probe.now,id=probe.id,position=point,hand=function(a) return a:getPrimaryHandItem() end}
  function p.actorValid(actor)
   if not probe.actorValid(actor) then return false end
   local q=B47ANCEDQuartermaster
@@ -156,7 +157,7 @@ function N.new(rooms)
   end
  end
  function p.cleanPort(actor,scope,options)
-  return NativePort.new({building=true,dose=options.bleachML/1000,
+  return NativePort.new({building=true,singlePlayer=singlePlayer,dose=options.bleachML/1000,
    cleanAllowed=function(a,s) return a==actor and rooms.canCleanBuildingTile(a,scope,s:getX(),s:getY(),s:getZ()).state=='allow' end,
    waterAllowed=function(a,s) return rooms.containsCleaningBuildingTile(a,scope,s:getX(),s:getY(),s:getZ())
     and rooms.canAccessAt(a,s:getX(),s:getY(),s:getZ(),'withdraw').state=='allow' end})
@@ -184,7 +185,7 @@ function N.new(rooms)
     -- is required for the destination when called outside ItemTransaction.
     local item=ISTransferAction:transferItem(actor,self.item,self.srcContainer,self.destContainer,nil)
     if item~=record.item or self.srcContainer:getItemWithID(item:getID())~=nil or not listContains(self.destContainer,item) then return false end
-    sendAddItemToContainer(self.destContainer,item)
+    if not p.localAuthority then sendAddItemToContainer(self.destContainer,item) end
     return true
    end
   end

@@ -1,6 +1,6 @@
 # Native categories and sorting-data retirement
 
-Project Version: 0.9.0-dev.1
+Project Version: 0.10.0-dev.1
 
 ## Compatibility decision
 
