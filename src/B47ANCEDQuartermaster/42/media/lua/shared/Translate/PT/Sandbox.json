@@ -17,5 +17,13 @@
   "Sandbox_B47ANCEDQuartermaster_RoomEditRange": "Custom room editing range",
   "Sandbox_B47ANCEDQuartermaster_RoomEditRange_tooltip": "Maximum horizontal distance from the editing player to each confirmed tile. Tiles must already be loaded and accessible. Server controlled; default 30 tiles.",
   "Sandbox_B47ANCEDQuartermaster_RoomDoorways": "Doorless doorway detection boundary",
-  "Sandbox_B47ANCEDQuartermaster_RoomDoorways_tooltip": "Treat verified doorless doorway edges as automatic-detection boundaries. Actual doors and windows remain boundaries regardless of this setting. Detection is a preview only; manual geometry can cross walls and doors. Default enabled."
+  "Sandbox_B47ANCEDQuartermaster_RoomDoorways_tooltip": "Treat verified doorless doorway edges as automatic-detection boundaries. Actual doors and windows remain boundaries regardless of this setting. Detection is a preview only; manual geometry can cross walls and doors. Default enabled.",
+  "Sandbox_B47ANCEDQuartermaster_AllocationMode": "Allocation evaluation",
+  "Sandbox_B47ANCEDQuartermaster_AllocationMode_tooltip": "Off disables advisory work. Shadow compares percentage profiles with the legacy sorter without enforcing quotas or moving items. Existing saves default to Shadow. Enforcement is unavailable until native and dedicated acceptance.",
+  "Sandbox_B47ANCEDQuartermaster_AllocationMode_option1": "Off",
+  "Sandbox_B47ANCEDQuartermaster_AllocationMode_option2": "Shadow (advisory only)",
+  "Sandbox_B47ANCEDQuartermaster_PrimaryOverflowAt": "Primary room overflow threshold (%)",
+  "Sandbox_B47ANCEDQuartermaster_PrimaryOverflowAt_tooltip": "Default Primary fill threshold for newly created room allocation profiles. Server controlled, 0–100%, default 60. Existing explicit room values remain unchanged.",
+  "Sandbox_B47ANCEDQuartermaster_SecondaryReturnAt": "Secondary room return threshold (%)",
+  "Sandbox_B47ANCEDQuartermaster_SecondaryReturnAt_tooltip": "Default Secondary fill threshold for newly created room allocation profiles. Server controlled, 0–100%, default 80. Existing explicit room values remain unchanged."
 }

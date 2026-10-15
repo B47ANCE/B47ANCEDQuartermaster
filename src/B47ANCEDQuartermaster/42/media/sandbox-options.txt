@@ -1,4 +1,30 @@
 VERSION = 1,
+option B47ANCEDQuartermaster.AllocationMode
+{
+    type = enum,
+    numValues = 2,
+    default = 2,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_AllocationMode,
+}
+option B47ANCEDQuartermaster.PrimaryOverflowAt
+{
+    type = integer,
+    min = 0,
+    max = 100,
+    default = 60,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_PrimaryOverflowAt,
+}
+option B47ANCEDQuartermaster.SecondaryReturnAt
+{
+    type = integer,
+    min = 0,
+    max = 100,
+    default = 80,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_SecondaryReturnAt,
+}
 option B47ANCEDQuartermaster.ContainerRange
 {
     type = integer,

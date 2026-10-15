@@ -1,12 +1,13 @@
 -- Payload capabilities are independent from project SemVer and taxonomy IDs.
-local P={versions={handshake=1,configuration=5,presets=2,personal=1,shopping=1,dibs=1,movement=8,rooms=2}}
+local P={versions={handshake=1,configuration=6,presets=3,personal=1,shopping=1,dibs=1,movement=8,rooms=2,allocation=1}}
 local commands={hello='handshake',discover='configuration',load='configuration',groupChange='configuration',viewSelect='configuration',commit='configuration',close='configuration',
  presetsList='presets',presetChange='presets',personalList='personal',personalChange='personal',
  personalProject='shopping',wishToShopping='shopping',shoppingAdd='shopping',shoppingSourceRemove='shopping',
  shoppingPreference='shopping',shoppingBegin='shopping',shoppingNext='shopping',shoppingCancel='shopping',
  dibsInspect='dibs',dibsChange='dibs',tripDiscover='movement',tripBegin='movement',tripNext='movement',tripCancel='movement',
  movePlan='movement',moveTake='movement',moveCarried='movement',movePut='movement',moveDone='movement',moveCancel='movement',moveBatch='movement',
- roomList='rooms',roomGet='rooms',roomDiscover='rooms',areaOptions='rooms',areaDiscover='rooms'}
+ roomList='rooms',roomGet='rooms',roomDiscover='rooms',areaOptions='rooms',areaDiscover='rooms',
+ allocationInfo='allocation',allocationRoomList='allocation',allocationRoomGet='allocation',allocationRoomCommit='allocation',allocationPreset='allocation',allocationPreview='allocation',allocationDiagnostics='allocation',allocationInspect='allocation'}
 function P.family(command) return commands[command] end
 function P.version(command) local family=P.family(command);return family and P.versions[family] end
 function P.accepts(command,args)

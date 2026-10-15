@@ -1,8 +1,13 @@
+[h2]Allocation development preview[/h2]
+• Category and exact-item percentage profiles, Mixed/inherited indicators, local previews and shared allocation presets.
+• Optional Rooms allocation editor and Primary/Secondary designation metadata, with new-profile defaults of 60% / 80%.
+• This build offers Off or Shadow (default): quotas and room-role routing are advisory, not enforced. Legacy sorting remains authoritative. Native and dedicated acceptance are pending; do not rely on percentage previews to protect supplies.
+
 B47ANCE'd Quartermaster adds container sorting, personal shopping lists and supply planning.
 
 [h2]Development testing build[/h2]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.8.0-dev.1. Tested offline with regression, source and package checks against Build 42.21. Native client, listen-server and dedicated acceptance are pending. Back up saves before testing. Update and restart both client and server together: configuration capability 5, movement 8, rooms 2. Older movement peers are rejected.
+Version 0.9.0-dev.1. Tested offline with regression, source and package checks against Build 42.21. Native client, listen-server and dedicated acceptance are pending. Back up saves before testing. Update and restart both client and server together: configuration capability 5, movement 8, rooms 2. Older movement peers are rejected.
 
 [h2]Standalone and compatibility[/h2]
 No original Quartermaster dependency. Disable original Quartermaster (Mod ID Quartermaster), older B47 sorting versions and duplicate copies when testing. No category mod is required: vanilla categories work alone.

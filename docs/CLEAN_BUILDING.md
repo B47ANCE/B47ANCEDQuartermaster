@@ -1,6 +1,6 @@
 # Clean Building source testing
 
-Project Version: 0.8.0-dev.1
+Project Version: 0.9.0-dev.1
 
 [VERIFIED source] The existing Quartermaster Mod ID now includes the AutoClean
 modules under `42/media/lua/shared/B47ANCEDQuartermaster/AutoClean`. No new mod

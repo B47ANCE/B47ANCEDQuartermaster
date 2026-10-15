@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.9.0-dev.1]
+- Add one sparse 0–100% model, exact-FullType overrides, parent propagation/Mixed, virtual picker controls and staged room profiles; preserve native taxonomy and legacy selections.
+- Preserve complete profiles through containers, Whole/child inheritance, presets, copy/paste and snapshots. Rename preserves generation links; duplicate creates a new definition. Add explicit profile application previews and orphan controls.
+- Add native-weight reconciliation, conservative room occupancy, bounded cross-actor reservations, stale-revision checks and advisory Primary/Secondary ranking (server defaults 60%/80%). Off/Shadow only: enforcement/live role routing remain gated pending native and dedicated acceptance.
+- Full offline and paired API regressions, binary32 oracle and host performance fixtures; native G6 and dedicated G7 NOT TESTED, stable G8 BLOCKED. Development packaging only; no deployment, server or Workshop changes.
+
 ## [0.8.0-dev.1]
 - Authorized Workshop MP testing candidate for existing item 3807217050. Quartermaster only: matching Rooms cleaning source must be installed separately; no new Rooms Workshop item is created. Preserve the pre-cleaning package/provenance and record new source/package hashes. Dedicated G7 and stable G8 remain BLOCKED.
 - Activate Clean Building in the Lua source under the existing Mod ID: multiplayer lifecycle hooks install server-owned jobs, guarded native timed actions and client context-menu intent. Rooms cleaning capability/settings are required; missing/incompatible service and single-player fail closed. Default preparation adds 10 mL bleach before water. Existing archives are unchanged; native/dedicated acceptance remains NOT TESTED.

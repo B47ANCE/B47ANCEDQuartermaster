@@ -75,7 +75,7 @@
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
-      "path": "docs/ROOMS_INTEGRATION.md",
+      "path": "docs/ALLOCATION_SYSTEM.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
@@ -184,6 +184,10 @@
     {
       "reference": "docs/CUSTOM_ROOMS.md; tests/test_custom_rooms.lua; tests/test_room_detection.lua; tests/test_room_editor.lua; tests/test_room_scopes.lua",
       "reason": "Frozen 0.7.0-dev.1 embedded-room evidence; new standalone production paths are validated separately."
+    },
+    {
+      "reference": "docs/ROOMS_INTEGRATION.md",
+      "reason": "Frozen prior-version extraction/API evidence; new allocation/designation work is recorded separately."
     }
   ]
 }

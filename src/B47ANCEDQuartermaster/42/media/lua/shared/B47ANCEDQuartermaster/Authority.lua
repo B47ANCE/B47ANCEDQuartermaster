@@ -10,6 +10,8 @@ require 'B47ANCEDQuartermaster/Dibs'
 require 'B47ANCEDQuartermaster/Shopping'
 require 'B47ANCEDQuartermaster/ShoppingAdds'
 require 'B47ANCEDQuartermaster/RoomScopes'
+require 'B47ANCEDQuartermaster/RoomAllocation'
+require 'B47ANCEDQuartermaster/AllocationCatalog'
 local S,B,Store=B47ANCEDQuartermaster.Schema,B47ANCEDQuartermaster.Bindings,B47ANCEDQuartermaster.Store
 local A={pending={}}
 B47ANCEDQuartermaster.Authority=A
@@ -18,13 +20,16 @@ local SortTrace=require 'B47ANCEDQuartermaster/SortTrace'
 local Protocol=require 'B47ANCEDQuartermaster/Protocol'
 local peers=setmetatable({},{__mode='k'})
 local negotiations=setmetatable({},{__mode='k'})
-local readOnly={hello=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true,roomList=true,roomGet=true,roomDiscover=true,areaOptions=true,areaDiscover=true}
+local readOnly={hello=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true,roomList=true,roomGet=true,roomDiscover=true,areaOptions=true,areaDiscover=true,allocationInfo=true,allocationRoomList=true,allocationRoomGet=true,allocationPreset=true,allocationPreview=true,allocationDiagnostics=true}
 local tracked={discover=true,load=true,commit=true}
 local lastTick
 -- Technical admission limits bound expensive read work, not discovery gameplay
 -- range. Only the authenticated server player is used as the bucket owner.
 local budgets=setmetatable({},{__mode='k'})
 local limits={discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5},roomList={2,1},roomGet={4,4},roomDiscover={4,4},areaOptions={2,1},areaDiscover={2,2}}
+for _,command in ipairs({'allocationInfo','allocationRoomList','allocationRoomGet','allocationPreset','allocationPreview','allocationDiagnostics'}) do limits[command]={2,2} end
+limits.allocationRoomCommit={2,1}
+limits.allocationInspect={2,1};readOnly.allocationInspect=true
 function A.admit(player,command)
     local limit=limits[command];if not limit then return true end
     local time=getTimestampMs();local owner=budgets[player] or {};budgets[player]=owner
@@ -49,6 +54,7 @@ function A.cleanup(player)
     B.sessions[player]=nil;M.operations[player]=nil;M.runs[player]=nil
     B47ANCEDQuartermaster.Dibs.inspections[player]=nil;budgets[player]=nil
     B47ANCEDQuartermaster.RoomScopes.cleanup(player)
+    B47ANCEDQuartermaster.AllocationRuntime.cleanup(player)
 end
 local function trace(message) print('[B47ANCEDQuartermaster] transport '..message) end
 local function now() return getTimestampMs() end
@@ -72,7 +78,28 @@ function A.handle(player,command,args)
         return {status='ok',capabilities=capabilities}
     end
     if Protocol.family(command)=='rooms' then return B47ANCEDQuartermaster.RoomScopes.handle(player,command,args) end
-    if isServer() and (command=='commit' or command=='groupChange' or command=='presetChange') and args.taxonomyVersion~=B47ANCEDQuartermaster.Categorizer.version then return {status='TaxonomyPeerMismatch'} end
+    if isServer() and (command=='commit' or command=='groupChange' or command=='presetChange' or command=='allocationRoomCommit') and args.taxonomyVersion~=B47ANCEDQuartermaster.Categorizer.version then return {status='TaxonomyPeerMismatch'} end
+    if Protocol.family(command)=='allocation' then
+        if command=='allocationInspect' then return require('B47ANCEDQuartermaster/AllocationInspection').handle(player,args) end
+        if command=='allocationPreview' then return B47ANCEDQuartermaster.RoomAllocation.preview(player,args) end
+        if command=='allocationDiagnostics' then
+            if isServer() and player:getAccessLevel()~='admin' then return {status='AllocationDiagnosticsDenied'} end
+            return {status='ok',diagnostics=B47ANCEDQuartermaster.AllocationRuntime.diagnostics()}
+        end
+        if command=='allocationInfo' then
+            local categories,e,elapsed=B47ANCEDQuartermaster.AllocationCatalog.get(player)
+            if not categories then return {status=e} end
+            local mode=B47ANCEDQuartermaster.AllocationRuntime.mode()
+            return {status='ok',categories=categories,mode=mode,profileSchema=1,catalogElapsedMs=elapsed,roomProfiles=B47ANCEDQuartermaster.RoomAllocation.service()~=nil}
+        end
+        if command=='allocationPreset' then
+            local categories,e=B47ANCEDQuartermaster.AllocationCatalog.get(player);if not categories then return {status=e} end
+            local entries={};for category in pairs(categories) do entries[#entries+1]={category=category} end
+            local profile,reason,preview=require('B47ANCEDQuartermaster/RoomTypePresets').build(args.roomType,entries)
+            return profile and {status='ok',profile=profile,preview=preview} or {status=reason,preview=preview}
+        end
+        return B47ANCEDQuartermaster.RoomAllocation.handle(player,command,args)
+    end
     if command=='personalList' then return B47ANCEDQuartermaster.Personal.snapshot(player) end
     if command=='shoppingAdd' or command=='shoppingSourceRemove' or command=='shoppingPreference' then
         if B47ANCEDQuartermaster.Movement.runs[player] then return {status='busy'} end
@@ -150,6 +177,7 @@ function A.handle(player,command,args)
             local config,err,revision,info=B47ANCEDQuartermaster.Furniture.load(record.target,player,args.whole==true,true,inspect and 'inspect' or 'configure')
             if not config then return {status=err} end
             local observed,error={};if inspect then observed,error=B47ANCEDQuartermaster.Catalog.observed(record.target.container) end;if not observed then return {status=error} end
+            if inspect then B47ANCEDQuartermaster.AllocationCatalog.record(player,observed) end
             return {status='ok',config=config,revision=revision,mode=info.mode,groupActive=info.active,parentConfig=info.parentConfig,contents=inspect and contents(record) or {},observed=observed,restrictedContents=not inspect}
         end
         local config,err,revision
@@ -158,6 +186,7 @@ function A.handle(player,command,args)
         record.original,record.revision=config,revision
         local observed,err={};if inspect then observed,err=B47ANCEDQuartermaster.Catalog.observed(record.target.container) end
         if not observed then return {status=err} end
+        if inspect then B47ANCEDQuartermaster.AllocationCatalog.record(player,observed) end
         return {status='ok',token=record.token,config=S.copy(record.original),revision=record.revision,contents=inspect and contents(record) or {},observed=observed,restrictedContents=not inspect}
     elseif command=='commit' then
         if not record.original or not S.valid(args.config) then return {status='invalid'} end
@@ -242,7 +271,7 @@ if Events and not select(2,Compatibility.allowed()) then
         end)
     Events.OnServerCommand.Add(function(module,command,args)
             if not isClient() or module~='B47ANCEDQuartermaster' or type(args)~='table' then return end
-            if command=='configurationChanged' then
+            if command=='configurationChanged' or command=='allocationChanged' then
                 if B47ANCEDQuartermaster.onConfigurationChanged then B47ANCEDQuartermaster.onConfigurationChanged() end
                 return
             end

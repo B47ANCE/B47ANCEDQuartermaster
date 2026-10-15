@@ -1,6 +1,8 @@
 # Multi-container editor implementation
 
-Project Version: 0.8.0-dev.1
+Project Version: 0.9.0-dev.1
+
+Current allocation development: see [ALLOCATION_SYSTEM.md](ALLOCATION_SYSTEM.md) for schema 3, virtual controls, optional room profiles, native-weight accounting and the closed enforcement gate. Off/Shadow only; native G6/dedicated G7 NOT TESTED, stable G8 BLOCKED. Detailed prior implementation milestones below remain historical context unless explicitly reassessed there.
 
 Implementation date: 2026-09-28. [TESTED: offline] Lua 5.1 host fixtures and installed Quartermaster 0.24.0 Picker integration. [RUNTIME GATE] SP, hosted, remote client and dedicated server are NOT TESTED. This is a development candidate, not a release-readiness claim.
 

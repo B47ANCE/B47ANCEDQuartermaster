@@ -224,7 +224,7 @@ function C.matchesItem(item,config,presets)
  local effective=B47ANCEDQuartermaster.Schema.effective(config,presets or {})
  return ruleMatch(effective,category,item:getDisplayName(),script and script:getDisplayName(),legacy,semantic,historical,secondary)>0
 end
-function C.destination(item,candidates,presets,accepts)
+function C.destination(item,candidates,presets,accepts,allocationRanking)
     local category,_,legacy,semantic,historical,secondary=C.category(item)
     local name=item:getDisplayName()
     -- Picker rules use script display names; real instances may be renamed by
@@ -238,11 +238,16 @@ function C.destination(item,candidates,presets,accepts)
         local match=ruleMatch(config,category,name,scriptName,legacy,semantic,historical,secondary)
         if match>0 and candidate.container~=item:getContainer() then matched=matched+1 end
         if match>0 and candidate.container~=item:getContainer() and (not accepts or accepts(candidate,item)) then
-            local r={match,config.priority,-(candidate.distance or 0)}
+            local r=allocationRanking and {match,config.priority,candidate.allocationRank or 0,candidate.allocationPriority or 0,-(candidate.distance or 0)}
+                or {match,config.priority,-(candidate.distance or 0)}
             local wins=not best
             if best then
-                for i=1,3 do if r[i]~=rank[i] then wins=r[i]>rank[i];break end end
-                if r[1]==rank[1] and r[2]==rank[2] and r[3]==rank[3] then wins=tostring(candidate.key)<tostring(best.key) end
+                local tied=true
+                for i=1,#r do if r[i]~=rank[i] then wins=r[i]>rank[i];tied=false;break end end
+                if tied then
+                    local a,b=candidate.allocationRoomKey or '',best.allocationRoomKey or ''
+                    wins=allocationRanking and a~=b and a<b or (not allocationRanking or a==b) and tostring(candidate.key)<tostring(best.key)
+                end
             end
             if wins then best,rank=candidate,r end
         end
