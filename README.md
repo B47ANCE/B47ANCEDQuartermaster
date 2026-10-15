@@ -1,6 +1,6 @@
 # B47ANCE'd Quartermaster
 
-**Clean Building has moved to the separate B47ANCEDAutoClean mod.** Quartermaster now exposes [SupplyAPI 1](docs/SUPPLY_API.md) for configured-storage queries and guarded supply transfers. Auto Clean requires Quartermaster and Rooms; Quartermaster does not require Auto Clean. The new source has not been deployed or published. Workshop 0.10.0-dev.1 remains the prior embedded-cleaning build until separately updated. Actual SP/dedicated acceptance remains NOT TESTED; G7 and stable G8 BLOCKED.
+**Clean Building has moved to the separate B47ANCEDAutoClean mod.** Quartermaster now exposes [SupplyAPI 1](docs/SUPPLY_API.md) for configured-storage queries and guarded supply transfers. Auto Clean requires Quartermaster and Rooms; Quartermaster does not require Auto Clean. Separate [Auto Clean Workshop item 3820151540](https://steamcommunity.com/sharedfiles/filedetails/?id=3820151540) is now assigned for the paired Workshop testing distribution. Enable all three mods to retain Clean Building. No local deployment or game/server launch accompanies publication. Actual SP/dedicated acceptance remains NOT TESTED; G7 and stable G8 BLOCKED.
 
 Current source requires **B47ANCE'd Rooms** (Workshop 3820077442 / Mod ID B47ANCEDRooms) for Quartermaster. The separate Auto Clean mod also requires Rooms and Quartermaster. Enable both mods on the server and every client. **Designate Room** opens Rooms' independent editor. The Lua-only gameplay and server guards are unchanged.
 

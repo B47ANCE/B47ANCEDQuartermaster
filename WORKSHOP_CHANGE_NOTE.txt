@@ -1,6 +1,6 @@
 [b]Version 0.11.0-dev.1[/b]
 MP testing build - dedicated multiplayer NOT TESTED
 
-Clean Building has moved into the separate B47ANCEDAutoClean mod. Quartermaster provides SupplyAPI 1 for configured storage queries, live withdrawal/deposit checks and guarded native transfers. Auto Clean requires Quartermaster and Rooms; Quartermaster does not require Auto Clean. The separate mod has no Workshop item yet.
+Clean Building has moved into the separate B47ANCEDAutoClean mod. Quartermaster provides SupplyAPI 1 for configured storage queries, live withdrawal/deposit checks and guarded native transfers. Auto Clean requires Quartermaster and Rooms; Quartermaster does not require Auto Clean. Get the separate Auto Clean Workshop item 3820151540: https://steamcommunity.com/sharedfiles/filedetails/?id=3820151540. Enable all three mods on every peer.
 
-This is a breaking 0.x packaging change: Quartermaster alone no longer registers cleaning menus or jobs. Sorting/storage configuration, save schemas, existing Rooms sandbox settings and multiplayer authority remain unchanged. Update matching mods on every peer before testing. This source extraction has not been deployed or published. Actual SP and dedicated runtime NOT TESTED; G7 and stable G8 BLOCKED.
+This is a breaking 0.x packaging change: Quartermaster alone no longer registers cleaning menus or jobs. Sorting/storage configuration, save schemas, existing Rooms sandbox settings and multiplayer authority remain unchanged. Update matching mods on every peer before testing. This update distributes the extracted Lua-only supply provider for Workshop testing. No local deployment or game/server launch accompanies publication. Actual SP and dedicated runtime NOT TESTED; G7 and stable G8 BLOCKED.

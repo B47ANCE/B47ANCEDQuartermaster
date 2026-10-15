@@ -12,7 +12,7 @@ Optional Better Sorting (BetterSortCC) supplies native categories. Better Contai
 Better Containers categories save as explicit item choices. Reselect after category changes/new types. Other UI combinations are not certified.
 
 [h2]Supply API and separate Auto Clean[/h2]
-Quartermaster exposes SupplyAPI 1 for authority-bound configured storage, bounded supply queries and guarded native transfers. Clean Building is no longer embedded. The separate B47ANCEDAutoClean mod requires Quartermaster and Rooms. That extraction is currently source-only and has no Workshop item yet. Quartermaster alone does not add a Clean Building menu.
+Quartermaster exposes SupplyAPI 1 for authority-bound configured storage, bounded supply queries and guarded native transfers. Clean Building is no longer embedded. The separate B47ANCEDAutoClean mod requires Quartermaster and Rooms. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820151540]Get separate Auto Clean on Workshop[/url] (item 3820151540). Enable all three mods on every peer to retain Clean Building. Quartermaster alone does not add a Clean Building menu.
 
 [h2]Rooms and area sorting[/h2]
 Required Rooms supplies independent designation, native-room overrides, delegated ownership, per-action policies and boundary approval. Use Designate Room to open its editor. Native room/building scopes and vanilla safehouse checks remain part of the integration; this build requires Rooms to load.
