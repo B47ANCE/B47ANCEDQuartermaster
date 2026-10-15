@@ -2,6 +2,12 @@
 
 Project Version: 0.8.0-dev.1
 
+## Rooms Workshop distribution follow-up
+
+Rooms 0.1.0-dev.1 is now public on newly authorized Workshop item 3820077442 (Mod ID B47ANCEDRooms). Release source is Rooms commit `f1f41f60e14fb6d9411203c9dfe9b6c79524b5af`. SteamCMD upload and exact public metadata were verified; a fresh tool-cache download matched all 84 runtime files and required directories. Quartermaster's canonical description/changenote now link Rooms and instruct subscribing/enabling both mods on every peer. Its 141-file runtime ZIP is unchanged; the link-update source commit is `caa75c75a58cc491d468d827e58e1d0a5e36b043`. Both public feature branches were pushed and verified. Receipts are retained under each repository's ignored dist/workshop-publish directory. The previous source-only Rooms distribution limitation is superseded; earlier notes below remain historical.
+
+This remains an MP testing distribution: native/dedicated G7 NOT TESTED, stable G8 BLOCKED; single-player cleaning disabled. No SP deployment or game/server launch. The final automatic Steam restart command was rejected by approval review with "blocked by policy"; no forced or alternate restart was attempted. Live verification completed separately and both publications are confirmed.
+
 ## Confirmed Workshop MP testing upload — 2026-10-15 UTC
 
 Quartermaster 0.8.0-dev.1 was uploaded successfully to existing Workshop item 3807217050 at 05:48:48 UTC. SteamCMD reported `Committing update...Success`; the Steam published-file API returned the exact canonical description, matching item/app/title, newer update timestamp and unchanged public visibility. Release commit: `71e1ca81dc3fc20ba8533d60d3aa2e7b308be359`; ZIP SHA-256: `4f9253e549d80a8ab59a211f3edf54baa1d2522d0f4e0d34d24a96e982767bfa`. The local publication receipt and prior-package preservation ledger are under `dist/workshop-publish/0.8.0-dev.1-clean-building/`.
