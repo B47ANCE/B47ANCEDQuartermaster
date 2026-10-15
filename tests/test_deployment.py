@@ -34,3 +34,22 @@ with tempfile.TemporaryDirectory() as directory:
     except ValueError:
         pass
 print('PASS parity gate rejects extra, missing and changed production files')
+original_source=gate.SOURCE
+with tempfile.TemporaryDirectory() as directory:
+    target=Path(directory)/'required-dependency-source'
+    shutil.copytree(original_source,target)
+    info=target/'42/mod.info';content=info.read_text(encoding='utf-8')
+    gate.SOURCE=target
+    gate.validate()
+    for invalid in (content.replace('require=B47ANCEDRooms\n',''),
+                    content.replace('require=B47ANCEDRooms','require=WrongRooms'),
+                    content.replace('require=B47ANCEDRooms','require=B47ANCEDRooms\nrequire=B47ANCEDRooms')):
+        info.write_text(invalid,encoding='utf-8')
+        try:
+            gate.validate()
+        except AssertionError:
+            pass
+        else:
+            raise AssertionError('Missing, wrong or duplicate Rooms dependency passed source packaging gate')
+    gate.SOURCE=original_source
+print('PASS dependency gate refuses missing, wrong and duplicate Rooms requirements')

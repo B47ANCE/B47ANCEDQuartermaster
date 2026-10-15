@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.9.0-dev.1]
+- Breaking 0.x dependency contract: Rooms (Mod ID B47ANCEDRooms, Workshop item 3820077442) is now required for Quartermaster and its embedded Auto Clean/Clean Building feature. No separate Auto Clean Mod ID or Workshop item exists in this distribution.
+- Add the native mod.info dependency and Steam Required Items relationship; update packaging gates to reject missing or incorrect requirements. Enable Rooms on server and clients before updating. Existing saves, registry schemas, protocols, recipes and server mutation guards are unchanged.
+- Minimum game version is 42.21.0, matching the required Rooms metadata and installed API baseline.
+- Retain the published 0.8.0-dev.1 package/provenance before producing this MP testing candidate. Dedicated G7 NOT TESTED / BLOCKED; stable G8 BLOCKED. No local SP deployment or game/server launch.
+
 ## [0.8.0-dev.1]
 - Authorized Workshop MP testing candidate for existing item 3807217050. Quartermaster only: matching Rooms cleaning source must be installed separately; no new Rooms Workshop item is created. Preserve the pre-cleaning package/provenance and record new source/package hashes. Dedicated G7 and stable G8 remain BLOCKED.
 - Activate Clean Building in the Lua source under the existing Mod ID: multiplayer lifecycle hooks install server-owned jobs, guarded native timed actions and client context-menu intent. Rooms cleaning capability/settings are required; missing/incompatible service and single-player fail closed. Default preparation adds 10 mL bleach before water. Existing archives are unchanged; native/dedicated acceptance remains NOT TESTED.

@@ -1,0 +1,62 @@
+# Required Rooms dependency
+
+Project Version: 0.9.0-dev.1
+
+The user explicitly replaced the optional-Rooms contract with a required
+dependency for Quartermaster and Auto Clean. This is a breaking 0.x dependency
+change, advancing 0.8.0-dev.1 to 0.9.0-dev.1. It does not change save/registry
+schemas, network protocol versions, recipes or authoritative mutation guards.
+
+Quartermaster Mod ID B47ANCEDQuartermaster now declares exactly one native
+dependency: require=B47ANCEDRooms in 42/mod.info. Minimum game version 42.21.0
+matches Rooms. Steam Workshop item 3807217050 now lists Rooms item 3820077442
+under Required Items, selected and saved through the authenticated owner UI.
+The visible item page confirmed B47ANCE'd Rooms beneath the Required Items label.
+
+Auto Clean / Clean Building is embedded in this Quartermaster Mod ID and item;
+there is no separately packaged Auto Clean Mod ID or published item in this
+workspace. These two dependency declarations therefore cover both features.
+No new Auto Clean item was created. Rooms itself remains independent of
+Quartermaster; no reverse dependency or cycle was introduced.
+
+Subscribe to both items and enable B47ANCEDRooms and B47ANCEDQuartermaster on
+the server and every client. Workshop Required Items is the distribution link;
+the native mod.info declaration supplies the game's mod dependency. Dedicated
+operators must still include both items/mods in their intended configuration.
+No server configuration, restart or local SP deployment is performed here.
+
+[VERIFIED source] Installed Steam build 25485521, Build 42.21: the native
+ChooseGameInfo.readModInfoAux parser recognizes require=, and vanilla
+ModSelectorModel.lua consumes modInfo:getRequire() at lines 121, 142, 408 and 409.
+This is metadata evidence; it does not prove native enabling/load order or
+dedicated acceptance. A fingerprint-only observation was recorded in the local
+API audit library. No custom Java/JAR code was implemented, built or required.
+
+[TESTED offline] Full source/build checks, 83 guard/transport/building/startup
+scenarios and 141-file source/package/stage parity pass. Packaging now rejects
+missing, wrong and duplicate require declarations, with disposable regression
+fixtures. The exact previous 0.8.0-dev.1 ZIP, hash and provenance were preserved
+under dist/history/0.8.0-dev.1-required-rooms-predecessor before rotation; prior
+runtime/research evidence keeps its original version and scope.
+
+Validation commands from this repository, using the configured Python runtime:
+
+```
+python scripts/check_versions.py --root .
+python tests/test_deployment.py
+python tests/run_auto_clean_building.py --source --game "E:/Program Files (x86)/Steam/steamapps/common/ProjectZomboid" --rooms ../B47ANCEDRooms
+Build-Workshop.ps1 -WorkshopRoot <isolated-workshop-staging-root>
+python scripts/check_deployment.py --package --stage <isolated-stage>
+python scripts/check_versions.py --root . --release
+```
+
+Canonical Workshop prose remains WORKSHOP_DESCRIPTION.txt and
+WORKSHOP_CHANGE_NOTE.txt, rendered into an immutable VDF by
+Prepare-WorkshopVdf.ps1. Fresh manifests and actual upload/download receipts
+belong under ignored dist/workshop-publish/0.9.0-dev.1-required-rooms/.
+
+[RUNTIME GATE] Native enabling and load-order behavior, SP UI, real save/load,
+dedicated joins/rejoins, observers and server restarts remain NOT TESTED. G7
+BLOCKED / NOT TESTED; stable G8 BLOCKED. Single-player Clean Building remains
+disabled. The source's conservative cross-level footprint restriction remains
+intact and can skip many or all targets. No game/server launch is authorized.

@@ -2,17 +2,17 @@ B47ANCE'd Quartermaster adds container sorting, personal shopping lists and supp
 
 [h2]Development testing build[/h2]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.8.0-dev.1. Tested offline with regression, source and package checks against Build 42.21. Native client, listen-server and dedicated acceptance are pending. Back up saves before testing. Update and restart both client and server together: configuration capability 5, movement 8, rooms 2. Older movement peers are rejected.
+Version 0.9.0-dev.1. Tested offline with regression, source and package checks against Build 42.21. Native client, listen-server and dedicated acceptance are pending. Back up saves before testing. Update and restart both client and server together: configuration capability 5, movement 8, rooms 2. Older movement peers are rejected.
 
-[h2]Standalone and compatibility[/h2]
-No original Quartermaster dependency. Disable original Quartermaster (Mod ID Quartermaster), older B47 sorting versions and duplicate copies when testing. No category mod is required: vanilla categories work alone.
+[h2]Requirements and compatibility[/h2]
+Rooms is required for Quartermaster and its bundled Auto Clean: native dependency B47ANCEDRooms; required Workshop item 3820077442. Disable original Quartermaster and duplicate B47 sorting copies. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]Get required Rooms on Workshop[/url]
 
 Optional Better Sorting (BetterSortCC) supplies native categories. Better Containers (EURY_CONTAINERS / REORDER_CONTAINERS) retains its inventory UI; B47 uses its exposed categories. Both may be enabled; effective categories follow native metadata/load order. Optional-mod runtime acceptance is pending. Multiplayer peers need matching versions/mods.
 
 Better Containers categories save as explicit item choices. Reselect after category changes/new types. Other UI combinations are not certified.
 
 [h2]Clean Building — experimental multiplayer[/h2]
-Requires B47ANCE'd Rooms 0.1.0-dev.1, API 1 with cleaning capability 1. Subscribe to both Workshop items and enable both mods on the server and every client. Rooms Workshop ID: 3820077442; Mod ID: B47ANCEDRooms. Subscribing to Quartermaster alone does not enable Clean Building. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]Get B47ANCE'd Rooms on Workshop[/url]
+Rooms 0.1.0-dev.1 (API 1, cleaning capability 1) must be enabled on every peer. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]Required Rooms on Workshop[/url]
 
 With Rooms available, right-click while inside a loaded native building and choose Clean Building. The server selects eligible supplies from carried inventory and configured physical storage, directs fetching and equipping, adds 10 mL bleach by default before filling the remaining 10 L bucket capacity with water, and uses native blood/grime cleaning actions. Supported prepared solution is reused; refills account for residual bleach. Eligible borrowed supplies are returned to their original storage when current permission and capacity allow. Cancel Cleaning stops the job; supplies can remain carried. The summary reports actual actions, skips and retained items.
 
@@ -21,7 +21,7 @@ Rooms owns cleaning permissions and server sandbox settings for enable, borrowin
 [b]Single-player Clean Building is disabled.[/b] This feature requires finite pure-water sources; plumbed/infinite, tainted or mixed sources and protected/unsupported equipment are rejected. Native floor removal can affect neighboring squares across levels. The guard requires the entire possible footprint to be loaded, permitted and within the selected native building; many or all targets can be skipped. Ashes, graffiti and arbitrary dirt are not supported. Jobs do not resume after reconnect/restart. Native packet processing may interrupt an earlier action before Lua confirmation; the guard does not fix this engine limitation. No native/dedicated correctness claim is made.
 
 [h2]Rooms and area sorting[/h2]
-Optional Rooms supplies independent designation, native-room overrides, delegated ownership, per-action policies and boundary approval. Use Designate Room when installed. Without Rooms, native room/building sorting scopes and vanilla safehouse rules remain available; sorting has no hard Rooms dependency.
+Required Rooms supplies independent designation, native-room overrides, delegated ownership, per-action policies and boundary approval. Use Designate Room to open its editor. Native room/building scopes and vanilla safehouse checks remain part of the integration; this build requires Rooms to load.
 
 Inventory Sort offers the entire building, current room or current inventory/container. Both area choices include full carried inventory and bags, followed by configured physical storage. Restricted storage is filtered; withdrawal, deposit and configuration are independently checked on authority. Parent/admin metadata control does not grant gameplay access. Room policies do not lock unrelated vanilla transfers, entry or doors, or revoke a native transfer after dispatch. Legacy room records are imported by Rooms without deleting Quartermaster recovery data.
 

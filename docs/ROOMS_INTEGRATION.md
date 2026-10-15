@@ -1,12 +1,12 @@
-# Optional Rooms integration and scoped sorting
+# Required Rooms integration and scoped sorting
 
-Project Version: 0.8.0-dev.1
+Project Version: 0.9.0-dev.1
 
 ## Baseline and ownership
 
 [VERIFIED source] Baseline Quartermaster 0.7.0-dev.1 at `de6101c45f6d09f6c926cb8afe09105c4c0dec30` had embedded custom geometry, detection, preview editor, schema-1 registry and custom-room sorting. Native-room/building sorting, native overrides/restore and delegated action policies were absent. The exact baseline inventory is in the sibling Rooms repository, `docs/EXTRACTION_AUDIT.md`.
 
-This is a compatible MINOR feature iteration in the 0.x series. The optional service boundary and capability changes require matching Quartermaster peers. Rooms has its own version, API/protocol 1 and registry schema 2. Quartermaster configuration capability is 5, movement 8 and rooms 2; sorting config schema 2 and world root 1 are unchanged.
+The 0.8 extraction originally made Rooms optional. The explicitly requested 0.9.0-dev.1 contract is a breaking 0.x change: native mod.info requires B47ANCEDRooms and Workshop item 3807217050 requires item 3820077442. This covers sorting and embedded Auto Clean; no separate Auto Clean Mod ID/item is introduced. Lua fallback branches remain defensive compatibility code, not a supported dependency-free installation. Matching Quartermaster peers are required. Rooms has its own version, API/protocol 1 and registry schema 2. Quartermaster configuration capability is 5, movement 8 and rooms 2; sorting config schema 2 and world root 1 are unchanged.
 
 | Owner | Responsibilities |
 |---|---|

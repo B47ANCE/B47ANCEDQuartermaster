@@ -148,7 +148,7 @@ for path in (SOURCE / '42').rglob('*'):
             assert not re.search(r'QuartermasterSimpleSorting|QuartermasterSorting|B47ANCEDSorting', code), path
         if path.suffix == '.lua':
             assert not re.search(r'(?<![\w:.])next\s*\(', code), path
-assert not re.search(r'^require=', metadata, re.M)
+assert re.findall(r'^require=(.*)$', metadata, re.M) == ['B47ANCEDRooms']
 for path in (SOURCE / '42/media/lua').rglob('*.lua'):
     assert 'LootSorter' not in path.read_text(encoding='utf-8'), path
 # Upstream is optional: no production or test Lua is loaded from it.

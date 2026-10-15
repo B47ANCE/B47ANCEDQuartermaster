@@ -1,6 +1,8 @@
 # Clean Building source testing
 
-Project Version: 0.8.0-dev.1
+Project Version: 0.9.0-dev.1
+
+Current dependency contract: Rooms is mandatory for Quartermaster and its embedded Auto Clean. Native `mod.info` requires `B47ANCEDRooms`; Quartermaster Workshop item 3807217050 requires Rooms item 3820077442. Auto Clean has no separate Mod ID or Workshop item here. Historical source-activation notes below describe the earlier optional-service checkpoint; server guards are unchanged.
 
 [VERIFIED source] The existing Quartermaster Mod ID now includes the AutoClean
 modules under `42/media/lua/shared/B47ANCEDQuartermaster/AutoClean`. No new mod

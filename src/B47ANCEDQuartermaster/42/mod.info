@@ -1,8 +1,9 @@
 name=B47ANCE'd Quartermaster
 id=B47ANCEDQuartermaster
+require=B47ANCEDRooms
 author=B47ANCE
-modversion=0.8.0-dev.1
-versionMin=42.20.3
-description=Standalone container sorting and supply planning. Optional B47ANCEDRooms provides independent designation and delegated room policies. Native room/building sorting works without it. Both area scopes include full carried inventory and configured physical storage. Permissions are enforced at supported server integration checks, not unrelated vanilla actions. Obsolete B47 sorting formats/category rules are removed on authority; native rules, item selections, priorities and owned presets are retained. Back up saves before upgrading. Vanilla categories when used alone. Optional Better Sorting (BetterSortCC) and Better Containers (EURY_CONTAINERS / REORDER_CONTAINERS) integrations use native categories; Better Containers category selections save explicit item choices. Disable original Quartermaster (Quartermaster) and older B47 sorting copies. Experimental MP testing build - dedicated multiplayer NOT TESTED; optional-mod runtime acceptance and Sort startup delay investigation remain pending.
+modversion=0.9.0-dev.1
+versionMin=42.21.0
+description=Container sorting, supply planning and embedded Auto Clean. Requires B47ANCEDRooms (Workshop item 3820077442) for room designation and delegated room policies. Both area scopes include full carried inventory and configured physical storage. Permissions are enforced at supported server integration checks, not unrelated vanilla actions. Obsolete B47 sorting formats/category rules are removed on authority; native rules, item selections, priorities and owned presets are retained. Back up saves before upgrading. Vanilla categories when used alone. Optional Better Sorting (BetterSortCC) and Better Containers (EURY_CONTAINERS / REORDER_CONTAINERS) integrations use native categories; Better Containers category selections save explicit item choices. Disable original Quartermaster (Quartermaster) and older B47 sorting copies. Experimental MP testing build - dedicated multiplayer NOT TESTED; optional-mod runtime acceptance and Sort startup delay investigation remain pending.
 poster=poster.png
 icon=icon.png

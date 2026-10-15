@@ -1,6 +1,10 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.8.0-dev.1
+Project Version: 0.9.0-dev.1
+
+## Required Rooms dependency — 0.9.0-dev.1
+
+Rooms (Mod ID B47ANCEDRooms, Workshop 3820077442) is now mandatory in native mod.info metadata and Steam Required Items for Quartermaster and its embedded Auto Clean. This breaking 0.x dependency change preserves Lua gameplay, server guards, schemas and protocols. Both peers must enable Rooms. Source/package/version checks must pass before the authorized MP testing upload; native/dedicated G7 NOT TESTED and stable G8 BLOCKED. Earlier checkpoint sections below retain their original optional-dependency context.
 
 ## Rooms Workshop distribution follow-up
 

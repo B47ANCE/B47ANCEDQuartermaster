@@ -3,6 +3,10 @@
   "canonical": "VERSION",
   "mirrors": [
     {
+      "path": "docs/REQUIRED_ROOMS_DEPENDENCY.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
       "path": "docs/CLEAN_BUILDING.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
@@ -184,6 +188,10 @@
     {
       "reference": "docs/CUSTOM_ROOMS.md; tests/test_custom_rooms.lua; tests/test_room_detection.lua; tests/test_room_editor.lua; tests/test_room_scopes.lua",
       "reason": "Frozen 0.7.0-dev.1 embedded-room evidence; new standalone production paths are validated separately."
+    },
+    {
+      "reference": "dist/history/0.8.0-dev.1-required-rooms-predecessor; docs/audits/AUTO_CLEAN_*",
+      "reason": "Immutable optional-Rooms source/package/runtime evidence; never relabeled as the 0.9 required-dependency candidate."
     }
   ]
 }
