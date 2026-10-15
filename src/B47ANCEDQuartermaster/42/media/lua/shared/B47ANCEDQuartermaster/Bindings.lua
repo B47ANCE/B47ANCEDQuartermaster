@@ -24,7 +24,9 @@ function B.session(player,session)
     local s=B.sessions[player]
     if not s or type(session)~='string' or s.id~=session or getTimestampMs()-s.time>1800000 then return end
     local playerSquare=player.getCurrentSquare and player:getCurrentSquare()
-    if s.buildingDef then
+    if s.customRoom then
+        if not B47ANCEDQuartermaster.Rooms.resolve(player,s.customRoom,s.roomRevision) then return end
+    elseif s.buildingDef then
         local current=playerSquare and playerSquare:getBuilding()
         if not current or current:getDef()~=s.buildingDef then return end
     else
@@ -39,6 +41,11 @@ function B.target(player,session,token)
     local s=B.session(player,session)
     local r=s and type(token)=='string' and s.records[token]
     if r and live(r,player) then
+        if s.customRoom then
+            local p=r.position
+            if B47ANCEDQuartermaster.Rooms.contains(player,s.customRoom,s.roomRevision,p.x,p.y,p.z) then return r,s end
+            return
+        end
         local current=player.getCurrentSquare and player:getCurrentSquare()
         local proxy={obj={getSquare=function() return current or s.square end}}
         if T.inArea(proxy,r.target) then return r,s end
@@ -65,19 +72,30 @@ function B.discover(player,args)
     local s
     if args.session then
         s=B.session(player,args.session)
-        if not s or not s.buildingDef and s.square~=square then return reject('session') end
+        if not s or not s.customRoom and not s.buildingDef and s.square~=square then return reject('session') end
     else
         s={id=id(),origin={x=pos.x,y=pos.y,z=pos.z},square=square,records={},lookup={},time=getTimestampMs(),count=0}
     end
     local measured=Trace.begin()
     Trace.emit(args.trace,'DISCOVERY_BEGIN','scan',nil,nil,nil,nil,'no-destination-cache')
-    local targets,building,stats=T.discoverAt(square,player)
+    local targets,building,stats
+    if args.customRoom then
+        local room,e=B47ANCEDQuartermaster.Rooms.resolve(player,args.customRoom,args.roomRevision)
+        if not room then return nil,e end
+        targets,e=B47ANCEDQuartermaster.Rooms.discover(player,args.customRoom,args.roomRevision,args.roomScan)
+        if not targets then return nil,e end
+        s.customRoom=room.id;s.roomRevision=room.revision
+        stats={candidateObjects=0,eligibleContainers=#targets,loadedSquares=0}
+    else
+        s.customRoom=nil;s.roomRevision=nil;targets,building,stats=T.discoverAt(square,player)
+    end
     Trace.emit(args.trace,'DISCOVERY_SCAN','complete',nil,nil,measured,stats and stats.candidateObjects,'miss')
     local handlesAt=Trace.begin()
     s.buildingDef=building and square:getBuilding():getDef() or nil
     s.square=square;s.origin={x=pos.x,y=pos.y,z=pos.z}
     local list,seen,overflow={},{},false
     local function register(t,source)
+        if s.customRoom and not T.valid(t,player) then overflow=true;return end
         if seen[t.container] then return seen[t.container] end
         local record=s.lookup[t.container]
         if record and (record.target.obj~=t.obj or record.target.ci~=t.ci or not live(record,player)) then record=nil end
@@ -95,7 +113,10 @@ function B.discover(player,args)
     for _,t in ipairs(targets) do register(t) end
     for _,t in ipairs(targets) do
         local source=seen[t.container]
-        if source then for _,sibling in ipairs(T.siblings(t,player)) do register(sibling,source.token) end end
+        if source then for _,sibling in ipairs(T.siblings(t,player)) do
+            local p=T.descriptor(sibling)
+            if not s.customRoom or B47ANCEDQuartermaster.Rooms.contains(player,s.customRoom,s.roomRevision,p.x,p.y,p.z) then register(sibling,source.token) end
+        end end
     end
     if overflow then return reject('capacity') end
     local metadata={}
@@ -112,15 +133,15 @@ function B.discover(player,args)
     end
     local assigned={}
     for _,meta in ipairs(metadata) do
-        if not assigned[meta.token] and #meta.siblings>1 and #meta.siblings<=64 then
+        if not assigned[meta.token] and (#meta.siblings>1 or s.customRoom) and #meta.siblings<=64 then
             local verified=B47ANCEDQuartermaster.Furniture and B47ANCEDQuartermaster.Furniture.members(s.records[meta.token].target,player)
             local members={};for _,t in ipairs(verified or {}) do if seen[t.container] then members[#members+1]=seen[t.container] end end
-            if #members>1 and #members==#(verified or {}) then
+            if #members>=1 and #(verified or {})>1 then
             table.sort(members,function(a,b) local x,y=a.position,b.position;for _,k in ipairs({'z','y','x','index','ci'}) do if x[k]~=y[k] then return x[k]<y[k] end end;return a.token<b.token end)
             local group=members[1].token
             local sections={}
-            for ordinal,record in ipairs(members) do assigned[record.token]=group;sections[record.token]=ordinal end
-            for _,m in ipairs(metadata) do if assigned[m.token]==group then m.group=group;m.groupCount=#members;m.groupSection=sections[m.token] end end
+            for ordinal,t in ipairs(verified) do local record=seen[t.container];if record then assigned[record.token]=group;sections[record.token]=ordinal end end
+            for _,m in ipairs(metadata) do if assigned[m.token]==group then m.group=group;m.groupCount=#verified;m.groupSection=sections[m.token] end end
             end
         end
     end
@@ -128,6 +149,8 @@ function B.discover(player,args)
     s.viewTargets=metadata;s.viewInfo=viewInfo
     if args.invalidateView==true then s.appliedView={kind='room',room=false} end
     s.appliedView=s.appliedView or (viewInfo.currentRoom and {kind='room',room=viewInfo.currentRoom} or {kind='proximity',radius=viewInfo.maxRadius})
+    if s.customRoom then s.appliedView={kind='customRoom',room=s.customRoom,revision=s.roomRevision} end
+    if not s.customRoom and s.appliedView.kind=='customRoom' then s.appliedView={kind='proximity',radius=viewInfo.maxRadius} end
     B.sessions[player]=s
     Trace.emit(args.trace,'HANDLE_GENERATION','complete',nil,nil,handlesAt,#metadata)
     print('[B47ANCEDQuartermaster] discovery ready candidates='..(stats and stats.candidateObjects or 0)..' eligible='..(stats and stats.eligibleContainers or 0)..' physical='..#metadata..' loadedSquares='..(stats and stats.loadedSquares or 0)..' building='..tostring(building==true)..' floor='..pos.z)

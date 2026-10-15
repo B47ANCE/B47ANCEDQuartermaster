@@ -25,7 +25,17 @@ function V.metadata(session,targets,player,buildingAllowed)
   local rd=roomDef(ts);meta.room=rd and session.roomLookup[rd] or nil;meta.inBuilding=def~=nil and tb~=nil and tb:getDef()==def
  end
  local range=B47ANCEDQuartermaster.Targets.options()
- return {rooms=rooms,currentRoom=currentRoom,maxRadius=range,buildingAvailable=def~=nil and buildingAllowed==true}
+ local custom,revision,world={},0,nil;local R=B47ANCEDQuartermaster.Rooms
+ if R and not isClient() then
+  custom,revision,world=R.metadata(player);custom=custom or {}
+  for _,r in ipairs(custom) do local room,g=R.resolve(player,r.id,r.revision)
+   if room then for _,meta in ipairs(targets) do
+    if B47ANCEDQuartermaster.RoomGeometry.contains(g,meta.x,meta.y,meta.z) then meta.customRooms=meta.customRooms or {};meta.customRooms[r.id]=r.revision end
+   end end
+  end
+ end
+ local _,whole=B47ANCEDQuartermaster.Targets.options()
+ return {rooms=rooms,customRooms=custom,roomsRevision=revision,roomWorld=world,currentRoom=currentRoom,maxRadius=range,buildingAvailable=def~=nil and (buildingAllowed==true or session.customRoom~=nil and whole)}
 end
 function V.accept(session,result)
  session.viewInfo=result.viewInfo or {rooms={},maxRadius=B47ANCEDQuartermaster.Targets.options(),buildingAvailable=false}
@@ -33,6 +43,7 @@ function V.accept(session,result)
  if not session.view then session.view=session.viewInfo.currentRoom and {kind='room',room=session.viewInfo.currentRoom} or {kind='proximity',radius=session.viewInfo.maxRadius} end
 end
 function V.includes(meta,view,info,player)
+ if view.kind=='customRoom' then return meta.customRooms and meta.customRooms[view.room]==view.revision or false end
  if view.kind=='room' then return meta.room~=nil and meta.room==view.room end
  if view.kind=='building' then return info.buildingAvailable and meta.inBuilding==true end
  if view.kind=='proximity' then local radius=tonumber(view.radius);return radius and radius==math.floor(radius) and radius>=1 and radius<=info.maxRadius and meta.z==math.floor(player:getZ()) and math.max(math.abs(meta.x-player:getX()),math.abs(meta.y-player:getY()))<=radius end
@@ -41,6 +52,7 @@ end
 function V.label(session)
  local v,i=session.view,session.viewInfo
  if not v then return tr('Containers') end
+ if v.kind=='customRoom' then for _,room in ipairs(i.customRooms or {}) do if room.id==v.room and room.revision==v.revision then return tr('ScopeRoom',room.label) end end;return tr('RoomUnavailable') end
  if v.kind=='room' then for _,room in ipairs(i.rooms) do if room.token==v.room then return tr('ScopeRoom',room.label) end end;return tr('RoomUnavailable') end
  return v.kind=='building' and tr('ScopeBuilding') or tr('ScopeProximity',v.radius)
 end

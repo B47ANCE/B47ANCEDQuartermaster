@@ -458,7 +458,7 @@ if lifecycle then
  print('PASS OFFLINE dev47 actual native update/stop rejection after first submitted transaction, with exact diagnostic classification')
 end
 local P=require 'B47ANCEDQuartermaster/Protocol'
-assert(P.version('tripNext')==6 and not P.accepts('tripNext',{protocol=1}) and not P.accepts('movePut',{protocol=3}))
+assert(P.version('tripNext')==7 and not P.accepts('tripNext',{protocol=1}) and not P.accepts('movePut',{protocol=3}))
 assert(replicationGapChecks>0,'replication-gap guard regression was not exercised')
 print('PASS OFFLINE dev45 native in-flight replication gap validation')
 print('PASS OFFLINE dev24: 29 production pipeline scenarios, native donor merge/perform, bounded overlap, capacity, cancellation and mixed-peer rejection')
@@ -525,3 +525,59 @@ end)
 A.request=query;inventoryMode=false
 assert(cancelledStatus=='cancelled' and cancelledMoved==0,'late grant response escaped cancellation')
 print('PASS OFFLINE phase batching: partial item rejection preserves 19/20 authorized transfers; late cancellation dispatches none')
+
+-- Real multi-source room orchestration on the same installed native queue fixture.
+do
+ local RoomSort=require 'B47ANCEDQuartermaster/RoomSort';local Rooms=Q.Rooms
+ groundMode=false;inventoryMode=false;singlePlayer=false
+ getRandomUUID=function() return '33333333-3333-3333-3333-333333333333' end
+ getTimestamp=function() return math.floor(getTimestampMs()/1000) end
+ getOnlinePlayers=function() return f.list({f.player}) end
+ SafeHouse.isSafehouseAllowInteract=function() return true end
+ SafeHouse.getSafeHouse=function() end
+ f.player.isDead=function() return false end
+ f.network(false,true);f.player.square=f.a.sq
+ q.queue={};RPC={};E.active={};E.batches={};S.active={};Q.Movement.runs={};Q.Movement.operations={};Q.Bindings.sessions={}
+ src.items={};dst.items={};carried.items={};src.capacity=1000;dst.capacity=1000;carried.capacity=1000
+ dst.getParent=function() return f.b end;f.b.getContainerIndex=function() return 0 end
+ local thirdObject=f.object(f.decor.sq);local third=storage(thirdObject.containers[1])
+ third.getParent=function() return thirdObject end;thirdObject.getContainerIndex=function() return 0 end
+ for i=1,20 do src.items[#src.items+1]=item(i,1) end
+ local correct=item(42,1);correct.getDisplayName=function() return 'RoundB' end;correct.getScriptItem=function() return CATALOG_FIXTURE.items[2] end;src.items[#src.items+1]=correct
+ for i=101,107 do local it=item(i,1);it.container=third;third.items[#third.items+1]=it end
+ local initial=assert(Q.Bindings.discover(f.player,{scope={x=0,y=0,z=0}}))
+ for _,record in pairs(Q.Bindings.sessions[f.player].records) do
+  local c=record.target.container;local cfg=Q.Schema.empty()
+  if c==src then cfg.items.RoundB=true elseif c==dst or c==third then cfg.items.RoundA=true;cfg.priority=c==dst and 100 or 0 end
+  local original,_,revision=Q.Store.load(record.target)
+  assert(Q.Store.rawCommit({target=record.target,original=original,revision=revision},cfg))
+ end
+ local list=Rooms.handle(f.player,'roomList',{})
+ assert(Rooms.handle(f.player,'roomChange',{action='save',nonce='room-pipeline',editKey=list.editKey,revision=list.revision,name='Supply Room',rows={{0,0,0,2}}}).status=='pending')
+ for _=1,10 do Rooms.tick();f.advance(16) end
+ assert(Rooms.handle(f.player,'roomPoll',{nonce='room-pipeline'}).status=='ok')
+ local room=Rooms.metadata(f.player)[1];local result,moved,skipped
+ f.network(true,false)
+ assert(RoomSort.start(0,{kind='customRoom',room=room.id,revision=room.revision},function(s,n,k) result,moved,skipped=s,n,k end))
+ for _=1,3000 do
+  f.network(false,true);Rooms.tick();f.network(true,false)
+  RoomSort.tick();S.tick();E.tick();flush();pump();f.advance(16)
+  if result then flush();break end
+ end
+ assert(result=='ok' and moved==20,'room sweep failed to move misplaced native items')
+ assert(#src.items==1 and src.items[1]==correct and #dst.items==20 and #third.items==7 and #carried.items==0,'room sorting moved correct items or duplicated physical inventory')
+ assert(skipped>=28 and not RoomSort.active[0] and not Q.Movement.runs[f.player])
+ -- Removing source sorting rules after enumeration must invalidate the next
+ -- area batch, rather than treating unconfigured stock as misplaced items.
+ f.network(false,true)
+ local binding=Q.Bindings.sessions[f.player];local sourceRecord
+ for _,r in pairs(binding.records) do if r.target.container==src then sourceRecord=r;break end end
+ local begun=Q.Trips.handle(f.player,'tripBegin',{session=binding.id,source=sourceRecord.token,area=true,sweep=binding.areaSweep})
+ assert(begun.status=='ok')
+ local original,_,revision=Q.Store.load(sourceRecord.target)
+ assert(Q.Store.rawCommit({target=sourceRecord.target,original=original,revision=revision},Q.Schema.empty()))
+ local changed=Q.Trips.handle(f.player,'tripNext',{run=begun.run})
+ assert(changed.status=='invalid' and changed.reason=='sourceConfigurationChanged' and #src.items==1)
+ assert(Q.Trips.handle(f.player,'tripCancel',{run=begun.run}).status=='ok')
+ print('PASS OFFLINE room sweep: three configured physical sources, 20 misplaced moves exactly once, 28 correct/seen skips, no player/ground source, original native grouping and complete cleanup')
+end

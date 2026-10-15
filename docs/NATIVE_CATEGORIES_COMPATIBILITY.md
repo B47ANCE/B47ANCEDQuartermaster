@@ -1,6 +1,6 @@
 # Native categories and sorting-data retirement
 
-Project Version: 0.6.0-dev.3
+Project Version: 0.7.0-dev.1
 
 ## Compatibility decision
 
@@ -43,7 +43,7 @@ container identity fail closed with no staged object writes. Repeated loads are
 idempotent. Do not downgrade after cleanup expecting retired rules to return;
 restore a save backup for recovery. No real save is modified by offline tests.
 
-Configuration capability 3, presets 2, movement 5 and taxonomy 7 reject older
+Configuration capability 4, presets 2, movement 7, rooms 1 and taxonomy 7 reject older
 peers on the affected paths. All clients/server must update together. Existing
 server access checks, object handles, revisions and native item movement remain
 required. Dedicated restart/reconnect/sync acceptance is a runtime gate.

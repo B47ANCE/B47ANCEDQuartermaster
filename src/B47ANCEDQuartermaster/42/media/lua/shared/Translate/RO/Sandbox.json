@@ -9,5 +9,13 @@
   "Sandbox_B47ANCEDQuartermaster_SortBatchSize": "Sort planning batch size",
   "Sandbox_B47ANCEDQuartermaster_SortBatchSize_tooltip": "Maximum items planned in each sorting batch. Smaller batches start sooner; the next batch is prepared while transfers run. Server-controlled; existing saves default to 20. Native transfer timing is unchanged.",
   "Sandbox_B47ANCEDQuartermaster_RouteOptimization": "Optimize sorting visits",
-  "Sandbox_B47ANCEDQuartermaster_RouteOptimization_tooltip": "Keep feasible work at the same destination together across batches. Use bounded loaded-world route approximations; native walking and transfers remain unchanged. Server controlled; existing saves default to enabled."
+  "Sandbox_B47ANCEDQuartermaster_RouteOptimization_tooltip": "Keep feasible work at the same destination together across batches. Use bounded loaded-world route approximations; native walking and transfers remain unchanged. Server controlled; existing saves default to enabled.",
+  "Sandbox_B47ANCEDQuartermaster_CustomRooms": "Custom room designations",
+  "Sandbox_B47ANCEDQuartermaster_CustomRooms_tooltip": "Allow server-owned custom room geometry and room-scoped physical-container sorting. Existing saves default to enabled; no rooms are created automatically.",
+  "Sandbox_B47ANCEDQuartermaster_RoomTileLimit": "Maximum tiles per custom room",
+  "Sandbox_B47ANCEDQuartermaster_RoomTileLimit_tooltip": "Maximum selected tiles in each new or edited logical room. Existing oversized rooms are retained; shrinking or deleting them remains possible. Server controlled; default 1024.",
+  "Sandbox_B47ANCEDQuartermaster_RoomEditRange": "Custom room editing range",
+  "Sandbox_B47ANCEDQuartermaster_RoomEditRange_tooltip": "Maximum horizontal distance from the editing player to each confirmed tile. Tiles must already be loaded and accessible. Server controlled; default 30 tiles.",
+  "Sandbox_B47ANCEDQuartermaster_RoomDoorways": "Doorless doorway detection boundary",
+  "Sandbox_B47ANCEDQuartermaster_RoomDoorways_tooltip": "Treat verified doorless doorway edges as automatic-detection boundaries. Actual doors and windows remain boundaries regardless of this setting. Detection is a preview only; manual geometry can cross walls and doors. Default enabled."
 }

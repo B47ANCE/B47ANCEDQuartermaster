@@ -23,6 +23,7 @@ end
 local function perform(playerNum,container)
     local player=getSpecificPlayer(playerNum)
     if not player or isGamePaused() then return end
+    if B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[playerNum] then B47ANCEDQuartermaster.RoomSort.cancel(playerNum);return end
     if S.active[playerNum] then S.cancel(playerNum);return end
     local ok=S.start(playerNum,container,function(status,completed,failed)
         if status=='ok' and completed==0 then player:setHaloNote(getText('UI_B47_SortNothing'))
@@ -37,14 +38,14 @@ local function install(base,registry,name,floor)
     function handler:playerIndex() return self.playerNum or (self.inventoryWindow and self.inventoryWindow.player) or (self.lootWindow and self.lootWindow.player) or 0 end
     function handler:shouldBeVisible()
         local player=getSpecificPlayer(self:playerIndex())
-        return player and (S.active[self:playerIndex()]~=nil or supported(player,self.container))
+        return player and (S.active[self:playerIndex()]~=nil or B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[self:playerIndex()]~=nil or supported(player,self.container))
     end
     function handler:getControl()
-        return self:getButtonControl(getText(S.active[self:playerIndex()] and 'UI_B47_StopSorting' or 'UI_B47_Sort'))
+        return self:getButtonControl(getText((S.active[self:playerIndex()] or B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[self:playerIndex()]) and 'UI_B47_StopSorting' or 'UI_B47_Sort'))
     end
     function handler:perform() perform(self:playerIndex(),self.container) end
     function handler:handleJoypadContextMenu(context)
-        self:addJoypadContextMenuOption(context,getText(S.active[self:playerIndex()] and 'UI_B47_StopSorting' or 'UI_B47_Sort'))
+        self:addJoypadContextMenuOption(context,getText((S.active[self:playerIndex()] or B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[self:playerIndex()]) and 'UI_B47_StopSorting' or 'UI_B47_Sort'))
     end
     local register=floor and registry.AddFloorHandler or registry.AddHandler
     register(handler)

@@ -68,11 +68,21 @@ function Trips.handle(player,command,args)
     if command=='tripBegin' then
         Trace.emit(args.trace,'REQUEST_RECEIVED',command)
         if run or M.operations[player] then return {status='busy'} end
-        if not B.session(player,args.session) then return {status='invalid'} end
-        local source,target
+        local session=B.session(player,args.session)
+        if not session then return {status='invalid'} end
+        if args.area==true and (not session.customRoom or args.sweep~=session.areaSweep or not B.target(player,args.session,args.source)) then return {status='invalid'} end
+        local source,target,areaConfig,areaEffective
         if args.source=='ground' then source=G.snapshot(player,args.sourceItems,args.session);target={ground=true}
         else source,target=sourceOf(player,args.session,args.source) end
         if not source then return {status='invalid'} end
+        if args.area==true then
+            if not target or target.ground or source:getType()=='floor' or source:getContainingItem() then return {status='invalid'} end
+            local config=B47ANCEDQuartermaster.Store.load(target,player)
+            local effective=config and B47ANCEDQuartermaster.Presets.resolve(config);local configured=false
+            if effective then for _,field in ipairs({'cats','items'}) do for _ in pairs(effective[field]) do configured=true;break end end end
+            if not configured then return {status='invalid'} end
+            areaConfig=config;areaEffective=effective
+        end
         Trace.emit(args.trace,'SOURCE_RESOLVED',args.source)
         local contents=source:getItems()
         if contents:size()>4096 then return {status='tooLarge'} end -- protocol bound, never truncate
@@ -82,7 +92,7 @@ function Trips.handle(player,command,args)
             if M.eligible(player,item) then ids[#ids+1]=item:getID();refs[item:getID()]=item end
         end
         run={id=M.fresh(),trace=args.trace,session=args.session,source=args.source,container=source,target=target,
-            ids=ids,refs=refs,considered={},operations={},skipped=0,time=getTimestampMs()}
+            ids=ids,refs=refs,considered={},operations={},skipped=0,time=getTimestampMs(),area=args.area==true,sweep=args.sweep,sourceConfig=areaConfig,sourceEffective=areaEffective}
         M.runs[player]=run
         Trace.emit(args.trace,'SOURCE_ENUMERATION','complete',nil,run.id,measured,#ids)
         return {status='ok',run=run.id,sourceCount=#ids}
@@ -96,6 +106,10 @@ function Trips.handle(player,command,args)
     if outstanding>=size*2 then return {status='waiting'} end
     local source,target=sourceOf(player,run.session,run.source)
     if source~=run.container or (run.target and (not target or target.obj~=run.target.obj)) then return {status='invalid'} end
+    local sourceConfig=run.area and B47ANCEDQuartermaster.Store.load(target,player)
+    local sourceEffective=sourceConfig and B47ANCEDQuartermaster.Presets.resolve(sourceConfig)
+    if run.area and (not sourceEffective or not B47ANCEDQuartermaster.Schema.equal(sourceConfig,run.sourceConfig)
+        or not B47ANCEDQuartermaster.Schema.equal(sourceEffective,run.sourceEffective)) then return {status='invalid',reason='sourceConfigurationChanged'} end
     local candidates=carriers(player)
     local carrierReserved,destReserved={},{}
     local budget=math.max(0,player:getMaxWeight()-player:getInventory():getCapacityWeight())
@@ -105,6 +119,8 @@ function Trips.handle(player,command,args)
     local library=B47ANCEDQuartermaster.Presets.snapshot()
     local planning=B47ANCEDQuartermaster.Planner.prepare(player,run.session,library and library.definitions or {},run.trace)
     if not planning then return {status='invalid'} end
+    local session=B.session(player,run.session)
+    if run.area and (not session or session.areaSweep~=run.sweep) then return {status='invalid'} end
     -- Reserve only items not yet observed at their promised destination/carrier.
     -- Actual native contents already contribute to getCapacityWeight().
     for _,op in pairs(run.operations) do
@@ -123,7 +139,8 @@ function Trips.handle(player,command,args)
         run.nextCursor=index%#run.ids+1
         if not run.considered[id] then
             local item=source:getItemWithID(id)
-            if item~=run.refs[id] or not M.eligible(player,item) then skip(run,id,item~=run.refs[id] and 'sourceChanged' or 'itemProtected')
+            if run.area and (session.areaSeen[id] or item and B47ANCEDQuartermaster.Catalog.matchesItem(item,sourceConfig,library and library.definitions or {})) then skip(run,id,'alreadySorted')
+            elseif item~=run.refs[id] or not M.eligible(player,item) then skip(run,id,item~=run.refs[id] and 'sourceChanged' or 'itemProtected')
             else
                 local weight=math.max(0,item:getActualWeight())
                 local chosen
@@ -138,12 +155,14 @@ function Trips.handle(player,command,args)
                 if chosen then
                     local offer,op=M.planOne(player,{session=run.session,source=run.source,itemID=id},
                         {carrierID=chosen.id,ground=source.groundRecords and source.groundRecords[id],trace=run.trace,
+                            area=run.area,sourceConfig=sourceConfig,sourceEffective=sourceEffective,
                             planning=planning,library=library,prepareAway=true,accepts=function(t,it)
                             return it:getActualWeight()<=room(player,t.container)-(destReserved[t.container] or 0)
                         end})
                     if op and (not run.routeFocus or Route.key(offer.destination)==run.routeFocus) then
                         offer.trace=run.trace
                         run.operations[op.id]=op;offers[#offers+1]=offer;run.considered[id]=true
+                        if run.area then session.areaSeen[id]=true end
                         carrierReserved[chosen.container]=(carrierReserved[chosen.container] or 0)+weight
                         destReserved[op.destination.container]=(destReserved[op.destination.container] or 0)+weight
                         if target then budget=budget-weight*chosen.factor end

@@ -19,7 +19,7 @@ local function endRun(run,status)
     run.closed=true;S.active[run.playerNum]=nil
     E.cancel(run.playerNum)
     local reasons={}
-    for _,key in ipairs({'sourceChanged','itemProtected','noMatchingRule','destinationRejected','carryCapacity','planningRejected'}) do
+    for _,key in ipairs({'sourceChanged','itemProtected','noMatchingRule','destinationRejected','carryCapacity','planningRejected','alreadySorted'}) do
         local n=run.skipReasons and run.skipReasons[key]
         if type(n)=='number' and n>0 then reasons[#reasons+1]=key..':'..math.min(4096,math.floor(n)) end
     end
@@ -57,10 +57,11 @@ local function request(run,command,args,done)
         end
     end)
 end
-function S.start(playerNum,source,callback)
+function S.start(playerNum,source,callback,options)
     local clicked=Trace.begin()
     if not require('B47ANCEDQuartermaster/Compatibility').allowed() then return false,'IncompatibleMod' end
     local player=getSpecificPlayer(playerNum)
+    if B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[playerNum] and not (options and options.area) then return false,'busy' end
     if not player or not source or S.active[playerNum] or E.active[playerNum] or E.batches[playerNum] or not empty(player) then return false,'busy' end
     local token,target,sourceItems
     if (source:getType()=='floor' or (not source:getParent() and not source:getContainingItem() and source~=player:getInventory())) then sourceItems=B47ANCEDQuartermaster.GroundSources.hints(source,player);if not sourceItems then return false,'invalid' end;token='ground' end
@@ -75,6 +76,7 @@ function S.start(playerNum,source,callback)
         if obj then target=T.make(obj,obj:getContainerIndex(source),player) end
         if not target then return false,'invalid' end
     end
+    if options and options.area and (not target or token) then return false,'invalid' end
     local square=player:getCurrentSquare()
     traceSequence=traceSequence+1
     local participant=player.getOnlineID and player:getOnlineID() or playerNum
@@ -83,6 +85,7 @@ function S.start(playerNum,source,callback)
         startSquare=player:getCurrentSquare(),callback=callback,completed=0,failed=0,time=getTimestampMs(),phase='discover'}
     S.active[playerNum]=run
     run.pipeline=E.batchSupported();run.buffer={}
+    run.area=options and options.area;run.sweep=options and options.sweep
     Trace.emit(run.trace,'OPERATION_CREATED',token or 'container')
     Trace.observe(run.trace,player)
     if player.setHaloNote then player:setHaloNote(getText('UI_B47_SortPreparing')) end
@@ -90,6 +93,9 @@ function S.start(playerNum,source,callback)
     if B47ANCEDQuartermaster.SortTraceEnabled==true then
         local state=B47ANCEDQuartermaster.Catalog.diagnostics()
         Trace.emit(run.trace,'STATIC_CATALOG',state.preparing and 'PREPARING' or state.prepared and 'READY' or 'UNINITIALIZED',nil,nil,nil,state.classified,state.prepared and 'hit' or 'miss')
+    end
+    if options and options.discovery then
+        run.discovery=options.discovery;run.phase='bind';run.traceBindAt=Trace.begin();run.scopeRoom=options.discovery.view and options.discovery.view.kind=='customRoom';return true
     end
     request(run,'tripDiscover',{scope={x=square:getX(),y=square:getY(),z=square:getZ()}},function(r)
         if r.status~='ok' then endRun(run,r.status);return end
@@ -127,7 +133,7 @@ local function pipelineStep(run)
     local sq=run.player:getCurrentSquare();local origin=run.startSquare
     local building=run.discovery.building and origin:getBuilding()
     local currentBuilding=sq and sq:getBuilding()
-    local scopeReady=building and currentBuilding and currentBuilding:getDef()==building:getDef()
+    local scopeReady=run.scopeRoom or building and currentBuilding and currentBuilding:getDef()==building:getDef()
         or not building and sq and sq:getZ()==origin:getZ()
         and math.max(math.abs(sq:getX()-origin:getX()),math.abs(sq:getY()-origin:getY()))<=3
     -- Prefetch has its own request state: it must not stall the executing batch.
@@ -196,7 +202,7 @@ local function step(run)
             end -- await native ModData replication
         end
         Trace.emit(run.trace,'HANDLE_RESOLUTION','resolved',nil,nil,run.traceBindAt)
-        request(run,'tripBegin',{session=run.discovery.session,source=run.sourceToken,sourceItems=run.sourceItems},function(r)
+        request(run,'tripBegin',{session=run.discovery.session,source=run.sourceToken,sourceItems=run.sourceItems,area=run.area,sweep=run.sweep},function(r)
             if r.status~='ok' then endRun(run,r.status);return end
             run.id=r.run;run.phase='next'
             Trace.emit(run.trace,'RESPONSE_ACCEPTED','tripBegin')

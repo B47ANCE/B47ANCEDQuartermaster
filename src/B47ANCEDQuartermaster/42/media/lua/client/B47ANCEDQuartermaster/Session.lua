@@ -1,11 +1,14 @@
 require 'B47ANCEDQuartermaster/Authority'
 require 'B47ANCEDQuartermaster/Configuration'
+local RoomPreferences=require 'B47ANCEDQuartermaster/RoomPreferences'
 local Q=B47ANCEDQuartermaster
 local C,T,A=Q.Configuration,Q.Targets,B47ANCEDQuartermaster.Authority
 Q.Authority=A
 local S={}; S.__index=S; Q.Session=S
+local sessions=setmetatable({},{__mode='k'})
 function S.new(origin,playerNum)
-    return setmetatable({origin=origin,originPosition=origin and T.descriptor(origin),playerNum=playerNum,records={},nextKey=0,whole=false,targets={},discoveryState='uninitialized',discoveryGeneration=0},S)
+    local s=setmetatable({origin=origin,originPosition=origin and T.descriptor(origin),playerNum=playerNum,records={},nextKey=0,whole=false,targets={},discoveryState='uninitialized',discoveryGeneration=0},S)
+    sessions[s]=true;return s
 end
 function S:parent(token)
  local child=self.records[token];if not child then return end
@@ -19,10 +22,16 @@ function S:parent(token)
 end
 function S:setView(view,done)
  if self.busy then return end
+ if view.kind=='customRoom' or self.view and self.view.kind=='customRoom' then
+  self.busy=true;self.selected=nil
+  self.roomQuery={view=view,done=done,time=getTimestampMs(),nextAt=0,nonce=tostring(getTimestampMs())..':'..tostring(self.discoveryGeneration)}
+  return
+ end
  self.busy=true;self:request('viewSelect',{view=view},function(result)
   self.busy=false
   if result.status=='ok' then
    self.view=result.view
+   RoomPreferences.set(self.playerNum,self.viewInfo and self.viewInfo.roomWorld,nil)
    if self.selected then
     local visible=false
     for _,r in ipairs(self.targets) do
@@ -35,6 +44,36 @@ function S:setView(view,done)
   done(result.status)
  end)
 end
+function S:pollRoomView()
+ local q=self.roomQuery
+ if not q or q.pending or getTimestampMs()<q.nextAt then return end
+ if self.closed then self.roomQuery=nil;return end
+ if getTimestampMs()-q.time>15000 then self.roomQuery=nil;self.busy=false;q.done('timeout');return end
+ q.pending=true;local p=self:scope();local custom=q.view.kind=='customRoom'
+ local args={session=self.id,scope=p,customRoom=custom and q.view.room or nil,roomRevision=custom and q.view.revision or nil,roomScan=q.nonce}
+ -- A room can be deleted while a window is open. A fresh discovery cannot
+ -- reuse that expired room's authority session or silently choose another ID.
+ A.request(self.playerNum,custom and 'roomDiscover' or 'discover',args,function(result)
+  if self.closed or self.roomQuery~=q then return end
+  q.pending=false
+  if result.status=='waiting' or result.status=='rateLimited' then q.nextAt=getTimestampMs()+500;return end
+  if result.status=='invalid' and self.id and not q.fresh then
+   for _,r in pairs(self.records) do if self:dirty(r) then self.roomQuery=nil;self.busy=false;q.done('RoomScopeConflict');return end end
+   q.fresh=true;self.id=nil;self.records={};self.targets={};self.nextKey=0;q.nextAt=getTimestampMs()+500;return
+  end
+  self.roomQuery=nil;self.busy=false
+  if result.status~='ok' then
+   if custom then
+    local rooms={};for _,m in ipairs(self.viewInfo.customRooms or {}) do if m.id~=q.view.room then rooms[#rooms+1]=m end end
+    self.viewInfo.customRooms=rooms;self.targets={};self.selected=nil
+   end
+   q.done(result.status);return
+  end
+  self:acceptDiscovery(result)
+  if custom then RoomPreferences.set(self.playerNum,self.viewInfo.roomWorld,q.view.room);q.done('ok') else self:setView(q.view,q.done) end
+ end)
+end
+if Events and Events.OnTick then Events.OnTick.Add(function() for s in pairs(sessions) do if s.roomQuery then s:pollRoomView() end end end) end
 function S:customize()
  local r=self.selected;if not r or r.configMode~='inherit' then return false end
  r.pendingAction='custom';return true
@@ -102,6 +141,15 @@ function S:open(done)
         if result.status~='ok' then self.discoveryState='failed';done(result.status);return end
         if result.taxonomyVersion~=Q.Categorizer.version then self.discoveryState='failed';done('TaxonomyPeerMismatch');return end
         self:acceptDiscovery(result);self.invalidatedRoom=nil
+        if not self.preferredAttempt then
+            self.preferredAttempt=true
+            local preferred=RoomPreferences.get(self.playerNum,self.viewInfo.roomWorld)
+            if preferred then
+                for _,room in ipairs(self.viewInfo.customRooms or {}) do if room.id==preferred then self:setView({kind='customRoom',room=room.id,revision=room.revision},done);return end end
+                RoomPreferences.set(self.playerNum,self.viewInfo.roomWorld,nil)
+                self.view={kind='customRoom',room=preferred,revision=-1};self.selected=nil;done('RoomUnavailable');return
+            end
+        end
         -- Only SP shares exact engine references. MP must explicitly select a returned handle.
         local original=self:record(self.origin)
         if original then self:select(original.target,done) else done('ChooseTarget') end
@@ -109,6 +157,7 @@ function S:open(done)
 end
 function S:refresh(done)
     if self.busy or not self.id then return end
+    if self.view and self.view.kind=='customRoom' then self:setView(self.view,done);return end
     self.busy=true
     self.discoveryState='discovering';self.discoveryGeneration=self.discoveryGeneration+1
     local generation=self.discoveryGeneration
@@ -201,8 +250,8 @@ function S:save(done)
     advance()
 end
 function S:close()
-    if self.busy and self.discoveryState~='discovering' then return false end
+    if self.busy and not self.roomQuery and self.discoveryState~='discovering' then return false end
     if self.id then self:request('close',{},function() end) end
-    self.closed=true;self.discoveryGeneration=self.discoveryGeneration+1;return true
+    self.closed=true;self.roomQuery=nil;self.discoveryGeneration=self.discoveryGeneration+1;return true
 end
 return S

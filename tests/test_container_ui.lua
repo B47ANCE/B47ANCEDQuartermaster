@@ -28,12 +28,14 @@ do
  session.viewInfo={buildingAvailable=true,maxRadius=3,rooms={{label='Kitchen',token='room-a'},{label='Bedroom',token='room-b'}}}
  session.setView=function(_,view,done) intent=view;done('ok') end
  p.containerUI.buttons.containers.onclick(p)
- local root=menus[1];assert(root and #menus==3)
+ local root=menus[1];assert(root and #menus==5)
  root.options[1].callback(p);assert(intent.kind=='building')
  local rooms=root.options[2].sub
- assert(rooms.parent==root and #rooms.options==2 and rooms.player==root.player)
- rooms.options[2].callback(p);assert(intent.kind=='room' and intent.room=='room-b')
- rooms.options[1].callback(p);assert(intent.room=='room-a')
+ assert(rooms.parent==root and #rooms.options==4 and rooms.player==root.player)
+ local nativeRooms=rooms.options[1].sub
+ assert(#nativeRooms.options==2 and rooms.options[2].notAvailable,'empty custom submenu is not state-aware')
+ nativeRooms.options[2].callback(p);assert(intent.kind=='room' and intent.room=='room-b')
+ nativeRooms.options[1].callback(p);assert(intent.room=='room-a')
  root.options[3].sub.options[2].callback(p);assert(intent.kind=='proximity' and intent.radius==2)
  session.viewInfo,session.setView=originalViewInfo,originalSetView;ISContextMenu.get=originalGet
 end

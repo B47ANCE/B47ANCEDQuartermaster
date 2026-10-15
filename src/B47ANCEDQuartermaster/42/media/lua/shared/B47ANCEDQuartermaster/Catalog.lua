@@ -214,6 +214,16 @@ function C.prepare(callback)
 end
 -- Pure destination ranking after authority has resolved live candidates/configurations.
 -- The server supplies real inventory items, never a client-provided category.
+local function ruleMatch(config,category,name,scriptName,legacy,semantic,historical,secondary)
+ local explicit=config.items[name] or (scriptName and config.items[scriptName])
+ return explicit and 4 or R.match(category,config.cats,legacy,semantic,historical,secondary)
+end
+function C.matchesItem(item,config,presets)
+ local category,_,legacy,semantic,historical,secondary=C.category(item)
+ local script=item:getScriptItem()
+ local effective=B47ANCEDQuartermaster.Schema.effective(config,presets or {})
+ return ruleMatch(effective,category,item:getDisplayName(),script and script:getDisplayName(),legacy,semantic,historical,secondary)>0
+end
 function C.destination(item,candidates,presets,accepts)
     local category,_,legacy,semantic,historical,secondary=C.category(item)
     local name=item:getDisplayName()
@@ -225,8 +235,7 @@ function C.destination(item,candidates,presets,accepts)
     local matched=0
     for _,candidate in ipairs(candidates) do
         local config=candidate.effective or B47ANCEDQuartermaster.Schema.effective(candidate.config,presets or {})
-        local explicit=config.items[name] or (scriptName and config.items[scriptName])
-        local match=explicit and 4 or R.match(category,config.cats,legacy,semantic,historical,secondary)
+        local match=ruleMatch(config,category,name,scriptName,legacy,semantic,historical,secondary)
         if match>0 and candidate.container~=item:getContainer() then matched=matched+1 end
         if match>0 and candidate.container~=item:getContainer() and (not accepts or accepts(candidate,item)) then
             local r={match,config.priority,-(candidate.distance or 0)}
