@@ -46,6 +46,7 @@
   "42/media/lua/shared/B47ANCEDQuartermaster/Furniture.lua",
   "42/media/lua/shared/B47ANCEDQuartermaster/GroundSources.lua",
   "42/media/lua/shared/B47ANCEDQuartermaster/Identity.lua",
+  "42/media/lua/shared/B47ANCEDQuartermaster/LegacyCategorizer.lua",
   "42/media/lua/shared/B47ANCEDQuartermaster/Migration.lua",
   "42/media/lua/shared/B47ANCEDQuartermaster/Movement.lua",
   "42/media/lua/shared/B47ANCEDQuartermaster/Personal.lua",

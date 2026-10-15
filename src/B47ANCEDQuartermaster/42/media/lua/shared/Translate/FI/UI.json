@@ -415,5 +415,6 @@
   "UI_B47_Category_AssaultRifles": "Assault Rifles",
   "UI_B47_Category_SniperRifles": "Sniper Rifles",
   "UI_B47_Category_WeaponAttachments": "Attachments",
-  "UI_B47_Category_WeaponComponents": "Parts"
+  "UI_B47_Category_WeaponComponents": "Parts",
+  "UI_QMSS_PreviousCategoryRule": "Previous category rule: %1"
 }

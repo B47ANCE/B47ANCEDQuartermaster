@@ -22,35 +22,39 @@ CLIENT = SOURCE / '42/media/lua/client'
 upstream = ARGS.quartermaster
 before = {p: hashlib.sha256(p.read_bytes()).hexdigest() for p in upstream.rglob('*') if p.is_file()}
 
-def runtime():
+def runtime(legacy=False):
     lua = LuaRuntime(unpack_returned_tuples=True)
     lua.globals().package.path = str(CLIENT.as_posix()) + '/?.lua;' + (SOURCE / '42/media/lua/shared').as_posix() + '/?.lua;' + lua.globals().package.path
     lua.globals().TEST_ROOT = (ROOT / 'tests').as_posix()
     lua.globals().GAME_ROOT = 'E:/Program Files (x86)/Steam/steamapps/common/ProjectZomboid'
     lua.execute("getActivatedMods=function() return {size=function() return 1 end,get=function() return 'B47ANCEDQuartermaster' end} end")
+    if legacy:
+        print('HISTORICAL owned-taxonomy compatibility fixture; active category resolver is native')
+        lua.execute("package.preload['B47ANCEDQuartermaster/Categorizer']=function() local R=require 'B47ANCEDQuartermaster/LegacyCategorizer';B47ANCEDQuartermaster.Categorizer=R;return R end")
     return lua
 
 for path in (SOURCE / '42/media/lua').rglob('*.lua'):
     runtime().execute('assert(loadstring(...))', path.read_text(encoding='utf-8'))
 print('PASS Lua 5.1 syntax')
+runtime().execute((ROOT / 'tests/test_native_categories.lua').read_text(encoding='utf-8'))
 for path in (SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Movement.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Trips.lua', CLIENT / 'B47ANCEDQuartermaster/Executor.lua', CLIENT / 'B47ANCEDQuartermaster/Sorter.lua', CLIENT / 'B47ANCEDQuartermaster/SortControls.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/GroundSources.lua'):
     owned = path.read_text(encoding='utf-8')
     assert 'LootSorter' not in owned and 'require "LootSorter' not in owned
     assert not re.search(r':(?:Remove|AddItem|addItem|removeItemWithID)\s*\(', owned), path
 for name in ('test_model.lua', 'test_ownership.lua', 'test_bulk_model.lua', 'test_integration.lua', 'test_containers.lua', 'test_container_ui.lua', 'test_transport.lua', 'test_standalone_schema.lua', 'test_bindings.lua', 'test_standalone_authority.lua', 'test_categorizer.lua', 'test_taxonomy.lua', 'test_planner.lua', 'test_native_probe.lua', 'test_movement.lua', 'test_identity_migration.lua', 'test_presets.lua', 'test_consolidated.lua'):
-    runtime().execute((ROOT / 'tests' / name).read_text(encoding='utf-8'))
-runtime().execute((ROOT / 'tests/test_taxonomy_correction.lua').read_text(encoding='utf-8'))
-runtime().execute((ROOT / 'tests/test_taxonomy_consolidation.lua').read_text(encoding='utf-8'))
-runtime().execute((ROOT / 'tests/test_taxonomy_freeze.lua').read_text(encoding='utf-8'))
-runtime().execute((ROOT / 'tests/test_dev49_workshop.lua').read_text(encoding='utf-8'))
-runtime().execute((ROOT / 'tests/test_dev41_weapons.lua').read_text(encoding='utf-8'))
+    runtime(legacy=name in {'test_categorizer.lua','test_taxonomy.lua'}).execute((ROOT / 'tests' / name).read_text(encoding='utf-8'))
+runtime(legacy=True).execute((ROOT / 'tests/test_taxonomy_correction.lua').read_text(encoding='utf-8'))
+runtime(legacy=True).execute((ROOT / 'tests/test_taxonomy_consolidation.lua').read_text(encoding='utf-8'))
+runtime(legacy=True).execute((ROOT / 'tests/test_taxonomy_freeze.lua').read_text(encoding='utf-8'))
+runtime(legacy=True).execute((ROOT / 'tests/test_dev49_workshop.lua').read_text(encoding='utf-8'))
+runtime(legacy=True).execute((ROOT / 'tests/test_dev41_weapons.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev13_compatibility.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev13_highlight.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev13_rejected_startup.lua').read_text(encoding='utf-8'))
-runtime().execute((ROOT / 'tests/test_dev14_inventory_category.lua').read_text(encoding='utf-8'))
-runtime().execute((ROOT / 'tests/test_dev30_category_model.lua').read_text(encoding='utf-8'))
+# Historical retired inventory-interception contract retained in tests/test_dev14_inventory_category.lua
+# Historical retired inventory-interception contract retained in tests/test_dev30_category_model.lua
 runtime().execute((ROOT / 'tests/test_dev15_grouping.lua').read_text(encoding='utf-8'))
-runtime().execute((ROOT / 'tests/test_dev15_scoring.lua').read_text(encoding='utf-8'))
+runtime(legacy=True).execute((ROOT / 'tests/test_dev15_scoring.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev15_ui_options.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_shopping_ui.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_ui_framework.lua').read_text(encoding='utf-8'))

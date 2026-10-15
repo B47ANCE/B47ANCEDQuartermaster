@@ -1,5 +1,7 @@
 # B47ANCE'd Quartermaster
 
+Active sorting uses native categories: vanilla alone, or metadata provided by optional sorting/container mods. Inventory category presentation is left to those UIs. See [native categories and compatibility](docs/NATIVE_CATEGORIES_COMPATIBILITY.md). The older implementation milestones below are historical.
+
 ## dev.21 Category failure investigation
 
 User confirms dev.20 loaded but visible Category labels remained vanilla with Neat UI. Added OFF-by-default bounded boundary diagnostics; no new renderer or gameplay changes. Full offline suite and 5,092-entry zero-change comparison passed. G6 diagnostic acceptance BLOCKED, G7 NOT TESTED, G8 BLOCKED. Bulk-transfer/collision native audit is separate and implementation remains outstanding. See `dist/handoffs/dev21-category-investigation.md` and `dev21-bulk-and-collision-audit.md`. Published dev.20 remains unchanged.
@@ -12,15 +14,15 @@ Standalone container sorting with a combined category/item tree, staged multi-co
 
 Embedded B47ANCEDUI supplies an amber-accented native ISUI shell, dedicated Shopping/Wanted/Needed views and responsive tables. The approved visual reference is used without its logo.
 
-Development candidate **0.4.0-dev.50** for Project Zomboid Build 42.21.0 (installed source inspection; native acceptance pending). No Quartermaster runtime dependency. Mod ID: `B47ANCEDQuartermaster`. Authoritative source: `src/B47ANCEDQuartermaster/42`.
+Development candidate **0.5.0-dev.1** for Project Zomboid Build 42.21.0 (installed source inspection; native acceptance pending). No Quartermaster runtime dependency. Mod ID: `B47ANCEDQuartermaster`. Authoritative source: `src/B47ANCEDQuartermaster/42`.
 
 Current identity: **B47ANCE'd Quartermaster**, Mod ID `B47ANCEDQuartermaster`, Workshop ID `3807217050`. Replace `QuartermasterSorting` in enabled-mod selections; do not enable both copies. For this standalone source, enable B47ANCEDQuartermaster alone and disable Quartermaster and previous sorting identities. The previous standalone local installation and dev.7 Workshop staging are historical deployments; current source changes are not automatically deployed. See [migration instructions](docs/RENAME_MIGRATION.md).
 
 ## Standalone implementation
 
-B47 owns the configuration window, tree, native icons, shared preset editor/storage, server planning and native trip executor. Configure Sorting is available on eligible loot containers and their world-object context menu. Use Sort for movement. The full offline suite also runs with no Quartermaster directory present. Native standalone/dedicated validation remains pending; this is not a release-ready claim. Current source is 0.4.0-dev.50; the audit correction candidate is for testing, not multiplayer certification. Dev.18 was deployed locally and published to Workshop on 2026-10-08 as an experimental testing candidate; native dedicated acceptance remains untested. See [current status](docs/MASTER_HANDOFF_STATUS.md).
+B47 owns the configuration window, tree, native icons, shared preset editor/storage, server planning and native trip executor. Configure Sorting is available on eligible loot containers and their world-object context menu. Use Sort for movement. The full offline suite also runs with no Quartermaster directory present. Native standalone/dedicated validation remains pending; this is not a release-ready claim. Current source is 0.5.0-dev.1; the native category integration candidate is for testing, not multiplayer certification. Dev.18 was deployed locally and published to Workshop on 2026-10-08 as an experimental testing candidate; native dedicated acceptance remains untested. See [current status](docs/MASTER_HANDOFF_STATUS.md).
 
-Clean-room rules always apply to absorbing other mods. Active original Quartermaster (`Quartermaster`) and Better Sorting (`BetterSortCC`) are explicitly incompatible with this standalone build, detected by exact activated Mod ID. Historical data alone is not an active-mod conflict. Better Containers is not automatically excluded; its limited non-category coexistence remains unverified. No third-party code, mappings, assets or APIs are incorporated. The owned taxonomy has stable localized IDs and uses vanilla semantic metadata. The same resolver serves the tree and server planner primitive. The [static coverage audit](docs/CATEGORY_AUDIT.json) is historical development evidence, not runtime compatibility proof.
+Native item categories are the active taxonomy: vanilla when used alone, or the DisplayCategory values supplied by enabled category mods. Better Sorting (`BetterSortCC`) is supported; Better Containers (`EURY_CONTAINERS` / `REORDER_CONTAINERS`) keeps its inventory labels, ordering, filters and controls. With Better Containers, category checkbox selections save explicit item-name rules so client-local category edits never become server authority. Previous B47 category rules are retained and visibly marked for compatibility; they are not offered as the active taxonomy. Original Quartermaster (`Quartermaster`) remains incompatible. No third-party classifiers, mappings, code or assets are imported. See [native categories and compatibility](docs/NATIVE_CATEGORIES_COMPATIBILITY.md) for evidence and limits.
 
 ## Multi-container editing
 
@@ -71,7 +73,7 @@ Current movement capability is 4: update/restart both client and server. Sorting
 
 Run `Build.ps1 -PythonPath <python.exe>` with Python and lupa 2.6. Alternatively install the host-only dependency with `python -m pip install --target .test-deps lupa==2.6`. The generated `dist/current/B47ANCEDQuartermaster-<VERSION>.zip` includes only runtime source and the Build 42 common directory.
 
-Host checks cover the development implementation; native keyboard/controller/rendering and hosted/dedicated multiplayer acceptance remain UNVERIFIED. Historical version 0.1.4 was published under the former identity. Version 0.4.0-dev.3 was published as a development testing build on 2026-10-03 to Workshop item 3807217050; that dated dev.5 candidate was a historical testing package. Current source version: 0.4.0-dev.50. See docs/MASTER_HANDOFF_STATUS.md for publication evidence and pending runtime gates.
+Host checks cover the development implementation; native keyboard/controller/rendering and hosted/dedicated multiplayer acceptance remain UNVERIFIED. Historical version 0.1.4 was published under the former identity. Version 0.4.0-dev.3 was published as a development testing build on 2026-10-03 to Workshop item 3807217050; that dated dev.5 candidate was a historical testing package. Current source version: 0.5.0-dev.1. See docs/MASTER_HANDOFF_STATUS.md for publication evidence and pending runtime gates.
 
 The archived 0.2.0-dev.2 package used normal Quartermaster rules. Current development Save writes a separate owned namespace and leaves those legacy rules untouched. Removing this development source does not convert owned rules back to Quartermaster. Do not deploy it until the extraction and native gates are complete. Build scripts do not deploy or launch the game.
 

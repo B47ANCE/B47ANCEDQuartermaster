@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.0-dev.1]
+- New 0.5 development line: intentionally replace the default B47 taxonomy with native item DisplayCategory/fallback categories. Retain retired rule interpretation only for saved-configuration compatibility; no third-party mappings imported.
+- Permit Better Sorting and preserve Better Containers inventory UI; client-local category selections use explicit item rules on authority.
+- Give catalog preparation the owned window header, layout and progress styling. Native UI, optional-mod and dedicated acceptance remain pending; no deployment/publication.
+
 ## [0.4.0-dev.50]
 - Compatible PATCH candidate: assemble each authorized native transfer batch through vanilla ISQueueActionsAction before the first transfer begins. Keep existing server batch-size, native grouping/timing, per-item guards and stable item-ID lookup.
 - User confirms dev.49 fixes the one-item stop; client log reports 140 completed with zero transfer failures. This is scoped runtime evidence, not full dedicated G7 acceptance. New queue behavior requires in-game testing.

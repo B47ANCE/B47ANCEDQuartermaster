@@ -9,7 +9,7 @@ function Model.new(picker, api, otherLabel, ownerFor)
     local cats = {}
     for _, cat in ipairs(api.getCategories()) do cats[cat] = true end
     for cat, on in pairs(picker.selectedCats) do if on then cats[cat] = true end end
-    local families=B47ANCEDQuartermaster.Categorizer and B47ANCEDQuartermaster.Categorizer.families
+    local families=not api.nativeCategories and B47ANCEDQuartermaster.Categorizer and B47ANCEDQuartermaster.Categorizer.families
     if families then
         local function ancestors(cat,seen)
             seen=seen or {};if seen[cat] then return end;seen[cat]=true
@@ -29,7 +29,7 @@ function Model.new(picker, api, otherLabel, ownerFor)
     table.sort(names)
     local known = {}
     for _, cat in ipairs(names) do
-        local group = { id = 'c:' .. cat, key = cat, label = api.categoryLabel and api.categoryLabel(cat) or cat, children = {} }
+        local group = { id = 'c:' .. cat, key = cat, label = api.categoryLabel and api.categoryLabel(cat) or cat, children = {}, synthetic=api.explicitCategories==true }
         local seen = {}
         for _, entry in ipairs(api.getItemsInCategory(cat)) do
             local name = entry.name
@@ -168,7 +168,7 @@ end
 -- Only normalize groups affected by this user operation, never pre-existing rules on open.
 function Model:normalize(affected)
     for _, group in ipairs(self.groups) do
-        if affected[group.id] and group.key and #group.children > 0 then
+        if affected[group.id] and group.key and not group.synthetic and #group.children > 0 then
             local full = true
             for _, name in ipairs(group.children) do
                 if not (self.picker.selectedCats[group.key] or self.picker.selectedItems[name]) then full = false; break end
@@ -227,7 +227,7 @@ function Model:applyRows(rows, action)
     end
     for _, command in pairs(whole) do
         local group, on = command.group, command.on
-        if group.key then self.picker.selectedCats[group.key] = on or nil end
+        if group.key then self.picker.selectedCats[group.key] = on and not group.synthetic or nil end
         for _, name in ipairs(group.children) do
             if not on then clearNames[name] = true
             elseif group.synthetic then self:addName(name) end
