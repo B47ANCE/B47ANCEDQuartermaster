@@ -1,5 +1,7 @@
 # B47ANCE'd Quartermaster
 
+**Clean Building is activated in the development source for multiplayer testing**, with matching Quartermaster and Rooms source on the server/client. Right-click inside a native building, then choose **Clean Building**: fetch eligible supplies, add 10 mL bleach by default, fill the remaining bucket capacity with water, clean eligible blood/grime and return borrowed supplies when permitted. Rooms owns the sandbox settings and cleaning permissions. Single-player activation is disabled pending a verified local-authority adapter. [Setup, limits and validation](docs/CLEAN_BUILDING.md). The authorized Workshop test upload targets Quartermaster only; Rooms has no Workshop item and must be installed separately. See the local publication manifest/receipt for actual upload status.
+
 Current source integrates optional **B47ANCE'd Rooms** for standalone room designation, native-room overrides and delegated room policies. Quartermaster continues to work without it using native rooms/buildings and vanilla safehouse checks. With Rooms installed, **Designate Room** opens its independent editor.
 
 The inventory Sort button opens a scope menu: **Sort Entire Building**, **Sort Room**, or **Sort Only Inventory / Selected Container** when applicable. Both area choices include the full carried inventory, including unequipped bags, plus configured physical storage. Hidden/private storage is filtered and source/destination permissions are rechecked independently. Ground/proximity remains a single-source operation.

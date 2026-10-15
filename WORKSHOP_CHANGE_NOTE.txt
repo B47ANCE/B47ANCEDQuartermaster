@@ -1,9 +1,10 @@
 [b]Version 0.8.0-dev.1[/b]
 MP testing build - dedicated multiplayer NOT TESTED
-Development source and offline packages only; no upload authorized.
 
-Use optional B47ANCE'd Rooms for standalone designation, native-room overrides, delegated ownership, per-action policies and boundary approval. Quartermaster alone retains native room/building scopes and vanilla safehouse checks. Legacy custom room records are imported by Rooms without deleting Quartermaster recovery data.
+Activate the experimental multiplayer Clean Building source: fetch eligible supplies, equip, add 10 mL bleach first by default, fill remaining bucket capacity with water, clean supported native blood/grime, then return borrowed supplies when permitted. Sender-bound commands and guarded server action reconstruction preserve server authority.
 
-Inventory Sort now opens building, room or current-source choices. Room and building sorting include full carried inventory and bags, followed by configured physical storage. Permissions are checked independently for each source and destination; native transfer grouping/timing, priorities, presets and taxonomy remain unchanged.
+Requires separately installed matching B47ANCE'd Rooms source (API 1, cleaning capability 1) on server and clients. Rooms has no Workshop item yet; this upload updates Quartermaster only. Single-player Clean Building is disabled. Finite pure-water sources and supported equipment are required. Conservative cross-level footprint checks may skip many or all targets. Cancellation can retain supplies; jobs do not resume after reconnect/restart. Native packet processing can interrupt an earlier action before Lua confirmation.
 
-Update both Quartermaster peers together: configuration 5, movement 8, rooms 2. Rooms uses API/protocol 1. Offline tests pass. Native UI/persistence and dedicated two-client acceptance are NOT TESTED; G7 and stable G8 BLOCKED. Policies cannot block unrelated vanilla transfers or revoke a native action after dispatch.
+Includes optional standalone Rooms integration and building/room/current-source Sort scopes. Area sorting includes full carried inventory/bags and configured physical storage, with independent source/destination checks. Without Rooms, native room/building sorting remains available. Policies do not lock unrelated vanilla gameplay.
+
+Update/restart both Quartermaster peers: configuration 5, movement 8, rooms 2. Offline regressions and source/package checks pass; native UI/save/persistence, optional-mod and dedicated acceptance remain NOT TESTED. G7 and stable G8 BLOCKED. Back up saves; no local deployment or server changes.

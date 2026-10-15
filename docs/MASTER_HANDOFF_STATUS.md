@@ -2,6 +2,10 @@
 
 Project Version: 0.8.0-dev.1
 
+## Clean Building source activation
+
+[VERIFIED source] Quartermaster now auto-installs its Clean Building server/client integration through verified multiplayer lifecycle events. Matching Rooms source supplies cleaning capability 1, settings and policy. The default recipe is 10 mL bleach first, followed by water to fill the 10 L bucket. [TESTED offline] Production-module workflow, sender/reconstruction guards and lifecycle tests pass. [RUNTIME GATE] Single-player remains disabled; native client/server acceptance and dedicated G7 are NOT TESTED, stable G8 BLOCKED. Existing packaged artifacts predate activation and remain unchanged. See [exact scope, commands and test prerequisites](CLEAN_BUILDING.md).
+
 ## Rooms extraction and scoped sorting — 0.8.0-dev.1
 
 [VERIFIED source] B47ANCEDRooms is an optional standalone service. It owns room IDs, geometry, overrides, editing, delegated policies and persistence. Quartermaster owns physical discovery, furniture, configuration, planning, Shopping/Dibs and native transfers. Without Rooms, native room/building sorting and vanilla safehouse checks remain available. An installed incompatible/unavailable Rooms service fails closed.

@@ -1,6 +1,8 @@
 # Changelog
 
 ## [0.8.0-dev.1]
+- Authorized Workshop MP testing candidate for existing item 3807217050. Quartermaster only: matching Rooms cleaning source must be installed separately; no new Rooms Workshop item is created. Preserve the pre-cleaning package/provenance and record new source/package hashes. Dedicated G7 and stable G8 remain BLOCKED.
+- Activate Clean Building in the Lua source under the existing Mod ID: multiplayer lifecycle hooks install server-owned jobs, guarded native timed actions and client context-menu intent. Rooms cleaning capability/settings are required; missing/incompatible service and single-player fail closed. Default preparation adds 10 mL bleach before water. Existing archives are unchanged; native/dedicated acceptance remains NOT TESTED.
 - Compatible MINOR optional standalone Rooms integration. Extract room geometry/editor/registry into B47ANCEDRooms; preserve native-only fallback and sorting configuration.
 - Inventory Sort opens building, room or exact-source choices. Both area scopes include full carried inventory/bags and configured physical storage, with exact-item deduplication and native transfers.
 - Independently enforce discovery, inspection, withdrawal, deposit and configuration permissions at server discovery/planning/grant boundaries. Parent/admin metadata control does not bypass private gameplay policy.

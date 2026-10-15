@@ -3,6 +3,10 @@
   "canonical": "VERSION",
   "mirrors": [
     {
+      "path": "docs/CLEAN_BUILDING.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
       "path": "docs/MASTER_HANDOFF_STATUS.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
@@ -101,6 +105,10 @@
     }
   ],
   "historical": [
+    {
+      "reference": "docs/audits/AUTO_CLEAN_*",
+      "reason": "Offline Auto Clean research evidence freezes each observed version, source/HEAD, environment and runtime gates; not current packaged gameplay validation."
+    },
     {
       "reference": "dist outside current; docs/WORKSHOP_PUBLICATION.md; docs/V014_IMPLEMENTATION.md; prior version sections in docs/TESTING.md and docs/ROADMAP.md; docs/CONTAINER_SELECTOR_AUDIT.md; docs/CONTAINER_SELECTOR_EVIDENCE.json; docs/RENAME_REFERENCE_BASELINE.txt",
       "reason": "Pre-migration archives and dated observations retained as history"

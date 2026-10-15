@@ -2,68 +2,57 @@ B47ANCE'd Quartermaster adds container sorting, personal shopping lists and supp
 
 [h2]Development testing build[/h2]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-[b]This build requires updating and restarting both client and server (configuration capability 5, movement 8, rooms 2). Older movement peers are rejected.[/b]
-Version 0.8.0-dev.1. Tested offline with regression and source checks. This is an experimental testing candidate. Native single-player, listen-server and dedicated multiplayer validation for this candidate are pending. Back up saves before testing; use the same version on all multiplayer peers.
+Version 0.8.0-dev.1. Tested offline with regression, source and package checks against Build 42.21. Native client, listen-server and dedicated acceptance are pending. Back up saves before testing. Update and restart both client and server together: configuration capability 5, movement 8, rooms 2. Older movement peers are rejected.
 
-[h2]Standalone[/h2]
-No Quartermaster dependency. Disable older sorting versions when testing.
+[h2]Standalone and compatibility[/h2]
+No original Quartermaster dependency. Disable original Quartermaster (Mod ID Quartermaster), older B47 sorting versions and duplicate copies when testing. No category mod is required: vanilla categories work alone.
 
-[h2]Compatibility[/h2]
-No category mod is required: standalone uses vanilla categories. Optional Better Sorting (Mod ID BetterSortCC) supplies its categories through native item metadata. Optional Better Containers (Mod IDs EURY_CONTAINERS / REORDER_CONTAINERS) retains its inventory labels, sorting, filters and pinned ordering; B47 uses its exposed native categories. Both may be enabled; effective categories follow their native metadata and load order. These integrations are implemented for testing; actual optional-mod single-player and dedicated multiplayer acceptance remains pending.
+Optional Better Sorting (BetterSortCC) supplies native categories. Better Containers (EURY_CONTAINERS / REORDER_CONTAINERS) retains its inventory UI; B47 uses its exposed categories. Both may be enabled; effective categories follow native metadata/load order. Optional-mod runtime acceptance is pending. Multiplayer peers need matching versions/mods.
 
-Better Containers custom categories can be client-local, so B47 saves category selections as explicit item choices. Reselect a group after category membership edits or new item types. Original Quartermaster (Mod ID Quartermaster) and older B47 sorting copies must be disabled. All multiplayer peers need the same intended B47 version and shared mods. Other inventory UI combinations are not certified.
+Better Containers categories save as explicit item choices. Reselect after category changes/new types. Other UI combinations are not certified.
 
-[h2]Window controls[/h2]
-• Native corner/bottom resizing, an adjustable container-panel divider, controller layout actions and saved local geometry.
-• Window Appearance provides live background opacity from 20–100% (default 82%), with separate local preferences and explicit appearance reset. Foreground controls and tooltips retain readable presentation. Native visual acceptance pending.
+[h2]Clean Building — experimental multiplayer[/h2]
+Requires the matching B47ANCE'd Rooms development source, API 1 with cleaning capability 1, installed separately on server and clients. Rooms currently has no Workshop item; subscribing to Quartermaster alone does not enable Clean Building. [url=https://github.com/B47ANCE/B47ANCEDRooms]Rooms source and installation notes[/url]
+
+With Rooms available, right-click while inside a loaded native building and choose Clean Building. The server selects eligible supplies from carried inventory and configured physical storage, directs fetching and equipping, adds 10 mL bleach by default before filling the remaining 10 L bucket capacity with water, and uses native blood/grime cleaning actions. Supported prepared solution is reused; refills account for residual bleach. Eligible borrowed supplies are returned to their original storage when current permission and capacity allow. Cancel Cleaning stops the job; supplies can remain carried. The summary reports actual actions, skips and retained items.
+
+Rooms owns cleaning permissions and server sandbox settings for enable, borrowing, return, bleach dose, building tile limit and logistics timing. Client commands submit intent; authenticated server ownership and guarded native reconstruction control mutation.
+
+[b]Single-player Clean Building is disabled.[/b] This feature requires finite pure-water sources; plumbed/infinite, tainted or mixed sources and protected/unsupported equipment are rejected. Native floor removal can affect neighboring squares across levels. The guard requires the entire possible footprint to be loaded, permitted and within the selected native building; many or all targets can be skipped. Ashes, graffiti and arbitrary dirt are not supported. Jobs do not resume after reconnect/restart. Native packet processing may interrupt an earlier action before Lua confirmation; the guard does not fix this engine limitation. No native/dedicated correctness claim is made.
 
 [h2]Rooms and area sorting[/h2]
-• Optional B47ANCE'd Rooms supplies independent room designation, native-room overrides, ownership and action-specific policies. Use Designate Room in Quartermaster when it is installed.
-• Without Rooms, native room/building scopes and vanilla safehouse rules remain available. No hard Rooms dependency.
-• Inventory Sort offers the entire building, the current room or only the current inventory/container. Both area choices include the full carried inventory and bags, plus configured physical sources.
-• Restricted storage is filtered. Withdrawal, deposit and configuration are independently checked on authority; parent/admin metadata control does not grant gameplay access.
-• Room policies govern supported mod checks only. They do not lock unrelated vanilla storage, entry or doors, or revoke already-dispatched native transfers. Native and dedicated acceptance remain NOT TESTED.
+Optional Rooms supplies independent designation, native-room overrides, delegated ownership, per-action policies and boundary approval. Use Designate Room when installed. Without Rooms, native room/building sorting scopes and vanilla safehouse rules remain available; sorting has no hard Rooms dependency.
 
-[h2]Sorting[/h2]
-• Item catalog preparation checks native getter availability before lookup, avoiding missing-method category errors. In-game preparation speed remains unverified.
-• Sorting uses bounded per-phase movement queries and prompt queue scheduling to reduce gaps between batches, preserving native per-item timing and server checks. Dedicated throughput acceptance remains pending.
-• Sorting waits for server-confirmed arrival before pickup/deposit authorization, preserving native transfer checks.
-• A failed batch with no completed transfers stops safely; console summaries separate planning skips from transfer failures.
-• Native categories: vanilla by default, or categories exposed by enabled sorting/container mods. The former B47 taxonomy is retired.
-• Server-side cleanup removes obsolete B47 category rules and owned legacy formats, preserving native rules, explicit items, priorities and owned presets. Back up saves before upgrading; removed rules do not return on downgrade.
-• Open Quartermaster Menu lives in player inventory controls, including empty inventory and carried-bag views.
-• Server batches reuse destination configurations and preset rules; dedicated startup speed remains unverified.
-• Lua-only floor and resolvable aggregate sources, with native pickup and server-observed completion. Proximity UI/native multiplayer acceptance pending; persistent decoration protection is not included.
-• Native category → item hierarchy with native icons and full, partial and unselected category states. Optional Group Items by Mod adds mod headings.
-• Native inventory category labels, sorting, pinned order and filters remain owned by vanilla or the installed inventory UI mods. Catalog preparation uses the B47 window header, progress display and scalable controls.
-• Category and item search, Only Checked, Only Contents, presets and priorities.
-• Visible-row range selection, bulk selection and mouse/controller controls.
-• Multi-container configuration, world sprite rail and nested verified Whole Container groups with live inheritance, explicit section customization and confirmed reset.
-• Room-first view with Building/Room/Proximity choices; new sandbox configurations enable Whole Building discovery by default. Existing explicit settings remain unchanged.
-• Concise, bounded tooltips with full Help and controller inspection.
-• Server-controlled visit optimization keeps same-destination work together across batches; loaded same-floor navigation is approximated within a bounded budget. Native timing improvements and cross-floor routing remain unverified.
-• Server sandbox controls for Container Range and Whole Building discovery. The latter uses the player's native building and loaded squares.
+Inventory Sort offers the entire building, current room or current inventory/container. Both area choices include full carried inventory and bags, followed by configured physical storage. Restricted storage is filtered; withdrawal, deposit and configuration are independently checked on authority. Parent/admin metadata control does not grant gameplay access. Room policies do not lock unrelated vanilla transfers, entry or doors, or revoke a native transfer after dispatch. Legacy room records are imported by Rooms without deleting Quartermaster recovery data.
 
-Click a category checkbox to select or clear it. Click its label to expand or collapse. Full categories use native category rules; partial categories use explicit item-name rules. With Better Containers, full category clicks also save explicit member selections; reselect the group to update membership after category edits or new item types. Identical display names share selections, and presets remain additive.
+[h2]Sorting and window controls[/h2]
+• Native category → item hierarchy with icons and full, partial and unselected states. Optional Group Items by Mod adds mod headings.
+• Category/item search, Only Checked, Only Contents, presets and priorities; visible-row ranges, bulk selection and mouse/controller controls.
+• Multi-container configuration, world sprite rail and verified Whole Container groups with inheritance and explicit customization/reset.
+• Building/Room/Proximity choices. New sandbox configurations enable Whole Building discovery; existing explicit settings remain unchanged. Server settings control discovery range and visit optimization.
+• Bounded movement queries reduce gaps between batches while preserving native per-item timing, permissions and server-observed arrival/completion. A failed batch without completed transfers stops safely; summaries distinguish planning skips from transfer failures.
+• Native getter checks avoid category lookup errors. Floor/aggregate sources use native pickup; native acceptance pending.
+• Native categories replace the retired B47 taxonomy. Server cleanup removes obsolete owned formats/category rules, retaining native rules, item choices, priorities and owned presets. Removed rules do not return on downgrade; back up saves.
+• Open Quartermaster Menu is available in player inventory controls, including empty inventory and carried bags.
+• Native resizing, adjustable container divider, controller layout actions and saved local geometry. Window Appearance controls background opacity from 20–100% (default 82%) with explicit reset.
+• Tooltips, Help and controller inspection; native visual/scaling and cross-floor routing acceptance pending.
+
+Click a category checkbox to select/clear or its label to expand/collapse. Full categories use native rules; partial selections use item names. Identical names share selections; presets are additive. Vanilla/installed UI mods retain native inventory presentation.
 
 [h2]Supply planning[/h2]
-• Dibs! item labels and separate Wanted and Needed supply lists.
-• Set target quantities, see how many qualifying items you currently carry, and send whatever is missing to Shopping.
-• Add Remaining and bulk Add Items to Shopping List keep linked possession demand synchronized; overlapping targets use the greater target.
-• Collect Remaining uses the existing collector for the selected Wanted or Needed goal.
-• Personal Shopping Preferences default to Any, with condition, food-state and remaining-use filters plus item overrides.
-• Source labels, duplicate confirmation and explicit Add Again preserve intent; replay and rapid double-fire protection remain active when optional confirmation is off.
-• Manual shopping items and native crafting/building project requirements.
-• Optional Project Cook shopping controls for native CraftRecipe and supported EvolvedRecipe full portions.
-• Optional Neat Crafting and Neat Building shopping controls; selected unsupported recipes explain their limits.
+• Dibs! item labels and Wanted/Needed lists with target quantities, qualifying carried counts and missing-demand Shopping.
+• Add Remaining, bulk Add Items and Collect Remaining reuse authoritative Shopping; overlapping linked targets use the greater demand.
+• Personal Shopping Preferences support condition, food state and remaining-use filters with item overrides.
+• Source labels, duplicate confirmation and explicit Add Again preserve intent; replay/double-fire protection remains active.
+• Manual Shopping and native crafting/building requirements, optional Project Cook CraftRecipe/supported EvolvedRecipe portions, and optional Neat Crafting/Neat Building controls.
 
-Project Cook is optional. Cooking support is limited to the supported fresh-food full-portion path. Partial modes, water/fluid demands, non-Food seasonings, prefilled bases and conflicting whole-item/portion demands are unsupported. Shopping planning does not automatically craft, build or cook.
+Project Cook is optional. Cooking planning supports fresh-food full portions only. Partial modes, fluid demands, non-Food seasonings, prefilled bases and conflicting whole-item/portion demands are unsupported. Planning does not automatically craft, build or cook.
 
-Mod ID: B47ANCEDQuartermaster
-Original standalone implementation. No third-party mod source or assets are included.
+[h2]Known issues[/h2]
+The prior one-item Sort stop was reported fixed on dev.49. Queue/throughput changes require native and dedicated retesting. A batch-validation stop after 272 transfers remains under investigation. Catalog preparation and Sort-start timing remain unverified. Static metadata audits do not certify optional variants, runtime-created items or effective mod load order. G7 remains NOT TESTED/BLOCKED; stable G8 BLOCKED.
 
-[h2]Known issues in this testing build[/h2]
-The user confirms the prior one-item Sort stop fixed on dev.49. The new queue/phase throughput changes require in-game and dedicated-server retesting. A local batch-validation stop after 272 transfers is under investigation; failure reasons are now more specific. Missing-method catalog errors are corrected in source and offline tests; actual preparation and Sort-start timing remain unverified. Native metadata audits do not certify optional variants, runtime-created items or effective mod load order.
+[h2]Credits and permissions[/h2]
+Mod ID: B47ANCEDQuartermaster. Original standalone implementation; no third-party mod source or assets included. Lua-only runtime.
 
 [h2]Source code and development[/h2]
 [url=https://github.com/B47ANCE/B47ANCEDQuartermaster]GitHub — Source Code & Issues[/url]
