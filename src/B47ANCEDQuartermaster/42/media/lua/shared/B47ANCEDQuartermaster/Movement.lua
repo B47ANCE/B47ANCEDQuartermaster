@@ -41,7 +41,7 @@ end
 function M.carrier(player,id)
     if not id or id==0 then return player:getInventory() end
     local item=player:getInventory():getItemWithIDRecursiv(id)
-    if item and instanceof(item,'InventoryContainer') and item:isEquipped() then return item:getInventory() end
+    if item and instanceof(item,'InventoryContainer') then return item:getInventory() end
 end
 local function identity(t)
     local id=identities[t.obj]
@@ -60,7 +60,9 @@ local function valid(player,op)
     if getTimestampMs()-op.time>=lifetime then return false,'expired' end
     if not eligible(player,op.item) then return false,'itemProtected' end
     if M.carrier(player,op.carrierID)~=op.carrier then return false,'carrierChanged' end
+    if op.source and not B47ANCEDQuartermaster.RoomAccess.can(player,op.source,'withdraw') then return false,'RoomAccessChanged' end
     if op.withdrawal then return true end
+    if not B47ANCEDQuartermaster.RoomAccess.can(player,op.destination,'deposit') then return false,'RoomAccessChanged' end
     if op.customRoom and not B47ANCEDQuartermaster.Rooms.resolve(player,op.customRoom,op.roomRevision) then return false,'roomScopeChanged' end
     if op.areaSourceConfig then
         local current=B47ANCEDQuartermaster.Store.load(op.source,player)
@@ -69,12 +71,12 @@ local function valid(player,op)
     end
     if op.destinationRecord.revoked or not T.valid(op.destination,player) then return false,'destinationInvalidated' end
     if op.destination.obj:getModData().B47MovementInstance~=op.marker then return false,'destinationMarkerChanged' end
-    if not B47ANCEDQuartermaster.Schema.equal(op.config,B47ANCEDQuartermaster.Store.load(op.destination,player)) then return false,'configurationChanged' end
+    if not B47ANCEDQuartermaster.Schema.equal(op.config,B47ANCEDQuartermaster.Store.routing(op.destination,player)) then return false,'configurationChanged' end
     if not B47ANCEDQuartermaster.Schema.equal(op.effective,B47ANCEDQuartermaster.Presets.resolve(op.config)) then return false,'effectiveRulesChanged' end
     return true
 end
 function M.withdraw(player,record,carrierID,run)
-    if isClient() or not record or record.revoked or not T.valid(record.target,player) then return {status='invalid'} end
+    if isClient() or not record or record.revoked or not T.valid(record.target,player) or not B47ANCEDQuartermaster.RoomAccess.can(player,record.target,'withdraw') then return {status='invalid'} end
     local position=T.descriptor(record.target)
     for _,key in ipairs({'x','y','z','ci'}) do if position[key]~=record.position[key] then return {status='invalid'} end end
     local container=record.target.container
@@ -102,6 +104,7 @@ function M.planOne(player,args,context)
             source=r.target
             sourceRecord=r
         end
+        if source and not source.ground and not B47ANCEDQuartermaster.RoomAccess.can(player,source,'withdraw') then return {status='RoomAccessDenied'} end
         local container=source and source.container or M.carrier(player,tonumber(carriedSource))
         if not container then return {status='invalid'} end
         local item=context and context.ground and context.ground.item or container:getItemWithID(args.itemID)
@@ -114,7 +117,7 @@ function M.planOne(player,args,context)
             if context and context.planning then
                 return candidate.rulesReady and accepts(player,t.container,it) and (not context.accepts or context.accepts(t,it))
             end
-            local config=B47ANCEDQuartermaster.Store.load(t,player)
+            local config=B47ANCEDQuartermaster.Store.routing(t,player)
             return config and B47ANCEDQuartermaster.Presets.resolve(config) and accepts(player,t.container,it)
                 and (not context or context.accepts(t,it))
         end,context and context.trace,context and context.planning)

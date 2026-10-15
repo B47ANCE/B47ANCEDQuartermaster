@@ -1,9 +1,9 @@
-[b]Version 0.7.0-dev.1[/b]
+[b]Version 0.8.0-dev.1[/b]
 MP testing build - dedicated multiplayer NOT TESTED
-Source development only; no upload authorized for this iteration.
+Development source and offline packages only; no upload authorized.
 
-Add server-owned custom room designations with an in-world preview editor: structural/native candidates, rectangles, paint/erase, explicit floors, undo/redo, duplicate, merge, split, rename and delete. Creators and current associated safehouse members may edit. Revisions, native access and bounded cooperative validation protect shared state.
+Use optional B47ANCE'd Rooms for standalone designation, native-room overrides, delegated ownership, per-action policies and boundary approval. Quartermaster alone retains native room/building scopes and vanilla safehouse checks. Legacy custom room records are imported by Rooms without deleting Quartermaster recovery data.
 
-Custom rooms integrate into the existing discovery selector and physical-container sorting. Native transfers, capacity, priorities and individual furniture compartments remain intact. Room Sort excludes player/ground/bag/virtual inventories and deduplicates exact instances.
+Inventory Sort now opens building, room or current-source choices. Room and building sorting include full carried inventory and bags, followed by configured physical storage. Permissions are checked independently for each source and destination; native transfer grouping/timing, priorities, presets and taxonomy remain unchanged.
 
-Update both peers together: configuration capability 4, movement 7 and rooms 1. Existing sorting schema 2/world root 1 are unchanged. Full offline source suite and native metadata checks pass; real UI/controller, structural detection, save/load and dedicated reconnect/restart acceptance remain NOT TESTED. G7 and stable G8 BLOCKED. Existing native transfer authority limitations remain; a room designation cannot make an unreachable container reachable.
+Update both Quartermaster peers together: configuration 5, movement 8, rooms 2. Rooms uses API/protocol 1. Offline tests pass. Native UI/persistence and dedicated two-client acceptance are NOT TESTED; G7 and stable G8 BLOCKED. Policies cannot block unrelated vanilla transfers or revoke a native action after dispatch.

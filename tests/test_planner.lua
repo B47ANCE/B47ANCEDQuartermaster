@@ -23,9 +23,9 @@ assert(P.choose(f.player,discovery.session,item,{},function() return true end).t
 assert(P.choose(f.player,discovery.session,item,{},function(t) return t.obj~=f.b end).target.obj==f.a)
 -- A synchronous server batch resolves rules once, but checks live eligibility
 -- for every item. Count expensive work rather than relying on wall-clock noise.
-local oldLoad,oldEffective=Store.load,S.effective
+local oldLoad,oldEffective=Store.routing,S.effective
 local loads,resolutions=0,0
-Store.load=function(...) loads=loads+1;return oldLoad(...) end
+Store.routing=function(...) loads=loads+1;return oldLoad(...) end
 S.effective=function(...) resolutions=resolutions+1;return oldEffective(...) end
 local prepared=assert(P.prepare(f.player,discovery.session,{}))
 local initialLoads,initialResolutions=loads,resolutions
@@ -35,7 +35,7 @@ for i=1,100 do
 end
 assert(loads==initialLoads and resolutions==initialResolutions,'batch repeated configuration/rule work per item')
 assert(not P.choose({},discovery.session,item,{},function() return true end,nil,prepared),'foreign batch owner accepted')
-Store.load,S.effective=oldLoad,oldEffective
+Store.routing,S.effective=oldLoad,oldEffective
 B.invalidate(f.b)
 assert(P.choose(f.player,discovery.session,item,{},function() return true end,nil,prepared).target.obj==f.a,'prepared candidates bypassed revocation')
 assert(P.choose(f.player,discovery.session,item,{},function() return true end).target.obj==f.a)

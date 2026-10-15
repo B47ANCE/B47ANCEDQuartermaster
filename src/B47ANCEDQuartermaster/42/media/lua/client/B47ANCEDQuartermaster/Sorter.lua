@@ -76,7 +76,7 @@ function S.start(playerNum,source,callback,options)
         if obj then target=T.make(obj,obj:getContainerIndex(source),player) end
         if not target then return false,'invalid' end
     end
-    if options and options.area and (not target or token) then return false,'invalid' end
+    if options and options.area and token=='ground' then return false,'invalid' end
     local square=player:getCurrentSquare()
     traceSequence=traceSequence+1
     local participant=player.getOnlineID and player:getOnlineID() or playerNum
@@ -95,7 +95,7 @@ function S.start(playerNum,source,callback,options)
         Trace.emit(run.trace,'STATIC_CATALOG',state.preparing and 'PREPARING' or state.prepared and 'READY' or 'UNINITIALIZED',nil,nil,nil,state.classified,state.prepared and 'hit' or 'miss')
     end
     if options and options.discovery then
-        run.discovery=options.discovery;run.phase='bind';run.traceBindAt=Trace.begin();run.scopeRoom=options.discovery.view and options.discovery.view.kind=='customRoom';return true
+        run.discovery=options.discovery;run.phase='bind';run.traceBindAt=Trace.begin();run.scopeRoom=options.area or options.discovery.view and options.discovery.view.kind=='customRoom';return true
     end
     request(run,'tripDiscover',{scope={x=square:getX(),y=square:getY(),z=square:getZ()}},function(r)
         if r.status~='ok' then endRun(run,r.status);return end

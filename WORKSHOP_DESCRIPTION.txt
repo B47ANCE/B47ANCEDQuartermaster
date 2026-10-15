@@ -2,8 +2,8 @@ B47ANCE'd Quartermaster adds container sorting, personal shopping lists and supp
 
 [h2]Development testing build[/h2]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-[b]This build requires updating and restarting both client and server (configuration capability 4, movement 7, rooms 1). Older movement peers are rejected.[/b]
-Version 0.7.0-dev.1. Tested offline with regression and source checks. This is an experimental testing candidate. Native single-player, listen-server and dedicated multiplayer validation for this candidate are pending. Back up saves before testing; use the same version on all multiplayer peers.
+[b]This build requires updating and restarting both client and server (configuration capability 5, movement 8, rooms 2). Older movement peers are rejected.[/b]
+Version 0.8.0-dev.1. Tested offline with regression and source checks. This is an experimental testing candidate. Native single-player, listen-server and dedicated multiplayer validation for this candidate are pending. Back up saves before testing; use the same version on all multiplayer peers.
 
 [h2]Standalone[/h2]
 No Quartermaster dependency. Disable older sorting versions when testing.
@@ -17,12 +17,12 @@ Better Containers custom categories can be client-local, so B47 saves category s
 • Native corner/bottom resizing, an adjustable container-panel divider, controller layout actions and saved local geometry.
 • Window Appearance provides live background opacity from 20–100% (default 82%), with separate local preferences and explicit appearance reset. Foreground controls and tooltips retain readable presentation. Native visual acceptance pending.
 
-[h2]Custom rooms[/h2]
-• Name logical storage zones using structural/native candidates, rectangles or paint/erase, then explicitly confirm the preview.
-• Edit, duplicate, merge, split or delete designations. Floors are explicit; overlaps are visible and disconnected regions require confirmation.
-• Creators and current members of the associated safehouse can edit. Geometry never grants access or changes physical containers.
-• Select custom rooms in the existing scope menu and sort their configured physical storage with native transfers. Room Sort excludes player, ground and bag inventories.
-• Server-authoritative room settings control availability, tile limits, editing range and doorless boundaries. Native visual, persistence and dedicated acceptance remain NOT TESTED.
+[h2]Rooms and area sorting[/h2]
+• Optional B47ANCE'd Rooms supplies independent room designation, native-room overrides, ownership and action-specific policies. Use Designate Room in Quartermaster when it is installed.
+• Without Rooms, native room/building scopes and vanilla safehouse rules remain available. No hard Rooms dependency.
+• Inventory Sort offers the entire building, the current room or only the current inventory/container. Both area choices include the full carried inventory and bags, plus configured physical sources.
+• Restricted storage is filtered. Withdrawal, deposit and configuration are independently checked on authority; parent/admin metadata control does not grant gameplay access.
+• Room policies govern supported mod checks only. They do not lock unrelated vanilla storage, entry or doors, or revoke already-dispatched native transfers. Native and dedicated acceptance remain NOT TESTED.
 
 [h2]Sorting[/h2]
 • Item catalog preparation checks native getter availability before lookup, avoiding missing-method category errors. In-game preparation speed remains unverified.

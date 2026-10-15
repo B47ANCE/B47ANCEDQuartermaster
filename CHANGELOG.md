@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0-dev.1]
+- Compatible MINOR optional standalone Rooms integration. Extract room geometry/editor/registry into B47ANCEDRooms; preserve native-only fallback and sorting configuration.
+- Inventory Sort opens building, room or exact-source choices. Both area scopes include full carried inventory/bags and configured physical storage, with exact-item deduplication and native transfers.
+- Independently enforce discovery, inspection, withdrawal, deposit and configuration permissions at server discovery/planning/grant boundaries. Parent/admin metadata control does not bypass private gameplay policy.
+- Add data-only legacy room migration in Rooms, native overrides/restore, delegated ownership and boundary approval. Original Quartermaster room data remains recovery evidence.
+- Quartermaster capabilities configuration 5/movement 8/rooms 2; config schema 2/world root 1 unchanged. Rooms API/protocol 1 and registry schema 2 are separate.
+- Full offline suites and paired production API tests PASS; native UI/persistence/dedicated G7 NOT TESTED, stable G8 BLOCKED. Development ZIPs only; no deployment or publication.
+
 ## [0.7.0-dev.1]
 - Compatible MINOR custom-room development: server-owned logical geometry, safehouse-member editing, native physical discovery and movement retained.
 - In-world structural/native candidate detection and preview editor: rectangles, paint/erase, explicit floors, undo/redo, names, duplicate, exact merge/split and delete. Overlap/disconnected warnings and cancellation cleanup preserve world/container data.

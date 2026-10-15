@@ -16,8 +16,8 @@ function P.prepare(player,sessionID,presets,trace)
     local measured=Trace.begin()
     for token in pairs(session.records) do
         local record=B.target(player,sessionID,token)
-        if record then
-            local config=Store.load(record.target,player)
+        if record and B47ANCEDQuartermaster.RoomAccess.can(player,record.target,'deposit') then
+            local config=Store.routing(record.target,player)
             if config then
                 local rulesReady=true
                 for key,link in pairs(config.presets) do
@@ -48,7 +48,7 @@ function P.choose(player,sessionID,item,presets,accepts,trace,prepared)
     local rulesAt=Trace.begin()
     local choice,matched=B47ANCEDQuartermaster.Catalog.destination(item,candidates,presets,function(candidate,actualItem)
         -- Recheck identity and authorization immediately before eligibility evaluation.
-        return B.target(player,sessionID,candidate.key)~=nil and accepts(candidate.target,actualItem,candidate)==true
+        return B.target(player,sessionID,candidate.key)~=nil and B47ANCEDQuartermaster.RoomAccess.can(player,candidate.target,'deposit') and accepts(candidate.target,actualItem,candidate)==true
     end)
     Trace.emit(trace,'RULE_RESOLUTION',choice and 'matched' or 'no-match',nil,nil,rulesAt,#candidates)
     return choice,not choice and (matched==0 and 'noMatchingRule' or 'destinationRejected') or nil

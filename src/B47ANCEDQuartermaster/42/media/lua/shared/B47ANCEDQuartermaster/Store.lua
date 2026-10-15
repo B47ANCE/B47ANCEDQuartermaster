@@ -36,8 +36,20 @@ function Store.rawCommit(record,config)
     return S.copy(config)
 end
 local F=require 'B47ANCEDQuartermaster/Furniture'
-function Store.load(target,player) return F.load(target,player,false) end
+function Store.routing(target,player)
+ if isClient() or not B47ANCEDQuartermaster.RoomAccess.can(player,target,'deposit') then return nil,'RoomAccessDenied' end
+ return F.load(target,player,false,false,'deposit')
+end
+function Store.configuration(target,player)
+ if not B47ANCEDQuartermaster.RoomAccess.can(player,target,'configure') then return nil,'RoomAccessDenied' end
+ return F.load(target,player,false,false,'configure')
+end
+function Store.load(target,player)
+ if player and not B47ANCEDQuartermaster.RoomAccess.can(player,target,'inspect') then return nil,'RoomAccessDenied' end
+ return F.load(target,player,false)
+end
 function Store.commit(record,config,player)
+ if not B47ANCEDQuartermaster.RoomAccess.can(player,record.target,'configure') then return nil,'RoomAccessDenied' end
  if F.state(record.target) then return nil,'invalid' end
  return Store.rawCommit(record,config)
 end

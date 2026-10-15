@@ -1,5 +1,6 @@
 require 'B47ANCEDQuartermaster/Schema'
 require 'B47ANCEDQuartermaster/Targets'
+require 'B47ANCEDQuartermaster/RoomScopes'
 local T=B47ANCEDQuartermaster.Targets
 local V=require 'B47ANCEDQuartermaster/DiscoveryView'
 local Trace=require 'B47ANCEDQuartermaster/SortTrace'
@@ -26,6 +27,8 @@ function B.session(player,session)
     local playerSquare=player.getCurrentSquare and player:getCurrentSquare()
     if s.customRoom then
         if not B47ANCEDQuartermaster.Rooms.resolve(player,s.customRoom,s.roomRevision) then return end
+    elseif s.areaRoom then
+        if not B47ANCEDQuartermaster.RoomScopes.playerWithinArea(player,s) then return end
     elseif s.buildingDef then
         local current=playerSquare and playerSquare:getBuilding()
         if not current or current:getDef()~=s.buildingDef then return end
@@ -40,7 +43,7 @@ end
 function B.target(player,session,token)
     local s=B.session(player,session)
     local r=s and type(token)=='string' and s.records[token]
-    if r and live(r,player) then
+    if r and live(r,player) and B47ANCEDQuartermaster.RoomScopes.includes(player,s,r.target) then
         if s.customRoom then
             local p=r.position
             if B47ANCEDQuartermaster.Rooms.contains(player,s.customRoom,s.roomRevision,p.x,p.y,p.z) then return r,s end
@@ -63,6 +66,9 @@ function B.discover(player,args)
         return nil,'invalid'
     end
     if isClient() or not player or type(args)~='table' or args.target~=nil then return reject('request') end
+    local roomService,roomState=B47ANCEDQuartermaster.RoomAccess.service()
+    if roomState=='unknown' then return nil,'RoomPermissionUnavailable' end
+    if roomService and roomService.listRooms(player).status~='ok' then return nil,'RoomPermissionUnavailable' end
     local pos=args.scope
     if type(pos)~='table' then return reject('scope') end
     for _,k in ipairs({'x','y','z'}) do if not integer(pos[k]) then return reject('coordinate') end end
@@ -82,7 +88,7 @@ function B.discover(player,args)
     if args.customRoom then
         local room,e=B47ANCEDQuartermaster.Rooms.resolve(player,args.customRoom,args.roomRevision)
         if not room then return nil,e end
-        targets,e=B47ANCEDQuartermaster.Rooms.discover(player,args.customRoom,args.roomRevision,args.roomScan)
+        targets,e=B47ANCEDQuartermaster.RoomScopes.discover(player,args.customRoom,args.roomRevision,args.roomScan)
         if not targets then return nil,e end
         s.customRoom=room.id;s.roomRevision=room.revision
         stats={candidateObjects=0,eligibleContainers=#targets,loadedSquares=0}
@@ -151,6 +157,7 @@ function B.discover(player,args)
     s.appliedView=s.appliedView or (viewInfo.currentRoom and {kind='room',room=viewInfo.currentRoom} or {kind='proximity',radius=viewInfo.maxRadius})
     if s.customRoom then s.appliedView={kind='customRoom',room=s.customRoom,revision=s.roomRevision} end
     if not s.customRoom and s.appliedView.kind=='customRoom' then s.appliedView={kind='proximity',radius=viewInfo.maxRadius} end
+    if select(2,B47ANCEDQuartermaster.RoomAccess.service())=='ready' then stats={candidateObjects=#metadata,eligibleContainers=#metadata,loadedSquares=0} end
     B.sessions[player]=s
     Trace.emit(args.trace,'HANDLE_GENERATION','complete',nil,nil,handlesAt,#metadata)
     print('[B47ANCEDQuartermaster] discovery ready candidates='..(stats and stats.candidateObjects or 0)..' eligible='..(stats and stats.eligibleContainers or 0)..' physical='..#metadata..' loadedSquares='..(stats and stats.loadedSquares or 0)..' building='..tostring(building==true)..' floor='..pos.z)

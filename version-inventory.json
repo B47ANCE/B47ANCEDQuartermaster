@@ -71,7 +71,7 @@
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
-      "path": "docs/CUSTOM_ROOMS.md",
+      "path": "docs/ROOMS_INTEGRATION.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
@@ -172,6 +172,10 @@
     {
       "reference": "dist/history/0.6.0-dev.3; dist/workshop-publish/0.6.0-dev.3-*",
       "reason": "Published 0.6.0-dev.3 package and publication provenance preserved unchanged; not current custom-room evidence."
+    },
+    {
+      "reference": "docs/CUSTOM_ROOMS.md; tests/test_custom_rooms.lua; tests/test_room_detection.lua; tests/test_room_editor.lua; tests/test_room_scopes.lua",
+      "reason": "Frozen 0.7.0-dev.1 embedded-room evidence; new standalone production paths are validated separately."
     }
   ]
 }

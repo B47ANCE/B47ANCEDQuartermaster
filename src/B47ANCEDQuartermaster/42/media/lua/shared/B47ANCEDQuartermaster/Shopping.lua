@@ -62,7 +62,7 @@ function H.handle(player,command,args)
     -- This reuses the same discovered records and never changes movement grants.
     local tiers={{},{},{}}
     for _,record in ipairs(run.records) do
-        if not record.revoked and T.valid(record.target,player) then
+        if not record.revoked and T.valid(record.target,player) and Q.RoomAccess.can(player,record.target,'inspect') and Q.RoomAccess.can(player,record.target,'withdraw') then
             local items=record.target.container:getItems();local sorted={}
             for i=0,items:size()-1 do sorted[#sorted+1]=items:get(i) end
             table.sort(sorted,function(a,b) return a:getID()<b:getID() end)
@@ -77,7 +77,7 @@ function H.handle(player,command,args)
     for priority=3,1,-1 do
         for _,candidate in ipairs(tiers[priority]) do
                 local record,item=candidate.record,candidate.item
-                if not record.revoked and T.valid(record.target,player) and Q.ShoppingRequirements.worthTaking(ledger,item) then
+                if not record.revoked and T.valid(record.target,player) and Q.RoomAccess.can(player,record.target,'inspect') and Q.RoomAccess.can(player,record.target,'withdraw') and Q.ShoppingRequirements.worthTaking(ledger,item) then
                     for _,c in ipairs(Q.Trips.carriers(player)) do
                         local budget=math.max(0,player:getMaxWeight()-player:getInventory():getCapacityWeight())
                         if item:getActualWeight()*c.factor<=budget then

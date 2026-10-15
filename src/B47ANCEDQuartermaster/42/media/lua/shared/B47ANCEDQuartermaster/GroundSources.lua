@@ -9,7 +9,7 @@ function G.valid(t,player)
   if not sq:getWorldObjects():contains(t.obj) or t.obj:getItem()~=t.item or t.item:getWorldItem()~=t.obj then return false end
   if sq:isBlockedTo(player:getCurrentSquare()) then return false end
   if (isClient() or isServer()) and (not SafeHouse or not SafeHouse.isSafehouseAllowLoot(sq,player)) then return false end
-  return t.item:getContainer()==t.container
+  return t.item:getContainer()==t.container and B47ANCEDQuartermaster.RoomAccess.can(player,t,'withdraw')
  end)
  return ok and value==true
 end
@@ -44,7 +44,7 @@ local function hints(container,player)
    if world and world:getSquare() then hint=G.descriptor({obj=world,item=it})
    else
     local c=it:getContainer();local obj=c and c:getParent();local t=obj and T.make(obj,obj:getContainerIndex(c),player)
-    if not t then return end
+    if not t or not B47ANCEDQuartermaster.RoomAccess.can(player,t,'inspect') or not B47ANCEDQuartermaster.RoomAccess.can(player,t,'withdraw') then return end
     hint=T.descriptor(t);hint.itemID=it:getID();hint.physical=true
    end
    hints[#hints+1]=hint;seen[it]=true
@@ -65,7 +65,7 @@ function G.snapshot(player,hints,session)
  local function key(h) return h.x..':'..h.y..':'..h.z..':'..h.index..':'..h.ci end
  if bound then
   for _,record in pairs(bound.records) do
-   if not record.revoked and T.valid(record.target,player) then physical[key(T.descriptor(record.target))]=record end
+   if not record.revoked and T.valid(record.target,player) and B47ANCEDQuartermaster.RoomAccess.can(player,record.target,'withdraw') then physical[key(T.descriptor(record.target))]=record end
   end
  end
  local records,items={},{}
@@ -93,7 +93,7 @@ function G.snapshot(player,hints,session)
    t=index[hint.itemID]
    if t and not G.valid(t,player) then return end
   end
-  if not t then return end
+  if not t or not B47ANCEDQuartermaster.RoomAccess.can(player,t,'inspect') or not B47ANCEDQuartermaster.RoomAccess.can(player,t,'withdraw') then return end
   local s=t.obj:getSquare()
   local range=T.options()
   if t.ground and math.max(math.abs(player:getX()-s:getX()),math.abs(player:getY()-s:getY()))>range then return end

@@ -31,7 +31,7 @@ do
  local root=menus[1];assert(root and #menus==5)
  root.options[1].callback(p);assert(intent.kind=='building')
  local rooms=root.options[2].sub
- assert(rooms.parent==root and #rooms.options==4 and rooms.player==root.player)
+ assert(rooms.parent==root and #rooms.options==3 and rooms.player==root.player)
  local nativeRooms=rooms.options[1].sub
  assert(#nativeRooms.options==2 and rooms.options[2].notAvailable,'empty custom submenu is not state-aware')
  nativeRooms.options[2].callback(p);assert(intent.kind=='room' and intent.room=='room-b')

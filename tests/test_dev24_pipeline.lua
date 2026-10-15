@@ -458,7 +458,7 @@ if lifecycle then
  print('PASS OFFLINE dev47 actual native update/stop rejection after first submitted transaction, with exact diagnostic classification')
 end
 local P=require 'B47ANCEDQuartermaster/Protocol'
-assert(P.version('tripNext')==7 and not P.accepts('tripNext',{protocol=1}) and not P.accepts('movePut',{protocol=3}))
+assert(P.version('tripNext')==8 and not P.accepts('tripNext',{protocol=1}) and not P.accepts('movePut',{protocol=3}))
 assert(replicationGapChecks>0,'replication-gap guard regression was not exercised')
 print('PASS OFFLINE dev45 native in-flight replication gap validation')
 print('PASS OFFLINE dev24: 29 production pipeline scenarios, native donor merge/perform, bounded overlap, capacity, cancellation and mixed-peer rejection')
@@ -528,7 +528,7 @@ print('PASS OFFLINE phase batching: partial item rejection preserves 19/20 autho
 
 -- Real multi-source room orchestration on the same installed native queue fixture.
 do
- local RoomSort=require 'B47ANCEDQuartermaster/RoomSort';local Rooms=Q.Rooms
+ local RoomSort=require 'B47ANCEDQuartermaster/RoomSort'
  groundMode=false;inventoryMode=false;singlePlayer=false
  getRandomUUID=function() return '33333333-3333-3333-3333-333333333333' end
  getTimestamp=function() return math.floor(getTimestampMs()/1000) end
@@ -545,6 +545,14 @@ do
  for i=1,20 do src.items[#src.items+1]=item(i,1) end
  local correct=item(42,1);correct.getDisplayName=function() return 'RoundB' end;correct.getScriptItem=function() return CATALOG_FIXTURE.items[2] end;src.items[#src.items+1]=correct
  for i=101,107 do local it=item(i,1);it.container=third;third.items[#third.items+1]=it end
+ local bag=item(9001,0);bag.class='InventoryContainer';bag.container=carried
+ local bagSource=storage({});bag.getInventory=function() return bagSource end
+ bag.getDisplayName=function() return 'Carried Bag' end;bag.getScriptItem=function() return CATALOG_FIXTURE.items[4] end
+ bagSource.getContainingItem=function() return bag end;bagSource.getParent=function() end
+ bagSource.isInCharacterInventory=function() return true end;bagSource.getOutermostContainer=function() return carried end
+ carried.items={bag}
+ for n=2001,2002 do local it=item(n,1);it.container=bagSource;bagSource.items[#bagSource.items+1]=it end
+ for n=3001,3002 do local it=item(n,1);it.container=carried;carried.items[#carried.items+1]=it end
  local initial=assert(Q.Bindings.discover(f.player,{scope={x=0,y=0,z=0}}))
  for _,record in pairs(Q.Bindings.sessions[f.player].records) do
   local c=record.target.container;local cfg=Q.Schema.empty()
@@ -552,21 +560,19 @@ do
   local original,_,revision=Q.Store.load(record.target)
   assert(Q.Store.rawCommit({target=record.target,original=original,revision=revision},cfg))
  end
- local list=Rooms.handle(f.player,'roomList',{})
- assert(Rooms.handle(f.player,'roomChange',{action='save',nonce='room-pipeline',editKey=list.editKey,revision=list.revision,name='Supply Room',rows={{0,0,0,2}}}).status=='pending')
- for _=1,10 do Rooms.tick();f.advance(16) end
- assert(Rooms.handle(f.player,'roomPoll',{nonce='room-pipeline'}).status=='ok')
- local room=Rooms.metadata(f.player)[1];local result,moved,skipped
+ local def={getName=function() return 'Storage Room' end}
+ for _,sq in pairs(f.squares) do sq.getRoomDef=function() return def end end
+ local result,moved,skipped
  f.network(true,false)
- assert(RoomSort.start(0,{kind='customRoom',room=room.id,revision=room.revision},function(s,n,k) result,moved,skipped=s,n,k end))
+ assert(RoomSort.start(0,{kind='nativeRoom'},function(s,n,k) result,moved,skipped=s,n,k end))
  for _=1,3000 do
-  f.network(false,true);Rooms.tick();f.network(true,false)
+  f.network(false,true);Q.RoomScopes.tick();f.network(true,false)
   RoomSort.tick();S.tick();E.tick();flush();pump();f.advance(16)
   if result then flush();break end
  end
- assert(result=='ok' and moved==20,'room sweep failed to move misplaced native items')
- assert(#src.items==1 and src.items[1]==correct and #dst.items==20 and #third.items==7 and #carried.items==0,'room sorting moved correct items or duplicated physical inventory')
- assert(skipped>=28 and not RoomSort.active[0] and not Q.Movement.runs[f.player])
+ assert(result=='ok' and moved==24,'room sweep failed to move misplaced native items')
+ assert(#src.items==1 and src.items[1]==correct and #dst.items==24 and #third.items==7 and #carried.items==1 and carried.items[1]==bag and #bagSource.items==0,'room sorting moved correct items or duplicated physical inventory')
+ assert(skipped==33 and not RoomSort.active[0] and not Q.Movement.runs[f.player])
  -- Removing source sorting rules after enumeration must invalidate the next
  -- area batch, rather than treating unconfigured stock as misplaced items.
  f.network(false,true)
@@ -579,5 +585,24 @@ do
  local changed=Q.Trips.handle(f.player,'tripNext',{run=begun.run})
  assert(changed.status=='invalid' and changed.reason=='sourceConfigurationChanged' and #src.items==1)
  assert(Q.Trips.handle(f.player,'tripCancel',{run=begun.run}).status=='ok')
- print('PASS OFFLINE room sweep: three configured physical sources, 20 misplaced moves exactly once, 28 correct/seen skips, no player/ground source, original native grouping and complete cleanup')
+ -- Whole Building uses the same operation, including carried stock, without Rooms.
+ local bd={getRooms=function() return f.list({def}) end}
+ local building={getDef=function() return bd end}
+ def.getID=function() return 1 end;def.getX=function() return 0 end;def.getY=function() return 0 end
+ def.getX2=function() return 3 end;def.getY2=function() return 2 end;def.getZ=function() return 0 end
+ for _,sq in pairs(f.squares) do sq.building=building end
+ SandboxVars.B47ANCEDQuartermaster.WholeBuilding=true
+ local extra=item(5001,1);extra.container=carried;carried.items[#carried.items+1]=extra
+ local inBag=item(5002,1);inBag.container=bagSource;bagSource.items[#bagSource.items+1]=inBag
+ result=nil;moved=nil
+ f.network(true,false)
+ assert(RoomSort.start(0,{kind='building'},function(s,n,k) result,moved,skipped=s,n,k end))
+ for _=1,3000 do
+  RoomSort.tick();S.tick();E.tick();flush();pump();f.advance(16)
+  if result then flush();break end
+ end
+ assert(result=='ok' and moved==2 and #dst.items==26 and #src.items==1 and #third.items==7)
+ assert(#bagSource.items==0 and #carried.items==1 and carried.items[1]==bag)
+ print('PASS OFFLINE whole-building sweep: inventory and unequipped bag included; two additional exact native moves, correct/unconfigured stock preserved')
+ print('PASS OFFLINE room sweep: inventory plus unequipped carried bag and three physical sources; 24 exact moves, 33 skips, bag retained, ground excluded, native grouping and cleanup')
 end

@@ -1,3 +1,4 @@
+local RoomAccess=require 'B47ANCEDQuartermaster/RoomAccess'
 B47ANCEDQuartermaster = B47ANCEDQuartermaster or {}
 local T = {}
 local Migration=require 'B47ANCEDQuartermaster/Migration'
@@ -30,6 +31,7 @@ function T.valid(t, player)
         if t.container:getType() == 'floor' or t.container:getContainingItem() then return false,'unsupported-container' end
         if instanceof(t.obj,'IsoThumpable') and t.obj:isLockedToCharacter(player) then return false,'locked' end
         if (isClient() or isServer()) and (not SafeHouse or not SafeHouse.isSafehouseAllowLoot(sq,player)) then return false,'safehouse' end
+        if not RoomAccess.can(player,t,'discover') then return false,'room-permission' end
         return true
     end)
     if not ok then return false,'native-validation-error' end
