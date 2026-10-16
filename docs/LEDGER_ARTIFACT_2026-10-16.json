@@ -1,0 +1,1079 @@
+{
+  "date": "2026-10-16",
+  "project": "B47ANCE'd Quartermaster",
+  "version": "0.14.0-dev.1",
+  "mod_id": "B47ANCEDQuartermaster",
+  "workshop_id": "3807217050",
+  "branch": "feature/building-supply-ledger",
+  "source_commit": "7832ccff59d1812d71dada28ee94ccd5d9194669",
+  "source_tree": "01165999e0320501164df69f23c40fdb73f48b89",
+  "base_commit": "2bc847af921cbe5baf06583928898e0164250b5f",
+  "package": {
+    "path": "dist/current/B47ANCEDQuartermaster-0.14.0-dev.1.zip",
+    "sha256": "969f82ea1c9b37c61709a86a56d775b21bbae1775a236c0896bcafe95a47766e",
+    "bytes": 1666647,
+    "runtime_files": 203,
+    "byte_parity": "PASS: ZIP versus source worktree",
+    "git_parity": "PASS: 195 text files differ solely by Git LF versus Windows CRLF; exact hashes below",
+    "manifest_sha256": "4ac021120b35c73b2a8d193b52e56bd723142660d09e0b1484ecf50051181681",
+    "files": [
+      {
+        "path": "B47ANCEDQuartermaster/42/icon.png",
+        "package_source_sha256": "7226e0f236c708ff6349a3fc714674881c00010790e81474c12f1a1e2832b6b3",
+        "git_blob_sha256": "7226e0f236c708ff6349a3fc714674881c00010790e81474c12f1a1e2832b6b3"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/Adapter.lua",
+        "package_source_sha256": "524c38140b8a1ee2292d52b8e04bdb563d4c58af01077450071fb0e46bbd6608",
+        "git_blob_sha256": "578dceb1a650f4597c5ed7c2c16fb766fd4115cc99f7d7314bd2470b81b61593"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/AppearanceUI.lua",
+        "package_source_sha256": "dd02bfa982f1b239f66fbc424f7d8f2cde797cd02db19a7abb5dab61aa537501",
+        "git_blob_sha256": "818b2c9ac7c92b0e6b41f7f011804a5b85cb7b16b7407837b40c5a8e090fab3c"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/BatchExecutor.lua",
+        "package_source_sha256": "ccab3563d2ac670c4fe8ac00fca5b171902ac8cc4fa14ab3e13d0935baac8ccf",
+        "git_blob_sha256": "89d70fd55c421c50d92f44f871d801c358cfad8f059c4fbac439711edc883141"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/Collector.lua",
+        "package_source_sha256": "b0733151f4ad382f6885d6337893d5f98232e503b6f6377b3b6503380405ac02",
+        "git_blob_sha256": "ff956220ed1b237645581d39305e34beb181732188d3e744ec167b90330b0b20"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/ConfigureControls.lua",
+        "package_source_sha256": "f659689c3e7107bb9795d4bd4d2f170995a883bf0ebfb9f320304287a6480b8a",
+        "git_blob_sha256": "238d42c9725ce28e507a59bf7cc566a0e39cae4d0d85fcd66fcbc5218e57840f"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/ContainerSprite.lua",
+        "package_source_sha256": "6b9d7435973c0bb07f9ee475e1d44f2b5544b32d978bba8b234904dadd6a6114",
+        "git_blob_sha256": "b305f2953dd08e338230eb18b6b7adccba9a57c1b9226ac4894746c30d622ac4"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/DibsUI.lua",
+        "package_source_sha256": "1838a138760b1c26e2c6c589af6d4fbb641a77aa51acad9c5a5e38a7fe986f20",
+        "git_blob_sha256": "1790b333fa27e473cf388872875239e1f4032121cf8efbc7d5e5a2fa78da0493"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/Executor.lua",
+        "package_source_sha256": "234ea455ceb73c9a60f2ca303ece5c75fdef4f8f884e964410bc38a4118fc89f",
+        "git_blob_sha256": "4a597c077872814952cc7c7d652edcc6587dfb9568388fe8959f6a0bfbc8cc2d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/InventoryCategories.lua",
+        "package_source_sha256": "6cd86bc7ab309d0b3f2b3006674529dc91629ff4a855cd8ccdf59aca8b06d9ff",
+        "git_blob_sha256": "44bb35fcf469d0676874324ed51c27bd48a0e99f066976bb21c2a5ac36a86c5f"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/ItemCatalog.lua",
+        "package_source_sha256": "1d0c7c68b7465b2f84b402e04ff79e717432fbaa5ee5fc4a1021613fc7ecefa8",
+        "git_blob_sha256": "7b835e475c710b98f0f0e47bc63091003f1324ad4e7338edb0a67b1ab0424588"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/ItemPicker.lua",
+        "package_source_sha256": "6270d3823a65e8b740acfc99dd93a00f7053d35e4756a414c7c2d89b46dafefe",
+        "git_blob_sha256": "9b8dfb2e64863c7ccd1eb75bb01960b02da9d44672321361131c9563575b6546"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/LedgerUI.lua",
+        "package_source_sha256": "e9c88fa6545445122bb4b33273d503143227e3b1b952c4bee0b66216164c516d",
+        "git_blob_sha256": "2606d6bc894dac9056a3ac1fcfe2d27788cdf5771bdc9b08c56a2eae4b506a49"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/LoadSettingsUI.lua",
+        "package_source_sha256": "66d112c99a72ce7dfa70974e34f56feb3a8662e988e0b02374022c20c449be62",
+        "git_blob_sha256": "ca1826be6e4dedac391f2f829a5cca457d2c9afcc1a7353671fb3a29d53b2c1d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/Model.lua",
+        "package_source_sha256": "ef28f14a6c58a18c0a3004e88ee226467b90c0f682580383e500b9afe5ce8de0",
+        "git_blob_sha256": "c0ac86a29fc2306e79392d16a167860c3ded70b8707bcc77950e8410d8c004de"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/MultiContainer.lua",
+        "package_source_sha256": "b94c94840fef52d4f06e655b1f367d3508a7cdd7c7f02afd3884a2bd52cac8a2",
+        "git_blob_sha256": "7b54273bedb45c9e921594ce45f736a2be1a2605c278a4c9024d66ba78b8396c"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/Ownership.lua",
+        "package_source_sha256": "d09991871f186fc2a33f025759792b5a66d2b291e7814b6081d337eb7cd34304",
+        "git_blob_sha256": "8058e9930cdd13d9c6613d61badc2fb9eaf95bc4ff5b62d1bc5048f2ceff21b8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/Picker.lua",
+        "package_source_sha256": "7d971a10e7302047d4365ef76ef20a8e1d60371269da0725092eb6f2ea8f5260",
+        "git_blob_sha256": "b92542c8f5a031be28d8319d6d160be67fa4feeb37ffbc4c82e97d342a861235"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/PreferencesUI.lua",
+        "package_source_sha256": "50e55043b00d0af89c745c39b09a110c21b2b2e588997dfc8b0de25bbb3ce522",
+        "git_blob_sha256": "5bc9e0f586f6d94f4fb40d7f3d8e99d9f9c0ede8554fe00429843a4d7de87597"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/Progress.lua",
+        "package_source_sha256": "d0b466681b5e8284b2caac1a72f698987b9d4c62656a4b0e970961fd2f587921",
+        "git_blob_sha256": "259ace33007008da91ceec6f8ce58894726844f353fa2a705c5c8e2a7293bed7"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/ProjectCookUI.lua",
+        "package_source_sha256": "9df2cf96f3bec6011d60a34b532d18d8ad0136bc0eeb2c688c8a23c98fb27d99",
+        "git_blob_sha256": "dcbce5ec75cbf235b72a3ac8d4d0b945187e2124fe67ad9a8080c4f13b48f6a5"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/RecipeShoppingUI.lua",
+        "package_source_sha256": "210f0c78d597904bb530ba72c9acc0465680c73d62664563adb1fddd8bdf1e2e",
+        "git_blob_sha256": "d6c59f436c516a6286a60697113075c30a81c3fd81a109a4dca41c945172c3ff"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/RoomPreferences.lua",
+        "package_source_sha256": "3a14dfe1f931117a3fbbe80fa2710615eff8cd8bd5e3ebc46a3ed5c4e35e902a",
+        "git_blob_sha256": "a409dceb521154be9ae89dbd18348c0091072aca4348bfd3afe702e06f0031e8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/RoomSort.lua",
+        "package_source_sha256": "30e443b054720b4685d69289116e5631d245596be8544ea44050f489245066a1",
+        "git_blob_sha256": "5a28660f68770328aea2ed9ce09b41bf0fea1efe76326e3fd9c3926bc134fd09"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/Session.lua",
+        "package_source_sha256": "aae70453cba5f889351d8a0720758500fc623444627ef8934dee0e869562c159",
+        "git_blob_sha256": "22e4502ff0b7a026e2ffd6227307cfe0a85884e05c33bfceefed4bfb53a7c763"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/ShoppingAddUI.lua",
+        "package_source_sha256": "532e3be6fb8cabc41506c1665108ad053bb9068e73f353e2364f60217980d430",
+        "git_blob_sha256": "16863c7ca15b5dcfd4a46785586dc7bf56efd196e4e9f0cf5c6f60653b0406e9"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/ShoppingUI.lua",
+        "package_source_sha256": "fa84cfd6958b5bc012f00ecab6200ee06a7a052bbfcccde871757a4f7c824b1d",
+        "git_blob_sha256": "9a802adc61159b0281d1a91127b41d3a9bad01b2644871477ddd9a182e347082"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/SortControls.lua",
+        "package_source_sha256": "e6dfcdb360b6356cb9ac392433c71e01339fe5bd535fa0a45d48f82764d04a75",
+        "git_blob_sha256": "5e81e2225ee54b06f70ab2c17ba27be6e3d1ae9a000685844ad9738dace03336"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/Sorter.lua",
+        "package_source_sha256": "80fd8d5b87c01df311e9013c03a6a82429bc209f51ac91569b9a4d39c2723b96",
+        "git_blob_sha256": "94fbbfcfe3456df82481971a29ef253a2fe155885cd80ae08ca02940ee88e9fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/UI.lua",
+        "package_source_sha256": "fb1c8388fe77e83c6f19494db3e3c21de6b80a070a598d2375513826ac1785ef",
+        "git_blob_sha256": "537d421b29e26c79468068d5fc8f8e2f2b3338055f41f5cb0a88f42b4c499895"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/UIOptions.lua",
+        "package_source_sha256": "04a5049bcfd05b579bd70bea665be3127ebc7d36a08de801519d99e17ceb7a33",
+        "git_blob_sha256": "ad6fbce85e349b6136b6cc531a1f35562026a24186c51e2afe12f41d48d18405"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/WindowLayout.lua",
+        "package_source_sha256": "e5b6115b09e32c4504679fd2ac8145389d6c24255001c7f1a17057b94c891cd6",
+        "git_blob_sha256": "563d2376dbfc1af8a92d25c2c21ad76a323c3ce0bc983a758536c381c8969a6b"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDQuartermaster/WorldHighlight.lua",
+        "package_source_sha256": "443a14c34f9f642497482be146aec6642bc0ff28825449013fb6a461ce59f48f",
+        "git_blob_sha256": "ebc3da48db34562cd479903eec749906e29768064551104833292d7587a8d3e7"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDUI/Appearance.lua",
+        "package_source_sha256": "86dc0dc841b42e7c99fc24f7e9fb7e95adbad2f6d50b1bcee4f1fdfeabe281e0",
+        "git_blob_sha256": "b668446aba3c87cf10705985eac2556b9be7c4abbbaef37870b19fa51541d192"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDUI/Controls.lua",
+        "package_source_sha256": "ad8e3bfb5700ffe17d55522b577fb984ce14aa1827b036fbbcde8ac879a6c73e",
+        "git_blob_sha256": "992b8fe7bb012942baf55ab9959d018f7ec10f74140e22a3c58486356928d8cc"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDUI/Dialog.lua",
+        "package_source_sha256": "5190495f6af79dcac3fc382b00252d86a1481a9423b4e980acff85ff2352e81c",
+        "git_blob_sha256": "27578ddd8d0e09a870369ef77e59222939c07c996cb51cdcf85621fcf6ae392d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDUI/Renderer.lua",
+        "package_source_sha256": "ae63a0260e1ca354913588811804d6308ff2ad6e5164d4a2d6bb287346619122",
+        "git_blob_sha256": "836e454dde26de4f8a0c94962b11693a6e30c9ea210b6a7a18a329c356ce33fb"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDUI/RowTooltip.lua",
+        "package_source_sha256": "ea660779cd4c78d803ef8521a3fabef4e715addb6ad398226ed9c2803b82edab",
+        "git_blob_sha256": "599670855f85e8d8e5e04e07b7ffb3f6badf0b3db1ec2b9ea4d7d0b397b0ce47"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDUI/Theme.lua",
+        "package_source_sha256": "277e0d7c29382d4388ab1f423bc0f57d8020fc73d380fc4549c1edd93fd69e4d",
+        "git_blob_sha256": "e4bcdf30c28b3f2eb37c42f6361abe98c4140b5a505f80a22e9fdbfc1f794d54"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDUI/Tooltip.lua",
+        "package_source_sha256": "ca821d54c7057324c5b59eb4e72c3ca2420fbdb77705faed8af35a394cb3898c",
+        "git_blob_sha256": "2fc7de7bc7f64c2b59f22078f420b172f7222c3333e3f3d0b1547c0bdde0d88f"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Authority.lua",
+        "package_source_sha256": "5134b4ec484b2ccc0a84fdaf833d50b2456b29ed68a75b843a602d5df6500dc6",
+        "git_blob_sha256": "106ddacdc10721d5b7a2eb44a9090d4d20c8a39636305ffe9010de0fc094509d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Bindings.lua",
+        "package_source_sha256": "52a89eca87832b06ca72db6c647d0d7e6944d082cffd4cc34a491e8e7b2606fa",
+        "git_blob_sha256": "9dc56eeec21f4cbbd0b81c7f0226531c7c8f082ffddace1983c22474d03f59f3"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/CarryBudget.lua",
+        "package_source_sha256": "32057ba9865f683811f6dd0598480778f1816730a5ac7321b7ddaedbebda097c",
+        "git_blob_sha256": "c3e0e20a8b7260671ee54d5e48346dffdff864d14601bfecf9fc2496aa48ea05"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Catalog.lua",
+        "package_source_sha256": "3cee8e59ce02551233afb029a1edd8301c7ee49c0f76857f7fe157164f14039e",
+        "git_blob_sha256": "024c29f65dd0001bc314af654e88a79fc705d728cf843ca30a74b83d0e39abc3"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Categorizer.lua",
+        "package_source_sha256": "55fb82bc951de85d6bf503a6ee187e1b3307f3b4a917643eb703871373e4dc22",
+        "git_blob_sha256": "ff63e45534fad1f59e1097334b6ca342e69890fb079c3ed57b1a7a9e2503fdcc"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Compatibility.lua",
+        "package_source_sha256": "82f5ac4a730ffcbe191db6daeb24a73e94db50438e9006499fdda5ba4ae9396e",
+        "git_blob_sha256": "46c4af76858a016eecebde94884a194b1ae67ac314ae57b23eb2247807f17625"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Configuration.lua",
+        "package_source_sha256": "6e90405956f66370349f31a969cf696ca6e08a9e696a44c42ac0f5defdaf8d5e",
+        "git_blob_sha256": "7b14db9ceef481b206678391d7aafd0130e5e28521daf119f51a67b96a796cc8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/ContainerSources.lua",
+        "package_source_sha256": "077c0cec1f48a947d1af03557c4d86f21c5e2dc465298ef6b733c21dbec11095",
+        "git_blob_sha256": "2e46002d58de090bb9501c0037f93310b5d1bd2bffc9ef83ce64f194105ac41d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/ContentAnalysis.lua",
+        "package_source_sha256": "ac6d74a8a9663f0ff0e1e7ca42c5e4e0042f986fde9d112d717e304a90839415",
+        "git_blob_sha256": "cab5aacf67e52a89d794bebd0009967afa671090442e329ab155c0564ad8c4ba"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Dibs.lua",
+        "package_source_sha256": "10935347c06cb8e2e45442370d245ef60101da2043af3b9bb2dc695ad450b840",
+        "git_blob_sha256": "e1dd839dbb4a0c1a5af7d55de28685c5543c9c74c220f73d5921ee7ae52990e5"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/DiscoveryView.lua",
+        "package_source_sha256": "a2ba085eeac3e413a1c217fe584ebce4f6316f10f69f722f24d11c0b4b405428",
+        "git_blob_sha256": "afc8ba1b36c3ae0523acaa2b298448a789648243c75d0dba5e70437ef7214c2b"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/EvolvedRequirements.lua",
+        "package_source_sha256": "4cde9f243f38f8894ca9c8e828506ebe50601a8e7c254a66bbc2c4416f086775",
+        "git_blob_sha256": "9d9faea13f78394ff87c4745b2b2db0fb30cf7f598eedaea33de6575c1249b63"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Furniture.lua",
+        "package_source_sha256": "9369097ece1ad426fd299680737d704cab49cd435777221b0fd4d133ae817adf",
+        "git_blob_sha256": "588af7708ab312c32ca5dcaf0a354ccb45a07fc25af0fd8171c05eaed36a125b"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/GroundSources.lua",
+        "package_source_sha256": "0b8c3d11c578a59040feb91888891c5c7e31cf7522598d737dffde70816a6775",
+        "git_blob_sha256": "b3be1dd6b8dd450f4434cc0ad1769571528fbc1222c12a1adf9a93d772c619fe"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Identity.lua",
+        "package_source_sha256": "e104b4dc1782cbd71fc5d2f3a565be8432f1c634e59000d4f53a01941a414536",
+        "git_blob_sha256": "ffab052c2495fbfc57efcc745bb03a3fad2ae6de978603273be4a05aab95a6af"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Ledger.lua",
+        "package_source_sha256": "73a83677e830268693e35ed61c2ba03b723fa7b0d527a2db7be3657b6625be36",
+        "git_blob_sha256": "73a83677e830268693e35ed61c2ba03b723fa7b0d527a2db7be3657b6625be36"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/LedgerAccess.lua",
+        "package_source_sha256": "939a4f80b7e44d64059b08e40e7c27b6ac2149eb23b995f49e7e9262b4f2cdec",
+        "git_blob_sha256": "939a4f80b7e44d64059b08e40e7c27b6ac2149eb23b995f49e7e9262b4f2cdec"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/LedgerAction.lua",
+        "package_source_sha256": "5374035185de5378950a64318be30fb21be69a75975b126e057f718911edd4b9",
+        "git_blob_sha256": "5374035185de5378950a64318be30fb21be69a75975b126e057f718911edd4b9"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/LedgerMedia.lua",
+        "package_source_sha256": "b66071c1df09f73e307ea3311e36ddb54844e8aaafbd3d73144652bda42039fd",
+        "git_blob_sha256": "b66071c1df09f73e307ea3311e36ddb54844e8aaafbd3d73144652bda42039fd"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/LedgerScope.lua",
+        "package_source_sha256": "a3cb3d93f2179b8027384ed1698839f8bf64095d41a787d37e42de86983a6619",
+        "git_blob_sha256": "a3cb3d93f2179b8027384ed1698839f8bf64095d41a787d37e42de86983a6619"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/LoadPolicy.lua",
+        "package_source_sha256": "dca3dde3f1fbbb37fa3c532902e17329ef8bbf0761bbe53b0b16961f16e19ec2",
+        "git_blob_sha256": "9fcface17b9ab1a7c8e550ae4e993e45109ff406e060c4b003fc1f1cc404b2f7"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Migration.lua",
+        "package_source_sha256": "cbbaac1da70002839510be9ecc9ab3feab1a5ce522553c04c7b7ecd8536163a7",
+        "git_blob_sha256": "48dcca31a7ded87138768f128c60b7438412ab5dff819718f3d497e3a64d9c2b"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Movement.lua",
+        "package_source_sha256": "d5db0c06d65e7527d0f30e0a7809e711f89c1669d5c4ff976adffd6c2895ce89",
+        "git_blob_sha256": "2fd1f06d13145dcdb41458a6703406c379d2f36742d310ddfb3f48c7315795dc"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Personal.lua",
+        "package_source_sha256": "579397000c6baf5ab7c9dde35dda502e0bbd1e727be9ce5cc518ab16119cffa0",
+        "git_blob_sha256": "8075227ec7c3b5abe63adb3247031a1c4d27a04275dc89baa8d12ff3781ce91b"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Planner.lua",
+        "package_source_sha256": "3c61c47652ceb8fa540f0af06b1497029caf48737a48c8318efd5fa7ddbb2fc2",
+        "git_blob_sha256": "fbedff972ff803557811366db804ea15ad4cd7ad9fc97e369e0bbe93cf78602b"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Presets.lua",
+        "package_source_sha256": "fa8453726c1c6e35567ff822ada1ed3f3d8284f244ead082de66f1341e5e16eb",
+        "git_blob_sha256": "6bf8768410772a5168bc44eee03e211c3c0fbb77b875199d7dd5cbc87b43c323"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/ProjectCookAdapter.lua",
+        "package_source_sha256": "76fa36e33bd16effc8cb2ce817eeda6e739565ea870d03b3bf3047c29b5e29bb",
+        "git_blob_sha256": "68bcdfffd2d881196809fe7b72e96f8b551874327e1cee9522d67aa50ebefd60"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Protocol.lua",
+        "package_source_sha256": "b1f5ed097fd19e3cd7b4b09c0bfc49cb5374e20c0af389acb1811d832e5ed7db",
+        "git_blob_sha256": "81751ac59413d365d6ca6b628aa7d8e9e74e69cfce33450c420d9c659ed981b7"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/RoomAccess.lua",
+        "package_source_sha256": "cca1f141daa31e4accb750f05783cd4c879642114c3dbcb51e2816250193deef",
+        "git_blob_sha256": "e0cc55be0bee89d8eaffe534b7e175cffc63f4f757d64b6468fa0d4ab11a1780"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/RoomScopes.lua",
+        "package_source_sha256": "a10be4298d98fafc3d2e42e996b5c578f0334999059828d1d8655d7889d21bee",
+        "git_blob_sha256": "6ab848d8567a047001b357aa9638820c26d63ab6561f3aa2b5bcbea842eadbc9"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Route.lua",
+        "package_source_sha256": "66283cc2eb2f84d55b45ef41635c3ad673445df896e2ca588d0945f35241609a",
+        "git_blob_sha256": "5cf5bdeaa2676a9dd4b5fff91a0107ac4821c3bc7b9b91b2689690a8fea20411"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Schema.lua",
+        "package_source_sha256": "66dac7247065617f5d88ade94c9913eec3d1515ce86671ef682c5aef426401c8",
+        "git_blob_sha256": "a52ab8945a039cf684a1fcd2f96966750b1ca8e82ca77c650a27b4fd61e779e9"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Shopping.lua",
+        "package_source_sha256": "b402a4826f84cbb0c89e361edca7da20c84ad0818a74ca3d9e44f68be61fc24f",
+        "git_blob_sha256": "bd142df0b98fedaacd97514464f2d4a88141490f47e939231306c42efaf14702"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/ShoppingAdds.lua",
+        "package_source_sha256": "c3671e68903da6162b5f9722415b54abe1738a9ebc25067f2c4dfb0a4a98b6af",
+        "git_blob_sha256": "f4d5eae8b5437bec980ed2e06d0ef22742dee1a44618e81584b386e84918e5bd"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/ShoppingPreferences.lua",
+        "package_source_sha256": "39fa5c1bd4b0004b6ff40f942b16fc53222b217dd68215d5c0728c4b55df9e34",
+        "git_blob_sha256": "1597e8b9419af52a47bcff08c9890fbb58bbe92b26c348193c0da90faf909bd3"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/ShoppingRequirements.lua",
+        "package_source_sha256": "3639c2bdc01fd024633423bab6b179f2737e255009c97b9aee612ec6e870904a",
+        "git_blob_sha256": "2df4956218821bef47af0fe22e84fe00048a50a9632320459ff39448f17fd71d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/SortTrace.lua",
+        "package_source_sha256": "cd5b7c107937cd696a50526795a1016e42eadb79642ada51b745ec0d6eacf024",
+        "git_blob_sha256": "6e111e0c9e9a8d6fbfcffedc49710f296b95b009f5059c96fc652b7001bd0c3c"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/SortingData.lua",
+        "package_source_sha256": "f32928072f0672ac27b9c1be143ee76b29bc0a64c7a30044c490123463c8084d",
+        "git_blob_sha256": "9fc008ed53d7c73347c3f75fe2db32421b0dd40d5f79056dff93914ea4f10be9"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Store.lua",
+        "package_source_sha256": "85b204de5075826089f4ab7b66572fdf95d3fff2988189a39006709c8daa7aa6",
+        "git_blob_sha256": "290fa82eb2daacca53f03bcdbd03e134e55415d1536691e0058432045f1d5bca"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/SupplyAPI.lua",
+        "package_source_sha256": "5ef56e705e71d612ef2f9170de02a63ce186b2702e65981f63524623cb9da714",
+        "git_blob_sha256": "85f1361bee0eee15431de3708ff87cd135c91ea3b21708cdd89868b71696594f"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Targets.lua",
+        "package_source_sha256": "3c2807f231e844f997a85d2de330254c762c712bad895f9505409563f783869f",
+        "git_blob_sha256": "a31d8f92c7c0ac689eb9bd2285ba89fb11ef790ad4ca0d60da93a559f6d6ebf1"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermaster/Trips.lua",
+        "package_source_sha256": "a6732176e16cd65abab43564700917ddb700afaf789b116485f5c88616f27d71",
+        "git_blob_sha256": "698140eebf5611acac6999d8263d7c5cfb3d6daef39ab64831b2f24a13127c82"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/B47ANCEDQuartermasterLedger.lua",
+        "package_source_sha256": "c9222d29ac89a9e0e2f313eaaad05a2ca27e8e60423274aaafe16626306d3791",
+        "git_blob_sha256": "c9222d29ac89a9e0e2f313eaaad05a2ca27e8e60423274aaafe16626306d3791"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/AR/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/AR/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/AR/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/AR/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CA/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CA/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CA/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CA/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CH/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CH/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CH/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CH/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CN/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CN/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CN/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CN/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CS/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CS/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CS/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/CS/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/DA/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/DA/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/DA/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/DA/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/DE/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/DE/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/DE/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/DE/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/EN/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/EN/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/EN/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/EN/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES_CL/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES_CL/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES_CL/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES_CL/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES_MX/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES_MX/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES_MX/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ES_MX/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/FI/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/FI/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/FI/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/FI/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/FR/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/FR/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/FR/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/FR/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/HU/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/HU/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/HU/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/HU/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ID/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ID/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ID/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/ID/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/IT/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/IT/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/IT/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/IT/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/JP/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/JP/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/JP/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/JP/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/KO/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/KO/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/KO/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/KO/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/NL/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/NL/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/NL/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/NL/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/NO/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/NO/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/NO/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/NO/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PL/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PL/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PL/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PL/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PT/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PT/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PT/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PT/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PTBR/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PTBR/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PTBR/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/PTBR/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/RO/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/RO/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/RO/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/RO/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/RU/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/RU/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/RU/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/RU/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/STREW/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/STREW/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/STREW/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/STREW/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/TH/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/TH/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/TH/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/TH/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/TR/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/TR/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/TR/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/TR/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/UA/ItemName.json",
+        "package_source_sha256": "b223569b119c33074e50d6aaf3db964f6e4de43200bfc8bdc4bf6e746136863f",
+        "git_blob_sha256": "b7fb45f31970120f3f2a0767963e97ac98bfa7a6e04fb6f627da7c8b63d7ab8d"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/UA/Recipes.json",
+        "package_source_sha256": "defbd7961606a9125976d2a77656ebf3a7edd26b3d64922d45b6acc4b6e41d6a",
+        "git_blob_sha256": "bbd72957c1f1ef19feb8ca9c314167de0e05054b9e5767fd2def69153cc995fa"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/UA/Sandbox.json",
+        "package_source_sha256": "a8c78e3475f2c3650071e7ff8d8ad06e665e8040b7ea582def437d92329d963e",
+        "git_blob_sha256": "110a87fae8874a3ba1b80088d224331f0696769e2aae73efab1500337b2cbef8"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/lua/shared/Translate/UA/UI.json",
+        "package_source_sha256": "d8b4e5b0e88f05bc02e09aa6e9dd850af542cbab16dfeb8da0e4ed10f67f73ca",
+        "git_blob_sha256": "bf0d53915cc555cc5dc3f6052e6d8487bff536dc89675ed1794570b4d3f4b049"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/sandbox-options.txt",
+        "package_source_sha256": "84d3d75fc00044b349ceeebfdfbc1144e28a5b47d108324ee96e953e630ee914",
+        "git_blob_sha256": "66e0c66f75fcbbeb09949134ec069e0f7d09c852a1556a02b8b247b55e304c1f"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/media/scripts/b47_supply_ledger.txt",
+        "package_source_sha256": "9581bdd1e4c9bd7b331b9836971484c5f9d41f5545987e7287af93fa06776e86",
+        "git_blob_sha256": "c4b2be64c63c62e1e261335f638c69d7078fe8d240d2129a16b5c52a9c70f56f"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/mod.info",
+        "package_source_sha256": "d569a376609f5f98fcfcf854a676b92b28a89c44629f325ca1048ee3300afea0",
+        "git_blob_sha256": "6f3722bf729ccf510c74ce6e88c5e4db8c2417df951dfde71bb99a64c9631142"
+      },
+      {
+        "path": "B47ANCEDQuartermaster/42/poster.png",
+        "package_source_sha256": "7caf79e7474cc3de3bb773ba3bf22b6ce860ed94b0df886966ba159d78fbe673",
+        "git_blob_sha256": "7caf79e7474cc3de3bb773ba3bf22b6ce860ed94b0df886966ba159d78fbe673"
+      }
+    ]
+  },
+  "preserved_candidate": {
+    "path": "dist/history/0.14.0-dev.1/candidate-8d928699dc42/B47ANCEDQuartermaster-0.14.0-dev.1.zip",
+    "sha256": "8d928699dc42bc5daddb25e78b67c93a89702e6ba974f1e50a676985ce0e507b",
+    "status": "unpublished candidate retained unchanged; no historical deletion"
+  },
+  "native_evidence": "docs/LEDGER_NATIVE_EVIDENCE_2026-10-16.json",
+  "game": {
+    "version": "42.21.0",
+    "steam_build": "25485521",
+    "rooms_source_commit": "62de4839564ea4c1afff2c51171322286d055daa",
+    "runtime_execution": "NOT TESTED"
+  },
+  "checks": {
+    "offline_suite": "PASS: host Lua 5.1/Lupa, installed native Lua fixtures and actual Rooms source, not PZ execution",
+    "commands": [
+      "python -B tests/run_tests.py --require-rooms --rooms <verified B47ANCEDRooms source> --package",
+      "python -B scripts/check_native_categories.py --game <verified installed game> --output dist/diagnostics/native-categories.json",
+      "python -B scripts/check_deployment.py --package",
+      "python -B tests/test_deployment.py",
+      "python -B scripts/check_versions.py --release",
+      "git -c core.safecrlf=false diff --check"
+    ],
+    "native_category_audit": "PASS: 5105 declarations, 5092 unique, zero mismatches",
+    "zip_integrity": "PASS: CRC, exact inventory, no duplicate/traversal/case-collision, Lua-only and owned require-case",
+    "localization": "PASS: 29-folder English fallback parity; not human translation coverage",
+    "public_file_audit": "PASS: reviewed tracked/proposed changes and secret signatures; generated packages and raw diagnostic logs excluded"
+  },
+  "gates": {
+    "G6": "NOT TESTED: native client",
+    "G7": "BLOCKED / NOT TESTED: dedicated multiplayer",
+    "G8": "BLOCKED: stable acceptance requires native/dedicated evidence"
+  },
+  "deployment": "NOT PERFORMED",
+  "workshop_publication": "NOT PERFORMED",
+  "limitations": [
+    "Loaded storage only; 4096 physical item instances per container; explicit failure above resource caps.",
+    "Only verified stock desktop sprite appliances_com_01_72 and Base.Disc_Retail CD input.",
+    "Snapshots are per-compartment history, not atomic building-wide state.",
+    "Native save streams are not claimed atomic across a host/storage/process crash; uncertain conversion outcomes remain locked.",
+    "Actual native timing, controller/font rendering, frame/tick/network performance and restart behavior await acceptance.",
+    "Vanilla smaller native transfer groups and timing preserved; shelf appearance experiment excluded."
+  ]
+}
