@@ -1,5 +1,10 @@
 [b]Version 0.16.0-dev.2[/b]
+[b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Save keeps Quartermaster open, ready to configure the next container. The current container stays selected; acknowledged rules and inherited sections refresh. Close or Cancel explicitly when finished. Server permissions, native transfers and preset dialogs are unchanged.
+Save keeps Quartermaster open, ready to configure the next container. Selected rules and inherited sections refresh; close or Cancel explicitly when finished.
 
-Source-only development checkpoint. Focused UI/Whole Container regression and syntax checks pass offline; native client acceptance is pending. Prior gameplay dedicated multiplayer remains NOT TESTED. No upload performed.
+Includes physical Shopping Lists: create named papers using one blank sheet and a retained notebook/pen, select carried lists, share them with friends, and hold a paper in either hand for its checklist HUD. Reading and collecting need no writing supplies; editing does. The old personal plan is preserved for explicit one-time import.
+
+Also includes the physical Building Supply Ledger and Windows '93 computer workflow. Sort and Shopping collection require a matching completed carried ledger or an authorized powered computer with a matching ledger CD in adjacent storage by default. Planning/configuration remains available without a supply ledger. Server options control these requirements, physical lists and writing supplies.
+
+Offline regression, version and package checks are required for this upload. Native client and dedicated acceptance remain pending. Stock desktop support only; no automatic vehicle-area sweeps or unsupported fluid/partial cooking plans. Back up saves. Update the server and every client, then reconnect (movement 10, Shopping 3, Personal 2, Ledger 2). Native transfer grouping remains unchanged.

@@ -4,6 +4,8 @@ Project Version: 0.16.0-dev.2
 
 ## Current development iteration
 
+Authorized Workshop MP test preparation now has a 209-file package/source/staging parity PASS, full offline build/regression PASS and a separate paired test against the actual Rooms checkout PASS. The default build runner reports its sibling Rooms path unavailable in this isolated worktree; the explicit paired invocation supplies the real checkout and passes. Native SP/dedicated acceptance remains NOT TESTED. See [publication preparation and artifact identity](WORKSHOP_TEST_0_16_0.md).
+
 Save now keeps the container-rule editor open, refreshes acknowledged records/rail state and reloads an invalidated inherited section when necessary. Existing server save/permission behavior and manual close/Cancel are preserved. Current focused UI regression and syntax checks pass offline; native acceptance remains NOT TESTED. See [exact checks and workflow](MULTI_CONTAINER_UI_IMPLEMENTATION.md). Physical-shopping implementation/full-suite evidence remains from 0.16.0-dev.1 and is unchanged by this local UI fix.
 
 Physical paper, native-action-shaped, collection, UI/HUD and full host regression checks are recorded in [the current report](PHYSICAL_SHOPPING_LISTS.md). Legacy movement fixtures explicitly use the supported physical-list/server-ledger opt-outs; new paper fixtures exercise the enabled paths and production handlers. Source manifest: 209 runtime files. No package, deployment or publication. Native G6/G7 NOT TESTED; stable G8 BLOCKED.

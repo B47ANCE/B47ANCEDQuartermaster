@@ -244,6 +244,10 @@
     {
       "reference": "docs/SHOPPING_PAPER_NATIVE_EVIDENCE_2026-10-16.json",
       "reason": "Dated 0.16.0-dev.1 API fingerprints and read-only native observations; unchanged and not relabeled as dev.2 or native runtime acceptance."
+    },
+    {
+      "reference": "docs/WORKSHOP_TEST_0_16_0.md; dist/workshop-publish/0.16.0-dev.2",
+      "reason": "Version-bound 0.16.0-dev.2 Workshop test preparation/publication evidence and immutable package identity; retain exact observed version and runtime gates."
     }
   ]
 }
