@@ -3,6 +3,11 @@ require 'B47ANCEDQuartermaster/Trips'
 local Q=B47ANCEDQuartermaster
 local M,B,T=Q.Movement,Q.Bindings,Q.Targets
 local H={};Q.Shopping=H
+local Carry=require 'B47ANCEDQuartermaster/CarryBudget'
+local function progress(run,remaining)
+    local total=run.progressTotal or 0
+    return {known=true,total=total,completed=math.max(0,math.min(total,total-remaining))}
+end
 function H.confirm(player,op)
     if op.confirmed then return end
     op.confirmed=true
@@ -40,9 +45,10 @@ function H.handle(player,command,args)
             return a.token<b.token
         end)
         run={id=M.fresh(),kind='shopping',scope=args.wish and {wish=args.wish,list=args.list} or nil,time=getTimestampMs(),records=records,
-            operations={},considered=setmetatable({},{__mode='k'}),collected=0}
+            operations={},considered=setmetatable({},{__mode='k'}),collected=0,
+            progressTotal=args.wish and (args.list=='needed' and snapshot.neededGoals or snapshot.wishGoals)[args.wish].remaining or snapshot.outstanding}
         M.runs[player]=run
-        return {status='ok',run=run.id}
+        return {status='ok',run=run.id,progress=progress(run,run.progressTotal)}
     end
     if not run or run.kind~='shopping' or run.id~=args.run then return {status='invalid'} end
     if command=='shoppingCancel' then
@@ -79,11 +85,12 @@ function H.handle(player,command,args)
                 local record,item=candidate.record,candidate.item
                 if not record.revoked and T.valid(record.target,player) and Q.RoomAccess.can(player,record.target,'inspect') and Q.RoomAccess.can(player,record.target,'withdraw') and Q.ShoppingRequirements.worthTaking(ledger,item) then
                     for _,c in ipairs(Q.Trips.carriers(player)) do
-                        local budget=math.max(0,player:getMaxWeight()-player:getInventory():getCapacityWeight())
+                        local budget=Carry.free(player)
                         if item:getActualWeight()*c.factor<=budget then
                             local offer,op=M.withdraw(player,record,c.id,{item=item})
                             if op then
                                 op.shoppingRun=run;run.operations[op.id]=op;run.considered[item]=true
+                                offer.progress=progress(run,ledger.outstanding)
                                 return offer
                             elseif offer.status=='capacity' then capacity=true end
                         else capacity=true end
@@ -92,6 +99,6 @@ function H.handle(player,command,args)
         end
     end
     M.runs[player]=nil
-    return {status=capacity and 'capacity' or 'done',collected=run.collected,lists=Q.Personal.snapshot(player)}
+    return {status=capacity and 'capacity' or 'done',collected=run.collected,lists=Q.Personal.snapshot(player),progress=progress(run,ledger.outstanding)}
 end
 return H

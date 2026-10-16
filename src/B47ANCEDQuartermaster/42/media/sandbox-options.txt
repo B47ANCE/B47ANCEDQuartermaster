@@ -1,4 +1,14 @@
 VERSION = 1,
+option B47ANCEDQuartermaster.CarryAllowance
+{
+    type = integer,
+    min = 0,
+    max = 40,
+    default = 0,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_CarryAllowance,
+}
+
 option B47ANCEDQuartermaster.ContainerRange
 {
     type = integer,
@@ -14,16 +24,6 @@ option B47ANCEDQuartermaster.WholeBuilding
     default = true,
     page = B47ANCEDQuartermaster,
     translation = B47ANCEDQuartermaster_WholeBuilding,
-}
-
-option B47ANCEDQuartermaster.SortBatchSize
-{
-    type = integer,
-    min = 1,
-    max = 100,
-    default = 20,
-    page = B47ANCEDQuartermaster,
-    translation = B47ANCEDQuartermaster_SortBatchSize,
 }
 
 option B47ANCEDQuartermaster.RouteOptimization

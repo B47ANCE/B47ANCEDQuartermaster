@@ -8,7 +8,7 @@ local function input(types,n,keep,unsupported)
     local scripts={};for _,t in ipairs(types) do scripts[#scripts+1]={getFullName=function() return t end} end
     local x={}
     for _,name in ipairs({'hasParentScript','isAutomationOnly','isHandcraftOnly','isExclusive','isVariableAmount','isApplyOnTick','hasCreateToItem','hasConsumeFromItem','isReplace','isAcceptsAnyItem','mayDegrade','mayDegradeLight','mayDegradeVeryLight','mayDegradeHeavy','sharpnessCheck','isUsesPartialItem'}) do x[name]=function() return false end end
-    function x:isValid() return true end
+    -- Native InputScript.isValid is private, so the Lua-shaped fixture must omit it.
     function x:getResourceType() return unsupported or ResourceType.Item end
     function x:getIntAmount() return n end
     function x:getPossibleInputItems() return f.list(scripts) end

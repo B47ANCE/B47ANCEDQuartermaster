@@ -89,10 +89,11 @@ assert(P.change(f.player,{kind='wish',fullType='Base.Nails',quantity=0,revision=
 local y=item(2,a);local z=item(3,b);item(4,b)
 snapshot=P.snapshot(f.player)
 assert(P.change(f.player,{kind='shopping',fullType='Base.Nails',quantity=3,revision=snapshot.revision}).status=='ok')
-local begin=H.handle(f.player,'shoppingBegin',{});assert(begin.status=='ok')
+local begin=H.handle(f.player,'shoppingBegin',{});assert(begin.status=='ok' and begin.progress.known and begin.progress.total==3 and begin.progress.completed==0)
 assert(Q.Bindings.sessions[f.player]==preserved,'Shopping replaced sorting session')
 local function withdraw()
-    local offer=H.handle(f.player,'shoppingNext',{run=begin.run});assert(offer.status=='ok' and offer.withdrawal and not offer.destination)
+    local before=M.runs[f.player].collected
+    local offer=H.handle(f.player,'shoppingNext',{run=begin.run});assert(offer.status=='ok' and offer.withdrawal and not offer.destination and offer.progress.completed==before)
     local run=M.runs[f.player];local op=run.operations[offer.operation]
     assert(M.handle(f.player,'movePut',{operation=op.id}).status=='invalid')
     assert(M.handle(f.player,'moveTake',{operation=op.id}).status=='ok')

@@ -1,6 +1,12 @@
-[b]Version 0.11.0-dev.1[/b]
+[b]Version 0.12.0-dev.1[/b]
 MP testing build - dedicated multiplayer NOT TESTED
 
-Clean Building has moved into the separate B47ANCEDAutoClean mod. Quartermaster provides SupplyAPI 1 for configured storage queries, live withdrawal/deposit checks and guarded native transfers. Auto Clean requires Quartermaster and Rooms; Quartermaster does not require Auto Clean. Get the separate Auto Clean Workshop item 3820151540: https://steamcommunity.com/sharedfiles/filedetails/?id=3820151540. Enable all three mods on every peer.
+Adds overall Sort and Shopping progress beside vanilla's current-action bar, including one aggregate bar across room/building jobs. Auto Clean remains separate and unchanged.
 
-This is a breaking 0.x packaging change: Quartermaster alone no longer registers cleaning menus or jobs. Sorting/storage configuration, save schemas, existing Rooms sandbox settings and multiplayer authority remain unchanged. Update matching mods on every peer before testing. This update distributes the extracted Lua-only supply provider for Workshop testing. No local deployment or game/server launch accompanies publication. Actual SP and dedicated runtime NOT TESTED; G7 and stable G8 BLOCKED.
+Sorting loads a full carry before walking and finishes it before starting another. Optimize sorting visits groups one destination room per carry; disabling it uses one crate. Vanilla's smaller transfer groups and timing remain unchanged. Extra carry allowance is server-controlled, 0 to 40 kg (default 0). Native capacity/restrictions and encumbrance penalties remain.
+
+Adds selected native vehicle/trailer cargo and bags nested in native physical storage, using native cargo-area walking. No automatic parked-vehicle area sweep, vehicle destination configuration, fluids or unverified virtual storage. Full destinations can redirect before PUT authorization, or request a permitted native return. Invalid/full return sources, ground pickups and uncertain native outcomes can leave items carried safely.
+
+Fixes the non-public recipe-input lookup, preserves completed work when a queued item becomes inadmissible, and explains zero-move skip reasons. Movement protocol 9 requires server and every client to update together and reconnect. Selections, presets, priorities and save schemas are unchanged. B47ANCE'd Rooms remains required; Auto Clean is optional.
+
+Development source only. Native SP, subscribed vehicle models, concurrent full-container cases and dedicated acceptance require testing. G7 NOT TESTED / BLOCKED; stable-release G8 BLOCKED. This note does not claim an upload or deployment.

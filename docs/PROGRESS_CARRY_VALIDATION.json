@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-15",
+  "project_version": "0.12.0-dev.1",
+  "baseline_commit": "154a0a1e73ac0dd0f741770cd33e9d13a7c331d8",
+  "branch": "feature/progress-and-containers",
+  "game_version": "42.21.0",
+  "steam_build": "25485521",
+  "environment": "Windows host / Python / Lupa Lua 5.1; native engine/network leaves simulated",
+  "runtime": "NOT TESTED",
+  "g7": "BLOCKED / NOT TESTED",
+  "stable_g8": "BLOCKED",
+  "source_file_count": 134,
+  "source_inventory_sha256": "41b60f23bc5583b291d8b72e393574548006233c5ce04085282300a9d1915387",
+  "commands": [
+    "python -B scripts/check_versions.py",
+    "python -B tests/run_tests.py --require-rooms --rooms <verified-B47ANCEDRooms-checkout>",
+    "python -B scripts/check_deployment.py",
+    "git diff --check"
+  ],
+  "results": {
+    "lua_syntax": "PASS OFFLINE",
+    "regression_suite": "PASS OFFLINE",
+    "native_lua_simulated_pipeline": "PASS OFFLINE",
+    "hud_simulated_projection": "PASS OFFLINE",
+    "source_manifest": "PASS",
+    "version_consistency": "PASS",
+    "actual_pz_sp": "NOT TESTED",
+    "dedicated_mp": "NOT TESTED",
+    "package": "NOT BUILT",
+    "deploy": "NOT REQUESTED",
+    "workshop": "NOT REQUESTED",
+    "independent_clean_room_signoff": "PENDING PR REVIEW"
+  },
+  "observations": [
+    "Vanilla transfer groups remain capped at native limits; grouping/timing code is unchanged globally.",
+    "Two four-item carries finish sequentially; server allowance remains bounded by native carrier capacity.",
+    "601 eligible items start the first carry after one 250-item scan slice in the deterministic offline fixture. This is not a runtime speed benchmark.",
+    "Native-shaped tests preserve six exact items through alternative storage or native source returns after the selected destination fills.",
+    "Selected vehicle source walks to a cargo area far from its center; locked/moved/replaced sources fail closed.",
+    "Owner-supplied ZIP provenance and private-log findings are summarized without committing the ZIP/log.",
+    "Original published 0.11.0-dev.1 ZIP remains unchanged: 23a9e39db322a608196d7642470a2e127b36ced43bfd8c5807931d9c90170557."
+  ]
+}

@@ -1,6 +1,10 @@
 # Rename and technical-ID migration
 
-Project Version: 0.11.0-dev.1
+Project Version: 0.12.0-dev.1
+
+## Current development iteration
+
+Identity remains B47ANCEDQuartermaster / Workshop 3807217050, with B47ANCEDRooms required. No rename or save migration occurs. Movement capability 9 requires matching peers. Old deployment/version statements below are historical checkpoints. See [implementation and evidence](PROGRESS_CARRY_AND_CONTAINERS.md).
 
 ## Current identity — 0.4.0-dev.1
 

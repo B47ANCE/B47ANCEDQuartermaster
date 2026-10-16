@@ -14,12 +14,28 @@ end
 local function cancelOp(op)
     if not op.cancelSent then op.cancelSent=true;A.request(op.playerNum,'moveCancel',{operation=op.id},function() end) end
 end
+local function parked(b,op)
+    if op.state=='done' or op.state=='spill' or op.state=='revert' then return true end
+    if b.mode=='take' and op.state=='carried' then return true end
+    return false
+end
+local function reportOf(b)
+    local report={kept={},done={},spill={},revert={},failed={}}
+    for _,op in ipairs(b.ops) do
+        if op.state=='spill' then report.spill[op.id]=op.spillDest
+        elseif op.state=='revert' then report.revert[op.id]=true
+        elseif op.state=='failed' then report.failed[op.id]=true
+        elseif op.state=='done' then report.done[op.id]=true
+        elseif b.mode=='take' and op.state=='carried' then report.kept[op.id]=true end
+    end
+    return report
+end
 local function done(b,status)
     if b.closed then return end
     b.closed=true;E.batches[b.playerNum]=nil
-    for _,op in ipairs(b.ops) do if op.state~='done' then cancelOp(op) end end
+    for _,op in ipairs(b.ops) do if not parked(b,op) then cancelOp(op) end end
     Trace.emit(b.trace,'BATCH_COMPLETED',status,nil,nil,nil,b.completed)
-    b.callback(status,b.completed,b.failed,b.rejection or (status~='ok' and {phase=b.phase,status=status,reason='clientBatchStopped'} or nil))
+    b.callback(status,b.completed,b.failed,b.rejection or (status~='ok' and {phase=b.phase,status=status,reason='clientBatchStopped'} or nil),reportOf(b))
 end
 local function fail(b,op)
     if op.state=='failed' or op.state=='done' then return end
@@ -31,13 +47,23 @@ end
 local function walk(b,target,nextPhase)
     local sq=target and target.obj:getSquare()
     if not sq then done(b,'invalid');return end
-    if Q.Targets.sameFloor(b.player,sq) and math.max(math.abs(b.player:getX()-sq:getX()),math.abs(b.player:getY()-sq:getY()))<=1 then b.phase=nextPhase;return end
-    local stand=AdjacentFreeTileFinder.Find(sq,b.player)
-    if not stand then done(b,'unreachable');return end
-    local action=ISWalkToTimedAction:new(b.player,stand);action.b47Batch=b
-    function action:stop() done(b,'cancelled');ISWalkToTimedAction.stop(self) end
+    local external=target.external and target.root.part
+    if external and require('B47ANCEDQuartermaster/ContainerSources').reachable(target,b.player)
+        or not external and Q.Targets.sameFloor(b.player,sq) and math.max(math.abs(b.player:getX()-sq:getX()),math.abs(b.player:getY()-sq:getY()))<=1 then b.phase=nextPhase;return end
+    local action
+    if external then
+        require 'Vehicles/TimedActions/ISPathFindAction'
+        action=ISPathFindAction:pathToVehicleArea(b.player,target.root.obj,target.root.part:getArea())
+    else
+        local stand=AdjacentFreeTileFinder.Find(sq,b.player)
+        if stand then action=ISWalkToTimedAction:new(b.player,stand) end
+    end
+    if not action then done(b,'unreachable');return end
+    action.b47Batch=b
+    local nativeStart,nativeStop=action.start,action.stop
+    function action:stop() done(b,'cancelled');if nativeStop then nativeStop(self) end end
     function action:forceCancel() done(b,'cancelled') end
-    function action:start() b.walkStarted=Trace.begin();b.walkLength=nil;b.walkActive=true;ISWalkToTimedAction.start(self) end
+    function action:start() b.walkStarted=Trace.begin();b.walkLength=nil;b.walkActive=true;if nativeStart then nativeStart(self) end end
     action:setOnComplete(function() if not b.closed then Trace.emit(b.trace,'ROUTE_WALK_COMPLETE',nextPhase,nil,nil,b.walkStarted,b.walkLength);b.walkActive=false;b.phase=nextPhase end end)
     b.phase='walking';ISTimedActionQueue.add(action)
     Trace.emit(b.trace,'ACTION_QUEUED',nextPhase=='grantTake' and 'walk-take-batch' or 'walk-put-batch')
@@ -48,7 +74,11 @@ local function transfer(b,leg)
         if op.state==wanted then
             local src=leg=='take' and op.source.container or op.carrier
             local dst=leg=='take' and op.carrier or op.destination.container
-            if E.check(op,leg,op.item,src,dst) then ops[#ops+1]=op else fail(b,op) end
+            local allowed,reason=E.check(op,leg,op.item,src,dst)
+            if allowed then ops[#ops+1]=op else
+                b.rejection=b.rejection or {phase=b.phase,status='invalid',reason=reason or 'dispatchGuardRejected'}
+                fail(b,op)
+            end
         end
     end
     if #ops==0 then done(b,'partial');return end
@@ -80,8 +110,10 @@ local function transfer(b,leg)
     end
     function head:checkQueueList()
         native.checkQueueList(self)
-        for _,group in ipairs(self.queueList) do
-            for _,item in ipairs(group.items) do
+        for groupIndex=#self.queueList,1,-1 do
+            local group=self.queueList[groupIndex]
+            for itemIndex=#group.items,1,-1 do
+                local item=group.items[itemIndex]
                 local op=b.byID[item:getID()]
                 local valid,reason
                 if not op then reason='operationItemMissing'
@@ -90,13 +122,19 @@ local function transfer(b,leg)
                 else valid,reason=E.check(op,leg,item,src,dst) end
                 if not valid then
                     b.rejection=b.rejection or {phase=b.phase,status='invalid',reason=reason or 'dispatchGuardRejected'}
-                    error('B47 batch dispatch rejected:'..(reason or 'dispatchGuardRejected'))
+                    -- These entries have not been submitted. Retain completed native
+                    -- work and discard only newly inadmissible queued transfers.
+                    if op then fail(b,op) end
+                    table.remove(group.items,itemIndex)
                 end
             end
+            if #group.items==0 then table.remove(self.queueList,groupIndex) end
         end
     end
     function head:start()
         if not self:isValid() then done(b,'invalid');self:forceStop();return end
+        self:checkQueueList()
+        if #self.queueList==0 then done(b,'partial');self:forceStop();return end
         Trace.emit(b.trace,'ACTION_STARTED',leg..'-batch',nil,nil,nil,#ops)
         local ok,err=pcall(native.start,self)
         if not ok then Trace.failure(b.trace,'BATCH_START',err);done(b,'uncertain');self:forceStop();return end
@@ -185,7 +223,16 @@ local function requestAll(b,command,fromState,toState,nextPhase)
                     op.item=op.carrier:getItemWithID(op.itemID)
                     if not op.item then done(b,'uncertain');return end
                     b.byID[op.itemID]=op
-                elseif toState=='done' then op.closed=true;b.completed=b.completed+1 end
+                elseif toState=='done' then
+                    op.closed=true
+                    if b.mode=='revert' then b.failed=b.failed+1 else b.completed=b.completed+1 end
+                end
+            elseif result.status=='spill' and type(result.destination)=='table' and result.destination.instance~=nil then
+                op.offer.destination=result.destination
+                op.destination=nil
+                op.spillDest=result.destination
+                op.state='spill'
+            elseif result.status=='revert' then op.state='revert'
             elseif result.status=='waiting' then b.nextRequestAt=getTimestampMs()+250
             else
                 b.rejection=b.rejection or {phase=command,status=result.status,reason=result.reason or 'unspecified',serverVersion=response.serverVersion}
@@ -199,10 +246,10 @@ local function requestAll(b,command,fromState,toState,nextPhase)
         else b.phase=nextPhase;b.retry=false;b.nextRequestAt=nil end
     end)
 end
-function E.startBatch(playerNum,offers,callback)
+function E.startBatch(playerNum,offers,callback,mode)
     local player=getSpecificPlayer(playerNum)
     if not E.batchSupported() or not player or E.active[playerNum] or E.batches[playerNum] or #queue(player)>0 or #offers<1 or #offers>100 then return false end
-    local b={player=player,playerNum=playerNum,time=getTimestampMs(),phase='resolve',ops={},byID={},callback=callback,completed=0,failed=0,trace=offers[1].trace}
+    local b={player=player,playerNum=playerNum,time=getTimestampMs(),phase='resolve',mode=mode or 'both',ops={},byID={},callback=callback,completed=0,failed=0,trace=offers[1].trace}
     local ids={}
     for _,offer in ipairs(offers) do
         if ids[offer.operation] or offer.withdrawal then return false end
@@ -236,29 +283,56 @@ local function tick(b)
     if b.phase=='resolve' then
         if getTimestampMs()-b.time>15000 then done(b,'uncertain');return end
         for _,op in ipairs(b.ops) do
-            op.source=op.source or (op.offer.source and E.resolve(op.offer.source,b.player))
+            -- A native ground TAKE removes its world object. PUT needs the carried
+            -- reference and live destination, not a newly resolved removed source.
+            if b.mode~='put' then op.source=op.source or (op.offer.source and E.resolve(op.offer.source,b.player)) end
+            if b.mode=='revert' and (not op.offer.source or op.offer.source.ground) then
+                fail(b,op)
+            else
             op.destination=op.destination or E.resolve(op.offer.destination,b.player)
             op.carrier=op.carrier or Q.Movement.carrier(b.player,op.offer.carrierID)
-            if not op.destination or not op.carrier or (op.offer.source and not op.source) then return end
+            if not op.destination or not op.carrier or (b.mode~='put' and op.offer.source and not op.source) then return end
             local first=b.ops[1]
-            if op.destination.container~=first.destination.container or op.carrier~=first.carrier or (op.source and op.source.container)~=(first.source and first.source.container) then done(b,'invalid');return end
-            op.item=op.source and op.source.ground and op.source.item or (op.source and op.source.container or op.carrier):getItemWithID(op.itemID)
-            if not op.item then fail(b,op) else b.byID[op.itemID]=op;op.state=op.source and 'planned' or 'unconfirmed' end
+            local sameCarrier=op.carrier==first.carrier
+            local sameSource=(op.source and op.source.container)==(first.source and first.source.container)
+            local sameDest=op.destination.container==first.destination.container
+            if b.mode=='take' or b.mode=='revert' then
+                if not sameCarrier or not sameSource then done(b,'invalid');return end
+            elseif not sameDest or not sameCarrier or (b.mode~='put' and not sameSource) then done(b,'invalid');return end
+            if b.mode=='put' or b.mode=='revert' then op.item=op.carrier and op.carrier:getItemWithID(op.itemID) or nil
+            else op.item=op.source and op.source.ground and op.source.item or (op.source and op.source.container or op.carrier):getItemWithID(op.itemID) end
+            if not op.item then fail(b,op)
+            elseif b.mode=='revert' then
+                if not op.source then fail(b,op) else b.byID[op.itemID]=op;op.destination=op.source;op.state='carried' end
+            elseif b.mode=='put' then b.byID[op.itemID]=op;op.state='carried'
+            else b.byID[op.itemID]=op;op.state=op.source and 'planned' or 'unconfirmed' end
+            end
         end
         local first=b.ops[1]
-        if first.source then walk(b,first.source,'grantTake') else b.phase='confirmCarried';b.phaseTime=getTimestampMs() end
+        local function lead(state)
+            for _,op in ipairs(b.ops) do if op.state==state and op.destination then return op end end
+        end
+        if b.mode=='take' then
+            if not first.source then done(b,'invalid');return end
+            walk(b,first.source,'grantTake')
+        elseif b.mode=='put' or b.mode=='revert' then
+            local carried=lead('carried')
+            if not carried then done(b,'partial') else walk(b,carried.destination,'grantPut') end
+        elseif first.source then walk(b,first.source,'grantTake') else b.phase='confirmCarried';b.phaseTime=getTimestampMs() end
     elseif b.phase=='grantTake' then requestAll(b,'moveTake','planned','take','takeReady')
     elseif b.phase=='takeReady' then transfer(b,'take')
     elseif b.phase=='confirmCarried' then
         if getTimestampMs()-(b.phaseTime or b.time)>15000 then done(b,'uncertain');return end
-        requestAll(b,'moveCarried',b.ops[1].source and 'take' or 'unconfirmed','carried','putWalk')
+        requestAll(b,'moveCarried',b.ops[1].source and 'take' or 'unconfirmed','carried',b.mode=='take' and 'finished' or 'putWalk')
     elseif b.phase=='putWalk' then
-        if stateCount(b,'carried')==0 then done(b,'partial') else walk(b,b.ops[1].destination,'grantPut') end
-    elseif b.phase=='grantPut' then requestAll(b,'movePut','carried','put','putReady')
+        local carried
+        for _,op in ipairs(b.ops) do if op.state=='carried' and op.destination then carried=op;break end end
+        if not carried then done(b,'partial') else walk(b,carried.destination,'grantPut') end
+    elseif b.phase=='grantPut' then requestAll(b,b.mode=='revert' and 'moveRevert' or 'movePut','carried','put','putReady')
     elseif b.phase=='putReady' then transfer(b,'put')
     elseif b.phase=='confirmDone' then
         if getTimestampMs()-(b.phaseTime or b.time)>15000 then done(b,'uncertain');return end
-        requestAll(b,'moveDone','put','done','finished')
+        requestAll(b,b.mode=='revert' and 'moveReverted' or 'moveDone','put','done','finished')
     elseif b.phase=='finished' then done(b,b.failed>0 and 'partial' or 'ok') end
 end
 function E.tickBatches()

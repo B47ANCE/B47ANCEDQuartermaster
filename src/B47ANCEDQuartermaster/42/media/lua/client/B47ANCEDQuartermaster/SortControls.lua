@@ -9,6 +9,7 @@ local Q=B47ANCEDQuartermaster
 local S=Q.Sorter
 local pendingMenus={}
 local Compatibility=require 'B47ANCEDQuartermaster/Compatibility'
+local External=require 'B47ANCEDQuartermaster/ContainerSources'
 if not Compatibility.allowed() then return end
 local function supported(player,container)
     if not Compatibility.allowed() then return false end
@@ -18,18 +19,27 @@ local function supported(player,container)
     -- Keep intent controls stable; acquisition still validates actual item sources.
     if container==player:getInventory() then return true end
     if container:isEmpty() then return false end
+    if External.hint(container,player) then return true end
     local item=container:getContainingItem()
     if item then return B47ANCEDQuartermaster.Movement.carrier(player,item:getID())==container end
     local obj=container:getParent()
-    return obj and B47ANCEDQuartermaster.Targets.make(obj,obj:getContainerIndex(container),player)~=nil
+    return obj and obj.getContainerIndex and B47ANCEDQuartermaster.Targets.make(obj,obj:getContainerIndex(container),player)~=nil
+end
+local function nothing(reasons)
+    local parts={}
+    for _,key in ipairs({'carryCapacity','destinationRejected','noMatchingRule','alreadySorted','sourceChanged','itemProtected'}) do
+        local count=reasons and reasons[key]
+        if type(count)=='number' and count>0 then parts[#parts+1]=getText('UI_B47_Skip_'..key,math.floor(count)) end
+    end
+    return #parts>0 and getText('UI_B47_SortNothingReasons',table.concat(parts,'; ')) or getText('UI_B47_SortNothing')
 end
 local function singleSort(playerNum,container)
     local player=getSpecificPlayer(playerNum)
     if not player or isGamePaused() then return end
     if B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[playerNum] then B47ANCEDQuartermaster.RoomSort.cancel(playerNum);return end
     if S.active[playerNum] then S.cancel(playerNum);return end
-    local ok=S.start(playerNum,container,function(status,completed,failed)
-        if status=='ok' and completed==0 then player:setHaloNote(getText('UI_B47_SortNothing'))
+    local ok=S.start(playerNum,container,function(status,completed,failed,reasons)
+        if status=='ok' and completed==0 then player:setHaloNote(nothing(reasons))
         elseif status=='ok' or status=='cancelled' then player:setHaloNote(getText(status=='ok' and 'UI_B47_SortFinished' or 'UI_B47_SortStopped',completed,failed))
         else player:setHaloNote(getText('UI_B47_SortFailed',getText('UI_QMSS_'..status),completed,failed)) end
     end)
@@ -49,8 +59,8 @@ local function perform(playerNum,container)
         if result.status~='ok' then player:setHaloNote(getText('UI_QMSS_'..result.status));return end
         local menu=ISContextMenu.get(playerNum,getMouseX(),getMouseY())
         local function start(view)
-            local ok=area.start(playerNum,view,function(status,moved,skipped)
-                player:setHaloNote(getText('UI_QMSS_RoomSortSummary',getText('UI_QMSS_'..(status=='ok' and 'RoomSortComplete' or status=='cancelled' and 'RoomSortCancelled' or status)),moved,skipped))
+            local ok=area.start(playerNum,view,function(status,moved,skipped,reasons)
+                player:setHaloNote(status=='ok' and moved==0 and nothing(reasons) or getText('UI_QMSS_RoomSortSummary',getText('UI_QMSS_'..(status=='ok' and 'RoomSortComplete' or status=='cancelled' and 'RoomSortCancelled' or status)),moved,skipped))
             end)
             if not ok then player:setHaloNote(getText('UI_B47_SortBusy')) end
         end

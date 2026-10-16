@@ -30,12 +30,17 @@ def runtime():
     lua.globals().TEST_ROOT = (ROOT / 'tests').as_posix()
     lua.globals().ROOMS_SOURCE = (ARGS.rooms / 'src/B47ANCEDRooms/42/media/lua').as_posix()
     lua.globals().GAME_ROOT = 'E:/Program Files (x86)/Steam/steamapps/common/ProjectZomboid'
+    # Most suites isolate gameplay from native UI. The overhead HUD suite loads the actual renderer separately.
+    lua.execute("package.loaded['B47ANCEDQuartermaster/Progress']={start=function() end,clear=function() end}")
     lua.execute("getActivatedMods=function() return {size=function() return 1 end,get=function() return 'B47ANCEDQuartermaster' end} end")
     return lua
 
 for path in (SOURCE / '42/media/lua').rglob('*.lua'):
     runtime().execute('assert(loadstring(...))', path.read_text(encoding='utf-8'))
 print('PASS Lua 5.1 syntax')
+runtime().execute((ROOT / 'tests/test_carry_budget.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_container_sources.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_progress.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_supply_api.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_native_categories.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_sorting_data_cleanup.lua').read_text(encoding='utf-8'))
@@ -48,6 +53,7 @@ elif ARGS.require_rooms:
 else:
     print('NOT TESTED paired Rooms integration: no standalone checkout; Quartermaster-only regressions continue')
 runtime().execute((ROOT / 'tests/test_move_batch.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_carry_authority.lua').read_text(encoding='utf-8'))
 for path in (SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Movement.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Trips.lua', CLIENT / 'B47ANCEDQuartermaster/Executor.lua', CLIENT / 'B47ANCEDQuartermaster/Sorter.lua', CLIENT / 'B47ANCEDQuartermaster/SortControls.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/GroundSources.lua'):
     owned = path.read_text(encoding='utf-8')
     assert 'LootSorter' not in owned and 'require "LootSorter' not in owned

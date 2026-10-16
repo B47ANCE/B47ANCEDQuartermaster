@@ -2,11 +2,23 @@
 require 'B47ANCEDQuartermaster/Sorter'
 local Q=B47ANCEDQuartermaster
 local R={active={}};Q.RoomSort=R
+local Progress=require 'B47ANCEDQuartermaster/Progress'
+local function progress(run)
+ local total=run.sources and #run.sources or 0;local completed=run.index-1
+ local child=Q.Sorter.active[run.playerNum]
+ if child and child.area then
+  local state=Q.Sorter.progress(child)
+  if state.known and state.total>0 then completed=completed+state.completed/state.total end
+ end
+ return {known=run.sources~=nil,total=total,completed=math.min(total,completed),
+  label=run.view.kind=='building' and 'UI_B47_ProgressSortBuilding' or 'UI_B47_ProgressSortRoom'}
+end
 local serial=0
 local function close(run,status)
  if run.closed then return end
  run.closed=true;R.active[run.playerNum]=nil
- if run.callback then run.callback(status,run.completed,run.skipped) end
+ Progress.clear(run.playerNum,run)
+ if run.callback then run.callback(status,run.completed,run.skipped,run.skipReasons) end
 end
 function R.cancel(playerNum)
  local run=R.active[playerNum];if not run then return end
@@ -14,11 +26,14 @@ function R.cancel(playerNum)
 end
 function R.start(playerNum,view,callback)
  local player=getSpecificPlayer(playerNum)
+ if Q.Collector and Q.Collector.active[playerNum] then return false end
  if not player or R.active[playerNum] or Q.Sorter.active[playerNum] or Q.Executor.active[playerNum] or Q.Executor.batches[playerNum]
   or #ISTimedActionQueue.getTimedActionQueue(player).queue>0 or not view or (view.kind~='customRoom' and view.kind~='nativeRoom' and view.kind~='building') or isGamePaused and isGamePaused() then return false end
  serial=serial+1
  R.active[playerNum]={playerNum=playerNum,player=player,view=view,nonce=tostring(getTimestampMs())..':'..serial,
-  callback=callback,time=getTimestampMs(),completed=0,skipped=0,index=1,nextAt=0};return true
+  callback=callback,time=getTimestampMs(),completed=0,skipped=0,index=1,nextAt=0}
+ Progress.start(playerNum,R.active[playerNum],progress,function(r) return R.active[playerNum]==r end)
+ return true
 end
 function R.tick()
  for num,run in pairs(R.active) do
@@ -50,8 +65,10 @@ function R.tick()
       run.waitStarted=run.waitStarted or getTimestampMs();if getTimestampMs()-run.waitStarted>15000 then close(run,'invalid') end
      else
       run.waitStarted=nil;run.busy=true
-      local started=Q.Sorter.start(num,source,function(status,completed,skipped)
+      local started=Q.Sorter.start(num,source,function(status,completed,skipped,reasons)
        if run.closed then return end
+       run.skipReasons=run.skipReasons or {}
+       for key,n in pairs(reasons or {}) do run.skipReasons[key]=(run.skipReasons[key] or 0)+n end
        run.completed=run.completed+completed;run.skipped=run.skipped+skipped;run.busy=false;run.index=run.index+1
        if status~='ok' then close(run,status) end
       end,{area=true,sweep=run.discovery.sweep,discovery=run.discovery})
