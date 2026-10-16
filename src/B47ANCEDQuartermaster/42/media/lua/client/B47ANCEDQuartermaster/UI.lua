@@ -62,7 +62,7 @@ function V.shoppingRows(p)
      for _,extra in ipairs(u.lists.extras or {}) do if extra.key==source.key then row.fullType=extra.fullType;row.quantity=extra.quantity end end
     else
      key='dibs:'..row.fullType
-     local g=(source.kind=='needed' and u.lists.neededGoals or u.lists.wishGoals) or {};local goal=g[row.fullType]
+     local g=u.lists.linkedGoals and u.lists.linkedGoals[source.kind] or (source.kind=='needed' and u.lists.neededGoals or u.lists.wishGoals) or {};local goal=g[row.fullType]
      row.quantity=goal and goal.target or 0
     end
    else key='manual:'..row.fullType;label=tr('ManualSource');row.sourceLabel=label end
@@ -71,7 +71,7 @@ function V.shoppingRows(p)
     row.name=script and script:getDisplayName() or row.fullType or entry.text;row.texture=Q.Picker.itemTexture(row.fullType)
     local requirement=requirements[key];row.remaining=requirement and requirement.outstanding or nil;row.credit=requirement and requirement.carried or nil
     if row.source and row.source.kind~='extra' then
-     local g=row.source.kind=='needed' and u.lists.neededGoals or u.lists.wishGoals;local goal=g and g[row.fullType]
+     local g=u.lists.linkedGoals and u.lists.linkedGoals[row.source.kind] or (row.source.kind=='needed' and u.lists.neededGoals or u.lists.wishGoals);local goal=g and g[row.fullType]
      row.remaining=goal and goal.remaining or nil;row.credit=goal and goal.current or nil
     end
     row.cells={row.name,tostring(row.quantity or 0),row.credit and tostring(row.credit) or '—',row.remaining and tostring(row.remaining) or '—'}

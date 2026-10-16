@@ -88,6 +88,11 @@ assert(A.handle(actor,'shoppingPaperCreate',{name='Duplicate import',operation='
 local nails=added('Base.Nails');local beforeCredit=A.handle(actor,'personalList',{})
 inv:Remove(importedItem);otherInv:AddItem(importedItem);otherInv:AddItem(x.item('Base.Nails'))
 friend=A.handle(other,'shoppingPaperRead',{item=importedID});assert(friend.gross==beforeCredit.gross and friend.carried==1,'portable linked demand followed recipient personal goals')
+assert(friend.wishDemand['Base.Nails']==49 and friend.linkedGoals.wanted['Base.Nails'].target==50,'portable provenance row disappeared for recipient')
+assert(A.handle(other,'shoppingPaperSelect',{item=importedID}).status=='ok')
+otherInv:AddItem(x.item('Base.Notebook'));otherInv:AddItem(x.item('Base.Pencil'))
+local removed=A.handle(other,'shoppingSourceRemove',{kind='wanted',fullType='Base.Nails',paper=importedID,revision=friend.revision})
+assert(removed.status=='ok' and removed.gross==40 and removed.wishDemand['Base.Nails']==nil and account.wishDemand['Base.Nails'],'recipient could not remove portable provenance independently')
 -- Future/corrupt roots are preserved and denied, never reset.
 local root=ModData.getOrCreate('B47ANCEDQuartermasterShoppingPapers');root.schema=99
 assert(A.handle(other,'shoppingPaperRead',{item=importedID}).status~='ok' and root.schema==99);root.schema=1

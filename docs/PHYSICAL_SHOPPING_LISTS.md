@@ -20,7 +20,7 @@ Reading/collecting needs no notebook or writing tool. **Collect still requires t
 
 Each paper has its own manual targets, recipe projects, preferences, linked-demand targets, duplicate receipts and revision. Native FullType identity and the existing allocator remain unchanged. Carried credit is calculated for the current holder under that list's preferences, not copied from the previous holder's carried counts. Historical `collected since edit` belongs to the list and is never used as carried credit.
 
-Linked Wanted/Needed target values are written onto the selected paper when added/imported. They travel with that paper and do not silently adopt the recipient's personal goals. Personal goals remain personal. Re-add a goal to deliberately write its updated target; existing duplicate-confirmation behavior still applies. Recipe alternatives, reusable tools and supported cooking portions continue through the existing requirement resolver. Unsupported requirements still fail explicitly.
+Linked Wanted/Needed target values are written onto the selected paper when added/imported. They travel with that paper and do not silently adopt the recipient's personal goals. Their provenance rows remain visible and removable by the recipient with writing supplies. Personal goals remain personal. Re-add a goal to deliberately write its updated target; existing duplicate-confirmation behavior still applies. Recipe alternatives, reusable tools and supported cooking portions continue through the existing requirement resolver. Unsupported requirements still fail explicitly.
 
 The old account shopping plan is **not erased** and is not silently usable without paper in physical mode. **Import Old List...** consumes one blank sheet and explicitly copies that plan, including projects/preferences/linked target intent, once. The existing pre-schema-2 outstanding-demand migration runs before import when needed; its historical demand is not invented. Import is committed only with a successful physical creation. Its original account record is retained as a backup. No physical item is spawned just by opening or reading the menu.
 
@@ -58,12 +58,14 @@ The HUD checks held-item identity at most every 250 ms and requests at most one 
 
 **[TESTED OFFLINE]** Production handlers and engine-shaped Lua fixtures cover materials retained/consumed, written-sheet refusal, native action sender/challenge/replay, stale/missing list IDs, two independent lists, trade, former-holder refusal, per-holder carried credit, frozen linked demand, explicit one-time import and backup preservation, corrupt/future schemas, rollback, loss before TAKE, completed withdrawal credit, cancellation and supported opt-out. UI/HUD fixtures cover writable/read-only controls, lower-revision independent lists, font/geometry cases, either hand, single-panel identity, bounded reads, late callbacks, pagination and unequip/death/disconnect cleanup. These are host tests, not PZ execution or pixels.
 
-Exact commands (Python resolves to the configured host interpreter with Lupa Lua 5.1):
+Exact validation commands from the `feature/physical-shopping-lists` worktree (configured host interpreter with Lupa Lua 5.1):
 
 ```powershell
-python -B tests/run_tests.py --require-rooms --rooms '<verified B47ANCEDRooms repository>'
-python -B scripts/check_deployment.py
-python -B scripts/check_versions.py
+$python = 'C:/Users/willi/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
+$env:PYTHONUTF8 = '1'
+& $python -B tests/run_tests.py --require-rooms --rooms 'C:/Users/willi/Desktop/Work/Project Zomboid/Mod Repositories/B47ANCEDRooms'
+& $python -B scripts/check_deployment.py
+& $python -B scripts/check_versions.py
 git -c core.safecrlf=false diff --check
 ```
 

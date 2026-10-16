@@ -99,6 +99,21 @@ function P.snapshot(player)
         result.neededGoals[t]={target=n,current=current,remaining=math.max(0,n-current),fulfilled=current>=n}
         if data.neededDemand[t] then result.neededDemand[t]=math.max(0,n-current) end
     end
+    -- Portable provenance rows use the targets written on this paper, not the
+    -- recipient's unrelated personal goals. Keep personal goal tabs separate.
+    if data.paperTargets then
+        result.linkedGoals={wanted={},needed={}};result.wishDemand={};result.neededDemand={}
+        for _,kind in ipairs({'wish','needed'}) do
+            local public=kind=='wish' and 'wanted' or 'needed'
+            local links=kind=='wish' and data.wishDemand or data.neededDemand
+            local demand=kind=='wish' and result.wishDemand or result.neededDemand
+            for t,n in pairs(data.paperTargets[kind]) do if links[t] then
+                local current=counts[t] or 0;local remaining=math.max(0,n-current)
+                result.linkedGoals[public][t]={target=n,current=current,remaining=remaining,fulfilled=remaining==0}
+                demand[t]=remaining
+            end end
+        end
+    end
     for _,kind in ipairs({'wanted','needed'}) do
         local summary=result.summaries[kind]
         for _,goal in pairs(result[kind..'Goals']) do
