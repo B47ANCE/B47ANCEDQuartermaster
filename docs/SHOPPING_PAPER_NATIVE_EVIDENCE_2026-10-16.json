@@ -1,0 +1,117 @@
+{
+  "project_version": "0.16.0-dev.1",
+  "game_version": "42.21.0",
+  "steam_build": "25485521",
+  "status": "VERIFIED SOURCE; no native execution",
+  "runtime": "NOT TESTED",
+  "files": [
+    {
+      "path": "media/lua/client/ISUI/ISInventoryPaneContextMenu.lua",
+      "sha256": "4cbbc52cbab591cee0c7d1c5927125bf59c70c588936b04d3ce0fe75648a96cc",
+      "observations": {
+        "getPrimaryHandItem": [
+          668,
+          896,
+          3506,
+          3651,
+          3652,
+          3654,
+          3655,
+          3695,
+          3696,
+          3701,
+          3702,
+          3734
+        ],
+        "getSecondaryHandItem": [
+          669,
+          896,
+          1428,
+          1429,
+          3511,
+          3698,
+          3699,
+          3704,
+          3705,
+          3717,
+          3718,
+          3720
+        ],
+        "isEmptyPages": [
+          584
+        ],
+        "setCustomName": [
+          2714,
+          2726,
+          2748
+        ],
+        "syncItemFields": [
+          2216,
+          2219,
+          2255,
+          2727,
+          2749
+        ]
+      }
+    },
+    {
+      "path": "media/lua/client/ISUI/ISComboBox.lua",
+      "sha256": "3c313fe9c30711fef341bc4358d3d66e6f38591c224f5fe92e7c77db508f2e66",
+      "observations": {
+        "function ISComboBox:setEnabled": [
+          549
+        ]
+      }
+    },
+    {
+      "path": "media/lua/client/ISUI/ISUIElement.lua",
+      "sha256": "2de4720f995ae35e76a1465c6690ad17fe272e33dec3b106e49c475310440f8f",
+      "observations": {
+        "function ISUIElement:setRenderThisPlayerOnly": [
+          630
+        ],
+        "function ISUIElement:setCapture": [
+          588
+        ]
+      }
+    },
+    {
+      "path": "media/scripts/generated/items/literature.txt",
+      "sha256": "01f9950ecfa984eb1c874de0eeaee283b8ba265cd249cf34111df9f30268e293",
+      "observations": {
+        "item Notebook": [
+          1819
+        ],
+        "item SheetPaper2": [
+          1833
+        ]
+      }
+    },
+    {
+      "path": "media/scripts/generated/items/weapon.txt",
+      "sha256": "742414e701d360a9076099f9842bd9cc65c2d9ba9497af8b0ce470ee147467c5",
+      "observations": {
+        "item Pen": [
+          17616,
+          17659,
+          17702,
+          17746,
+          17791,
+          17835
+        ],
+        "item Pencil": [
+          17659,
+          17702
+        ],
+        "item BluePen": [
+          15728
+        ],
+        "item RedPen": [
+          17979
+        ]
+      }
+    }
+  ],
+  "jar_sha256": "e1a69eb743ede60b213a0fe7f8b83d4fcab773036d256cc4543a336f3b058a33",
+  "native_observation": "InventoryItem.syncItemFields() checks the outer container parent and sends SyncItemFields on server for a player owner; observed client Lua invocation corroborates exposure. Not a dedicated replication test. Shopping creation reuses the source-verified ledger constructor/action/native-completion boundary recorded by the 0.14 evidence, with current positive offline fixtures."
+}

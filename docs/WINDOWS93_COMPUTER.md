@@ -1,6 +1,6 @@
 # Windows '93 computer desktop
 
-Project Version: 0.15.0-dev.1
+Project Version: 0.16.0-dev.1
 
 Computers open an original Lua-drawn Windows '93 desktop with a CRT bezel, teal desktop, grey beveled controls, Start menu and taskbar. Opening the desktop never auto-runs the ledger.
 

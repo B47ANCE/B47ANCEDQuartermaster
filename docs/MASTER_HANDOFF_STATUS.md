@@ -1,10 +1,10 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.15.0-dev.1
+Project Version: 0.16.0-dev.1
 
 ## Current development iteration
 
-Current feature/ledger-required implements default-on Sort/Collect knowledge requirements, location-matching completed paper or a working stored-CD computer, server drive bindings, new-grant revalidation and safe observation/return paths. Shopping planning remains available. Server opt-outs preserve prior use when explicitly disabled. Native G6/G7 NOT TESTED; stable G8 BLOCKED. No package/deployment/publication. See [current report](LEDGER_REQUIREMENT.md).
+Current feature/physical-shopping-lists implements named, transferable physical Shopping papers, retained notebook/writing tool requirements, one-sheet creation, an explicit one-time legacy import, list selection/renaming and a held-paper checklist HUD. Server-owned profiles preserve the current allocator/preferences and freeze linked targets onto each paper. The prior supply-ledger Sort/Collect requirements remain enabled by default. Source-only; no package/deployment/publication. Native G6/G7 NOT TESTED; stable G8 BLOCKED. See [current report](PHYSICAL_SHOPPING_LISTS.md).
 
 ## Separate Auto Clean and supply API — historical 0.11.0-dev.1
 

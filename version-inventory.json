@@ -85,6 +85,10 @@
     {
       "path": "docs/LEDGER_REQUIREMENT.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/PHYSICAL_SHOPPING_LISTS.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {

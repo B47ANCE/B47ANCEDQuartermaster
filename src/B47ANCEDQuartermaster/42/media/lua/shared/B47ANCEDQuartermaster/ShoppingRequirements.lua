@@ -131,6 +131,10 @@ function R.allocate(nodes,items)
 end
 function R.ledger(player,data,scope,items)
     local nodes={}
+    if data.paperTargets then
+        local original=data
+        data=setmetatable({wish=original.paperTargets.wish,needed=original.paperTargets.needed},{__index=original})
+    end
     local wishes,seen={},{}
     for _,kind in ipairs({'wish','needed'}) do
         local targets=data[kind] or {};local linked=data[kind=='wish' and 'wishDemand' or 'neededDemand'] or {}

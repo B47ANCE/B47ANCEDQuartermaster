@@ -97,6 +97,7 @@ function ISTextEntryBox:new(text,x,y,w,h)
 end
 ISLabel=Widget:derive('Label')
 ISComboBox=Widget:derive('ComboBox')
+function ISComboBox:setEnabled(v) self.enabled=v end
 function ISComboBox:clear() self.options={};self.selected=1 end
 function ISComboBox:addOption(text) self.options=self.options or {};self.options[#self.options+1]=text end
 ISTextBox=Widget:derive('TextBox')

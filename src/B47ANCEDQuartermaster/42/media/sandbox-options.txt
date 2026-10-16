@@ -97,3 +97,18 @@ option B47ANCEDQuartermaster.LedgerComputerRange
     page = B47ANCEDQuartermaster,
     translation = B47ANCEDQuartermaster_LedgerComputerRange,
 }
+
+option B47ANCEDQuartermaster.PhysicalShoppingLists
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_PhysicalShoppingLists,
+}
+option B47ANCEDQuartermaster.ShoppingWritingSupplies
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_ShoppingWritingSupplies,
+}

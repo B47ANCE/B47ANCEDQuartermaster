@@ -1,10 +1,10 @@
 # Architecture and implementation map
 
-Project Version: 0.15.0-dev.1
+Project Version: 0.16.0-dev.1
 
 ## Current development iteration
 
-LedgerRequirement adds server knowledge eligibility at Sort/Collect admission, candidate planning and new TAKE/PUT grants. LedgerDrives persists exact real-CD bindings to existing adjacent physical storage; no CD moves or computer inventory is invented. Defaults are enabled, with server opt-outs and a nearby-computer range. Shopping planning/configuration remain unrestricted. Capabilities are movement 10, Shopping 2 and Ledger 2; physical ledger schema remains 1 and drive registry schema is 1. See [current design and tests](LEDGER_REQUIREMENT.md).
+Physical ShoppingLists schema 1 stores independent server-owned profiles bound to native paper item IDs plus opaque item ModData references. Personal.account retains account goals and the old shopping backup; Personal.identity projects the selected carried paper into the existing allocator. Commands validate exact possession, selected paper, supplies and revisions. New papers use the existing challenged native ledger-action completion boundary; one exact blank becomes one paper. Collection checks continued possession and profile revision before new TAKE grants; completed observations/cancellation remain available. HUD and list selector are client presentation. Personal protocol is 2; Shopping is 3; movement 10 and Ledger 2 are unchanged. Existing ledger requirements still apply to collection. See [workflow, native evidence, limits and acceptance](PHYSICAL_SHOPPING_LISTS.md).
 
 ## Separate Auto Clean and supply API — historical 0.11.0-dev.1
 
@@ -63,7 +63,7 @@ User confirms dev.20 loaded but visible Category labels remained vanilla with Ne
 
 Compatible PATCH correction on dev.19: Category cells use the canonical resolver cache and current localized labels. Compatibility is checked during rendering rather than permanently skipping registration during early Lua loading. Native row.cat, sorting, grouping and item definitions stay unchanged. Full offline regression and frozen 5,092-item comparison passed; actual B42.21 inventory/loot/controller/scaling and second-language client acceptance remain UNTESTED. Dev.19 Stage A instrumentation is retained; its dedicated timing gate remains BLOCKED. See `dist/handoffs/dev20-inventory-category.md`. No deployment or publication.
 
-Current source version: 0.15.0-dev.1. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
+Current source version: 0.16.0-dev.1. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
 
 Historical note: Recorded source snapshot: 0.4.0-dev.50. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
 

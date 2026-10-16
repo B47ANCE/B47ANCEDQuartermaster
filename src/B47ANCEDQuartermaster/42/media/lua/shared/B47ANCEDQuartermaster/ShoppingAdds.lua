@@ -66,8 +66,8 @@ function A.handle(player,args)
         data.addReceipts[operation]={digest=digest,token=token,time=now,revision=data.revision}
         return {status='duplicate',confirmation=token,new=new,duplicate=duplicate,revision=data.revision}
     elseif args.mode~=nil then return {status='invalid'} end
-    local old={shopping=data.shopping,projects=data.projects,wishDemand=data.wishDemand,neededDemand=data.neededDemand,extras=data.extras}
-    data.shopping=copy(data.shopping);data.projects=copy(data.projects);data.wishDemand=copy(data.wishDemand);data.neededDemand=copy(data.neededDemand);data.extras=copy(data.extras)
+    local old={shopping=data.shopping,projects=data.projects,wishDemand=data.wishDemand,neededDemand=data.neededDemand,extras=data.extras,paperTargets=data.paperTargets}
+    data.shopping=copy(data.shopping);data.projects=copy(data.projects);data.wishDemand=copy(data.wishDemand);data.neededDemand=copy(data.neededDemand);data.extras=copy(data.extras);if data.paperTargets then data.paperTargets={wish=copy(data.paperTargets.wish),needed=copy(data.paperTargets.needed)} end
     local function reject(status)
         for k,v in pairs(old) do data[k]=v end
         return {status=status}
@@ -90,6 +90,7 @@ function A.handle(player,args)
                 -- Extra demand is independent from the synchronized possession goal.
                 data.extras[operation..':'..t]={fullType=t,quantity=snapshot[kind..'Goals'][t].remaining,source=kind}
             else links[t]=true end
+            if data.paperTargets then data.paperTargets[kind=='wanted' and 'wish' or 'needed'][t]=(kind=='wanted' and data.wish or data.needed)[t] end
         end
     end
     for _,field in ipairs({'shopping','projects','extras'}) do local count=0;for _ in pairs(data[field]) do count=count+1 end;if count>256 then return reject('tooLarge') end end

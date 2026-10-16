@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.16.0-dev.1] — Physical shopping lists (development)
+
+- Named physical Shopping papers with independent server-owned contents, selected-list revisions and exact native item possession checks; papers can be transferred to friends.
+- One blank sheet becomes one list through challenged native action completion. Notebook and pen/pencil are retained for creation/editing; reading and collection need no writing supplies.
+- List picker, rename, explicit one-time legacy import and a non-interactive ripped-paper HUD while held in either hand. Long lists paginate automatically.
+- Preserve the old personal plan as a backup and support server opt-outs. Linked goal targets are copied to paper, so hand-offs do not adopt the recipient's personal goals. Existing allocator/preferences and native smaller transfer groups remain.
+- Personal protocol 2 and Shopping protocol 3; ledger 2, movement 10 and physical-ledger data schemas unchanged. New shopping-paper registry schema 1. Offline fixtures validate handlers, native-action-shaped conservation/replay, trade, collection and UI geometry. Native client/dedicated multiplayer NOT TESTED; G7/stable G8 blocked. Source-only, no package/deployment/publication.
+
 ## [0.15.0-dev.1] - 2026-10-16
 
 MINOR gameplay feature with an explicit default-behavior change: sorting and Shopping collection now require a completed, location-matching ledger by default. Server sandbox switches can restore unrestricted use; planning/editing remain available. New peer capabilities prevent silently mixing older ungated clients/servers. Existing sorting and ledger records are preserved.
@@ -320,7 +328,7 @@ Compatible taxonomy correction and five added storage categories within the 0.4.
 - Development checkpoint for clearer collection results and optional Project Cook / Neat Crafting / Neat Building shopping controls.
 - Native SP/listen/dedicated validation remains pending.
 
-## [0.4.0-dev.3] â€” Unreleased
+## [0.4.0-dev.3] — Unreleased
 
 - Current-inventory Wish goals supersede cumulative counters; authoritative remaining demand integrates with Shopping.
 - Optional Project Cook frontend integration resolves native CraftRecipe and supported EvolvedRecipe operations; unsupported portions fail closed.

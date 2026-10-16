@@ -36,6 +36,7 @@ end
 local function eligible(player,item)
     return item and not item:isEquipped() and not item:isFavorite() and item:getAttachedSlot()==-1
         and not item:getIsCraftingConsumed() and not Knowledge.protected(player,item)
+        and (not B47ANCEDQuartermaster.ShoppingLists or not B47ANCEDQuartermaster.ShoppingLists.enabled() or item:getFullType()~=B47ANCEDQuartermaster.ShoppingLists.itemType)
 end
 local function present(container,item)
     return item:getContainer()==container and container:getItemWithID(item:getID())==item
@@ -249,6 +250,9 @@ function M.handle(player,command,args)
     end
     -- Observations above and safe return below do not require new knowledge.
     -- Only new TAKE/PUT grants are gated; never undo a completed native move.
+    if command=='moveTake' and op.shoppingRun then
+        local valid,why=require('B47ANCEDQuartermaster/ShoppingLists').runValid(player,op.shoppingRun);if not valid then return {status=why,reason=why} end
+    end
     if command=='moveTake' or command=='movePut' then
         local known,why=Knowledge.operation(player,op);if not known then return {status=why,reason=why} end
     end

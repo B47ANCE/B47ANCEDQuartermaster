@@ -54,3 +54,6 @@ Resize the window, adjust the container divider and set background transparency.
 [b]Mod ID:[/b] B47ANCEDQuartermaster
 Created by B47ANCE. Original Lua-only implementation.
 [url=https://github.com/B47ANCE/B47ANCEDQuartermaster]GitHub - Source Code & Issues[/url]
+
+[h2]Physical shopping lists (source development)[/h2]
+Create named shopping papers from one blank sheet with a retained notebook and pen or pencil. Choose carried lists, share papers with friends, and hold a list in either hand to see its checklist. Reading and collecting do not need writing supplies; editing does. Previous personal shopping plans are preserved for explicit import. Server options control this feature. Current source work is not deployed or published; native and dedicated acceptance are pending.

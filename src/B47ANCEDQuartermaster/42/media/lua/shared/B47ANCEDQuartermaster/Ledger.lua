@@ -149,6 +149,10 @@ local function grant(actor,kind,seconds,fields)
  g.action=class.raw(actor,token,seconds)
  return {status='action',token=token,seconds=seconds,kind=kind,position=g.target and Q.Targets.descriptor(g.target)}
 end
+function L.grantShopping(actor,fields)
+ if L.actors[actor] or L.jobs[actor] or Q.Movement.runs[actor] or Q.Movement.operations[actor] then return {status='busy'} end
+ return grant(actor,'shoppingPaper',1,fields)
+end
 function L.reconstruct(actor,token)
  local g=L.grants[token]
  if isClient() or not g or g.actor~=actor or g.reconstructed or getTimestampMs()-g.created>10000 then return end
@@ -159,6 +163,7 @@ function L.valid(actor,token,action)
  if not g or g.actor~=actor or g.action~=action or actor:isDead() then return false end
  -- Confirmed work follows the native clock/modifiers; a guessed wall-time
  -- multiplier must not cancel a legitimate long writing action.
+ if g.kind=='shoppingPaper' then return require('B47ANCEDQuartermaster/ShoppingLists').valid(actor,g) end
  if g.kind=='inspect' then return liveJob(actor,g.job) and allowed(actor,g.target) and stationary(g.record) and Scope.includes(g.job.scope,g.target.obj:getSquare()) and Media.reachable(actor,g.target.obj) and writer(actor) end
  return Media.owned(actor,g.paper:getID(),Media.sheet)==g.paper and Media.owned(actor,g.cd:getID())==g.cd
   and Media.usable(g.cd) and Media.computer(actor,g.computer,true) and g.snapshot.complete==true
@@ -185,6 +190,10 @@ function L.complete(actor,token,action)
  if isServer() then
   local ok,progress=pcall(function() return action.netAction:getProgress() end)
   if not ok or type(progress)~='number' or progress~=progress or progress==math.huge or progress<1 then return retire(g,'denied') end
+ end
+ if g.kind=='shoppingPaper' then
+  local status=require('B47ANCEDQuartermaster/ShoppingLists').complete(actor,g)
+  return retire(g,status,status=='ShoppingPaperCreated' or status=='ShoppingPaperSyncPending')
  end
  if g.kind=='inspect' then
   local rows=prepareRows(g);if not rows then g.job.prepared=nil;return retire(g,'LedgerChanged') end
