@@ -1,6 +1,6 @@
 -- Payload capabilities are independent from project SemVer and taxonomy IDs.
-local P={versions={handshake=1,loadPolicy=1,ledger=1,configuration=5,presets=2,personal=1,shopping=1,dibs=1,movement=9,rooms=2}}
-local commands={hello='handshake',ledgerBegin='ledger',ledgerNext='ledger',ledgerRead='ledger',ledgerBurn='ledger',ledgerConfirm='ledger',ledgerCancel='ledger',loadGet='loadPolicy',loadChange='loadPolicy',discover='configuration',load='configuration',groupChange='configuration',viewSelect='configuration',commit='configuration',close='configuration',
+local P={versions={handshake=1,loadPolicy=1,ledger=2,configuration=5,presets=2,personal=1,shopping=2,dibs=1,movement=10,rooms=2}}
+local commands={hello='handshake',ledgerDriveList='ledger',ledgerDriveMount='ledger',ledgerDriveEject='ledger',ledgerBegin='ledger',ledgerNext='ledger',ledgerRead='ledger',ledgerBurn='ledger',ledgerConfirm='ledger',ledgerCancel='ledger',loadGet='loadPolicy',loadChange='loadPolicy',discover='configuration',load='configuration',groupChange='configuration',viewSelect='configuration',commit='configuration',close='configuration',
  presetsList='presets',presetChange='presets',personalList='personal',personalChange='personal',
  personalProject='shopping',wishToShopping='shopping',shoppingAdd='shopping',shoppingSourceRemove='shopping',
  shoppingPreference='shopping',shoppingBegin='shopping',shoppingNext='shopping',shoppingCancel='shopping',

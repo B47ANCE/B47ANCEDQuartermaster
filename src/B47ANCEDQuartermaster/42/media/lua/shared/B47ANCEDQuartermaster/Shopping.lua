@@ -20,6 +20,7 @@ function H.handle(player,command,args)
     if isClient() then return {status='invalid'} end
     local run=M.runs[player]
     if command=='shoppingBegin' then
+        local known,why=require('B47ANCEDQuartermaster/LedgerRequirement').check(player,player:getCurrentSquare(),'shopping');if not known then return {status=why} end
         if run or M.operations[player] then return {status='busy'} end
         local snapshot=Q.Personal.snapshot(player);if snapshot.status~='ok' then return snapshot end
         if snapshot.shoppingBlocked then return {status=snapshot.shoppingBlocked} end
@@ -59,11 +60,12 @@ function H.handle(player,command,args)
         return {status='ok',collected=run.collected}
     end
     if command~='shoppingNext' or run.cancelled then return {status='invalid'} end
+    local known,why=require('B47ANCEDQuartermaster/LedgerRequirement').check(player,player:getCurrentSquare(),'shopping');if not known then return {status=why} end
     for _ in pairs(run.operations) do return {status='busy'} end
     local _,data=Q.Personal.identity(player)
     local ledger,err=Q.ShoppingRequirements.ledger(player,data,run.scope)
     if not ledger then M.runs[player]=nil;return {status=err} end
-    local capacity=false
+    local capacity,knowledgeBlocked=false,false
     -- Preserve deterministic distance/ID ordering within each semantic tier.
     -- This reuses the same discovered records and never changes movement grants.
     local tiers={{},{},{}}
@@ -92,13 +94,13 @@ function H.handle(player,command,args)
                                 op.shoppingRun=run;run.operations[op.id]=op;run.considered[item]=true
                                 offer.progress=progress(run,ledger.outstanding)
                                 return offer
-                            elseif offer.status=='capacity' then capacity=true end
+                            elseif offer.status=='capacity' then capacity=true elseif offer.status=='LedgerRequired' then knowledgeBlocked=true end
                         else capacity=true end
                     end
                 end
         end
     end
     M.runs[player]=nil
-    return {status=capacity and 'capacity' or 'done',collected=run.collected,lists=Q.Personal.snapshot(player),progress=progress(run,ledger.outstanding)}
+    return {status=knowledgeBlocked and 'LedgerRequired' or capacity and 'capacity' or 'done',collected=run.collected,lists=Q.Personal.snapshot(player),progress=progress(run,ledger.outstanding)}
 end
 return H

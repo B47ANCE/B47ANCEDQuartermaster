@@ -8,7 +8,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.14.0-dev.2 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
+The Workshop feature guide is below. This branch also contains **0.15.0-dev.1 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
 
 ## Development work in this branch
 
@@ -43,11 +43,13 @@ Dibs! provides personal item labels and separate Wanted and Needed lists. Set su
 
 ## Building Supply Ledger
 
+**Sorting and Shopping collection now require a completed ledger by default.** Carry a paper ledger covering the work location, or load a matching ledger CD at a powered computer in the same building or nearby. Shopping planning/editing and container configuration remain available first. Server options can disable either requirement. See [requirements, computer range and controls](docs/LEDGER_REQUIREMENT.md).
+
 Craft a **Quartermaster Building Supply Sheet** from a sheet of paper or notebook and a retained pen/pencil. Right-click the carried sheet to record or resume a building or safehouse. Your character walks to storage and spends time documenting each physical compartment, including unconfigured storage. Floor loot, dropped bags and carried inventories are excluded.
 
 Read the paper anywhere without electricity. It is a room-by-room historical snapshot with per-container recording times, quantities and locations. Completed entries survive cancellation; storage with uncertain identity after a restart needs reinspection.
 
-Choose **Use computer (Windows '93)** at a supported powered desktop. Open **CD Writer** from the desktop or Start menu, choose a completed sheet and a vanilla CD, then explicitly write it; the paper is retained. At that or another powered desktop, open **CD-ROM (D:)**, select and insert the **Quartermaster Supply Ledger CD**, then double-click **QUARTERMASTER.EXE** or choose **Run application**. The application opens inside the computer screen with item/FullType search, room browsing and pagination. Opening the desktop or inserting a CD does not launch it automatically. See the [computer controls](docs/WINDOWS93_COMPUTER.md). Copying overwrites that CD's original music identity. Historical pages enforce current safehouse/Rooms privacy; they do not provide live or remote inventory access. The initial supported terminal is the stock desktop using `appliances_com_01_72`.
+Choose **Use computer (Windows '93)** at a supported powered desktop. Open **CD Writer** from the desktop or Start menu, choose a completed sheet and a vanilla CD, then explicitly write it; the paper is retained. Place the **Quartermaster Supply Ledger CD** in an accessible desk/container beside a powered desktop. Open **CD-ROM (D:)**, load that storage CD, then double-click **QUARTERMASTER.EXE** or choose **Run application**. The application opens inside the computer screen with item/FullType search, room browsing and pagination. Opening the desktop or loading a CD does not launch it automatically. Loading/ejecting binds/unbinds the real storage CD without moving it; the computer can remain available for sorting after you leave its screen. See the [computer controls](docs/WINDOWS93_COMPUTER.md). Copying overwrites that CD's original music identity. Historical pages enforce current safehouse/Rooms privacy; they do not provide live or remote inventory access. The initial supported terminal is the stock desktop using `appliances_com_01_72`.
 
 ## Getting started
 

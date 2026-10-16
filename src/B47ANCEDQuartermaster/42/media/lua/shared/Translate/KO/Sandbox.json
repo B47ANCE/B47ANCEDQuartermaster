@@ -27,5 +27,11 @@
   "Sandbox_B47ANCEDQuartermaster_LedgerEntrySeconds": "Ledger time per item entry",
   "Sandbox_B47ANCEDQuartermaster_LedgerEntrySeconds_tooltip": "Seconds per distinct recorded entry, using conservative native stack equivalence. Server controlled; 1-5, default 1.",
   "Sandbox_B47ANCEDQuartermaster_LedgerBurnSeconds": "Ledger CD copying time",
-  "Sandbox_B47ANCEDQuartermaster_LedgerBurnSeconds_tooltip": "Seconds required to copy a completed paper ledger at a powered desktop computer. Server controlled; 10-120, default 30. One compatible vanilla CD is converted; paper is retained."
+  "Sandbox_B47ANCEDQuartermaster_LedgerBurnSeconds_tooltip": "Seconds required to copy a completed paper ledger at a powered desktop computer. Server controlled; 10-120, default 30. One compatible vanilla CD is converted; paper is retained.",
+  "Sandbox_B47ANCEDQuartermaster_RequireLedgerForSorting": "Require a ledger for sorting",
+  "Sandbox_B47ANCEDQuartermaster_RequireLedgerForSorting_tooltip": "Enabled by default, including existing saves. Carry a completed paper ledger for the work location, or use a powered computer with a matching ledger CD in adjacent accessible storage. New transfer grants recheck the requirement. Does not grant container access. Disable to restore unrestricted sorting.",
+  "Sandbox_B47ANCEDQuartermaster_RequireLedgerForCollecting": "Require a ledger for Shopping collection",
+  "Sandbox_B47ANCEDQuartermaster_RequireLedgerForCollecting_tooltip": "Enabled by default, including existing saves. Collect requires a completed paper ledger covering the location, or a working computer with a matching stored ledger CD. Shopping planning, editing and recipe additions remain available without a ledger. Disable to restore unrestricted collection.",
+  "Sandbox_B47ANCEDQuartermaster_LedgerComputerRange": "Nearby ledger computer range",
+  "Sandbox_B47ANCEDQuartermaster_LedgerComputerRange_tooltip": "Maximum horizontal distance in tiles for an out-of-building computer, on the same floor. Computers in the same native building may be used at any distance. The loaded CD must still cover the work location. Server controlled; 1-30 tiles, default 10."
 }

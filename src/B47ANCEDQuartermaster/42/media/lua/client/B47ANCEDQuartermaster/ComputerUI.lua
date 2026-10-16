@@ -72,9 +72,10 @@ local function picked(combo) local o=combo.options[combo.selected];return o and 
 local function options(combo,items,empty)
  local old=picked(combo);local signature=''
  for _,item in ipairs(items) do signature=signature..':'..item:getID()..':'..item:getDisplayName() end
- if signature==combo.mediaSignature then return end;combo.mediaSignature=signature;combo:clear()
+ if signature==combo.mediaSignature then for i,item in ipairs(items) do if combo.options[i] then combo.options[i].data=item end end;return end
+ combo.mediaSignature=signature;combo:clear()
  if #items==0 then combo:addOptionWithData(tr(empty),false) else
-  for i,item in ipairs(items) do combo:addOptionWithData(item:getDisplayName()..' #'..item:getID(),item);if item==old then combo.selected=i end end
+  for i,item in ipairs(items) do combo:addOptionWithData(item:getDisplayName()..' #'..item:getID(),item);if old and old.getID and item:getID()==old:getID() then combo.selected=i end end
  end
 end
 function C.open(num,computer,hooks)
@@ -90,6 +91,25 @@ function C.open(num,computer,hooks)
  local frame=box(desktop,12,12,desktop:getWidth()-24,desktop:getHeight()-24);frame:setVisible(false)
  local menu=box(desktop,4,4,math.max(230,m.font*15),4*m.button+16);menu:setVisible(false)
  local status='';local mediaAt=-10000;local sheets,discs,cds={},{},{}
+ local driveAt=-10000;local drivePending=false;local available={};local driveReady=false
+ local function media(row)
+  return {token=row.token,drive=row.drive,getID=function() return row.id end,getDisplayName=function() return row.name end,getFullType=function() return row.fullType end}
+ end
+ function screen:applyDrive(result)
+  local old=self.mounted;local current=result.mounted and media(result.mounted)
+  if old and (not current or old.drive~=current.drive or old:getID()~=current:getID()) then self:closeApp();status=tr('ComputerMediaLost') end
+  self.mounted=current;self.slot=result.slot or current and current.drive;self.occupied=result.occupied==true;available={}
+  for _,row in ipairs(result.choices or {}) do available[#available+1]=media(row) end
+ end
+ function screen:refreshDrive()
+  if drivePending or getTimestampMs()-driveAt<2000 then return end
+  drivePending=true;driveAt=getTimestampMs()
+  hooks.drive('ledgerDriveList',{},function(r)
+   if self.closed or getSpecificPlayer(num)~=actor then return end
+   drivePending=false;driveReady=r.status=='ok'
+   if driveReady then self:applyDrive(r) else self.mounted=nil;self:closeApp();status=tr(r.status) end
+  end)
+ end
  function screen:message(key) status=tr(key);mediaAt=-10000 end
  local function scan()
   if getTimestampMs()-mediaAt<1000 then return end;mediaAt=getTimestampMs();sheets,discs,cds=hooks.inventory(actor)
@@ -121,13 +141,16 @@ function C.open(num,computer,hooks)
   U.Tooltip.dispose(self);self:removeFromUIManager();hooks.close();U.Focus.restore(num)
  end
  function screen:eject()
-  self:closeApp();self.mounted=nil;status=tr('ComputerEjected');self:openDrive()
+  hooks.drive('ledgerDriveEject',{drive=self.slot},function(r)
+   if self.closed then return end
+   if r.status=='ok' then self:closeApp();self.mounted=nil;self.occupied=false;status=tr('ComputerEjected');driveAt=-10000;self:openDrive() else status=tr(r.status) end
+  end)
  end
  function screen:runDisc()
   if self.closed or C.active[num]~=self then return end
   if hooks.busy() then status=tr('busy');return end
   local disc=self.mounted
-  if not disc or Media.owned(actor,disc:getID(),Media.disc)~=disc then status=tr('ComputerNoApplication');return end
+  if not disc or not driveReady or drivePending or not disc.drive then status=tr('ComputerNoApplication');return end
   if not Media.computer(actor,computer,true) then self:close();return end
   hooks.read(disc,self)
  end
@@ -139,24 +162,27 @@ function C.open(num,computer,hooks)
   screen:showApp(v,title);return v
  end
  function screen:openDrive()
-  scan();local v=view(tr('ComputerDrive'));v.media=choice(v)
+  self:refreshDrive();local v=view(tr('ComputerDrive'));v.media=choice(v)
   v.insert=button(v,tr('ComputerInsert'),function()
    if hooks.busy() then return end
-   local disc=picked(v.media);if not disc or Media.owned(actor,disc:getID())~=disc then return end
-   screen:closeApp();screen.mounted=disc;status=tr('ComputerInserted',disc:getDisplayName());screen:openDrive()
+   local disc=picked(v.media);if not disc or not disc.token or drivePending then return end
+   hooks.drive('ledgerDriveMount',{token=disc.token},function(r)
+    if screen.closed then return end
+    if r.status=='ok' then screen:closeApp();screen:applyDrive(r);status=tr('ComputerInserted',disc:getDisplayName());driveAt=-10000;screen:openDrive() else status=tr(r.status);driveAt=-10000 end
+   end)
   end)
   v.run=button(v,tr('ComputerRun'),function() screen:runDisc() end)
   v.eject=button(v,tr('ComputerEject'),function() screen:eject() end)
   v.file=button(v,'QUARTERMASTER.EXE',function() status=tr('ComputerRunHint') end)
   v.file.onMouseDoubleClick=function() screen:runDisc();return true end
   v.prerender=function(self)
-   scan();local available={};for _,d in ipairs(discs) do available[#available+1]=d end;for _,d in ipairs(cds) do available[#available+1]=d end
+   screen:refreshDrive()
    options(self.media,available,'ComputerNoCD');local w,h=self:getWidth(),self:getHeight()
    U.Layout.place(self.media,12,12,w-24,m.button);U.Layout.place(self.insert,12,20+m.button,w-24,m.button)
-   local runnable=screen.mounted and screen.mounted:getFullType()==Media.disc
+   local runnable=driveReady and screen.mounted and screen.mounted:getFullType()==Media.disc
    U.Layout.place(self.file,12,40+2*m.button,w-24,2*m.button);self.file:setVisible(runnable==true)
    U.Layout.place(self.run,12,h-m.button-12,(w-36)/2,m.button);U.Layout.place(self.eject,24+(w-36)/2,h-m.button-12,(w-36)/2,m.button)
-   self.run:setEnable(runnable==true and not hooks.busy());self.eject:setEnable(screen.mounted~=nil);self.insert:setEnable(not hooks.busy() and picked(self.media)~=false and picked(self.media)~=nil)
+   self.run:setEnable(runnable==true and not hooks.busy() and not drivePending);self.eject:setEnable(screen.mounted~=nil or screen.occupied);self.insert:setEnable(driveReady and not drivePending and not screen.mounted and not screen.occupied and not hooks.busy() and picked(self.media)~=false and picked(self.media)~=nil)
    if not runnable then text(self,screen.mounted and tr('ComputerBlankCD') or tr('ComputerInsertHint'),12,40+2*m.button,w-24) end
   end
   v:insertNewLineOfButtons(v.media);v:insertNewLineOfButtons(v.insert)
@@ -165,22 +191,22 @@ function C.open(num,computer,hooks)
   v:prerender();self:refreshFocus();return v
  end
  function screen:openWriter()
-  scan();local v=view(tr('ComputerWriter'));v.paper=choice(v);v.cd=choice(v)
+  self:refreshDrive();scan();local v=view(tr('ComputerWriter'));v.paper=choice(v);v.cd=choice(v)
   v.write=button(v,tr('ComputerWrite'),function()
    local paper,cd=picked(v.paper),picked(v.cd)
    if not paper or not cd or hooks.busy() then return end
-   if screen.mounted then status=tr('ComputerEjectFirst');return end
+   if screen.mounted or screen.occupied or not driveReady or drivePending then status=tr('ComputerEjectFirst');return end
    if not Media.computer(actor,computer,true) then screen:close();return end
    hooks.burn(paper,cd);status=tr('ComputerWriting')
   end)
   v.prerender=function(self)
-   scan();local complete={};for _,p in ipairs(sheets) do if p:getModData().B47Ledger and p:getModData().B47Ledger.complete then complete[#complete+1]=p end end
+   screen:refreshDrive();scan();local complete={};for _,p in ipairs(sheets) do if p:getModData().B47Ledger and p:getModData().B47Ledger.complete then complete[#complete+1]=p end end
    options(self.paper,complete,'ComputerNoSheet');options(self.cd,cds,'ComputerNoCD')
    local w,h=self:getWidth(),self:getHeight();text(self,tr('ComputerSource'),12,8,w-24)
    U.Layout.place(self.paper,12,12+m.font,w-24,m.button);text(self,tr('ComputerDestination'),12,24+m.font+m.button,w-24)
    U.Layout.place(self.cd,12,28+2*m.font+m.button,w-24,m.button)
    text(self,tr('ComputerOverwrite'),12,40+2*m.font+2*m.button,w-24,P.muted)
-   self.write:setEnable(not hooks.busy() and not screen.mounted and picked(self.paper)~=false and picked(self.cd)~=false)
+   self.write:setEnable(driveReady and not drivePending and not screen.occupied and not hooks.busy() and not screen.mounted and picked(self.paper)~=false and picked(self.cd)~=false)
    U.Layout.place(self.write,12,h-m.button-12,w-24,m.button)
   end
   v:insertNewLineOfButtons(v.paper);v:insertNewLineOfButtons(v.cd);v:insertNewLineOfButtons(v.write);v:prerender();self:refreshFocus();return v
@@ -221,7 +247,7 @@ function C.open(num,computer,hooks)
  menu.prerender=function(self) rect(self,0,0,self:getWidth(),self:getHeight(),P.grey);bevel(self,0,0,self:getWidth(),self:getHeight()) end
  screen.prerender=function(self)
   if getSpecificPlayer(num)~=actor or actor:isDead() or not Media.computer(actor,computer,true) then self:close();return end
-  if self.mounted and Media.owned(actor,self.mounted:getID())~=self.mounted then self.mounted=nil;self:closeApp();status=tr('ComputerMediaLost') end
+  if driveReady then self:refreshDrive() end
   self:layoutComputer();local w,h=self:getWidth(),self:getHeight()
   rect(self,0,0,w,h,P.case);bevel(self,0,0,w,h);rect(self,10,m.font+12,w-20,desktop:getHeight()+16,P.black)
   text(self,"Windows '93",20,7,w-40,P.light);rect(self,18,self.start.y-4,w-36,m.button+8,P.grey)

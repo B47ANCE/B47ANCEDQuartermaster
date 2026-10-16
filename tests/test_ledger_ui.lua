@@ -19,10 +19,15 @@ actor.getInventory=function() return inv end
 f.network(true,false)
 local sq=actor:getCurrentSquare();sq.haveElectricity=function() return true end;sq.hasGridPower=function() return false end;sq.getRoom=function() return {} end;sq.canReachTo=function() return true end
 local computer=f.a;computer.getSprite=function() return {name='appliances_com_01_72'} end
-local sent={}
+local sent={};local serverMounted=false;local storageCD=true
+local function driveDisc() return {id=901,name='Fixture ledger CD',fullType='B47ANCEDQuartermaster.SupplyDisc',drive='fixture-drive'} end
+local function readCount() local n=0;for _,r in ipairs(sent) do if r.command=='ledgerRead' then n=n+1 end end;return n end
 Q.Authority.request=function(num,command,args,reply)
  sent[#sent+1]={command=command,args=args}
- if command=='ledgerRead' then reply({status='ok',rows={{name='Fixture item',quantity=5,fullType='Fixture.Item',condition=10,room='Fixture room',roomID='fixture-room',container='Fixture crate',position={x=0,y=0,z=0,ci=0},recorded=42}},rooms={{id='fixture-room',name='Fixture room'}},scope='Fixture building',summary='LedgerComplete',cursor=args.cursor==nil and 'next-page' or nil})
+ if command=='ledgerDriveList' then reply({status='ok',choices=storageCD and {{id=901,name='Fixture ledger CD',fullType='B47ANCEDQuartermaster.SupplyDisc',token='fixture-choice'}} or {},mounted=serverMounted and storageCD and driveDisc() or nil})
+ elseif command=='ledgerDriveMount' then serverMounted=true;reply({status='ok',mounted=driveDisc()})
+ elseif command=='ledgerDriveEject' then serverMounted=false;reply({status='ok'})
+ elseif command=='ledgerRead' then reply({status='ok',rows={{name='Fixture item',quantity=5,fullType='Fixture.Item',condition=10,room='Fixture room',roomID='fixture-room',container='Fixture crate',position={x=0,y=0,z=0,ci=0},recorded=42}},rooms={{id='fixture-room',name='Fixture room'}},scope='Fixture building',summary='LedgerComplete',cursor=args.cursor==nil and 'next-page' or nil})
  else reply({status='ok'}) end
 end
 -- Native methods omitted by the shared geometry-only host fixture.
@@ -37,15 +42,15 @@ assert(panel.ledgerControls.list.y+panel.ledgerControls.list.height<=panel.ledge
 panel.ledgerControls.more.onclick();assert(sent[#sent].args.cursor=='next-page')
 panel.ledgerControls.previous.onclick();assert(sent[#sent].args.cursor==nil)
 panel:onJoypadDown(Joypad.BButton);assert(not V.readers[0])
-local before=#sent
+local before=readCount()
 local C=require 'B47ANCEDQuartermaster/ComputerUI'
-local screen=assert(V.computer(0,computer));assert(not screen.content and #sent==before,'computer auto-ran the ledger')
+local screen=assert(V.computer(0,computer));assert(not screen.content and readCount()==before,'computer auto-ran the ledger')
 assert(V.computer(0,computer)==screen,'duplicate computer screen')
-local drive=screen:openDrive();assert(#sent==before and not V.readers[0],'drive browser auto-read the CD')
-drive.insert.onclick();assert(screen.mounted==disc and #sent==before,'inserting CD auto-ran it')
+local drive=screen:openDrive();assert(readCount()==before and not V.readers[0],'drive browser auto-read the CD')
+drive.insert.onclick();assert(screen.mounted:getID()==901 and readCount()==before,'inserting CD auto-ran it')
 assert(not V.readers[0]);screen.content.run.onclick()
 panel=assert(V.readers[0]);assert(screen.content==panel and panel.parent and not panel.removed,'reader is not embedded')
-assert(#sent==before+1 and panel.ledgerControls.search and panel.ledgerControls.rooms)
+assert(readCount()==before+1 and panel.ledgerControls.search and panel.ledgerControls.rooms)
 assert(panel.ledgerControls.search.nativeTextColor[1]<.1,'native text-entry glyphs stayed white on white')
 assert(#panel.ledgerControls.rooms.options==2,'digital room browser missing')
 for _,size in ipairs({{700,404},{1100,700}}) do
@@ -73,10 +78,8 @@ assert(#menu.options==first+1 and not menu.options[#menu.options].sub,'computer 
 assert(callbacks.OnFillInventoryObjectContextMenu and callbacks.OnFillWorldObjectContextMenu and callbacks.OnServerCommand)
 -- Mounted media cannot survive loss of the exact native instance.
 screen=assert(V.computer(0,computer));drive=screen:openDrive();drive.insert.onclick();screen:runDisc()
-local owned=inv.getItemWithIDRecursiv
-inv.getItemWithIDRecursiv=function(_,id) if id~=901 then return owned(inv,id) end end
-screen:prerender();assert(not screen.mounted and not V.readers[0] and not screen.content,'lost media retained application/data')
-inv.getItemWithIDRecursiv=owned;screen:close()
+storageCD=false;f.advance(2100);screen:prerender();assert(not screen.mounted and not V.readers[0] and not screen.content,'lost media retained application/data')
+storageCD=true;serverMounted=false;screen:close()
 -- Large font minimums leave the warning text above the writer footer.
 local measure=getTextManager;local width,height=getPlayerScreenWidth,getPlayerScreenHeight
 getPlayerScreenWidth=function() return 3840 end;getPlayerScreenHeight=function() return 2160 end
