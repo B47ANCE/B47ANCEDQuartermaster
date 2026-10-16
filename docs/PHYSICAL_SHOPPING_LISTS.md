@@ -4,7 +4,7 @@ Project Version: 0.16.0-dev.2
 
 Checkpoint dev.2 changes only the container-save window workflow. Physical-shopping code and its dev.1 full-suite/native-source evidence are unchanged; see [the focused current checks](MULTI_CONTAINER_UI_IMPLEMENTATION.md).
 
-Compatible feature iteration from 0.15.0-dev.1, with an explicit default-on workflow change. Old personal data is preserved. This is source development, not a deployed or published build.
+Compatible feature iteration from 0.15.0-dev.1, with an explicit default-on workflow change. Old personal data is preserved. This implementation is now distributed in the 0.16.0-dev.2 Workshop MP testing build; see [the exact publication receipt](WORKSHOP_TEST_0_16_0.md). Native and dedicated acceptance remain pending.
 
 ## Player workflow
 
@@ -71,10 +71,10 @@ $env:PYTHONUTF8 = '1'
 git -c core.safecrlf=false diff --check
 ```
 
-Source manifest: **209 runtime files**. No package was produced; `check_deployment.py` checks the source manifest only. Current package checks are deferred, not passed.
+Source manifest: **209 runtime files**. The original source-only checkpoint produced no package. The later authorized 0.16.0-dev.2 distribution has package/source/stage and release-version checks PASS; see its version-bound publication receipt.
 
 **[RUNTIME GATE] G6 NOT TESTED:** native create/cancel with pen loss and bag movement; physical item/icon/name display; mouse/controller picker, naming dialogs, resized/large-font menus and held HUD placement during play.
 
 **[RUNTIME GATE] G7 BLOCKED / NOT TESTED:** dedicated server with two remote clients; simultaneous editing/handoff, stale revisions, ownership lost during walking/native transfer, current holder credit, native add/remove/name synchronization, disconnect/rejoin, native save/restart, partial/cancelled creation, exact item conservation and no unauthorized disclosure/movement. Host fixtures do not prove these cases on a server.
 
-**G8 stable release BLOCKED.** No package, local deployment, game/server launch, Workshop update or stable-release claim is part of this source iteration.
+**G8 stable release BLOCKED.** The source-implementation checkpoint itself did not package or publish; the later authorized dev.2 MP test distribution is recorded separately. No local deployment, game/server launch or stable-release claim was made.

@@ -8,7 +8,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.16.0-dev.2 development work**, prepared for Workshop MP test distribution. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/physical-shopping-lists).
+The Workshop feature guide is below. This branch also contains **0.16.0-dev.2 development work**, published for Workshop MP test distribution. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/physical-shopping-lists).
 
 ## Development work in this branch
 
@@ -94,7 +94,7 @@ For automated cleaning, install the separate [B47ANCE'd Auto Clean](https://stea
 
 ## Development and documentation
 
-Use the [current Workshop source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction) for current source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
+Use the [current Workshop source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/physical-shopping-lists) for current source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
 
 From that source checkout, with Python and the host-only Lupa dependency available:
 

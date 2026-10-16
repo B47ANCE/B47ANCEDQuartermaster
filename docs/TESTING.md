@@ -8,7 +8,7 @@ Authorized Workshop MP test preparation now has a 209-file package/source/stagin
 
 Save now keeps the container-rule editor open, refreshes acknowledged records/rail state and reloads an invalidated inherited section when necessary. Existing server save/permission behavior and manual close/Cancel are preserved. Current focused UI regression and syntax checks pass offline; native acceptance remains NOT TESTED. See [exact checks and workflow](MULTI_CONTAINER_UI_IMPLEMENTATION.md). Physical-shopping implementation/full-suite evidence remains from 0.16.0-dev.1 and is unchanged by this local UI fix.
 
-Physical paper, native-action-shaped, collection, UI/HUD and full host regression checks are recorded in [the current report](PHYSICAL_SHOPPING_LISTS.md). Legacy movement fixtures explicitly use the supported physical-list/server-ledger opt-outs; new paper fixtures exercise the enabled paths and production handlers. Source manifest: 209 runtime files. No package, deployment or publication. Native G6/G7 NOT TESTED; stable G8 BLOCKED.
+Physical paper, native-action-shaped, collection, UI/HUD and full host regression checks are recorded in [the current report](PHYSICAL_SHOPPING_LISTS.md). Legacy movement fixtures explicitly use the supported physical-list/server-ledger opt-outs; new paper fixtures exercise the enabled paths and production handlers. Source manifest: 209 runtime files. The source-only implementation evidence predates the now-confirmed Workshop MP test publication; no local deployment occurred. Native G6/G7 NOT TESTED; stable G8 BLOCKED.
 
 ## Approved artwork follow-up — 2026-10-15
 

@@ -4,11 +4,11 @@ Project Version: 0.16.0-dev.2
 
 ## Current development iteration
 
-The user authorized publishing 0.16.0-dev.2 as Workshop MP test distribution. Full offline build/package/stage gates and explicit paired Rooms checks pass. Publication is pending until a SteamCMD success receipt; G7/stable G8 remain blocked. See [current release record](WORKSHOP_TEST_0_16_0.md).
+The user authorized publishing 0.16.0-dev.2 as Workshop MP test distribution. Full offline build/package/stage gates and explicit paired Rooms checks pass. SteamCMD publication, exact public description and graceful Steam restart are confirmed; G7/stable G8 remain blocked. See [current release record](WORKSHOP_TEST_0_16_0.md).
 
 Save now keeps the container-rule editor open, refreshes acknowledged records/rail state and reloads an invalidated inherited section when necessary. Existing server save/permission behavior and manual close/Cancel are preserved. Current focused UI regression and syntax checks pass offline; native acceptance remains NOT TESTED. See [exact checks and workflow](MULTI_CONTAINER_UI_IMPLEMENTATION.md). Physical-shopping implementation/full-suite evidence remains from 0.16.0-dev.1 and is unchanged by this local UI fix.
 
-Current feature/physical-shopping-lists implements named, transferable physical Shopping papers, retained notebook/writing tool requirements, one-sheet creation, an explicit one-time legacy import, list selection/renaming and a held-paper checklist HUD. Server-owned profiles preserve the current allocator/preferences and freeze linked targets onto each paper. The prior supply-ledger Sort/Collect requirements remain enabled by default. Source-only; no package/deployment/publication. Native G6/G7 NOT TESTED; stable G8 BLOCKED. See [current report](PHYSICAL_SHOPPING_LISTS.md).
+Current feature/physical-shopping-lists implements named, transferable physical Shopping papers, retained notebook/writing tool requirements, one-sheet creation, an explicit one-time legacy import, list selection/renaming and a held-paper checklist HUD. Server-owned profiles preserve the current allocator/preferences and freeze linked targets onto each paper. The prior supply-ledger Sort/Collect requirements remain enabled by default. The original implementation checkpoint was source-only; 0.16.0-dev.2 is now packaged/published for Workshop MP testing without local deployment. Native G6/G7 NOT TESTED; stable G8 BLOCKED. See [current report](PHYSICAL_SHOPPING_LISTS.md).
 
 ## Separate Auto Clean and supply API — historical 0.11.0-dev.1
 

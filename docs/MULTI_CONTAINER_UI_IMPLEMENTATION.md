@@ -39,7 +39,7 @@ for name in ('test_container_ui.lua','test_ui_framework.lua','test_dev26_furnitu
 git -c core.safecrlf=false diff --check
 ```
 
-[RUNTIME GATE] Native client input/visual acceptance NOT TESTED: Save a container, switch to a second container in the rail, save it, then close manually. Also check inherited sections and partial/conflict messages on the server. This UI-only change does not satisfy or reset the branch's pending gameplay G7/stable G8 gates. No package, deployment or Workshop publication.
+[RUNTIME GATE] Native client input/visual acceptance NOT TESTED: Save a container, switch to a second container in the rail, save it, then close manually. Also check inherited sections and partial/conflict messages on the server. This UI-only change does not satisfy or reset the branch's pending gameplay G7/stable G8 gates. The later authorized 0.16.0-dev.2 Workshop MP test publication is [recorded separately](WORKSHOP_TEST_0_16_0.md); no local deployment or server changes.
 
 Implementation date: 2026-09-28. [TESTED: offline] Lua 5.1 host fixtures and installed Quartermaster 0.24.0 Picker integration. [RUNTIME GATE] SP, hosted, remote client and dedicated server are NOT TESTED. This is a development candidate, not a release-readiness claim.
 
