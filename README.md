@@ -8,10 +8,13 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.12.0-dev.1 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
+The Workshop feature guide is below. This branch also contains **0.13.0-dev.1 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
 
 ## Development work in this branch
 
+- Optional Extended Categories support, including client/server detail differences through explicit category-member selections.
+- Dangerous Load: disabled by default, with a server-validated personal 50–100% native-capacity limit for Sort and Collect. Native restrictions and penalties still apply.
+- Building Supply Ledger is an offline domain prototype only, inactive and outside the runtime package. The shelf appearance experiment was removed from scope at the owner's request. See the [implementation, blockers and acceptance report](docs/LEDGER_AND_LOAD.md).
 - Overall Sort/Shopping progress beside vanilla's current-action bar, including room/building job progress.
 - Fill a carry before walking, then unload it before the next carry. Vanilla's smaller transfer groups and timing stay unchanged.
 - Server-controlled extra carry allowance (0-40 kg, default 0), subject to native capacity and encumbrance.
@@ -28,7 +31,7 @@ Movement protocol 9 requires matching server/client builds and reconnect. Saved 
 - Sort carried inventory, a selected container, the current room or an entire building. Room and building operations include carried bags.
 - Sort supported floor and Proximity Inventory items into configured storage.
 - Search categories and items, filter by Only Checked or Only Contents, and optionally group items by mod.
-- Use vanilla categories or categories supplied by Better Sorting and Better Containers.
+- Use vanilla categories or categories supplied by Better Sorting, Better Containers or Extended Categories.
 
 ## Shopping and Dibs!
 
@@ -66,7 +69,7 @@ Visible-list operations affect displayed item rows. Category and mod-group actio
 
 - **Project Zomboid Build 42.21.**
 - **B47ANCE'd Rooms is required.** Enable `B47ANCEDRooms` alongside `B47ANCEDQuartermaster` on the server and every client.
-- **Better Sorting and Better Containers are optional.** Quartermaster uses their exposed categories; inventory presentation stays with the installed UI mods.
+- **Better Sorting, Better Containers and [Extended Categories](https://steamcommunity.com/sharedfiles/filedetails/?id=3650035249) are optional alternatives.** Quartermaster reads native category metadata. Better Containers and Extended Categories category clicks save explicit item selections so client-local categories do not control server classification. Reselect after changing category membership. Extended Categories declares Better Sorting incompatible; follow their load rules. Inventory presentation stays with the installed UI mods.
 - **Project Cook, Neat Crafting and Neat Building are optional.** Shopping controls support compatible recipes; partial portions, fluids and other unsupported cooking demands are not handled.
 - Disable original Quartermaster and older B47 sorting copies.
 - Use matching mod versions on the server and all clients.
@@ -94,7 +97,7 @@ python -B tests/run_tests.py --require-rooms
 - [Artwork sources and exports](assets/branding/README.md)
 - [Issues and feedback](https://github.com/B47ANCE/B47ANCEDQuartermaster/issues)
 
-Dedicated multiplayer tests passed for the earlier Quartermaster build according to the owner's report on 2026-10-15; this does not validate the new 0.12 development changes. Historical implementation and validation notes retain their original context in the repository and Git history.
+Dedicated multiplayer tests passed for the earlier Quartermaster build according to the owner's report on 2026-10-15; this does not validate the 0.12 or 0.13 development changes. Historical implementation and validation notes retain their original context in the repository and Git history.
 
 **Mod ID:** `B47ANCEDQuartermaster`
 

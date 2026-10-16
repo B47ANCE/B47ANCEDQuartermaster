@@ -1,12 +1,12 @@
-[b]Version 0.12.0-dev.1[/b]
+[b]Version 0.13.0-dev.1[/b]
 MP testing build - dedicated multiplayer NOT TESTED
 
-Adds overall Sort and Shopping progress beside vanilla's current-action bar, including one aggregate bar across room/building jobs. Auto Clean remains separate and unchanged.
+Adds optional Extended Categories (CAExtendedCategories) support. Category choices save explicit item selections to handle different category detail settings across peers. Reselect after category membership changes and follow the category mod's own compatibility rules. No external classifier is bundled.
 
-Sorting loads a full carry before walking and finishes it before starting another. Optimize sorting visits groups one destination room per carry; disabling it uses one crate. Vanilla's smaller transfer groups and timing remain unchanged. Extra carry allowance is server-controlled, 0 to 40 kg (default 0). Native capacity/restrictions and encumbrance penalties remain.
+Adds optional Dangerous Load to Sorting load settings. Disabled by default. When enabled, Sort and Collect use your chosen 50–100% of the native inventory capacity, with server-validated saved preferences. Normal mode retains the existing comfort allowance. Native capacity restrictions, penalties, smaller transfer groups and action timing remain unchanged.
 
-Adds selected native vehicle/trailer cargo and bags nested in native physical storage, using native cargo-area walking. No automatic parked-vehicle area sweep, vehicle destination configuration, fluids or unverified virtual storage. Full destinations can redirect before PUT authorization, or request a permitted native return. Invalid/full return sources, ground pickups and uncertain native outcomes can leave items carried safely.
+Includes the earlier overall progress, full-carry and selected vehicle/nested source work. Movement protocol 9 still requires matching server/client builds and reconnect. The load settings use a new capability family 1. Existing selections, presets and priorities are preserved.
 
-Fixes the non-public recipe-input lookup, preserves completed work when a queued item becomes inadmissible, and explains zero-move skip reasons. Movement protocol 9 requires server and every client to update together and reconnect. Selections, presets, priorities and save schemas are unchanged. B47ANCE'd Rooms remains required; Auto Clean is optional.
+Building Supply Ledger is an isolated prototype, not an available gameplay feature. No ledger items or CD conversion are activated. Native action authorization and item conversion still require verified bindings and testing. The shelf appearance experiment was removed from scope. Load-aware route timing has not been calibrated.
 
-Development source only. Native SP, subscribed vehicle models, concurrent full-container cases and dedicated acceptance require testing. G7 NOT TESTED / BLOCKED; stable-release G8 BLOCKED. This note does not claim an upload or deployment.
+Offline tests only. Native SP/G6, dedicated multiplayer/G7 and stable release/G8 remain blocked. B47ANCE'd Rooms is required. This source note does not claim deployment or an upload.

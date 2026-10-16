@@ -456,7 +456,7 @@ A.request=function(_,command,args,done) assert(command=='areaOptions');done({sta
 local handler=controls[1]:new();handler.playerNum=0;handler.container=carried
 carried.getParent=function() end;carried.getContainingItem=function() end
 f.player.getJoypadBind=function() return -1 end
-handler:perform();assert(openedMenu and #openedMenu.options==3 and not chosen and not selectedSource)
+handler:perform();assert(openedMenu and #openedMenu.options==4 and not chosen and not selectedSource)
 openedMenu.options[1].callback();assert(chosen.kind=='building' and not selectedSource)
 openedMenu.options[2].callback();assert(chosen.kind=='nativeRoom' and not selectedSource)
 openedMenu.options[3].callback();assert(selectedSource==carried)

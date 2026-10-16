@@ -39,7 +39,7 @@ Resize the window, adjust the container divider and set background transparency.
 [h2]Compatibility[/h2]
 • Project Zomboid Build 42.21.
 • Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url]. Enable it alongside Quartermaster.
-• Supports Better Sorting and Better Containers categories. Without them, Quartermaster uses vanilla categories.
+• Supports Better Sorting, Better Containers or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3650035249]Extended Categories[/url]. Client-local category selections save explicit item choices. Reselect after changing category membership; follow each category mod's compatibility rules. Without category mods, Quartermaster uses vanilla categories.
 • Optional shopping-list controls for Project Cook, Neat Crafting and Neat Building. Supported recipes only; shopping does not automatically craft, build or cook.
 • Disable original Quartermaster and older B47 sorting copies.
 • In multiplayer, use matching mod versions on the server and all clients.

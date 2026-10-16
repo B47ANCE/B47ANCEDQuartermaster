@@ -203,6 +203,7 @@ function Q.context(p, row, x, y)
             add(rangeMenu, 'ApplyRange', function() Q.rangeAction(p, row, false, true) end)
         end
     end
+    menu:addOption(getText('UI_QMSS_DangerousLoadTitle'),nil,function() require('B47ANCEDQuartermaster/LoadSettingsUI').open(p.playerNum or 0,p) end)
     if p.grabbedJoypad then
         menu.origin = p
         menu.mouseOver = 1

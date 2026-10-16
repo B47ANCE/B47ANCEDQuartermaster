@@ -86,7 +86,7 @@ function H.handle(player,command,args)
                 if not record.revoked and T.valid(record.target,player) and Q.RoomAccess.can(player,record.target,'inspect') and Q.RoomAccess.can(player,record.target,'withdraw') and Q.ShoppingRequirements.worthTaking(ledger,item) then
                     for _,c in ipairs(Q.Trips.carriers(player)) do
                         local budget=Carry.free(player)
-                        if item:getActualWeight()*c.factor<=budget then
+                        if Carry.weight(item)*c.factor<=budget then
                             local offer,op=M.withdraw(player,record,c.id,{item=item})
                             if op then
                                 op.shoppingRun=run;run.operations[op.id]=op;run.considered[item]=true

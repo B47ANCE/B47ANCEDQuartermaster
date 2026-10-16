@@ -24,7 +24,8 @@ end
 function C.explicitCategorySelections()
     C.conflict()
     -- Custom categories can be client-local: send explicit item choices instead.
-    return active and (active.EURY_CONTAINERS==true or active.REORDER_CONTAINERS==true) or false
+    return active and (active.EURY_CONTAINERS==true or active.REORDER_CONTAINERS==true
+        or active.CAExtendedCategories==true) or false
 end
 function C.allowed()
     local id,name=C.conflict()

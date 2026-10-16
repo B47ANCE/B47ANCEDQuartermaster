@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.13.0-dev.1] - 2026-10-15
+
+- Add optional Extended Categories (CAExtendedCategories) support using native metadata and existing explicit category-member selections, preserving dedicated authority across client/server detail differences. No external classifier/code/assets imported; independent clean-room review and native acceptance pending.
+
+- Add disabled-by-default Dangerous Load with a server-owned personal preference, revision checks, native effective-capacity utilization (50–100%), shared Sort/Shopping capacity checks, resizable controller-compatible settings and 29-language English fallback parity.
+- Preserve normal CarryAllowance behavior, full carry planning, native smaller transfer groups/timing and existing permission/no-progress boundaries. Re-read native capacity/weight before admission; never change native capacity, weight, stats or penalties.
+- Add an unwired, bounded read-only actual-content analyser using canonical native categories. Add an isolated ledger domain prototype, tests and exact native evidence. It is not a functional in-game Ledger feature and is excluded from runtime activation. The owner removed the shelf appearance experiment from scope; no experimental shelf code/assets/tests are retained.
+- Record native timing/receipt, CD conservation and load-aware route calibration gaps explicitly. Offline tests pass; native SP/G6 and dedicated G7 are NOT TESTED, stable G8 BLOCKED. No deployment or Workshop publication.
+
 ## [0.12.0-dev.1] - 2026-10-15
 
 - Add overall Sort/Shopping overhead progress alongside vanilla's current-action bar. Room/building Sort aggregates sources; Shopping uses authoritative remaining demand. Auto Clean remains separate and unchanged.
