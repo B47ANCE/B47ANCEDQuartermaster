@@ -1,8 +1,12 @@
 # Required Rooms integration and scoped sorting
 
-Project Version: 0.13.0-dev.1
+Project Version: 0.14.0-dev.1
 
 Current iteration: [Dangerous Load, ledger boundaries and validation](LEDGER_AND_LOAD.md). Existing SupplyAPI, Rooms permissions and container configuration contracts are unchanged.
+
+## Historical Supply Ledger privacy
+
+Ledger reads at loaded origin squares use the public current inspect policy. Portable records with unloaded origin squares use a stricter parent membership rule plus Rooms' own validated schema-2 Registry/Geometry and Policy.storage helpers (API 1, feature checked). Missing/future/unavailable helpers fail closed. This is read-only historical disclosure, never a new deposit/withdrawal grant. No Rooms source is modified or duplicate room registry created; native inventory operations keep their existing permission path. See LEDGER_AND_LOAD.md for tests and limitations.
 
 ## Current development iteration
 

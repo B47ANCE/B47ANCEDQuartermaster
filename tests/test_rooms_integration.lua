@@ -61,3 +61,14 @@ assert(not Q.Targets.make(f.a,0,f.player))
 B47ANCEDRooms.API=saved
 assert(Q.RoomAccess.can(f.player,{obj=f.b,container=f.b.containers[1]},'deposit'),'unprotected storage was blocked')
 print('PASS OFFLINE actual Rooms integration: descriptor privacy, hidden-count filtering, deposit-only routing, configure-only/no contents, withdrawal denial, live revocation, service mismatch and authorized outside storage')
+-- Ledger portability must not require the source chunk to stay loaded.
+local H=require 'B47ANCEDQuartermaster/LedgerAccess'
+local missing=f.squares['0,0,0'];f.squares['0,0,0']=nil
+function h:playerAllowed(actor) return actor:getUsername()==owner or self:getPlayers():contains(actor:getUsername()) end
+assert(not H.read(f.player,{position={x=0,y=0,z=0}},{}),'safehouse owner bypassed delegated private history')
+local account=f.player.getUsername;f.player.getUsername=function() return 'B' end
+assert(H.read(f.player,{position={x=0,y=0,z=0}},{}),'authorized portable history incorrectly required a loaded source square')
+f.player.getUsername=function() return 'C' end
+assert(not H.read(f.player,{position={x=0,y=0,z=0}},{}),'another member bypassed delegated history')
+f.player.getUsername=account;f.squares['0,0,0']=missing
+print('PASS OFFLINE portable historical disclosure against actual Rooms registry/policy: unloaded source, assigned owner, other member and parent-owner denial; not native MP')

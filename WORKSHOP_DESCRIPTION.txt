@@ -26,6 +26,11 @@ Give supplies a purpose and keep your goals together.
 • Keep separate Wanted and Needed lists with target quantities.
 • Track the supplies you carry, add missing amounts to Shopping and collect what remains.
 
+[h2]Building Supply Ledger[/h2]
+Craft a Supply Sheet, then walk through building or safehouse storage to record what is there, including unconfigured containers. Paper pages show rooms, containers, quantities, locations and recording times. Interrupted inspections keep completed entries.
+
+At a supported powered desktop computer, copy a completed sheet onto a chosen vanilla CD. The paper stays intact; the CD's original music is overwritten. Read the portable ledger CD at a supported powered desktop to search item names/IDs and browse rooms. It is a historical snapshot with current privacy checks, not a live inventory database. The initial terminal is the stock desktop computer.
+
 [h2]Rooms and your base[/h2]
 Use [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url] to designate rooms and organize storage around your base. Open Designate Room from Quartermaster, then choose room or building sorting when putting supplies away.
 

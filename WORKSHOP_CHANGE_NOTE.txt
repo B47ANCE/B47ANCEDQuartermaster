@@ -1,12 +1,10 @@
-[b]Version 0.13.0-dev.1[/b]
+[b]Version 0.14.0-dev.1[/b]
 MP testing build - dedicated multiplayer NOT TESTED
 
-Adds optional Extended Categories (CAExtendedCategories) support. Category choices save explicit item selections to handle different category detail settings across peers. Reselect after category membership changes and follow the category mod's own compatibility rules. No external classifier is bundled.
+Adds the Building Supply Ledger workflow. Craft a Supply Sheet from vanilla paper/notebook and a retained pen/pencil. Record or resume a building/safehouse through physical walking and timed inspections, including unconfigured storage. Paper is paged static history with room/container locations, quantities and individual recording times. Ground loot, dropped bags and carried inventories are excluded.
 
-Adds optional Dangerous Load to Sorting load settings. Disabled by default. When enabled, Sort and Collect use your chosen 50–100% of the native inventory capacity, with server-validated saved preferences. Normal mode retains the existing comfort allowance. Native capacity restrictions, penalties, smaller transfer groups and action timing remain unchanged.
+At a supported powered desktop, choose a vanilla CD to overwrite with a completed ledger. The original paper is retained. The portable ledger CD supports literal item/FullType search and room browsing at another supported powered desktop. Current safehouse/Rooms privacy is rechecked. Initial terminal support: the stock appliances_com_01_72 desktop. Server sandbox settings control preparation, container, entry and copying time.
 
-Includes the earlier overall progress, full-carry and selected vehicle/nested source work. Movement protocol 9 still requires matching server/client builds and reconnect. The load settings use a new capability family 1. Existing selections, presets and priorities are preserved.
+Server-owned grants, authenticated native-action challenges, native completion and conversion journals protect the workflow. Confirmed partial inspections persist. After restart or uncertain physical identity, reinspection is required. Unknown item-conversion outcomes remain locked; no automatic respawn or retry. A native inventory notification failure is reported as synchronization pending.
 
-Building Supply Ledger is an isolated prototype, not an available gameplay feature. No ledger items or CD conversion are activated. Native action authorization and item conversion still require verified bindings and testing. The shelf appearance experiment was removed from scope. Load-aware route timing has not been calibrated.
-
-Offline tests only. Native SP/G6, dedicated multiplayer/G7 and stable release/G8 remain blocked. B47ANCE'd Rooms is required. This source note does not claim deployment or an upload.
+Keeps Dangerous Load, Extended Categories support and vanilla smaller transfer groups/timing unchanged. The shelf experiment stays out of scope. Ledger protocol 1 requires the new build on server and clients; movement remains 9. Native SP/G6 and dedicated G7 NOT TESTED; stable G8 BLOCKED. No deployment or upload is claimed by this source note.

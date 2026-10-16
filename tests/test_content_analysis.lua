@@ -10,6 +10,7 @@ local function item(id,category,count,weight)
  function it:getDisplayName() return 'Same Name' end;function it:getDisplayCategory() return category end
  function it:getContainer() return self.container end;function it:getCount() return self.quantity end
  function it:getActualWeight() return self.weight end;it.getUnequippedWeight=it.getActualWeight
+ function it:getCondition() return 10 end
  return it
 end
 local function analyze()

@@ -19,13 +19,13 @@ local SortTrace=require 'B47ANCEDQuartermaster/SortTrace'
 local Protocol=require 'B47ANCEDQuartermaster/Protocol'
 local peers=setmetatable({},{__mode='k'})
 local negotiations=setmetatable({},{__mode='k'})
-local readOnly={hello=true,loadGet=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true,roomList=true,roomGet=true,roomDiscover=true,areaOptions=true,areaDiscover=true}
+local readOnly={hello=true,ledgerRead=true,loadGet=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true,roomList=true,roomGet=true,roomDiscover=true,areaOptions=true,areaDiscover=true}
 local tracked={discover=true,load=true,commit=true}
 local lastTick
 -- Technical admission limits bound expensive read work, not discovery gameplay
 -- range. Only the authenticated server player is used as the bucket owner.
 local budgets=setmetatable({},{__mode='k'})
-local limits={loadGet={4,2},loadChange={2,2},discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5},roomList={2,1},roomGet={4,4},roomDiscover={4,4},areaOptions={2,1},areaDiscover={2,2}}
+local limits={ledgerBegin={2,0.5},ledgerNext={4,5},ledgerRead={4,5},ledgerBurn={2,0.5},ledgerConfirm={4,4},ledgerCancel={4,4},loadGet={4,2},loadChange={2,2},discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5},roomList={2,1},roomGet={4,4},roomDiscover={4,4},areaOptions={2,1},areaDiscover={2,2}}
 function A.admit(player,command)
     local limit=limits[command];if not limit then return true end
     local time=getTimestampMs();local owner=budgets[player] or {};budgets[player]=owner
@@ -36,6 +36,7 @@ function A.admit(player,command)
 end
 function A.cleanup(player)
     if isClient() then return end
+    if B47ANCEDQuartermaster.Ledger then B47ANCEDQuartermaster.Ledger.cleanup(player) end
     B47ANCEDQuartermaster.LoadPolicy.cleanup(player)
     local M=B47ANCEDQuartermaster.Movement
     local run=M.runs[player]
@@ -69,6 +70,9 @@ function A.handle(player,command,args)
     local allowed,_,_,compatibilityStatus=Compatibility.allowed()
     if not allowed then return {status=compatibilityStatus} end
     if isClient() or not player or type(args)~='table' then return {status='invalid'} end
+    if Protocol.family(command)=='ledger' then return require('B47ANCEDQuartermaster/Ledger').handle(player,command,args) end
+    local ledger=B47ANCEDQuartermaster.Ledger
+    if ledger and (ledger.jobs[player] or ledger.actors[player]) and (command=='tripBegin' or command=='movePlan' or command=='moveCarried' or command=='shoppingBegin') then return {status='busy'} end
     if command=='loadGet' or command=='loadChange' then return B47ANCEDQuartermaster.LoadPolicy.handle(player,command,args) end
     if command=='hello' then
         local capabilities={};for family,version in pairs(Protocol.versions) do capabilities[family]=version end

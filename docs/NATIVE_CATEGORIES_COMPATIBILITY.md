@@ -1,10 +1,10 @@
 # Native categories and sorting-data retirement
 
-Project Version: 0.13.0-dev.1
+Project Version: 0.14.0-dev.1
 
 ## Current development iteration
 
-Optional Extended Categories (CAExtendedCategories, Workshop 3650035249) support uses native getters and the existing explicit category-member selection path. No third-party classifier is called or copied. Client detail differences cannot become server category authority. See [clean-room provenance, limitations and review](THIRD_PARTY_RESEARCH.md). Dangerous Load and inactive ledger research are documented in the [current iteration report](LEDGER_AND_LOAD.md).
+Optional Extended Categories (CAExtendedCategories, Workshop 3650035249) support uses native getters and the existing explicit category-member selection path. No third-party classifier is called or copied. Client detail differences cannot become server category authority. See [clean-room provenance, limitations and review](THIRD_PARTY_RESEARCH.md). Dangerous Load and the physical Supply Ledger are documented in the [current iteration report](LEDGER_AND_LOAD.md).
 
 ## Compatibility decision
 

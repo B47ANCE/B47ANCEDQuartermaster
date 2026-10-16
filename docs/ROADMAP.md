@@ -1,10 +1,10 @@
 # Roadmap
 
-Project Version: 0.13.0-dev.1
+Project Version: 0.14.0-dev.1
 
 ## Current development iteration
 
-Dangerous Load is implemented for native acceptance. Building Supply Ledger needs verified native timed inspection, physical media/conversion, persistence/recovery and UI adapters before activation. The shelf appearance experiment is removed from scope. Calibrated heavy-load route costs remain research-only. See the [current implementation and gates](LEDGER_AND_LOAD.md).
+Supply Ledger implementation is complete for native acceptance: craftable sheets, physical building/safehouse inspection, static historical records, completion-bound CD copying and powered digital reading. Next gates are native crafting/UI/time/power, then two-client dedicated privacy/conservation/save/restart testing. Shelf work remains out of scope; no deployment/publication is authorized. See [implementation, settings and validation](LEDGER_AND_LOAD.md).
 
 ## Separate Auto Clean and supply API — historical 0.11.0-dev.1
 
@@ -63,7 +63,7 @@ User confirms dev.20 loaded but visible Category labels remained vanilla with Ne
 
 Compatible PATCH correction on dev.19: Category cells use the canonical resolver cache and current localized labels. Compatibility is checked during rendering rather than permanently skipping registration during early Lua loading. Native row.cat, sorting, grouping and item definitions stay unchanged. Full offline regression and frozen 5,092-item comparison passed; actual B42.21 inventory/loot/controller/scaling and second-language client acceptance remain UNTESTED. Dev.19 Stage A instrumentation is retained; its dedicated timing gate remains BLOCKED. See `dist/handoffs/dev20-inventory-category.md`. No deployment or publication.
 
-Current source version: 0.13.0-dev.1. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
+Current source version: 0.14.0-dev.1. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
 
 Historical note: Recorded source snapshot: 0.4.0-dev.50. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
 

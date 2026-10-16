@@ -56,7 +56,8 @@ runtime().execute((ROOT / 'tests/test_move_batch.lua').read_text(encoding='utf-8
 runtime().execute((ROOT / 'tests/test_carry_authority.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_load_policy.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_content_analysis.lua').read_text(encoding='utf-8'))
-runtime().execute((ROOT / 'tests/test_ledger_prototype.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_ledger.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_ledger_ui.lua').read_text(encoding='utf-8'))
 for path in (SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Movement.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Trips.lua', CLIENT / 'B47ANCEDQuartermaster/Executor.lua', CLIENT / 'B47ANCEDQuartermaster/Sorter.lua', CLIENT / 'B47ANCEDQuartermaster/SortControls.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/GroundSources.lua'):
     owned = path.read_text(encoding='utf-8')
     assert 'LootSorter' not in owned and 'require "LootSorter' not in owned
@@ -167,6 +168,7 @@ print('PASS metadata and 29-language fallback parity')
 import runpy
 runpy.run_path(str(ROOT / 'tests/test_runtime_directories.py'))['run']()
 runpy.run_path(str(ROOT / 'tests/test_workshop_corpus.py'))
+runpy.run_path(str(ROOT / 'tests/test_ledger_metadata.py'))
 
 if ARGS.package:
     sys.path.insert(0, str(ROOT / 'scripts'))

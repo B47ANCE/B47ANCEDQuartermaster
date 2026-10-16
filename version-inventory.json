@@ -220,6 +220,14 @@
     {
       "reference": "docs/HANDOFFS_DEVELOPMENT_ARTIFACT_2026-10-15.json",
       "reason": "Immutable dated 0.13.0-dev.1 development-package receipt with exact source commit and hashes; not native/dedicated verification or current version mirror."
+    },
+    {
+      "reference": "experiments/supply-ledger/Model.lua; tests/test_ledger_prototype.lua",
+      "reason": "0.13 offline domain prototype is historical, excluded from runtime/current acceptance; production ledger paths now have dedicated tests."
+    },
+    {
+      "reference": "docs/LEDGER_NATIVE_EVIDENCE_2026-10-16.json; docs/LEDGER_ARTIFACT_2026-10-16.json",
+      "reason": "Dated 0.14 development native evidence/package receipt preserve exact audited version and source; not SP/dedicated runtime proof."
     }
   ]
 }

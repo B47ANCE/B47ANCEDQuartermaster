@@ -1,0 +1,166 @@
+{
+  "date": "2026-10-16",
+  "project_version": "0.14.0-dev.1",
+  "game": "42.21.0",
+  "steam_build": "25485521",
+  "runtime": "NOT TESTED",
+  "native_sha256": {
+    "projectzomboid.jar": "e1a69eb743ede60b213a0fe7f8b83d4fcab773036d256cc4543a336f3b058a33",
+    "media/lua/shared/TimedActions/ISBaseTimedAction.lua": "ad72e57f976bd1564d59d08d98d06f8c8d4acea6386aace48e0d99ce9d02a1f0",
+    "media/lua/shared/luautils.lua": "8763eed57a0fa02d671ff9156e51a3deda4e0355ef164690193119868f5c8a70",
+    "media/lua/shared/TimedActions/ISAddTakeDispenserBottle.lua": "07b5a09a0005a1525dc71aa2e433286f73cea2ccb5d1447f2fac6bd63ec535b3",
+    "media/lua/shared/TimedActions/Fishing/TimedActions/ISChangeFishingRodEquip.lua": "e28abb9d96421f0e2d2bbb0266aca975e59ed97862d8f4b5e486e60370d67bd1",
+    "media/lua/client/ISUI/ISWorldObjectContextMenu.lua": "980e67622e34422983cd33d64ea4f6dbff5cdf151a6dd9aef6acb669261fb47f",
+    "media/lua/client/ISUI/ISComboBox.lua": "3c313fe9c30711fef341bc4358d3d66e6f38591c224f5fe92e7c77db508f2e66",
+    "media/scripts/generated/items/literature.txt": "01f9950ecfa984eb1c874de0eeaee283b8ba265cd249cf34111df9f30268e293",
+    "media/scripts/generated/items/weapon.txt": "742414e701d360a9076099f9842bd9cc65c2d9ba9497af8b0ce470ee147467c5",
+    "media/scripts/generated/items/normal.txt": "b76cf5f91dce33567ca2bda305c4e450be297aae6b1fc11b5b34dcb280d74567",
+    "media/scripts/generated/items/moveable.txt": "b3bef2403422715dde85772bfdc913d72703baca233038c0e1373c41d323b90a",
+    "media/scripts/generated/recipes/recipes_cardsAndDice.txt": "09b17c9568d5b8c1db950d43503d5951ea5ad29d987c8116ae0748b7a8f0a457"
+  },
+  "methods": {
+    "zombie/inventory/ItemContainer.class": [
+      {
+        "name": "AddItem",
+        "descriptor": "(Lzombie/inventory/InventoryItem;)Lzombie/inventory/InventoryItem;",
+        "public": true
+      },
+      {
+        "name": "AddItem",
+        "descriptor": "(Ljava/lang/String;)Lzombie/inventory/InventoryItem;",
+        "public": true
+      },
+      {
+        "name": "AddItem",
+        "descriptor": "(Ljava/lang/String;F)Z",
+        "public": true
+      },
+      {
+        "name": "AddItem",
+        "descriptor": "(Ljava/lang/String;FZ)Z",
+        "public": true
+      },
+      {
+        "name": "containsTypeRecurse",
+        "descriptor": "(Lzombie/scripting/objects/ItemKey;)Z",
+        "public": true
+      },
+      {
+        "name": "containsTypeRecurse",
+        "descriptor": "(Ljava/lang/String;)Z",
+        "public": true
+      },
+      {
+        "name": "Remove",
+        "descriptor": "(Lzombie/inventory/InventoryItem;)V",
+        "public": true
+      },
+      {
+        "name": "Remove",
+        "descriptor": "(Ljava/lang/String;)V",
+        "public": true
+      },
+      {
+        "name": "Remove",
+        "descriptor": "(Lzombie/scripting/objects/ItemType;)Lzombie/inventory/InventoryItem;",
+        "public": true
+      },
+      {
+        "name": "getItemWithIDRecursiv",
+        "descriptor": "(I)Lzombie/inventory/InventoryItem;",
+        "public": true
+      }
+    ],
+    "zombie/inventory/InventoryItem.class": [
+      {
+        "name": "getWorldItem",
+        "descriptor": "()Lzombie/iso/objects/IsoWorldInventoryObject;",
+        "public": true
+      },
+      {
+        "name": "CanStack",
+        "descriptor": "(Lzombie/inventory/InventoryItem;)Z",
+        "public": true
+      },
+      {
+        "name": "getCondition",
+        "descriptor": "()I",
+        "public": true
+      },
+      {
+        "name": "getCount",
+        "descriptor": "()I",
+        "public": true
+      },
+      {
+        "name": "getID",
+        "descriptor": "()I",
+        "public": true
+      }
+    ],
+    "zombie/iso/IsoCell.class": [
+      {
+        "name": "getChunkForGridSquare",
+        "descriptor": "(III)Lzombie/iso/IsoChunk;",
+        "public": true
+      },
+      {
+        "name": "getMinZ",
+        "descriptor": "()I",
+        "public": true
+      },
+      {
+        "name": "getMaxZ",
+        "descriptor": "()I",
+        "public": true
+      }
+    ],
+    "zombie/iso/IsoGridSquare.class": [
+      {
+        "name": "canReachTo",
+        "descriptor": "(Lzombie/iso/IsoGridSquare;)Z",
+        "public": true
+      },
+      {
+        "name": "haveElectricity",
+        "descriptor": "()Z",
+        "public": true
+      },
+      {
+        "name": "hasGridPower",
+        "descriptor": "()Z",
+        "public": true
+      },
+      {
+        "name": "hasGridPower",
+        "descriptor": "(I)Z",
+        "public": true
+      }
+    ],
+    "zombie/core/NetTimedAction.class": [
+      {
+        "name": "getProgress",
+        "descriptor": "()F",
+        "public": true
+      }
+    ]
+  },
+  "rooms_commit": "62de4839564ea4c1afff2c51171322286d055daa",
+  "rooms_sha256": {
+    "API.lua": "fa2745d1c78222f90e89eda2bfb03f10e83aa8545a7d5480cd596bb688f3447d",
+    "Registry.lua": "1f078ee7948bf507d51c36b7518a92fea78019fef24c0b954815cc97315d0849",
+    "Policy.lua": "75c36d26da763788ea68fe17c8be0a0ebda9c54b8490fb21a497d7c4efc7261b",
+    "Geometry.lua": "feb76ab9fb075656b40c175fd77ab0eec06ae83cb13276bf9a38273fdea9ac78",
+    "Identity.lua": "341c9e2ee68c17c86c0b4111f078ada3f6e562089cfa63e1591886b2390d9518"
+  },
+  "findings": [
+    "Native luautils.walkAdj calls character square canReachTo and queues the native walk action; the ledger repeats reach validation on authority.",
+    "Native ISAddTakeDispenserBottle.complete demonstrates server-side AddItem and sendAddItemToContainer. The ledger adds per-input grants/journals and exact membership checks.",
+    "Native ItemContainer.Remove(InventoryItem) removes the list entry but does not clear the container pointer; conversion verifies actual item membership, not just getContainer.",
+    "Native timed action duration conversion inspected in the same 25485521 JAR uses 20ms units. Ledger seconds map to 50 native units; actual modifiers/fast-forward remain runtime gates.",
+    "Shared custom class reconstruction retains the server-owned action. Native getProgress and an authenticated owner challenge guard completion; no client complete RPC exists.",
+    "Native power uses haveElectricity OR hasGridPower plus indoor room, matching installed charger Lua. Only the confirmed stock desktop sprite is offered.",
+    "Actual Rooms canAccessAt requires a loaded source square; historical unloaded reads use stricter native membership and Rooms validated registry/private-storage helpers. Helpers are read-only and feature-checked; no upstream changes.",
+    "Paper/notebook, pen/pencil, vanilla CD, desktop, icon/model, B42 in-hand recipe and retained-input references were verified. No copied native assets or Java runtime component is shipped."
+  ]
+}
