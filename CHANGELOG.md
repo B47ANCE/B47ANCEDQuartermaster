@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.16.0-dev.2] — Keep sorting setup open after Save
+
+- Successful container-rule saves keep Quartermaster open with its current container selected. Refresh the container rail after acknowledgement, then continue configuring another container without reopening.
+- Preserve authoritative commits/revisions, partial-save errors, manual close/Cancel and preset-dialog behavior. UI-only compatible fix; no protocol, save-schema or sandbox changes. Native acceptance pending; prior gameplay G7/G8 gates remain blocked.
+
 ## [0.16.0-dev.1] — Physical shopping lists (development)
 
 - Named physical Shopping papers with independent server-owned contents, selected-list revisions and exact native item possession checks; papers can be transferred to friends.

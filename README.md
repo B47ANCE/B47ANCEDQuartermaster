@@ -8,7 +8,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.16.0-dev.1 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
+The Workshop feature guide is below. This branch also contains **0.16.0-dev.2 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
 
 ## Development work in this branch
 
@@ -26,7 +26,7 @@ Movement protocol 10 requires matching server/client builds and reconnect. Saved
 ## Sorting
 
 - Choose whole categories or individual items in a searchable tree with native item icons.
-- Configure multiple containers in one window, with presets, copy/paste and destination priorities.
+- Configure multiple containers in one window, with presets, copy/paste and destination priorities. Save keeps the window open so you can select the next container.
 - Share Whole Container settings across furniture sections, or customize individual sections.
 - Sort carried inventory, a selected container, the current room or an entire building. Room and building operations include carried bags.
 - Sort supported floor and Proximity Inventory items into configured storage.

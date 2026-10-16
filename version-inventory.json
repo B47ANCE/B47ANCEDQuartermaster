@@ -240,6 +240,10 @@
     {
       "reference": "docs/LEDGER_NATIVE_EVIDENCE_2026-10-16.json; docs/LEDGER_ARTIFACT_2026-10-16.json",
       "reason": "Dated 0.14 development native evidence/package receipt preserve exact audited version and source; not SP/dedicated runtime proof."
+    },
+    {
+      "reference": "docs/SHOPPING_PAPER_NATIVE_EVIDENCE_2026-10-16.json",
+      "reason": "Dated 0.16.0-dev.1 API fingerprints and read-only native observations; unchanged and not relabeled as dev.2 or native runtime acceptance."
     }
   ]
 }

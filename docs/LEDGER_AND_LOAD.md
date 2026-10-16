@@ -1,6 +1,6 @@
 # Physical Supply Ledger and Dangerous Load
 
-Project Version: 0.16.0-dev.1
+Project Version: 0.16.0-dev.2
 
 ## Implemented workflow
 

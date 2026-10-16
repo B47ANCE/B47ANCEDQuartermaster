@@ -1,8 +1,10 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.16.0-dev.1
+Project Version: 0.16.0-dev.2
 
 ## Current development iteration
+
+Save now keeps the container-rule editor open, refreshes acknowledged records/rail state and reloads an invalidated inherited section when necessary. Existing server save/permission behavior and manual close/Cancel are preserved. Current focused UI regression and syntax checks pass offline; native acceptance remains NOT TESTED. See [exact checks and workflow](MULTI_CONTAINER_UI_IMPLEMENTATION.md). Physical-shopping implementation/full-suite evidence remains from 0.16.0-dev.1 and is unchanged by this local UI fix.
 
 Current feature/physical-shopping-lists implements named, transferable physical Shopping papers, retained notebook/writing tool requirements, one-sheet creation, an explicit one-time legacy import, list selection/renaming and a held-paper checklist HUD. Server-owned profiles preserve the current allocator/preferences and freeze linked targets onto each paper. The prior supply-ledger Sort/Collect requirements remain enabled by default. Source-only; no package/deployment/publication. Native G6/G7 NOT TESTED; stable G8 BLOCKED. See [current report](PHYSICAL_SHOPPING_LISTS.md).
 

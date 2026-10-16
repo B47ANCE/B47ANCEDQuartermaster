@@ -1,7 +1,5 @@
-[b]Version 0.16.0-dev.1[/b]
+[b]Version 0.16.0-dev.2[/b]
 
-Named physical Shopping Lists: create one from a blank sheet using a retained notebook and pen/pencil. Choose between carried lists, rename them and hand them to friends. Hold a paper in either hand for a small notebook-style checklist HUD.
+Save keeps Quartermaster open, ready to configure the next container. The current container stays selected; acknowledged rules and inherited sections refresh. Close or Cancel explicitly when finished. Server permissions, native transfers and preset dialogs are unchanged.
 
-Existing personal plans are retained for explicit one-time import. Reading/collecting does not require writing supplies; the separate supply-ledger requirement for collection remains. Server options control physical lists and writing supplies. Native transfer grouping is unchanged.
-
-Source-only development iteration. Native client and dedicated multiplayer NOT TESTED. No upload performed.
+Source-only development checkpoint. Focused UI/Whole Container regression and syntax checks pass offline; native client acceptance is pending. Prior gameplay dedicated multiplayer remains NOT TESTED. No upload performed.

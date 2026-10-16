@@ -1,6 +1,8 @@
 # Physical Shopping Lists
 
-Project Version: 0.16.0-dev.1
+Project Version: 0.16.0-dev.2
+
+Checkpoint dev.2 changes only the container-save window workflow. Physical-shopping code and its dev.1 full-suite/native-source evidence are unchanged; see [the focused current checks](MULTI_CONTAINER_UI_IMPLEMENTATION.md).
 
 Compatible feature iteration from 0.15.0-dev.1, with an explicit default-on workflow change. Old personal data is preserved. This is source development, not a deployed or published build.
 
