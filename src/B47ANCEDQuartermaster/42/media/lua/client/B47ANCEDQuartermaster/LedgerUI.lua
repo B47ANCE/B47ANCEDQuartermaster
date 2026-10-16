@@ -7,6 +7,7 @@ local L=require 'B47ANCEDQuartermaster/Ledger'
 local Media=require 'B47ANCEDQuartermaster/LedgerMedia'
 local Scope=require 'B47ANCEDQuartermaster/LedgerScope'
 local Action=require 'B47ANCEDQuartermaster/LedgerAction'
+local Computer=require 'B47ANCEDQuartermaster/ComputerUI'
 local U,Q=B47ANCEDUI,B47ANCEDQuartermaster
 local V={work={},readers={}};Q.LedgerUI=V
 local function tr(key,...) return getText('UI_QMSS_'..key,...) end
@@ -27,7 +28,9 @@ local function finish(op,status)
  op.closed=true;V.work[op.num]=nil
  if op.token then L.clientOffers[op.token]=nil end
  if status~='ok' and status~='done' then Q.Authority.request(op.num,'ledgerCancel',{},function() end) end
- note(op.actor,status=='ok' and 'LedgerSaved' or status=='done' and (op.summary or 'LedgerComplete') or status)
+ local key=status=='ok' and 'LedgerSaved' or status=='done' and (op.summary or 'LedgerComplete') or status
+ local screen=Computer.active[op.num];if op.burn and screen then screen:message(key) end
+ note(op.actor,key)
 end
 local function response(op,result)
  if op.closed or getSpecificPlayer(op.num)~=op.actor then return end
@@ -85,21 +88,26 @@ function V.atComputer(num,computer,done)
  if not luautils.walkAdj(actor,computer:getSquare()) then finish(op,'LedgerUnreachable');return end
  for _,action in ipairs(queue(actor)) do action.b47LedgerWork=op end
 end
-function V.read(num,item,computer)
+function V.read(num,item,computer,host)
  local actor=getSpecificPlayer(num);if not actor then return end
- if V.readers[num] then V.readers[num]:close() end
  local digital=item:getFullType()==Media.disc
+ if digital and (not host or host~=Computer.active[num] or host.mounted~=item) then return V.computer(num,computer) end
+ if V.readers[num] then V.readers[num]:close() end
  local m=U.Theme.metrics();local minimum=m.header+7*m.button+80
  if getPlayerScreenWidth(num)<500 or getPlayerScreenHeight(num)<minimum then note(actor,'LedgerScreenSmall');return end
- local panel=U.WindowShell:new(0,0,math.min(960,getPlayerScreenWidth(num)-20),math.min(680,getPlayerScreenHeight(num)-20))
+ local panel
+ if host then panel=ISPanelJoypad:new(0,0,host:getWidth()-64,host:getHeight()-200)
+ else panel=U.WindowShell:new(0,0,math.min(960,getPlayerScreenWidth(num)-20),math.min(680,getPlayerScreenHeight(num)-20)) end
+ local colors=host and Computer.colors or U.Theme.colors
+ local header=host and 0 or m.header
  panel.playerNum=num;panel.minimumWidth=480;panel.minimumHeight=minimum;panel.resizable=true;panel.title=tr(digital and 'LedgerDigitalTitle' or 'LedgerPaperTitle')
  panel:initialise();panel:instantiate();V.readers[num]=panel
  local requestSerial=0;local pending=false;local page={};local cursor;local history={};local summary='';local lastRead=0;local due;local closed=false;local revision
  local selectedRoom='';local roomNames={};local query=''
- local list=U.ScrollList:new(12,m.header+3*m.button+24,panel:getWidth()-24,240);list:initialise();list:instantiate();panel:addChild(list)
+ local list=U.ScrollList:new(12,header+3*m.button+24,panel:getWidth()-24,240);list:initialise();list:instantiate();panel:addChild(list)
  list.itemheight=3*(m.font+4);list.drawBorder=true
  list.doDrawItem=function(self,y,row,alt)
-  local data=row.item;local text=U.Theme.colors.text
+  local data=row.item;local text=host and colors.black or colors.text
   if row.ledgerWidth~=self:getWidth() then
    local full={data.empty and tr('LedgerEmpty') or tr('LedgerItemLine',data.name,data.quantity),
     tr('LedgerLocationLine',data.room,data.container,data.position.x,data.position.y,data.position.z,data.position.ci+1),
@@ -109,17 +117,17 @@ function V.read(num,item,computer)
    row.tooltip=clipped and table.concat(full,'<LINE>') or nil;row.ledgerWidth=self:getWidth()
   end
   U.Renderer.text(self,row.ledgerLines[1],8,y+2,text)
-  U.Renderer.text(self,row.ledgerLines[2],8,y+m.font+6,U.Theme.colors.muted)
-  U.Renderer.text(self,row.ledgerLines[3],8,y+2*(m.font+4),U.Theme.colors.muted)
+  U.Renderer.text(self,row.ledgerLines[2],8,y+m.font+6,(host and colors.muted or U.Theme.colors.muted))
+  U.Renderer.text(self,row.ledgerLines[3],8,y+2*(m.font+4),(host and colors.muted or U.Theme.colors.muted))
   return y+self.itemheight
  end
  local search,rooms
  local fetch
  if digital then
-  search=U.TextInput:new('',12,m.header+8,400,m.button);search:initialise();search:instantiate();panel:addChild(search)
+  search=U.TextInput:new('',12,header+8,400,m.button);search:initialise();search:instantiate();panel:addChild(search)
   search.tooltip=tr('LedgerSearch')
   search.onTextChangeFunction=function() query=search:getInternalText();page={};history={};due=getTimestampMs()+350;requestSerial=requestSerial+1;pending=false end
-  rooms=ISComboBox:new(420,m.header+8,200,m.button,panel,function(_,box)
+  rooms=ISComboBox:new(420,header+8,200,m.button,panel,function(_,box)
    local option=box.options[box.selected];selectedRoom=option and option.data or '';page={};history={};due=getTimestampMs();requestSerial=requestSerial+1;pending=false
   end)
   rooms:initialise();rooms:instantiate();U.skin(rooms,'dropdown');rooms:addOptionWithData(tr('LedgerAllRooms'),'');panel:addChild(rooms)
@@ -133,9 +141,14 @@ function V.read(num,item,computer)
  local close=U.Button:new(0,0,120,m.button,tr('LedgerClose'),panel,function() panel:close() end)
  for _,b in ipairs({previous,more,close}) do b:initialise();b:instantiate();panel:addChild(b) end
  panel.ledgerControls={list=list,search=search,rooms=rooms,previous=previous,more=more,close=close}
- function panel:close()
-  if closed then return end;closed=true;requestSerial=requestSerial+1;V.readers[num]=nil;U.Tooltip.dispose(self);self:removeFromUIManager();U.Focus.restore(num)
+ if host then
+  for _,entry in ipairs({{list,'list'},{search,'input'},{rooms,'input'},{previous,'button'},{more,'button'},{close,'button'}}) do if entry[1] then Computer.decorate(entry[1],entry[2]) end end
  end
+ function panel:close()
+  if closed then return end;closed=true;requestSerial=requestSerial+1;V.readers[num]=nil;U.Tooltip.dispose(self)
+  if host then host:release(self) else self:removeFromUIManager();U.Focus.restore(num) end
+ end
+ if host then Computer.keyboard(panel,function() panel:close() end) end
  fetch=function()
   if pending or closed then return end
   requestSerial=requestSerial+1;local serial=requestSerial;pending=true;lastRead=getTimestampMs()
@@ -165,14 +178,14 @@ function V.read(num,item,computer)
  local pre=panel.prerender
  panel.prerender=function(self,...)
   if getSpecificPlayer(num)~=actor or actor:isDead() or Media.owned(actor,item:getID())~=item or digital and not Media.computer(actor,computer,true) then self:close();return end
-  pre(self,...)
-  local w,h=self:getWidth(),self:getHeight();local top=m.header+(digital and m.button+16 or 8)
+  if host then U.Renderer.rect(self,0,0,self:getWidth(),self:getHeight(),colors.white) else pre(self,...) end
+  local w,h=self:getWidth(),self:getHeight();local top=header+(digital and m.button+16 or 8)
   list:setX(12);list:setY(top+2*m.button);list:setWidth(w-24);list:setHeight(math.max(m.button,h-top-3*m.button-24))
   if search then search:setWidth(math.max(140,w*.60-20));rooms:setX(12+w*.60);rooms:setWidth(w*.40-24) end
   previous:setY(h-m.button-12);more:setY(h-m.button-12);close:setY(h-m.button-12);close:setX(w-132)
   previous:setEnable(not pending and #history>0);more:setEnable(not pending and cursor~=nil)
-  U.Renderer.text(self,U.Renderer.fit(summary,w-24),12,top,U.Theme.colors.text)
-  if pending then U.Renderer.text(self,tr('LedgerLoading'),12,top+m.button,U.Theme.colors.muted) end
+  U.Renderer.text(self,U.Renderer.fit(summary,w-24),12,top,host and colors.black or U.Theme.colors.text)
+  if pending then U.Renderer.text(self,tr('LedgerLoading'),12,top+m.button,(host and colors.muted or U.Theme.colors.muted)) end
   local now=getTimestampMs()
   if not pending and (due and now>=due or now-lastRead>=2000) then due=nil;fetch() end
  end
@@ -181,7 +194,8 @@ function V.read(num,item,computer)
  local joy=panel.onJoypadDown;panel.onJoypadDown=function(self,key,...)
   if key==Joypad.BButton then self:close() elseif joy then joy(self,key,...) end
  end
- U.bounds(panel,num);panel:addToUIManager();setJoypadFocus(num,panel);fetch();return panel
+ if host then host:showApp(panel,tr('LedgerDigitalTitle')) else U.bounds(panel,num);panel:addToUIManager();setJoypadFocus(num,panel) end
+ fetch();return panel
 end
 local function inventory(actor)
  local sheets,discs,cds={},{},{};local visited={};local count=0
@@ -218,22 +232,20 @@ function V.inventoryMenu(num,menu,items)
  end
  U.menu(menu)
 end
+function V.computer(num,computer)
+ if not computer then return end
+ return Computer.open(num,computer,{inventory=inventory,
+  read=function(item,host) return V.read(num,item,computer,host) end,
+  burn=function(paper,cd) V.burn(num,paper,cd,computer) end,
+  busy=function() return V.work[num]~=nil end,
+  close=function() local op=V.work[num];if op and op.burn then V.cancel(num) end end})
+end
 function V.worldMenu(num,menu,objects,test)
  if test then return end
  local actor=getSpecificPlayer(num);if not actor then return end
  for n=1,math.min(#objects,64) do local obj=objects[n]
   if Media.computer(actor,obj,false) then
-   local sheets,discs,cds=inventory(actor)
-   for _,disc in ipairs(discs) do local item=disc;menu:addOption(tr('LedgerReadDisc',item:getID()),nil,function() V.atComputer(num,obj,function() V.read(num,item,obj) end) end) end
-   if not V.work[num] and cds[1] then for _,paper in ipairs(sheets) do
-    local md=paper:getModData().B47Ledger
-    if md and md.complete==true then
-     local sheet=paper;local submenu=U.menu(ISContextMenu:getNew(menu));menu:addSubMenu(menu:addOption(tr('LedgerBurnDisc',sheet:getID())),submenu)
-     for _,candidate in ipairs(cds) do local cd=candidate
-      submenu:addOption(tr('LedgerChooseCD',cd:getDisplayName(),cd:getID()),nil,function() V.atComputer(num,obj,function() V.burn(num,sheet,cd,obj) end) end)
-     end
-    end
-   end end
+   menu:addOption(tr('ComputerUse'),nil,function() V.atComputer(num,obj,function() V.computer(num,obj) end) end)
    break
   end
  end

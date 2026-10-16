@@ -77,6 +77,10 @@
     {
       "path": "docs/LEDGER_AND_LOAD.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/WINDOWS93_COMPUTER.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {

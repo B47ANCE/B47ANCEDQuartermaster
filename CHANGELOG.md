@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.14.0-dev.2] - 2026-10-16
+
+Compatible UI expansion of the 0.14 Ledger feature: a client-local Windows ’93 computer desktop with explicit CD insertion and application launching. Ledger protocol/schema, native media identity, saved records, permissions and transfers remain unchanged.
+
+- Replace direct computer context actions with a CRT screen, desktop, Start menu, CD-ROM browser and CD Writer application. A mounted ledger disc must be run explicitly; opening the computer does not fetch ledger pages.
+- Embed the existing digital reader inside the computer application. Retain server validation and close on power/access/possession loss. Paper stays independent.
+- Native client/controller and dedicated acceptance remain NOT TESTED; no deployment or publication.
+
 ## [0.14.0-dev.1] - 2026-10-16
 
 Compatible MINOR: physical Building Supply Ledger, with separate ledger protocol/schema 1. Sorting configuration, movement protocol 9, native transfer grouping, Dangerous Load and existing item rules remain unchanged.

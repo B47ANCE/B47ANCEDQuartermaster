@@ -1,10 +1,10 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.14.0-dev.1
+Project Version: 0.14.0-dev.2
 
 ## Current development iteration
 
-The Building Supply Ledger workflow is implemented on feature/building-supply-ledger, based on feature/supply-ledger-and-load: media definitions/recipe, physical inspections, native completion, CD conversion, persistence/recovery and reader UI. Shelf work remains removed. Native SP/G6 and dedicated G7 NOT TESTED; stable G8 BLOCKED. No deployment/publication. See [implementation, settings and validation](LEDGER_AND_LOAD.md).
+The Building Supply Ledger baseline is on feature/building-supply-ledger. The current feature/windows93-computer branch adds a Windows ’93 desktop with explicit CD insertion/application launch and embedded CD Writer/reader. The baseline includes: media definitions/recipe, physical inspections, native completion, CD conversion, persistence/recovery and reader UI. Shelf work remains removed. Native SP/G6 and dedicated G7 NOT TESTED; stable G8 BLOCKED. No deployment/publication. See [implementation, settings and validation](LEDGER_AND_LOAD.md).
 
 ## Separate Auto Clean and supply API — historical 0.11.0-dev.1
 

@@ -8,13 +8,13 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.14.0-dev.1 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
+The Workshop feature guide is below. This branch also contains **0.14.0-dev.2 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
 
 ## Development work in this branch
 
 - Optional Extended Categories support, including client/server detail differences through explicit category-member selections.
 - Dangerous Load: disabled by default, with a server-validated personal 50–100% native-capacity limit for Sort and Collect. Native restrictions and penalties still apply.
-- Craft paper Supply Sheets, physically inspect building/safehouse storage, and copy completed snapshots to a selected CD at a powered desktop. Paper pages are read-only history; the computer reader adds literal search, room browsing and locations. See the [workflow, authority and acceptance report](docs/LEDGER_AND_LOAD.md). The shelf experiment remains out of scope.
+- Craft paper Supply Sheets, physically inspect building/safehouse storage, and copy completed snapshots to a selected CD at a powered desktop. Paper pages are read-only history. Computers open a Windows ’93 desktop: insert a CD and run QUARTERMASTER.EXE to search and browse its ledger. See the [workflow, authority and acceptance report](docs/LEDGER_AND_LOAD.md). The shelf experiment remains out of scope.
 - Overall Sort/Shopping progress beside vanilla's current-action bar, including room/building job progress.
 - Fill a carry before walking, then unload it before the next carry. Vanilla's smaller transfer groups and timing stay unchanged.
 - Server-controlled extra carry allowance (0-40 kg, default 0), subject to native capacity and encumbrance.
@@ -47,7 +47,7 @@ Craft a **Quartermaster Building Supply Sheet** from a sheet of paper or noteboo
 
 Read the paper anywhere without electricity. It is a room-by-room historical snapshot with per-container recording times, quantities and locations. Completed entries survive cancellation; storage with uncertain identity after a restart needs reinspection.
 
-Right-click a supported powered desktop computer to copy a completed sheet onto a chosen vanilla CD, retaining the paper. The new **Quartermaster Supply Ledger CD** can be read at another supported powered desktop, with item/FullType search, room browsing and pagination. Copying overwrites that CD's original music identity. Historical pages enforce current safehouse/Rooms privacy; they do not provide live or remote inventory access. The initial supported terminal is the stock desktop using `appliances_com_01_72`.
+Choose **Use computer (Windows '93)** at a supported powered desktop. Open **CD Writer** from the desktop or Start menu, choose a completed sheet and a vanilla CD, then explicitly write it; the paper is retained. At that or another powered desktop, open **CD-ROM (D:)**, select and insert the **Quartermaster Supply Ledger CD**, then double-click **QUARTERMASTER.EXE** or choose **Run application**. The application opens inside the computer screen with item/FullType search, room browsing and pagination. Opening the desktop or inserting a CD does not launch it automatically. See the [computer controls](docs/WINDOWS93_COMPUTER.md). Copying overwrites that CD's original music identity. Historical pages enforce current safehouse/Rooms privacy; they do not provide live or remote inventory access. The initial supported terminal is the stock desktop using `appliances_com_01_72`.
 
 ## Getting started
 
