@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.18.0-dev.7",
+  "version": "0.18.0-dev.8",
   "reviewed": true,
-  "source_digest": "0667e6d9defb53f8eab32e5146f4cee1ef67ec85c2550ef31eab48b539ab1142",
+  "source_digest": "de9bb10f4c589e0ae9678ad57ddb86b032088acc6805bc966e3784401be4293a",
   "features": [
     {
       "status": "Source",
@@ -44,10 +44,10 @@
     },
     {
       "status": "Source",
-      "text": "Ruled paper clipboard with three-column ledger and page-turn controls. Server limits live computer statistics and automatic freshness to the exact recorded building; off-site/safehouse-wide CDs retain ordinary historical access."
+      "text": "Ruled paper clipboard with three-column ledger and page-turn controls. Server limits live computer statistics and automatic freshness to the exact recorded building; off-site/safehouse-wide CDs retain ordinary historical access. Supply Sheet creation requires a reusable vanilla clipboard and writing implement; paper/notebook is consumed."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.7; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.8; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",

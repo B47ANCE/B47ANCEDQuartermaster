@@ -1,8 +1,6 @@
-[b]Version 0.18.0-dev.7[/b]
+[b]Version 0.18.0-dev.8[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Paper ledgers now open a wooden clipboard with a metal clip, ruled sheets, Item / Quantity / Location columns, selected-entry details and previous/next-sheet controls. Preserve resizing, controller access, ink contrast and server-authorized paging.
+The paper Supply Sheet recipe now requires a vanilla clipboard. Keep the clipboard and pen/pencil; consume one paper sheet or notebook as before. Existing ledger items, reading, recording, CD conversion and sorting remain unchanged.
 
-Computers display live inventory and receive automatic freshness only inside the exact native building recorded by their loaded ledger. Off-site/outdoor computers and safehouse-wide CDs show recorded history under ordinary expiry; no remote inventory refresh. Unexpired nearby historical CDs retain existing coverage. Carried paper follows its existing ledger mode.
-
-No inventory, historical snapshot, protocol or save-format changes. Manual Sort, permissions and vanilla transfer groups/timing are preserved. Source-only development; native visual and dedicated acceptance pending. No deployment or Workshop upload.
+Source-only development. Recipe/reference/version/source checks passed offline; native crafting and dedicated acceptance remain pending. No deployment or Workshop upload.

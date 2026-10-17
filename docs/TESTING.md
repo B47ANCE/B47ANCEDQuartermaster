@@ -1,6 +1,6 @@
 # Testing
 
-Project Version: 0.18.0-dev.7
+Project Version: 0.18.0-dev.8
 
 CRT/taskbar UI coverage: tests/test_ledger_ui.lua exercises the current minimum dimensions, 14/24/32/42 font scaling, taskbar containment, separate icon captions, physical power/controller reachability, pending native-write stop/cancel behavior and the existing media/close workflow. Retained-task regressions cover query/page/choice preservation, task toggles/MRU, Show Desktop restoration, per-app X/close, hidden-key/tooltip cleanup, state-dependent controller rows, fresh ledger resume and late media/read replies. scripts/render_computer_preview.py executes actual drawing/layout with host-native widget approximations. Native client pixels/focus and dedicated acceptance remain separate, untested gates.
 
@@ -81,7 +81,7 @@ User confirms dev.20 loaded but visible Category labels remained vanilla with Ne
 
 Compatible PATCH correction on dev.19: Category cells use the canonical resolver cache and current localized labels. Compatibility is checked during rendering rather than permanently skipping registration during early Lua loading. Native row.cat, sorting, grouping and item definitions stay unchanged. Full offline regression and frozen 5,092-item comparison passed; actual B42.21 inventory/loot/controller/scaling and second-language client acceptance remain UNTESTED. Dev.19 Stage A instrumentation is retained; its dedicated timing gate remains BLOCKED. See `dist/handoffs/dev20-inventory-category.md`. No deployment or publication.
 
-Current source version: 0.18.0-dev.7. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
+Current source version: 0.18.0-dev.8. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
 
 Historical note: Recorded source snapshot: 0.4.0-dev.50. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
 

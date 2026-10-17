@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.18.0-dev.8] - 2026-10-17
+
+- Require one retained vanilla Base.Clipboard in the paper Supply Sheet recipe, alongside the retained pen/pencil. Paper/notebook consumption and the single-sheet output remain unchanged.
+- Verify the native clipboard definition and kept-input recipe line in the existing ledger metadata test. Update ingredient documentation and current version mirrors.
+- Compatible recipe checkpoint within the 0.18 development line; no Lua behavior, schema, item identity or existing-ledger migration changes. Native crafting/dedicated acceptance pending; no deployment/publication.
+
 ## [0.18.0-dev.7] - 2026-10-17
 
 - Give paper ledgers an original clipboard, metal clip, ruled sheets, Item / Quantity / Location columns and previous/next-sheet controls, with exact-entry details and native resizing/controller access.

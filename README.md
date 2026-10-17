@@ -8,7 +8,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.18.0-dev.7 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/computer-crt).
+The Workshop feature guide is below. This branch also contains **0.18.0-dev.8 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/computer-crt).
 
 ## Development work in this branch
 
@@ -55,7 +55,7 @@ Dibs! provides personal item labels and separate Wanted and Needed lists. Set su
 
 **Inventory and selected-container Sort always work without a ledger. Room/Building Sort and Shopping collection require a fresh completed ledger by default.** Carry a paper ledger covering the work location, or load a matching ledger CD at a powered computer in the same building or nearby. Shopping planning and container configuration do not require a supply ledger. Creating/editing physical shopping lists requires their writing supplies. Server options choose ledger mode and an update interval (default 7 in-game days), or disable the requirements. Computers can require manual inspection/CD updates or refresh automatically while powered inside the exact building recorded by the loaded ledger. Off-site and safehouse-wide CDs remain readable snapshots under ordinary expiry. See [requirements, computer range and controls](docs/LEDGER_REQUIREMENT.md).
 
-Craft a **Quartermaster Building Supply Sheet** from a sheet of paper or notebook and a retained pen/pencil. Right-click the carried sheet to record or resume a building or safehouse. Your character walks to storage and spends time documenting each physical compartment, including unconfigured storage. Floor loot, dropped bags and carried inventories are excluded.
+Craft a **Quartermaster Building Supply Sheet** from a sheet of paper or notebook, with a retained clipboard and pen/pencil. Right-click the carried sheet to record or resume a building or safehouse. Your character walks to storage and spends time documenting each physical compartment, including unconfigured storage. Floor loot, dropped bags and carried inventories are excluded.
 
 Read the paper anywhere without electricity in a ruled clipboard with Item, Quantity and Location columns and page-turn buttons. It retains a room-by-room historical snapshot with per-container recording times, quantities and locations. In live modes the reader projects current server-confirmed contents of recorded compartments until expiry (or indefinitely in No updates mode). Renew a paper through another physical inspection; older CDs keep their original snapshots. Completed entries survive cancellation; storage with uncertain identity after a restart needs reinspection.
 

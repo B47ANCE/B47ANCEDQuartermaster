@@ -1,6 +1,29 @@
 # Paper clipboard and local computer inventory
 
-Project Version: 0.18.0-dev.7
+Project Version: 0.18.0-dev.8
+
+## 0.18.0-dev.8 recipe checkpoint
+
+The native in-hand Supply Sheet recipe now requires one `Base.Clipboard` with `mode:keep`. The clipboard and pen/pencil are retained; one sheet of paper or notebook is consumed and one Supply Sheet is produced. The clipboard requirement applies only to creating a new blank supply sheet. Existing ledgers, read/record/CD workflows and physical Shopping Lists are unchanged; no item migration or new networking is needed. This is a compatible recipe correction within the current 0.18 development line, using the existing native craft system rather than custom inventory mutation. No separate sandbox micro-setting is introduced for this one ingredient.
+
+[VERIFIED SOURCE] Installed Build 42.21 / Steam build 25485521 defines vanilla `Base.Clipboard` in `media/scripts/generated/items/normal.txt`. Existing B42 recipe syntax and the retained pen/pencil input establish `mode:keep` usage. [TESTED OFFLINE] The ledger metadata check verifies the required kept clipboard, actual native FullType, retained writing tool, consumed paper/notebook, single output and translation parity. Version/source-manifest checks pass. This small recipe-only slice does not rerun unrelated gameplay regressions; the full dev.7 suite below remains historical evidence.
+
+Current source inventory: 225 runtime files. Runtime SHA-256: `e7cdc5aa317ca617c844cf3214a63cd09ad9f244a92042ed3e3581c811a647fe` (sorted relative UTF-8 path, NUL, binary file SHA-256). Native clipboard definition source was inspected read-only; no external assets or custom runtime code were added.
+
+Exact commands:
+
+```powershell
+python -B tests/test_ledger_metadata.py
+python -B scripts/check_versions.py
+python -B scripts/check_deployment.py
+git -c core.safecrlf=false diff --cached --check
+```
+
+[RUNTIME GATE] Native crafting and dedicated multiplayer NOT TESTED; G7/stable G8 BLOCKED. Verify crafting refuses a missing clipboard, retains clipboard/writing tool on success and produces one Supply Sheet on an actual client/server. No package, deployment, game/server launch or Workshop upload.
+
+## Historical 0.18.0-dev.7 implementation and validation
+
+The source hashes and full regression results below belong to dev.7 and are preserved unchanged. The dev.8 recipe/source hash is recorded in its checkpoint above.
 
 Compatible UI and restrictive computer-policy checkpoint within the existing 0.18 minor development line. No shared schema, protocol or item identity changes. Existing current mirrors are synchronized; historical packages and dated reports remain unchanged.
 

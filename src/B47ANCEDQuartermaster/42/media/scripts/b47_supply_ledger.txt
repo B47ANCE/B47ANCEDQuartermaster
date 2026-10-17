@@ -34,6 +34,7 @@ module B47ANCEDQuartermaster
         inputs
         {
             item 1 [Base.SheetPaper2;Base.Notebook],
+            item 1 [Base.Clipboard] mode:keep,
             item 1 [Base.Pen;Base.Pencil] mode:keep,
         }
         outputs
