@@ -27,10 +27,13 @@ def validate(stage=None, local=None, package=False):
     if set(expected) != declared:
         raise ValueError(f'Source manifest mismatch: missing={declared-set(expected)}, extra={set(expected)-declared}')
     version = (ROOT / 'VERSION').read_text().strip()
-    info = dict(line.split('=', 1) for line in (SOURCE / '42/mod.info').read_text().splitlines() if '=' in line)
+    info_text = (SOURCE / '42/mod.info').read_text(encoding='utf-8')
+    info = dict(line.split('=', 1) for line in info_text.splitlines() if '=' in line)
     assert info['id'] == MOD and info['name'] == "B47ANCE'd Quartermaster"
-    assert info['modversion'] == version and 'require' not in info
+    assert info['modversion'] == version and info.get('require') == 'B47ANCEDRooms'
+    assert re.findall(r'^require=(.*)$', info_text, re.M) == ['B47ANCEDRooms']
     for name in expected:
+        assert '/AutoClean/' not in name, 'Embedded cleaning returned to Quartermaster: '+name
         p = SOURCE / name
         if p.suffix in ('.lua', '.json', '.txt', '.info'):
             code = p.read_text(encoding='utf-8')

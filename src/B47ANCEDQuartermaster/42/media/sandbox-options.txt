@@ -33,39 +33,3 @@ option B47ANCEDQuartermaster.RouteOptimization
     page = B47ANCEDQuartermaster,
     translation = B47ANCEDQuartermaster_RouteOptimization,
 }
-
-option B47ANCEDQuartermaster.CustomRooms
-{
-    type = boolean,
-    default = true,
-    page = B47ANCEDQuartermaster,
-    translation = B47ANCEDQuartermaster_CustomRooms,
-}
-
-option B47ANCEDQuartermaster.RoomTileLimit
-{
-    type = integer,
-    min = 64,
-    max = 4096,
-    default = 1024,
-    page = B47ANCEDQuartermaster,
-    translation = B47ANCEDQuartermaster_RoomTileLimit,
-}
-
-option B47ANCEDQuartermaster.RoomEditRange
-{
-    type = integer,
-    min = 5,
-    max = 128,
-    default = 30,
-    page = B47ANCEDQuartermaster,
-    translation = B47ANCEDQuartermaster_RoomEditRange,
-}
-
-option B47ANCEDQuartermaster.RoomDoorways
-{
-    type = boolean,
-    default = true,
-    page = B47ANCEDQuartermaster,
-    translation = B47ANCEDQuartermaster_RoomDoorways,
-}

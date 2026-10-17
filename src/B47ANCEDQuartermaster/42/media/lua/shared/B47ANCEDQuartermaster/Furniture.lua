@@ -38,7 +38,8 @@ function F.state(t)
  local r,err=root(t);if err then return nil,err end
  return r and r.children[slot(t)]
 end
-function F.load(t,player,whole,details)
+function F.load(t,player,whole,details,purpose)
+ if player and not B47ANCEDQuartermaster.RoomAccess.can(player,t,purpose or 'inspect') then return nil,'RoomAccessDenied' end
  local Store=B47ANCEDQuartermaster.Store
  local state,stateError=F.state(t);if stateError then return nil,stateError end
  if state and (type(state)~='table' or not revision(state.revision) or type(state.group)~='string' or (state.mode~='custom' and state.mode~='inherit')) then return nil,'schema' end
@@ -70,7 +71,7 @@ local function authorized(group,player,session,view)
  local V=B47ANCEDQuartermaster.DiscoveryView
  for _,t in ipairs(group.members) do
   local record=bound.lookup[t.container]
-  if not record or not B.target(player,session,record.token) then return false end
+  if not record or not B.target(player,session,record.token) or not B47ANCEDQuartermaster.RoomAccess.can(player,t,'configure') then return false end
   local applied=bound.appliedView
   if applied then local found=false;for _,meta in ipairs(bound.viewTargets or {}) do if meta.token==record.token and V.includes(meta,applied,bound.viewInfo,player) then found=true;break end end;if not found then return false end end
  end

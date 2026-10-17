@@ -9,7 +9,7 @@ require 'B47ANCEDQuartermaster/Presets'
 require 'B47ANCEDQuartermaster/Dibs'
 require 'B47ANCEDQuartermaster/Shopping'
 require 'B47ANCEDQuartermaster/ShoppingAdds'
-require 'B47ANCEDQuartermaster/Rooms'
+require 'B47ANCEDQuartermaster/RoomScopes'
 local S,B,Store=B47ANCEDQuartermaster.Schema,B47ANCEDQuartermaster.Bindings,B47ANCEDQuartermaster.Store
 local A={pending={}}
 B47ANCEDQuartermaster.Authority=A
@@ -18,13 +18,13 @@ local SortTrace=require 'B47ANCEDQuartermaster/SortTrace'
 local Protocol=require 'B47ANCEDQuartermaster/Protocol'
 local peers=setmetatable({},{__mode='k'})
 local negotiations=setmetatable({},{__mode='k'})
-local readOnly={hello=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true,roomList=true,roomGet=true,roomPoll=true}
+local readOnly={hello=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true,roomList=true,roomGet=true,roomDiscover=true,areaOptions=true,areaDiscover=true}
 local tracked={discover=true,load=true,commit=true}
 local lastTick
 -- Technical admission limits bound expensive read work, not discovery gameplay
 -- range. Only the authenticated server player is used as the bucket owner.
 local budgets=setmetatable({},{__mode='k'})
-local limits={discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5},roomList={2,1},roomGet={4,4},roomChange={2,0.5},roomPoll={4,4},roomDiscover={4,4}}
+local limits={discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5},roomList={2,1},roomGet={4,4},roomDiscover={4,4},areaOptions={2,1},areaDiscover={2,2}}
 function A.admit(player,command)
     local limit=limits[command];if not limit then return true end
     local time=getTimestampMs();local owner=budgets[player] or {};budgets[player]=owner
@@ -48,7 +48,7 @@ function A.cleanup(player)
     end
     B.sessions[player]=nil;M.operations[player]=nil;M.runs[player]=nil
     B47ANCEDQuartermaster.Dibs.inspections[player]=nil;budgets[player]=nil
-    B47ANCEDQuartermaster.Rooms.cleanup(player)
+    B47ANCEDQuartermaster.RoomScopes.cleanup(player)
 end
 local function trace(message) print('[B47ANCEDQuartermaster] transport '..message) end
 local function now() return getTimestampMs() end
@@ -71,7 +71,7 @@ function A.handle(player,command,args)
         local capabilities={};for family,version in pairs(Protocol.versions) do capabilities[family]=version end
         return {status='ok',capabilities=capabilities}
     end
-    if Protocol.family(command)=='rooms' then return B47ANCEDQuartermaster.Rooms.handle(player,command,args) end
+    if Protocol.family(command)=='rooms' then return B47ANCEDQuartermaster.RoomScopes.handle(player,command,args) end
     if isServer() and (command=='commit' or command=='groupChange' or command=='presetChange') and args.taxonomyVersion~=B47ANCEDQuartermaster.Categorizer.version then return {status='TaxonomyPeerMismatch'} end
     if command=='personalList' then return B47ANCEDQuartermaster.Personal.snapshot(player) end
     if command=='shoppingAdd' or command=='shoppingSourceRemove' or command=='shoppingPreference' then
@@ -133,6 +133,7 @@ function A.handle(player,command,args)
         return result
     end
     if command=='groupChange' then
+        if not B47ANCEDQuartermaster.RoomAccess.can(player,record.target,'configure') then return {status='RoomAccessDenied'} end
         local result=B47ANCEDQuartermaster.Furniture.change(player,record,args)
         if result.status=='ok' then
             if isServer() and sendServerCommand then for participant in pairs(B.sessions) do sendServerCommand(participant,'B47ANCEDQuartermaster','configurationChanged',{}) end end
@@ -140,19 +141,24 @@ function A.handle(player,command,args)
         end
         return result
     end
+    if (command=='commit' or command=='groupChange') and not B47ANCEDQuartermaster.RoomAccess.can(player,record.target,'configure') then return {status='RoomAccessDenied'} end
     if command=='load' then
+        local inspect=B47ANCEDQuartermaster.RoomAccess.can(player,record.target,'inspect')
+        local configure=B47ANCEDQuartermaster.RoomAccess.can(player,record.target,'configure')
+        if not inspect and not configure then return {status='RoomAccessDenied'} end
         if args.whole or B47ANCEDQuartermaster.Furniture.state(record.target) then
-            local config,err,revision,info=B47ANCEDQuartermaster.Furniture.load(record.target,player,args.whole==true,true)
+            local config,err,revision,info=B47ANCEDQuartermaster.Furniture.load(record.target,player,args.whole==true,true,inspect and 'inspect' or 'configure')
             if not config then return {status=err} end
-            local observed,error=B47ANCEDQuartermaster.Catalog.observed(record.target.container);if not observed then return {status=error} end
-            return {status='ok',config=config,revision=revision,mode=info.mode,groupActive=info.active,parentConfig=info.parentConfig,contents=contents(record),observed=observed}
+            local observed,error={};if inspect then observed,error=B47ANCEDQuartermaster.Catalog.observed(record.target.container) end;if not observed then return {status=error} end
+            return {status='ok',config=config,revision=revision,mode=info.mode,groupActive=info.active,parentConfig=info.parentConfig,contents=inspect and contents(record) or {},observed=observed,restrictedContents=not inspect}
         end
-        local config,err,revision=Store.load(record.target,player)
+        local config,err,revision
+        if inspect then config,err,revision=Store.load(record.target,player) else config,err,revision=Store.configuration(record.target,player) end
         if not config then return {status=err} end
         record.original,record.revision=config,revision
-        local observed,err=B47ANCEDQuartermaster.Catalog.observed(record.target.container)
+        local observed,err={};if inspect then observed,err=B47ANCEDQuartermaster.Catalog.observed(record.target.container) end
         if not observed then return {status=err} end
-        return {status='ok',token=record.token,config=S.copy(record.original),revision=record.revision,contents=contents(record),observed=observed}
+        return {status='ok',token=record.token,config=S.copy(record.original),revision=record.revision,contents=inspect and contents(record) or {},observed=observed,restrictedContents=not inspect}
     elseif command=='commit' then
         if not record.original or not S.valid(args.config) then return {status='invalid'} end
         if args.revision~=record.revision then return {status='conflict'} end

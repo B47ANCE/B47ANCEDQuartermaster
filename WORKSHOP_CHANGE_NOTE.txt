@@ -1,9 +1,6 @@
-[b]Version 0.7.0-dev.1[/b]
+[b]Version 0.11.0-dev.1[/b]
 MP testing build - dedicated multiplayer NOT TESTED
-Source development only; no upload authorized for this iteration.
 
-Add server-owned custom room designations with an in-world preview editor: structural/native candidates, rectangles, paint/erase, explicit floors, undo/redo, duplicate, merge, split, rename and delete. Creators and current associated safehouse members may edit. Revisions, native access and bounded cooperative validation protect shared state.
+Clean Building has moved into the separate B47ANCEDAutoClean mod. Quartermaster provides SupplyAPI 1 for configured storage queries, live withdrawal/deposit checks and guarded native transfers. Auto Clean requires Quartermaster and Rooms; Quartermaster does not require Auto Clean. Get the separate Auto Clean Workshop item 3820151540: https://steamcommunity.com/sharedfiles/filedetails/?id=3820151540. Enable all three mods on every peer.
 
-Custom rooms integrate into the existing discovery selector and physical-container sorting. Native transfers, capacity, priorities and individual furniture compartments remain intact. Room Sort excludes player/ground/bag/virtual inventories and deduplicates exact instances.
-
-Update both peers together: configuration capability 4, movement 7 and rooms 1. Existing sorting schema 2/world root 1 are unchanged. Full offline source suite and native metadata checks pass; real UI/controller, structural detection, save/load and dedicated reconnect/restart acceptance remain NOT TESTED. G7 and stable G8 BLOCKED. Existing native transfer authority limitations remain; a room designation cannot make an unreachable container reachable.
+This is a breaking 0.x packaging change: Quartermaster alone no longer registers cleaning menus or jobs. Sorting/storage configuration, save schemas, existing Rooms sandbox settings and multiplayer authority remain unchanged. Update matching mods on every peer before testing. This update distributes the extracted Lua-only supply provider for Workshop testing. No local deployment or game/server launch accompanies publication. Actual SP and dedicated runtime NOT TESTED; G7 and stable G8 BLOCKED.

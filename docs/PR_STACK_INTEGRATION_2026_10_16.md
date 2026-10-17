@@ -72,3 +72,12 @@ The owner subsequently authorized a read-only review agent. That agent inspected
 - Source review: Custom room registry, revisions and safehouse/creator permissions remain server-owned; scope selection does not grant container access.
 - Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
 - [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.
+
+## PR #8 — Require Rooms and expose guarded supply API (0.11.0-dev.1)
+
+- Observed version: `0.11.0-dev.1`; original tested feature head `154a0a1e73ac0dd0f741770cd33e9d13a7c331d8`. Reconciled default predecessor `dbb673f8543cfebc96c29721596301e2313e1beb` using a non-rewriting merge.
+- Runtime files: 131. Source SHA-256: `0df078b2d51c3ee529d6e787758b70b68317636095135f6df01b64362fd18460`. Production, tests and validation scripts remain byte/blob-equivalent to the original tested head; reconciliation changes only documentation/evidence.
+- [TESTED OFFLINE] Full `python -B tests/run_tests.py --require-rooms --rooms <verified B47ANCEDRooms repository>` passed on the exact original head; this evidence applies unchanged to the identical runtime/test/tool tree. Re-ran `python -B scripts/check_versions.py`, `python -B scripts/check_deployment.py`, and `git -c core.safecrlf=false diff --cached --check` after reconciliation. Public secret/private-diagnostic, runtime Lua-only and case-uniqueness checks passed. No package was created; absent development artifacts are deferred, not a packaging PASS.
+- Source review: Standalone Rooms extraction uses guarded versioned APIs and fails closed for unavailable protected-room permission services. This PR does not merge or modify Rooms itself.
+- Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
+- [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.

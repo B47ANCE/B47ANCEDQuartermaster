@@ -28,9 +28,9 @@ function V.metadata(session,targets,player,buildingAllowed)
  local custom,revision,world={},0,nil;local R=B47ANCEDQuartermaster.Rooms
  if R and not isClient() then
   custom,revision,world=R.metadata(player);custom=custom or {}
-  for _,r in ipairs(custom) do local room,g=R.resolve(player,r.id,r.revision)
+  for _,r in ipairs(custom) do local room=R.resolve(player,r.id,r.revision)
    if room then for _,meta in ipairs(targets) do
-    if B47ANCEDQuartermaster.RoomGeometry.contains(g,meta.x,meta.y,meta.z) then meta.customRooms=meta.customRooms or {};meta.customRooms[r.id]=r.revision end
+    if R.contains(player,r.id,r.revision,meta.x,meta.y,meta.z) then meta.customRooms=meta.customRooms or {};meta.customRooms[r.id]=r.revision end
    end end
   end
  end

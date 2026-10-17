@@ -16,6 +16,8 @@ from lupa.lua51 import LuaRuntime
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument('--quartermaster', type=Path, default=Path(r'E:\Program Files (x86)\Steam\steamapps\workshop\content\108600\3761216758\mods\Quartermaster\42'))
 PARSER.add_argument('--package', action='store_true')
+PARSER.add_argument('--rooms', type=Path, default=ROOT.parent / 'B47ANCEDRooms', help='Standalone Rooms checkout for paired production integration tests')
+PARSER.add_argument('--require-rooms', action='store_true', help='Fail instead of reporting unavailable paired integration')
 ARGS = PARSER.parse_args()
 SOURCE = ROOT / 'src' / 'B47ANCEDQuartermaster'
 CLIENT = SOURCE / '42/media/lua/client'
@@ -26,6 +28,7 @@ def runtime():
     lua = LuaRuntime(unpack_returned_tuples=True)
     lua.globals().package.path = str(CLIENT.as_posix()) + '/?.lua;' + (SOURCE / '42/media/lua/shared').as_posix() + '/?.lua;' + lua.globals().package.path
     lua.globals().TEST_ROOT = (ROOT / 'tests').as_posix()
+    lua.globals().ROOMS_SOURCE = (ARGS.rooms / 'src/B47ANCEDRooms/42/media/lua').as_posix()
     lua.globals().GAME_ROOT = 'E:/Program Files (x86)/Steam/steamapps/common/ProjectZomboid'
     lua.execute("getActivatedMods=function() return {size=function() return 1 end,get=function() return 'B47ANCEDQuartermaster' end} end")
     return lua
@@ -33,10 +36,17 @@ def runtime():
 for path in (SOURCE / '42/media/lua').rglob('*.lua'):
     runtime().execute('assert(loadstring(...))', path.read_text(encoding='utf-8'))
 print('PASS Lua 5.1 syntax')
+runtime().execute((ROOT / 'tests/test_supply_api.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_native_categories.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_sorting_data_cleanup.lua').read_text(encoding='utf-8'))
-for name in ('test_custom_rooms.lua', 'test_room_detection.lua', 'test_room_scopes.lua', 'test_room_editor.lua', 'test_room_preferences.lua'):
-    runtime().execute((ROOT / 'tests' / name).read_text(encoding='utf-8'))
+# Embedded 0.7 room tests remain historical; standalone production tests live in Rooms.
+runtime().execute((ROOT / 'tests/test_room_preferences.lua').read_text(encoding='utf-8'))
+if (ARGS.rooms / 'src/B47ANCEDRooms/42/media/lua/shared/B47ANCEDRooms/API.lua').is_file():
+    runtime().execute((ROOT / 'tests/test_rooms_integration.lua').read_text(encoding='utf-8'))
+elif ARGS.require_rooms:
+    raise SystemExit('Required standalone Rooms checkout is unavailable: ' + str(ARGS.rooms))
+else:
+    print('NOT TESTED paired Rooms integration: no standalone checkout; Quartermaster-only regressions continue')
 runtime().execute((ROOT / 'tests/test_move_batch.lua').read_text(encoding='utf-8'))
 for path in (SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Movement.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Trips.lua', CLIENT / 'B47ANCEDQuartermaster/Executor.lua', CLIENT / 'B47ANCEDQuartermaster/Sorter.lua', CLIENT / 'B47ANCEDQuartermaster/SortControls.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/GroundSources.lua'):
     owned = path.read_text(encoding='utf-8')
@@ -139,7 +149,7 @@ for path in (SOURCE / '42').rglob('*'):
             assert not re.search(r'QuartermasterSimpleSorting|QuartermasterSorting|B47ANCEDSorting', code), path
         if path.suffix == '.lua':
             assert not re.search(r'(?<![\w:.])next\s*\(', code), path
-assert not re.search(r'^require=', metadata, re.M)
+assert re.findall(r'^require=(.*)$', metadata, re.M) == ['B47ANCEDRooms']
 for path in (SOURCE / '42/media/lua').rglob('*.lua'):
     assert 'LootSorter' not in path.read_text(encoding='utf-8'), path
 # Upstream is optional: no production or test Lua is loaded from it.

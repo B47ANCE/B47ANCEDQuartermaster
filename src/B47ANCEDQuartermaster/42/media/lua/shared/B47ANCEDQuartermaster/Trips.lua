@@ -70,13 +70,16 @@ function Trips.handle(player,command,args)
         if run or M.operations[player] then return {status='busy'} end
         local session=B.session(player,args.session)
         if not session then return {status='invalid'} end
-        if args.area==true and (not session.customRoom or args.sweep~=session.areaSweep or not B.target(player,args.session,args.source)) then return {status='invalid'} end
+        if args.area==true and (args.sweep~=session.areaSweep or not session.areaSources or not session.areaSources[args.source]) then return {status='invalid'} end
         local source,target,areaConfig,areaEffective
         if args.source=='ground' then source=G.snapshot(player,args.sourceItems,args.session);target={ground=true}
         else source,target=sourceOf(player,args.session,args.source) end
         if not source then return {status='invalid'} end
-        if args.area==true then
-            if not target or target.ground or source:getType()=='floor' or source:getContainingItem() then return {status='invalid'} end
+        if target and not target.ground and (not B47ANCEDQuartermaster.RoomAccess.can(player,target,'inspect')
+            or not B47ANCEDQuartermaster.RoomAccess.can(player,target,'withdraw')) then return {status='RoomAccessDenied'} end
+        if args.area==true and target then
+            if target.ground or source:getType()=='floor' or source:getContainingItem() then return {status='invalid'} end
+            if not B47ANCEDQuartermaster.RoomAccess.can(player,target,'withdraw') or not B47ANCEDQuartermaster.RoomAccess.can(player,target,'inspect') then return {status='RoomAccessDenied'} end
             local config=B47ANCEDQuartermaster.Store.load(target,player)
             local effective=config and B47ANCEDQuartermaster.Presets.resolve(config);local configured=false
             if effective then for _,field in ipairs({'cats','items'}) do for _ in pairs(effective[field]) do configured=true;break end end end
@@ -106,9 +109,10 @@ function Trips.handle(player,command,args)
     if outstanding>=size*2 then return {status='waiting'} end
     local source,target=sourceOf(player,run.session,run.source)
     if source~=run.container or (run.target and (not target or target.obj~=run.target.obj)) then return {status='invalid'} end
-    local sourceConfig=run.area and B47ANCEDQuartermaster.Store.load(target,player)
+    if target and not target.ground and (not B47ANCEDQuartermaster.RoomAccess.can(player,target,'inspect') or not B47ANCEDQuartermaster.RoomAccess.can(player,target,'withdraw')) then return {status='RoomAccessChanged'} end
+    local sourceConfig=run.area and target and B47ANCEDQuartermaster.Store.load(target,player)
     local sourceEffective=sourceConfig and B47ANCEDQuartermaster.Presets.resolve(sourceConfig)
-    if run.area and (not sourceEffective or not B47ANCEDQuartermaster.Schema.equal(sourceConfig,run.sourceConfig)
+    if run.area and target and (not sourceEffective or not B47ANCEDQuartermaster.Schema.equal(sourceConfig,run.sourceConfig)
         or not B47ANCEDQuartermaster.Schema.equal(sourceEffective,run.sourceEffective)) then return {status='invalid',reason='sourceConfigurationChanged'} end
     local candidates=carriers(player)
     local carrierReserved,destReserved={},{}
@@ -139,7 +143,7 @@ function Trips.handle(player,command,args)
         run.nextCursor=index%#run.ids+1
         if not run.considered[id] then
             local item=source:getItemWithID(id)
-            if run.area and (session.areaSeen[id] or item and B47ANCEDQuartermaster.Catalog.matchesItem(item,sourceConfig,library and library.definitions or {})) then skip(run,id,'alreadySorted')
+            if run.area and (session.areaSeen[id] or sourceConfig and item and B47ANCEDQuartermaster.Catalog.matchesItem(item,sourceConfig,library and library.definitions or {})) then skip(run,id,'alreadySorted')
             elseif item~=run.refs[id] or not M.eligible(player,item) then skip(run,id,item~=run.refs[id] and 'sourceChanged' or 'itemProtected')
             else
                 local weight=math.max(0,item:getActualWeight())

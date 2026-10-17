@@ -4,7 +4,10 @@ require 'ISUI/InventoryWindow/ISInventoryWindowContainerControls'
 require 'ISUI/LootWindow/ISLootWindowObjectControlHandler'
 require 'ISUI/LootWindow/ISLootWindowFloorControlHandler'
 require 'ISUI/LootWindow/ISLootWindowContainerControls'
-local S=B47ANCEDQuartermaster.Sorter
+require 'ISUI/ISContextMenu'
+local Q=B47ANCEDQuartermaster
+local S=Q.Sorter
+local pendingMenus={}
 local Compatibility=require 'B47ANCEDQuartermaster/Compatibility'
 if not Compatibility.allowed() then return end
 local function supported(player,container)
@@ -13,14 +16,14 @@ local function supported(player,container)
     if (container:getType()=='floor' or (not container:getParent() and not container:getContainingItem() and container~=player:getInventory())) then return true end
     -- Floor/aggregate proxies may be transiently empty while their UI rebuilds.
     -- Keep intent controls stable; acquisition still validates actual item sources.
-    if container:isEmpty() then return false end
     if container==player:getInventory() then return true end
+    if container:isEmpty() then return false end
     local item=container:getContainingItem()
     if item then return B47ANCEDQuartermaster.Movement.carrier(player,item:getID())==container end
     local obj=container:getParent()
     return obj and B47ANCEDQuartermaster.Targets.make(obj,obj:getContainerIndex(container),player)~=nil
 end
-local function perform(playerNum,container)
+local function singleSort(playerNum,container)
     local player=getSpecificPlayer(playerNum)
     if not player or isGamePaused() then return end
     if B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[playerNum] then B47ANCEDQuartermaster.RoomSort.cancel(playerNum);return end
@@ -31,6 +34,40 @@ local function perform(playerNum,container)
         else player:setHaloNote(getText('UI_B47_SortFailed',getText('UI_QMSS_'..status),completed,failed)) end
     end)
     if not ok then player:setHaloNote(getText('UI_B47_SortBusy')) end
+end
+local function perform(playerNum,container)
+    local player=getSpecificPlayer(playerNum)
+    if not player or isGamePaused() then return end
+    local area=require 'B47ANCEDQuartermaster/RoomSort'
+    if area.active[playerNum] then area.cancel(playerNum);return end
+    if S.active[playerNum] then S.cancel(playerNum);return end
+    if pendingMenus[playerNum] then return end
+    pendingMenus[playerNum]=player
+    Q.Authority.request(playerNum,'areaOptions',{},function(result)
+        pendingMenus[playerNum]=nil
+        if getSpecificPlayer(playerNum)~=player then return end
+        if result.status~='ok' then player:setHaloNote(getText('UI_QMSS_'..result.status));return end
+        local menu=ISContextMenu.get(playerNum,getMouseX(),getMouseY())
+        local function start(view)
+            local ok=area.start(playerNum,view,function(status,moved,skipped)
+                player:setHaloNote(getText('UI_QMSS_RoomSortSummary',getText('UI_QMSS_'..(status=='ok' and 'RoomSortComplete' or status=='cancelled' and 'RoomSortCancelled' or status)),moved,skipped))
+            end)
+            if not ok then player:setHaloNote(getText('UI_B47_SortBusy')) end
+        end
+        if result.building then menu:addOption(getText('UI_QMSS_SortEntireBuilding'),nil,function() start({kind='building'}) end) end
+        local rooms=result.rooms or {}
+        local function selectRoom(room) start(room.nativeFallback and {kind='nativeRoom'} or {kind='customRoom',room=room.id,revision=room.revision}) end
+        if #rooms==1 then menu:addOption(getText('UI_QMSS_SortRoom'),nil,function() selectRoom(rooms[1]) end)
+        elseif #rooms>1 then
+            local option=menu:addOption(getText('UI_QMSS_SortRoom'));local sub=ISContextMenu:getNew(menu);menu:addSubMenu(option,sub)
+            for _,room in ipairs(rooms) do local selected=room;sub:addOption(selected.label or selected.name,nil,function() selectRoom(selected) end) end
+        end
+        if supported(player,container) then
+            menu:addOption(getText(container==player:getInventory() and 'UI_QMSS_SortOnlyInventory' or 'UI_QMSS_SortOnlyContainer'),nil,function() singleSort(playerNum,container) end)
+        end
+        if B47ANCEDUI and B47ANCEDUI.menu then B47ANCEDUI.menu(menu) end
+        if player:getJoypadBind()~=-1 then setJoypadFocus(playerNum,menu) end
+    end)
 end
 local function install(base,registry,name,floor)
     local handler=base:derive(name)

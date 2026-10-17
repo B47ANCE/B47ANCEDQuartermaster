@@ -343,5 +343,16 @@
   "UI_QMSS_RoomSortCancelled": "Cancelled",
   "UI_QMSS_RoomDisconnectedOn": "Disconnected Regions: Allowed",
   "UI_QMSS_RoomDisconnectedOff": "Disconnected Regions: Not Allowed",
-  "UI_QMSS_RoomInvalidCount": "Invalid or inaccessible tiles: %1"
+  "UI_QMSS_RoomInvalidCount": "Invalid or inaccessible tiles: %1",
+  "UI_QMSS_SortEntireBuilding": "Sort Entire Building + Inventory",
+  "UI_QMSS_SortRoom": "Sort Room + Inventory",
+  "UI_QMSS_SortOnlyInventory": "Sort Inventory Only",
+  "UI_QMSS_SortOnlyContainer": "Sort Selected Container Only",
+  "UI_QMSS_DesignateRoom": "Designate Room",
+  "UI_QMSS_RoomServiceAbsent": "Custom rooms require B47ANCE'd Rooms.",
+  "UI_QMSS_RoomPermissionUnavailable": "Room permissions are temporarily unavailable.",
+  "UI_QMSS_RoomAccessDenied": "You do not have permission to access this storage.",
+  "UI_QMSS_RoomAccessChanged": "Storage access changed. Sorting stopped safely.",
+  "UI_QMSS_RoomScopeChanged": "Room scope changed. Reopen the menu before sorting again.",
+  "UI_QMSS_RoomBuildingUnavailable": "Building sorting is unavailable under the current server scope settings."
 }

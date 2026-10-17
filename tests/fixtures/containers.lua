@@ -55,8 +55,12 @@ ModData={getOrCreate=function(key) globalData[key]=globalData[key] or {};return 
 function player:getUsername() return 'fixture-player' end
 function player:getAccessLevel() return 'None' end
 function player:getPlayerNum() return 0 end
-SafeHouse={isSafehouseAllowLoot=function() return true end}
+SafeHouse={isSafehouseAllowLoot=function() return true end,isSafehouseAllowInteract=function() return true end}
 
 CONTAINER_FIXTURE={a=a,b=b,decor=decor,unrelatedObject=unrelated,player=player,grid=grid,squares=squares,
     object=object,square=square,list=list,sent=function() return sent end,
     network=function(c,s) client,server=c,s end,advance=function(ms) clock=clock+ms end}
+
+-- Read-only global-data lookup used by the optional Rooms data migration.
+ModData.get=function(key) return globalData[key] end
+CONTAINER_FIXTURE.data=globalData

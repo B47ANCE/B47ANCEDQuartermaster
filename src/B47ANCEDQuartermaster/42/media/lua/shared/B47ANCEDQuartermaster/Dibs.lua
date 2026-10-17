@@ -54,6 +54,7 @@ local function reachable(player,item)
     local sq=obj:getSquare()
     return container and container:getItemWithIDRecursiv(item:getID())==item and Q.Targets.sameFloor(player,sq) and math.max(math.abs(player:getX()-sq:getX()),math.abs(player:getY()-sq:getY()))<=2
         and Q.Targets.valid(Q.Targets.make(obj,obj:getContainerIndex(container),player),player)
+        and Q.RoomAccess.can(player,{obj=obj,container=container},'inspect')
 end
 function D.transition(player,item,state)
     if isClient() or not reachable(player,item) or (state~='wanted' and state~='needed' and state~='none') then return false end

@@ -3,20 +3,16 @@
   "canonical": "VERSION",
   "mirrors": [
     {
+      "path": "docs/REQUIRED_ROOMS_DEPENDENCY.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
       "path": "docs/MASTER_HANDOFF_STATUS.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
       "path": "src/B47ANCEDQuartermaster/42/mod.info",
       "pattern": "^modversion=(?P<version>\\S+)$"
-    },
-    {
-      "path": "README.md",
-      "pattern": "Development candidate \\*\\*(?P<version>[^*]+)\\*\\*"
-    },
-    {
-      "path": "WORKSHOP_DESCRIPTION.txt",
-      "pattern": "Version (?P<version>\\S+)\\. Tested"
     },
     {
       "path": "WORKSHOP_CHANGE_NOTE.txt",
@@ -47,10 +43,6 @@
       "pattern": "version='(?P<version>[0-9][^']*)'"
     },
     {
-      "path": "README.md",
-      "pattern": "Current source version: (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+)\\."
-    },
-    {
       "path": "docs/ARCHITECTURE.md",
       "pattern": "Current source version: (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+)\\."
     },
@@ -63,15 +55,15 @@
       "pattern": "Current source version: (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+)\\."
     },
     {
-      "path": "README.md",
-      "pattern": "Current source is (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+);"
-    },
-    {
       "path": "docs/NATIVE_CATEGORIES_COMPATIBILITY.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
-      "path": "docs/CUSTOM_ROOMS.md",
+      "path": "docs/ROOMS_INTEGRATION.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/SUPPLY_API.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
@@ -101,6 +93,10 @@
     }
   ],
   "historical": [
+    {
+      "reference": "docs/audits/AUTO_CLEAN_*",
+      "reason": "Offline Auto Clean research evidence freezes each observed version, source/HEAD, environment and runtime gates; not current packaged gameplay validation."
+    },
     {
       "reference": "dist outside current; docs/WORKSHOP_PUBLICATION.md; docs/V014_IMPLEMENTATION.md; prior version sections in docs/TESTING.md and docs/ROADMAP.md; docs/CONTAINER_SELECTOR_AUDIT.md; docs/CONTAINER_SELECTOR_EVIDENCE.json; docs/RENAME_REFERENCE_BASELINE.txt",
       "reason": "Pre-migration archives and dated observations retained as history"
@@ -172,6 +168,30 @@
     {
       "reference": "dist/history/0.6.0-dev.3; dist/workshop-publish/0.6.0-dev.3-*",
       "reason": "Published 0.6.0-dev.3 package and publication provenance preserved unchanged; not current custom-room evidence."
+    },
+    {
+      "reference": "docs/CUSTOM_ROOMS.md; tests/test_custom_rooms.lua; tests/test_room_detection.lua; tests/test_room_editor.lua; tests/test_room_scopes.lua",
+      "reason": "Frozen 0.7.0-dev.1 embedded-room evidence; new standalone production paths are validated separately."
+    },
+    {
+      "reference": "dist/history/0.8.0-dev.1-required-rooms-predecessor; docs/audits/AUTO_CLEAN_*",
+      "reason": "Immutable optional-Rooms source/package/runtime evidence; never relabeled as the 0.9 required-dependency candidate."
+    },
+    {
+      "reference": "dist/history/0.9.0-dev.1-single-player-predecessor; docs/REQUIRED_ROOMS_DEPENDENCY.md publication record",
+      "reason": "Immutable required-dependency publication and exact predecessor package/provenance retained. SP was disabled in that historical release."
+    },
+    {
+      "reference": "docs/CLEAN_BUILDING.md; docs/CLEAN_BUILDING_SINGLE_PLAYER.md; research/auto-clean; tests/run_auto_clean_*.py; tests/test_auto_clean_*.lua; dist/workshop-publish/0.10.0-dev.1-single-player",
+      "reason": "Embedded 0.10 cleaning implementation/evidence frozen by extraction. Current production and cleaning regression suite now belong to B47ANCEDAutoClean."
+    },
+    {
+      "reference": "docs/WORKSHOP_DESCRIPTION_UPDATE_2026-10-15.md; prior Workshop receipts and WORKSHOP_CHANGE_NOTE.txt runtime-test wording",
+      "reason": "Description-only update for the existing published runtime. Public feature prose intentionally omits a project version; root VERSION, runtime metadata, package and prior upload evidence retain their exact identity. Older validation wording remains an upload-time snapshot."
+    },
+    {
+      "reference": "docs/historical/README_BEFORE_2026-10-15_CURRENT_SOURCE.md",
+      "reason": "Exact prior README preserved as dated source/history evidence. The root README now describes the current Workshop product and links its current source; it intentionally contains no source version mirror. Canonical VERSION and all runtime/version-bearing mirrors are unchanged."
     },
     {
       "reference": "docs/historical/README_BEFORE_2026-10-15_GITHUB_DEFAULT.md",

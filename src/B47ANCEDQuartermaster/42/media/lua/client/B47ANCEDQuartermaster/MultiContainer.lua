@@ -6,7 +6,7 @@ require 'B47ANCEDQuartermaster/Catalog'
 require 'B47ANCEDQuartermaster/WorldHighlight'
 require 'B47ANCEDUI/RowTooltip'
 require 'B47ANCEDQuartermaster/ContainerSprite'
-require 'B47ANCEDQuartermaster/RoomEditor'
+require 'B47ANCEDQuartermaster/RoomAccess'
 local Q=B47ANCEDQuartermaster
 local T,C=Q.Targets,Q.Configuration
 local M={}; Q.MultiContainer=M
@@ -240,12 +240,21 @@ function M.attach(p)
         B47ANCEDUI.Tooltip.context(building,tr(s.viewInfo.buildingAvailable and 'ScopeTip' or 'BuildingDisabledTip'),p.playerNum,menu)
         local rooms=menu:addOption(tr('RoomScope'));local roomMenu=ISContextMenu:getNew(menu);menu:addSubMenu(rooms,roomMenu)
         local native=roomMenu:addOption(tr('RoomNativeRooms'));local nativeMenu=ISContextMenu:getNew(roomMenu);roomMenu:addSubMenu(native,nativeMenu)
-        for _,room in ipairs(s.viewInfo.rooms) do nativeMenu:addOption(room.label,p,function() selectView({kind='room',room=room.token}) end) end
-        native.notAvailable=#s.viewInfo.rooms==0
+        local external=select(2,Q.RoomAccess.service())=='ready'
+        local nativeCount=0
+        if external then
+            for _,room in ipairs(s.viewInfo.customRooms or {}) do if room.native or room.nativeId then local selected=room;nativeCount=nativeCount+1;nativeMenu:addOption(room.label,p,function() selectView({kind='customRoom',room=selected.id,revision=selected.revision}) end) end end
+        else
+            for _,room in ipairs(s.viewInfo.rooms) do nativeCount=nativeCount+1;nativeMenu:addOption(room.label,p,function() selectView({kind='room',room=room.token}) end) end
+        end
+        native.notAvailable=nativeCount==0
         local custom=roomMenu:addOption(tr('RoomCustomRooms'));local customMenu=ISContextMenu:getNew(roomMenu);roomMenu:addSubMenu(custom,customMenu)
-        for _,room in ipairs(s.viewInfo.customRooms or {}) do customMenu:addOption(room.label,p,function() selectView({kind='customRoom',room=room.id,revision=room.revision}) end) end
-        custom.notAvailable=#(s.viewInfo.customRooms or {})==0
-        roomMenu:addOption(tr('RoomManage'),p,function() capture();highlight:clear();Q.RoomEditor.open(p,function() if not p.removed then p.discoveryDirty=true end end) end)
+        local customCount=0
+        for _,room in ipairs(s.viewInfo.customRooms or {}) do if not room.native and not room.nativeId then local selected=room;customCount=customCount+1;customMenu:addOption(room.label,p,function() selectView({kind='customRoom',room=selected.id,revision=selected.revision}) end) end end
+        custom.notAvailable=customCount==0
+        if select(2,Q.RoomAccess.service())=='ready' then
+        menu:addOption(tr('DesignateRoom'),p,function() capture();highlight:clear();Q.RoomAccess.openEditor(p.playerNum,p,function() if not p.removed then p.discoveryDirty=true end end) end)
+        end
         local sorting=Q.RoomSort and Q.RoomSort.active[p.playerNum]
         local sort=roomMenu:addOption(tr(sorting and 'RoomStopSorting' or 'RoomSort'),p,function()
             local engine=require 'B47ANCEDQuartermaster/RoomSort'
@@ -280,7 +289,7 @@ function M.attach(p)
         end
         s:request('roomList',{},function(result)
             if p.removed then return end
-            if result.status=='ok' then s.viewInfo.customRooms=result.rooms end
+            if result.status=='ok' then s.viewInfo.customRooms=result.rooms elseif result.status=='RoomServiceAbsent' then s.viewInfo.customRooms={} end
             scopeMenu()
         end)
     end)

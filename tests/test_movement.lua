@@ -421,7 +421,7 @@ ISInventoryWindowContainerControls={AddHandler=function(c) controls[#controls+1]
 local floorControls={}
 ISLootWindowContainerControls={AddHandler=ISInventoryWindowContainerControls.AddHandler,AddFloorHandler=function(c) floorControls[#floorControls+1]=c end}
 for _,path in ipairs({'ISUI/InventoryWindow/ISInventoryWindowControlHandler','ISUI/InventoryWindow/ISInventoryWindowContainerControls',
-    'ISUI/LootWindow/ISLootWindowObjectControlHandler','ISUI/LootWindow/ISLootWindowFloorControlHandler','ISUI/LootWindow/ISLootWindowContainerControls'}) do package.loaded[path]=true end
+    'ISUI/LootWindow/ISLootWindowObjectControlHandler','ISUI/LootWindow/ISLootWindowFloorControlHandler','ISUI/LootWindow/ISLootWindowContainerControls','ISUI/ISContextMenu'}) do package.loaded[path]=true end
 require 'B47ANCEDQuartermaster/SortControls'
 assert(#controls==2)
 assert(controls[1].Type=='B47InventorySortControl' and controls[2].Type=='B47LootSortControl')
@@ -434,5 +434,31 @@ for i=1,8 do transientEmpty=i%2==0;assert(floorHandler:shouldBeVisible(),'floor 
 aggregate.getType=function() return 'proximity' end
 for i=1,8 do transientEmpty=i%2==0;assert(floorHandler:shouldBeVisible(),'parentless aggregate Sort must remain visible') end
 getSpecificPlayer=oldSpecific
+-- The real inventory control opens a scope menu; only the chosen callback starts.
+local openedMenu
+ISContextMenu={get=function()
+ local menu={options={}}
+ function menu:addOption(name,target,callback) local o={name=name,target=target,callback=callback};self.options[#self.options+1]=o;return o end
+ function menu:addSubMenu(option,sub) option.sub=sub end
+ openedMenu=menu;return menu
+end}
+function ISContextMenu:getNew() return ISContextMenu.get() end
+getMouseX=function() return 10 end;getMouseY=function() return 20 end;isGamePaused=function() return false end
+getText=getText or function(key) return key end
+local area=require 'B47ANCEDQuartermaster/RoomSort'
+local areaStart,singleStart,request=area.start,Sorter.start,A.request
+local chosen,selectedSource
+area.start=function(_,view) chosen=view;return true end
+Sorter.start=function(_,source) selectedSource=source;return true end
+A.request=function(_,command,args,done) assert(command=='areaOptions');done({status='ok',building=true,rooms={{nativeFallback=true,label='Storage'}}}) end
+local handler=controls[1]:new();handler.playerNum=0;handler.container=carried
+carried.getParent=function() end;carried.getContainingItem=function() end
+f.player.getJoypadBind=function() return -1 end
+handler:perform();assert(openedMenu and #openedMenu.options==3 and not chosen and not selectedSource)
+openedMenu.options[1].callback();assert(chosen.kind=='building' and not selectedSource)
+openedMenu.options[2].callback();assert(chosen.kind=='nativeRoom' and not selectedSource)
+openedMenu.options[3].callback();assert(selectedSource==carried)
+area.start,Sorter.start,A.request=areaStart,singleStart,request
+print('PASS OFFLINE inventory scope control: menu opens without sorting; building, room and exact current-source choices dispatch independently')
 f.network(false,false)
 print('PASS OFFLINE trip cancellation retains carrier contents; owned inventory/loot controls registered without replacing vanilla')

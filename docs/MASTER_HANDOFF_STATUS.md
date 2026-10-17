@@ -1,8 +1,46 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.7.0-dev.1
+Project Version: 0.11.0-dev.1
 
-## Custom room development — 0.7.0-dev.1
+## Separate Auto Clean and supply API — current 0.11.0-dev.1
+
+Clean Building's production modules/menu/jobs now belong to B47ANCEDAutoClean. Quartermaster provides SupplyAPI 1 for configured storage, live permission/capacity checks and exact native transfers. Auto Clean requires Quartermaster and Rooms; no reverse dependency was added. Storage/save schemas and Rooms sandbox settings remain unchanged. See [current contract and validation](SUPPLY_API.md). This extraction is not deployed or published. SP/dedicated acceptance remains NOT TESTED; G7/stable G8 BLOCKED. Earlier embedded-cleaning sections below are historical checkpoints.
+
+## Single-player Clean Building — current 0.10.0-dev.1
+
+Lua-only SP support now queues the retained guarded Job/Poc native actions locally. Exact local-player binding, Rooms settings/permissions, supply locks, measured recipe and cross-level footprint checks remain active. Multiplayer command authentication and reconstruction are unchanged. Offline SP/native-Lua regression tests pass; real PZ SP and dedicated acceptance remain NOT TESTED, G7 and stable G8 BLOCKED. See [SP design, exact validation commands and runtime gates](CLEAN_BUILDING_SINGLE_PLAYER.md).
+
+The earlier version sections below are historical checkpoints. Their disabled-SP status and prior publication/restart observations do not describe the current source.
+
+## Required Rooms dependency — 0.9.0-dev.1
+
+Rooms (Mod ID B47ANCEDRooms, Workshop 3820077442) is now mandatory in native mod.info metadata and Steam Required Items for Quartermaster and its embedded Auto Clean. This breaking 0.x dependency change preserves Lua gameplay, server guards, schemas and protocols. Both peers must enable Rooms. Source/package/version checks must pass before the authorized MP testing upload; native/dedicated G7 NOT TESTED and stable G8 BLOCKED. Earlier checkpoint sections below retain their original optional-dependency context.
+
+## Rooms Workshop distribution follow-up
+
+Rooms 0.1.0-dev.1 is now public on newly authorized Workshop item 3820077442 (Mod ID B47ANCEDRooms). Release source is Rooms commit `f1f41f60e14fb6d9411203c9dfe9b6c79524b5af`. SteamCMD upload and exact public metadata were verified; a fresh tool-cache download matched all 84 runtime files and required directories. Quartermaster's canonical description/changenote now link Rooms and instruct subscribing/enabling both mods on every peer. Its 141-file runtime ZIP is unchanged; the link-update source commit is `caa75c75a58cc491d468d827e58e1d0a5e36b043`. Both public feature branches were pushed and verified. Receipts are retained under each repository's ignored dist/workshop-publish directory. The previous source-only Rooms distribution limitation is superseded; earlier notes below remain historical.
+
+This remains an MP testing distribution: native/dedicated G7 NOT TESTED, stable G8 BLOCKED; single-player cleaning disabled. No SP deployment or game/server launch. The final automatic Steam restart command was rejected by approval review with "blocked by policy"; no forced or alternate restart was attempted. Live verification completed separately and both publications are confirmed.
+
+## Confirmed Workshop MP testing upload — 2026-10-15 UTC
+
+Quartermaster 0.8.0-dev.1 was uploaded successfully to existing Workshop item 3807217050 at 05:48:48 UTC. SteamCMD reported `Committing update...Success`; the Steam published-file API returned the exact canonical description, matching item/app/title, newer update timestamp and unchanged public visibility. Release commit: `71e1ca81dc3fc20ba8533d60d3aa2e7b308be359`; ZIP SHA-256: `4f9253e549d80a8ab59a211f3edf54baa1d2522d0f4e0d34d24a96e982767bfa`. The local publication receipt and prior-package preservation ledger are under `dist/workshop-publish/0.8.0-dev.1-clean-building/`.
+
+Both public feature branches were pushed and verified. Required Rooms source is commit `d603cd53903e01b6c575f4e1efcfa6da555e4a70`, version 0.1.0-dev.1; it has no Workshop item and was not uploaded. The description links that exact source and explains separate installation. The 141-file source/package/stage parity, archive integrity, Lua-only, version and offline checks passed, including 83 Clean Building scenarios. Steam was gracefully restarted and a new client process verified. Subscription/download agreement, native acceptance and dedicated G7 remain NOT TESTED; stable G8 BLOCKED. Single-player cleaning is disabled. No local SP deployment, game/server launch or server changes. The older checkpoint notes below retain their original context.
+
+## Clean Building source activation
+
+[VERIFIED source] Quartermaster now auto-installs its Clean Building server/client integration through verified multiplayer lifecycle events. Matching Rooms source supplies cleaning capability 1, settings and policy. The default recipe is 10 mL bleach first, followed by water to fill the 10 L bucket. [TESTED offline] Production-module workflow, sender/reconstruction guards and lifecycle tests pass. [RUNTIME GATE] Single-player remains disabled; native client/server acceptance and dedicated G7 are NOT TESTED, stable G8 BLOCKED. Existing packaged artifacts predate activation and remain unchanged. See [exact scope, commands and test prerequisites](CLEAN_BUILDING.md).
+
+## Rooms extraction and scoped sorting — 0.8.0-dev.1
+
+[VERIFIED source] B47ANCEDRooms is an optional standalone service. It owns room IDs, geometry, overrides, editing, delegated policies and persistence. Quartermaster owns physical discovery, furniture, configuration, planning, Shopping/Dibs and native transfers. Without Rooms, native room/building sorting and vanilla safehouse checks remain available. An installed incompatible/unavailable Rooms service fails closed.
+
+[TESTED offline] The production-path room sweep includes the full player inventory and unequipped carried bags before configured physical sources: 24 exact moves and 33 skips. A second whole-building sweep moves two further items without revisiting correctly sorted stock. The actual standalone Rooms API is exercised for action-specific permissions, privacy, revocation and invalidation. These are Windows Lua 5.1 fixtures, not native multiplayer evidence.
+
+[RUNTIME GATE] Native rendering/controller/scaling, actual save/load and two-client dedicated ownership, permissions, sorting, reconnect/restart and conservation tests are NOT TESTED. G7 and stable G8 remain BLOCKED. No deployment, publication or game/server launch. Development artifacts are offline test packages only. Both Quartermaster peers require configuration 5, movement 8 and rooms 2; Rooms uses its separate API/protocol 1 and registry schema 2. See [current design and validation](ROOMS_INTEGRATION.md).
+
+## Historical custom room development — 0.7.0-dev.1
 
 [VERIFIED source] Custom rooms are server-owned logical tile regions with creator/current safehouse-member editing, revision-checked atomic writes, and exact physical-container membership. The in-world editor provides bounded structural/native candidates, rectangles, paint/erase, undo/redo, duplicate, combine, split, rename and delete. All geometry remains a preview until confirmed. Native world geometry is never modified.
 
