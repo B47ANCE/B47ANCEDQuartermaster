@@ -1,6 +1,6 @@
 # Audit remediation candidate
 
-Project Version: 0.4.0-dev.48
+Project Version: 0.4.0-dev.49
 
 Compatible PATCH iteration from dev.46. Runtime remains Lua-only. Category IDs,
 configuration schema, additive presets and vanilla item-transfer authority are

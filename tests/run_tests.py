@@ -42,6 +42,7 @@ for name in ('test_model.lua', 'test_ownership.lua', 'test_bulk_model.lua', 'tes
 runtime().execute((ROOT / 'tests/test_taxonomy_correction.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_taxonomy_consolidation.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_taxonomy_freeze.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_dev49_workshop.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev41_weapons.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev13_compatibility.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev13_highlight.lua').read_text(encoding='utf-8'))
@@ -146,6 +147,7 @@ for path in (SOURCE / '42/media/lua').rglob('*.lua'):
 print('PASS metadata and 29-language fallback parity')
 import runpy
 runpy.run_path(str(ROOT / 'tests/test_runtime_directories.py'))['run']()
+runpy.run_path(str(ROOT / 'tests/test_workshop_corpus.py'))
 
 if ARGS.package:
     sys.path.insert(0, str(ROOT / 'scripts'))

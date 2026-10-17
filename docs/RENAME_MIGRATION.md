@@ -1,6 +1,6 @@
 # Rename and technical-ID migration
 
-Project Version: 0.4.0-dev.48
+Project Version: 0.4.0-dev.49
 
 ## Current identity — 0.4.0-dev.1
 
