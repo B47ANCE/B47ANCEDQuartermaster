@@ -131,8 +131,10 @@ local function pipelineStep(run)
         or not building and sq and sq:getZ()==origin:getZ()
         and math.max(math.abs(sq:getX()-origin:getX()),math.abs(sq:getY()-origin:getY()))<=3
     -- Prefetch has its own request state: it must not stall the executing batch.
-    if scopeReady and #run.buffer==0 and not run.prefetch and not run.exhausted then
+    if scopeReady and #run.buffer==0 and not run.prefetch and not run.exhausted
+        and getTimestampMs()>=(run.nextPrefetchAt or 0) then
         run.prefetch=true
+        run.nextPrefetchAt=getTimestampMs()+250
         Trace.emit(run.trace,'PREFETCH_REQUEST','tripNext')
         A.request(run.playerNum,'tripNext',{run=run.id,trace=run.trace},function(r)
             run.prefetch=false
@@ -243,7 +245,7 @@ function S.tick()
     end
 end
 if Events and Events.OnTick then
-    local nextPoll=0
-    Events.OnTick.Add(function() if getTimestampMs()>=nextPoll then nextPoll=getTimestampMs()+250;S.tick() end end)
+    -- Local ready-state dispatch is cheap; only network retry queries are polled.
+    Events.OnTick.Add(S.tick)
 end
 return S

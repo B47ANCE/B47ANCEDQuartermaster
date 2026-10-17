@@ -17,6 +17,24 @@ local function script(name,kind,category,tags,full)
  return item
 end
 active({'B47ANCEDQuartermaster'})
+-- Missing Java getters raise/log an engine exception even inside pcall. Count
+-- failed protected calls so a correct fallback cannot disguise that failure.
+local protectedCall=pcall;local lookupFailures=0
+pcall=function(fn,...)
+ local ok,result=protectedCall(fn,...)
+ if not ok then lookupFailures=lookupFailures+1 end
+ return ok,result
+end
+local definition=script('GetterFallback','food')
+assert(R.nativeCategory(definition)=='Food')
+assert(R.nativeCategory({getScriptItem='not-callable',getItemType=function() return 'food' end})=='Food')
+local inventory={getScriptItem=function() return definition end,getCategory=function() return 'NativeInventoryFallback' end}
+assert(R.nativeCategory(inventory)=='NativeInventoryFallback')
+assert(R.catalogEligible({}))
+for _,value in ipairs({42,true,'invalid object'}) do assert(R.nativeCategory(value)=='Item') end
+assert(R.nativeCategory(nil)=='Item')
+pcall=protectedCall
+assert(lookupFailures==0,'category fallback invoked missing/non-callable getters')
 local scissors=script('Scissors','normal','ToolWeapon',{'base:scissors'},'Base.Scissors')
 assert(R.nativeName(R.resolve(scissors))=='ToolWeapon','retired override changed vanilla category')
 local defaults={normal='Item',food='Food',weapon='Weapon',container='Container',weaponpart='WeaponPart',key='Key',keyring='Key Ring',alarmclock='AlarmClock',clothing='Clothing',literature='Literature'}

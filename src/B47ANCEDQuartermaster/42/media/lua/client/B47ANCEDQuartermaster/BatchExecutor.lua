@@ -83,8 +83,15 @@ local function transfer(b,leg)
         for _,group in ipairs(self.queueList) do
             for _,item in ipairs(group.items) do
                 local op=b.byID[item:getID()]
-                if not op or op.state~=wanted or (not (isClient() and self.dispatched and item:getContainer()==dst)
-                    and not E.check(op,leg,item,src,dst)) then error('B47 batch dispatch rejected') end
+                local valid,reason
+                if not op then reason='operationItemMissing'
+                elseif op.state~=wanted then reason='operationStateRejected'
+                elseif isClient() and self.dispatched and item:getContainer()==dst then valid=true
+                else valid,reason=E.check(op,leg,item,src,dst) end
+                if not valid then
+                    b.rejection=b.rejection or {phase=b.phase,status='invalid',reason=reason or 'dispatchGuardRejected'}
+                    error('B47 batch dispatch rejected:'..(reason or 'dispatchGuardRejected'))
+                end
             end
         end
     end
@@ -151,11 +158,27 @@ local function requestAll(b,command,fromState,toState,nextPhase)
         end
     end
     if b.nextRequestAt and getTimestampMs()<b.nextRequestAt then return end
-    b.pending=#selected;b.requestStarted=Trace.begin()
-    for _,op in ipairs(selected) do
-        A.request(b.playerNum,command,{operation=op.id,trace=b.trace},function(result)
-            b.pending=b.pending-1
-            if b.closed then cancelOp(op);return end
+    local ids={};for i,op in ipairs(selected) do ids[i]=op.id end
+    b.pending=1;b.requestStarted=Trace.begin()
+    A.request(b.playerNum,'moveBatch',{phase=command,operations=ids,trace=b.trace},function(response)
+        b.pending=0
+        if b.closed then for _,op in ipairs(selected) do cancelOp(op) end;return end
+        if response.status=='rateLimited' then b.nextRequestAt=getTimestampMs()+250;return end
+        if response.status~='ok' or type(response.results)~='table' or #response.results~=#selected then
+            b.rejection=b.rejection or {phase=command,status=response.status,reason=response.reason or 'batchResponseRejected',serverVersion=response.serverVersion}
+            done(b,'uncertain');return
+        end
+        -- Validate correlation before applying any states. Never infer a grant
+        -- from a missing, duplicate, reordered or malformed response entry.
+        for i,op in ipairs(selected) do
+            local result=response.results[i]
+            if type(result)~='table' or result.operation~=op.id or type(result.status)~='string' then
+                b.rejection=b.rejection or {phase=command,status='invalid',reason='batchCorrelationRejected'}
+                done(b,'uncertain');return
+            end
+        end
+        for i,op in ipairs(selected) do
+            local result=response.results[i]
             if result.status=='ok' then
                 op.state=toState
                 if toState=='carried' then
@@ -165,18 +188,16 @@ local function requestAll(b,command,fromState,toState,nextPhase)
                 elseif toState=='done' then op.closed=true;b.completed=b.completed+1 end
             elseif result.status=='waiting' then b.nextRequestAt=getTimestampMs()+250
             else
-                b.rejection=b.rejection or {phase=command,status=result.status,reason=result.reason or 'unspecified',serverVersion=result.serverVersion}
+                b.rejection=b.rejection or {phase=command,status=result.status,reason=result.reason or 'unspecified',serverVersion=response.serverVersion}
                 fail(b,op)
             end
-            if b.pending==0 then
-                Trace.emit(b.trace,'BATCH_GRANTS',command,nil,nil,b.requestStarted,#selected)
-                if stateCount(b,fromState)>0 then
-                    -- Retry authorization/confirmation queries, never native transfers.
-                    b.retry=true
-                else b.phase=nextPhase;b.retry=false;b.nextRequestAt=nil end
-            end
-        end)
-    end
+        end
+        Trace.emit(b.trace,'BATCH_GRANTS',command,nil,nil,b.requestStarted,#selected)
+        if stateCount(b,fromState)>0 then
+            -- Retry authorization/confirmation queries, never native transfers.
+            b.retry=true
+        else b.phase=nextPhase;b.retry=false;b.nextRequestAt=nil end
+    end)
 end
 function E.startBatch(playerNum,offers,callback)
     local player=getSpecificPlayer(playerNum)
@@ -242,8 +263,15 @@ local function tick(b)
 end
 function E.tickBatches()
     for _,b in pairs(E.batches) do
-        local ok,err=pcall(tick,b)
-        if not ok then Trace.failure(b.trace,'BATCH_TICK',err);E.cancelBatch(b.playerNum) end
+        -- Drain only cheap ready transitions. A queued action, pending response,
+        -- retry deadline or unchanged phase yields immediately; no busy loop.
+        for _=1,8 do
+            local phase=b.phase
+            local ok,err=pcall(tick,b)
+            if not ok then Trace.failure(b.trace,'BATCH_TICK',err);E.cancelBatch(b.playerNum);break end
+            if b.closed or (b.pending and b.pending>0) or #queue(b.player)>0 or b.phase==phase then break end
+        end
     end
 end
+if Events and Events.OnTick then Events.OnTick.Add(E.tickBatches) end
 return E

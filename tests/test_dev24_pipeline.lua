@@ -109,14 +109,16 @@ local A=require 'B47ANCEDQuartermaster/Authority';local Q=B47ANCEDQuartermaster
 local E=require 'B47ANCEDQuartermaster/Executor';local S=require 'B47ANCEDQuartermaster/Sorter'
 local singlePlayer=false
 local RPC,prefetched,maxOutstanding={},false,0
+local rpcCounts={}
 A.request=function(_,command,args,cb)
+ rpcCounts[command]=(rpcCounts[command] or 0)+1
  if command=='tripNext' and E.batches[0] then prefetched=true end
  RPC[#RPC+1]={command=command,args=args,cb=cb}
 end
 local function flush()
  local pending=RPC;RPC={}
  for _,r in ipairs(pending) do
-  f.network(false,true);local result=A.handle(f.player,r.command,r.args);f.network(not singlePlayer,false);r.cb(result)
+  f.network(false,true);local result=A.handle(f.player,r.command,r.args);result.serverVersion=result.serverVersion or 'fixture-server';f.network(not singlePlayer,false);r.cb(result)
  end
  local run=Q.Movement.runs[f.player];local n=0;if run then for _ in pairs(run.operations) do n=n+1 end end
  maxOutstanding=math.max(n,maxOutstanding)
@@ -203,7 +205,7 @@ local function scenario(count,size,hook,weight)
  if inventoryMode then src=carried end
  routeOrder={};routeBookAfterFar=false
  f.network(false,true);f.player.square=f.a.sq;src.items={};dst.items={};carried.items={};dst.capacity=1000;carried.capacity=1000
- q.queue={};RPC={};opens,groups,maxGroup=0,0,0;firstSubmitted=nil;gateCount=0;prefetched=false;maxOutstanding=0
+ q.queue={};RPC={};rpcCounts={};opens,groups,maxGroup=0,0,0;firstSubmitted=nil;gateCount=0;prefetched=false;maxOutstanding=0
  E.active={};E.batches={};S.active={};Q.Movement.runs={};Q.Movement.operations={};Q.Bindings.sessions={}
  SandboxVars.B47ANCEDQuartermaster.SortBatchSize=size
  worlds={};f.a.sq.blocked=false
@@ -269,8 +271,8 @@ originalDestination.md={};originalStorage.items={}
 f.b=f.object(f.square(5,0,0));dst=storage(f.b.containers[1])
 local separatedSquare=f.b.sq
 local function arrivalScenario(command,delay,mode,fromInventory)
- local original=A.handle;local started,waits=nil,0;inventoryMode=fromInventory==true
- A.handle=function(player,cmd,args)
+ local original=Q.Movement.handle;local started,waits=nil,0;inventoryMode=fromInventory==true
+ Q.Movement.handle=function(player,cmd,args)
   if cmd==command then
    started=started or getTimestampMs()
    if getTimestampMs()-started<delay then
@@ -290,7 +292,7 @@ local function arrivalScenario(command,delay,mode,fromInventory)
   if started and mode=='removed' then separatedSquare.objects=f.list({}) end
   if started and mode=='cancel' then S.cancel(0) end
  end)
- A.handle=original;inventoryMode=false
+ Q.Movement.handle=original;inventoryMode=false
  return status,moved,failed,waits
 end
 for _,sp in ipairs({false,true}) do
@@ -312,17 +314,17 @@ separatedSquare.objects=f.list({});f.b,dst=originalDestination,originalStorage
 print('PASS OFFLINE dev43 arrival: 701 delayed PUT items in SP/MP-shaped fixtures, delayed TAKE, bounded timeout and capacity/removal/cancel rejection')
 -- A native/server rejection after walking must not silently drain the entire run.
 inventoryMode=true
-local normalHandle=A.handle;local rejected=0;local summary;local normalPrint=print
+local normalHandle=Q.Movement.handle;local rejected=0;local summary;local normalPrint=print
 print=function(message,...)
  if type(message)=='string' and message:find('sort summary',1,true) then summary=message end
  normalPrint(message,...)
 end
-A.handle=function(player,command,args)
+Q.Movement.handle=function(player,command,args)
  if command=='movePut' then rejected=rejected+1;return {status='invalid',reason='testPutRejected',serverVersion='fixture-server'} end
  return normalHandle(player,command,args)
 end
 local stopped,moved,failed=scenario(701,20)
-A.handle=normalHandle;print=normalPrint;inventoryMode=false
+Q.Movement.handle=normalHandle;print=normalPrint;inventoryMode=false
 assert(stopped=='invalid' and moved==0 and failed<=20 and rejected<=20,'zero-progress rejection discarded later inventory batches')
 assert(summary and summary:find('movePut:invalid:testPutRejected',1,true) and summary:find('server=fixture-server',1,true),'first rejection/server version absent from client summary')
 print('PASS OFFLINE zero-progress player inventory: fail closed after first rejected batch, untouched remainder and exact first-failure diagnostics')
@@ -354,7 +356,13 @@ status,moved=scenario(40,20,function(_,_,batch) if batch then cancelQueued=true 
 assert(status=='cancelled' and moved==0)
 status,moved=scenario(10,4,function(_,_,batch) if batch and batch.phase=='takeReady' then for _,x in ipairs(src.items) do x.favorite=true end end end)
 assert(moved==0,'stale favorite authorization transferred items')
-status,moved=scenario(10,4,function(_,_,batch) if batch and batch.phase=='grantPut' then dst.capacity=0 end end)
+local capacityHandle=Q.Movement.handle
+Q.Movement.handle=function(player,command,args)
+ if command=='movePut' then dst.capacity=0 end
+ return capacityHandle(player,command,args)
+end
+status,moved=scenario(10,4)
+Q.Movement.handle=capacityHandle
 assert(moved==0,'changed capacity authorized deposit')
 immediateStart=true
 status,moved=scenario(41,20);assert(status=='ok' and moved==41)
@@ -450,9 +458,70 @@ if lifecycle then
  print('PASS OFFLINE dev47 actual native update/stop rejection after first submitted transaction, with exact diagnostic classification')
 end
 local P=require 'B47ANCEDQuartermaster/Protocol'
-assert(P.version('tripNext')==5 and not P.accepts('tripNext',{protocol=1}) and not P.accepts('movePut',{protocol=3}))
+assert(P.version('tripNext')==6 and not P.accepts('tripNext',{protocol=1}) and not P.accepts('movePut',{protocol=3}))
 assert(replicationGapChecks>0,'replication-gap guard regression was not exercised')
 print('PASS OFFLINE dev45 native in-flight replication gap validation')
 print('PASS OFFLINE dev24: 29 production pipeline scenarios, native donor merge/perform, bounded overlap, capacity, cancellation and mixed-peer rejection')
 if lifecycle then print('PASS OFFLINE dev47 installed native constructor/start/update/validation/perform with simulated transaction acknowledgements; engine/network unverified') end
 
+
+-- Network cardinality is independent of native item/group timing.
+inventoryMode=true
+local batchStatus,batchMoved=scenario(20,20,nil,1)
+assert(batchStatus=='ok' and batchMoved==20 and rpcCounts.moveBatch==3)
+assert(not rpcCounts.moveCarried and not rpcCounts.movePut and not rpcCounts.moveDone,'per-item query roundtrips remain')
+inventoryMode=false
+batchStatus,batchMoved=scenario(20,20,nil,1)
+assert(batchStatus=='ok' and batchMoved==20 and rpcCounts.moveBatch==4 and not rpcCounts.moveTake)
+print('PASS OFFLINE throughput: 20-item deposit 60 -> 3 requests; container transfer 80 -> 4; unchanged native grouping/timing')
+
+-- Failed correlation cannot authorize even a valid server grant response.
+inventoryMode=true
+local query=A.request
+A.request=function(player,command,args,callback)
+ return query(player,command,args,function(response)
+  if command=='moveBatch' and args.phase=='movePut' and response.results and #response.results>1 then
+   response.results[1],response.results[2]=response.results[2],response.results[1]
+  end
+  callback(response)
+ end)
+end
+local mismatchStatus,mismatchMoved=scenario(20,20)
+assert(mismatchStatus=='uncertain' and mismatchMoved==0,'uncorrelated batch response dispatched native movement')
+A.request=query
+local throttled=false
+A.request=function(player,command,args,callback)
+ if command=='moveBatch' and not throttled then throttled=true;callback({status='rateLimited'});return end
+ return query(player,command,args,callback)
+end
+local retryStatus,retryMoved=scenario(20,20)
+assert(throttled and retryStatus=='ok' and retryMoved==20,'admission retry lost/replayed transfers')
+A.request=query;inventoryMode=false
+print('PASS OFFLINE phase batching: reordered response fails closed; bounded admission retry preserves exact native transfers')
+
+-- One changed item fails individually; the remaining authorized items stay queued.
+inventoryMode=true
+local perItem=Q.Movement.handle;local protectedOne=false
+Q.Movement.handle=function(player,command,args)
+ if command=='movePut' and not protectedOne then
+  local run=Q.Movement.runs[player];local op=run and run.operations[args.operation]
+  if op then op.item.favorite=true;protectedOne=true end
+ end
+ return perItem(player,command,args)
+end
+local partialStatus,partialMoved,partialFailed=scenario(20,20,nil,1)
+Q.Movement.handle=perItem
+assert(protectedOne and partialStatus=='ok' and partialMoved==19 and partialFailed==1,'partial batch lost per-item protection semantics')
+local delayedCallback,delayedResponse
+A.request=function(player,command,args,callback)
+ return query(player,command,args,function(response)
+  if command=='moveBatch' and args.phase=='movePut' then delayedCallback,delayedResponse=callback,response
+  else callback(response) end
+ end)
+end
+local cancelledStatus,cancelledMoved=scenario(20,20,function()
+ if delayedCallback then local callback=delayedCallback;delayedCallback=nil;S.cancel(0);callback(delayedResponse) end
+end)
+A.request=query;inventoryMode=false
+assert(cancelledStatus=='cancelled' and cancelledMoved==0,'late grant response escaped cancellation')
+print('PASS OFFLINE phase batching: partial item rejection preserves 19/20 authorized transfers; late cancellation dispatches none')

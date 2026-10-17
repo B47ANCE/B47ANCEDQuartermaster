@@ -3,8 +3,13 @@ require 'B47ANCEDQuartermaster/Schema'
 local R={version=7,labels={}}
 B47ANCEDQuartermaster.Categorizer=R
 local function read(value,key)
-    if not value then return end
-    local ok,result=pcall(function() return value[key](value) end)
+    local kind=type(value)
+    if kind~='table' and kind~='userdata' then return end
+    -- Script definitions do not expose InventoryItem getters. A missing call
+    -- still logs an engine exception inside pcall, so check before invocation.
+    local method=value[key]
+    if type(method)~='function' then return end
+    local ok,result=pcall(method,value)
     if ok then return result end
 end
 local function categoryText(value)

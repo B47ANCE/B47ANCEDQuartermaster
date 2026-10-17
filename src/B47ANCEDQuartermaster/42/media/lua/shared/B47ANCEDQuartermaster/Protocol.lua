@@ -1,11 +1,11 @@
 -- Payload capabilities are independent from project SemVer and taxonomy IDs.
-local P={versions={handshake=1,configuration=3,presets=2,personal=1,shopping=1,dibs=1,movement=5}}
+local P={versions={handshake=1,configuration=3,presets=2,personal=1,shopping=1,dibs=1,movement=6}}
 local commands={hello='handshake',discover='configuration',load='configuration',groupChange='configuration',viewSelect='configuration',commit='configuration',close='configuration',
  presetsList='presets',presetChange='presets',personalList='personal',personalChange='personal',
  personalProject='shopping',wishToShopping='shopping',shoppingAdd='shopping',shoppingSourceRemove='shopping',
  shoppingPreference='shopping',shoppingBegin='shopping',shoppingNext='shopping',shoppingCancel='shopping',
  dibsInspect='dibs',dibsChange='dibs',tripDiscover='movement',tripBegin='movement',tripNext='movement',tripCancel='movement',
- movePlan='movement',moveTake='movement',moveCarried='movement',movePut='movement',moveDone='movement',moveCancel='movement'}
+ movePlan='movement',moveTake='movement',moveCarried='movement',movePut='movement',moveDone='movement',moveCancel='movement',moveBatch='movement'}
 function P.family(command) return commands[command] end
 function P.version(command) local family=P.family(command);return family and P.versions[family] end
 function P.accepts(command,args)

@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.6.0-dev.3]
+- Compatible PATCH fix: check native getter availability before invocation, avoiding missing-method category lookup exceptions on script definitions without changing category results.
+- Includes dev.2 bounded movement-phase queries and prompt queue scheduling; retain native timing and all per-item server checks. Movement capability 6 requires updating both peers.
+- Authorized Workshop MP testing candidate; full offline regression, native metadata, version and package/source/staging checks PASS. Native SP/optional-mod/dedicated acceptance NOT TESTED. The separate batch-guard stop remains under investigation.
+
+## [0.6.0-dev.2]
+- Compatible PATCH throughput correction: aggregate per-item movement queries into bounded per-phase requests; preserve all existing server checks and native transfer timing. Movement capability 6 requires updating both peers.
+- Advance ready batch/local Sort phases without fixed quarter-second gaps; throttle only repeated planning/arrival queries.
+- Include the exact local dispatch-guard reason in batch rejection diagnostics. Native/dedicated acceptance pending; no deployment/publication.
+
 ## [0.6.0-dev.1]
 - Breaking 0.x storage cleanup requested by owner: remove obsolete category rules and runtime taxonomy; retain native rules, explicit items, priorities and owned preset links through server-only, idempotent normalization.
 - Remove old storage fallback routing; owned legacy envelopes are converted once and deleted, while unrelated mod/player data and historical evidence remain protected.
