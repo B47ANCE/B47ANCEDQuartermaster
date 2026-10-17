@@ -104,15 +104,70 @@ def text(w,s,x,y,r,g,b,a,center):
  if center:x-=round(font.getlength(s)/2)
  d.text((x,y),s,font=font,fill=color(r,g,b,a),anchor='lt')
 lua.globals().drawrect=rect;lua.globals().drawtext=text
-states=[('Desktop',''),('Start menu','screen.start.onclick()'),('Loaded ledger CD',"screen:openDrive();screen.content.insert.onclick()"),('CD Writer','screen:eject();screen:openWriter()')]
+lua.execute(r'''
+
+local W=ISPanelJoypad
+function W:setX(v) self.x=v end
+function W:setY(v) self.y=v end
+local U=B47ANCEDUI
+U.skin=function() end;U.RowTooltip={hide=function() end};U.Tooltip.plain=function(s) return tostring(s):gsub('[<>]','') end
+U.Layout.scrollbar=function() end
+function W:getYScroll() return self.scroll or 0 end
+function W:setYScroll(v) self.scroll=v end
+U.Button=ISButton
+function ISButton:render()
+ local c=self.backgroundColor or C.colors.grey
+ self:drawRect(0,0,self.width,self.height,1,c.r,c.g,c.b)
+ self:drawRectBorder(0,0,self.width,self.height,1,.36,.36,.34)
+ local t=self.enable and C.colors.black or C.colors.muted
+ self:drawTextCentre(self.title,self.width/2,(self.height-14)/2,t.r,t.g,t.b,1)
+end
+U.TextInput=setmetatable({},W);U.TextInput.__index=U.TextInput
+function U.TextInput:new(value,x,y,w,h) local o=W.new(self,x,y,w,h);o.value=value;return o end
+function U.TextInput:getInternalText() return self.value end
+function U.TextInput:setTextRGBA() end
+function U.TextInput:render()
+ self:drawRect(0,0,self.width,self.height,1,1,1,.97)
+ self:drawRectBorder(0,0,self.width,self.height,1,.36,.36,.34)
+ self:drawText(self.value,7,6,.04,.05,.05,1)
+end
+U.ScrollList=setmetatable({},W);U.ScrollList.__index=U.ScrollList
+function U.ScrollList:clear() self.items={};self.selected=1 end
+function U.ScrollList:addItem(name,data) self.items=self.items or {};table.insert(self.items,{text=name,item=data}) end
+function U.ScrollList:render()
+ self:drawRect(0,0,self.width,self.height,1,1,1,.97)
+ self:drawRectBorder(0,0,self.width,self.height,1,.36,.36,.34)
+ local y=0
+ for i,row in ipairs(self.items or {}) do
+  if y+self.itemheight>self.height then break end
+  row.index=i
+  y=self:doDrawItem(y,row,i%2==0)
+ end
+end
+for _,p in ipairs({'TimedActions/ISTimedActionQueue','TimedActions/WalkToTimedAction','B47ANCEDQuartermaster/Authority','B47ANCEDQuartermaster/LedgerScope','B47ANCEDQuartermaster/LedgerAction'}) do package.loaded[p]={} end
+package.loaded['B47ANCEDQuartermaster/Ledger']={clientOffers={}}
+function screen.computer:getSquare() return {getX=function() return 11000 end,getY=function() return 9600 end,getZ=function() return 0 end} end
+function screen.computer:getObjectIndex() return 0 end
+B47ANCEDQuartermaster.Authority={request=function(num,command,args,callback)
+ local rows={}
+ local samples={{'Nails',200,'Base.Nails','Workshop','Wooden Crate'}, {'Hammer',3,'Base.Hammer','Workshop','Tool Cabinet'}, {'Canned Beans',12,'Base.TinnedBeans','Pantry','Cupboard'}, {'Bandage',8,'Base.Bandage','Medical','Wall Cabinet'}, {'9mm Rounds',150,'Base.Bullets9mm','Armory','Wooden Crate'}, {'Water Bottle',6,'Base.WaterBottle','Kitchen','Cupboard'}}
+ for i,s in ipairs(samples) do rows[i]={name=s[1],quantity=s[2],fullType=s[3],condition=10,room=s[4],roomID='sample-'..s[4],container=s[5],position={x=11000+i,y=9600,z=0,ci=0},recorded=148.5} end
+ callback({status='ok',rows=rows,rooms={{id='sample-Workshop',name='Workshop'},{id='sample-Pantry',name='Pantry'},{id='sample-Medical',name='Medical'}},scope='Home building',summary='LedgerComplete',revision=1,live=true,fresh=true,expires=172.5,cursor='sample-next'})
+end}
+local V=require 'B47ANCEDQuartermaster/LedgerUI'
+hooks.read=function(disc,host) return V.read(0,disc,screen.computer,host) end
+
+''')
+states=[('Desktop',''),('Start menu','screen.start.onclick()'),('Loaded ledger CD',"screen:openDrive();screen.content.insert.onclick()"),('CD Writer','screen:eject();screen:openWriter()'),('Supply Ledger',"screen:openDrive();screen.content.insert.onclick();screen:runDisc()")]
 images=[]
 for i,(title,code) in enumerate(states):
+ canvas=Image.new('RGBA',(int(lua.globals().screen.width),int(lua.globals().screen.height)),(28,28,26,255))
  if code:lua.execute(code)
- canvas=Image.new('RGBA',(int(lua.globals().screen.width),int(lua.globals().screen.height)),(28,28,26,255));lua.execute('walk(screen)')
+ lua.execute('walk(screen)')
  p=OUT/f'computer-{i+1}.png';canvas.convert('RGB').save(p);images.append((title,canvas.copy()))
 thumbW=700
 thumbH=round(thumbW*images[0][1].height/images[0][1].width)
-sheet=Image.new('RGB',(thumbW*2+48,thumbH*2+134),(24,27,28));d=ImageDraw.Draw(sheet)
+sheet=Image.new('RGB',(thumbW*2+48,thumbH*3+176),(24,27,28));d=ImageDraw.Draw(sheet)
 d.text((16,12),'Quartermaster computer UI - source-rendered preview',font=heading,fill=(235,236,230))
 d.text((16,38),'Actual Lua layout, palette and symbols. Host fonts/native controls approximate; not a PZ screenshot.',font=font,fill=(175,185,185))
 for i,(title,img) in enumerate(images):

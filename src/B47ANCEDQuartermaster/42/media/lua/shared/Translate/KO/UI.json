@@ -535,5 +535,17 @@
   "UI_QMSS_AllocationTruncated": "Only the first 32 over-limit rules are shown.",
   "UI_QMSS_AllocationDefaultPreview": "Inherited default: %1% → %2%",
   "UI_QMSS_LedgerUnassigned": "No designated room",
-  "UI_QMSS_ComputerShowDesktop": "Show desktop"
+  "UI_QMSS_ComputerShowDesktop": "Show desktop",
+  "UI_QMSS_LedgerTableItem": "Item",
+  "UI_QMSS_LedgerTableQuantity": "Quantity",
+  "UI_QMSS_LedgerTableLocation": "Location",
+  "UI_QMSS_LedgerTableSearch": "Find item:",
+  "UI_QMSS_LedgerTableRoom": "Room:",
+  "UI_QMSS_LedgerTablePage": "Page %1 | %2 entries",
+  "UI_QMSS_LedgerTableSelect": "Select an entry to view recording details.",
+  "UI_QMSS_LedgerTableLive": "Live",
+  "UI_QMSS_LedgerTableExpired": "Expired snapshot",
+  "UI_QMSS_LedgerTableSnapshot": "Recorded snapshot",
+  "UI_QMSS_LedgerTableNoEntries": "No entries match this view.",
+  "UI_QMSS_LedgerTableExpires": "Update due: %1h"
 }

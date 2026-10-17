@@ -14,6 +14,7 @@
   "42/media/lua/client/B47ANCEDQuartermaster/InventoryCategories.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/ItemCatalog.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/ItemPicker.lua",
+  "42/media/lua/client/B47ANCEDQuartermaster/LedgerTable.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/LedgerUI.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/LoadSettingsUI.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/Model.lua",

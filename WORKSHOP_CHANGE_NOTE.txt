@@ -1,8 +1,8 @@
-[b]Version 0.18.0-dev.5[/b]
+[b]Version 0.18.0-dev.6[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Clean the bulky CRT artwork with softer case shading and fewer outline bands. Replace the placeholder task button with separate CD-ROM, CD Writer and ledger tasks: minimize/restore, switch apps, close one app, or Show Desktop and restore. Keep queries, pages and media choices while switching. Power/Log Off still closes all tasks and cancels pending CD writing.
+Give the computer ledger a Windows 93 interface: compact Item, Quantity and Location columns, raised headers, selected-entry details, live/snapshot status and page counts. Keep search, room filtering, paging and independent taskbar apps. Preserve exact selected entries and scroll position during live refresh; reset them on a new search or page.
 
-Resume revalidates ledger rows using existing server reads; media loss closes the ledger task while preserving unrelated apps. Fix hidden-window input/tooltips, controller EXE rows after mounting, and late replies reopening closed windows. No new commands, protocols, save formats or runtime dependencies.
+Client presentation only. Paper reading, server-authorized ledger reads, CD handling, native transfers, protocols and save formats remain unchanged. No new runtime dependency or gameplay setting.
 
 Source-only development. Native visual/controller and dedicated acceptance remain pending. Allocation enforcement/live role routing stay disabled. No deployment or Workshop upload.

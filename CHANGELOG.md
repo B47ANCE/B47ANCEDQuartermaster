@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.18.0-dev.6] - 2026-10-17
+
+- Give the computer ledger a Windows 93 table with Item, Quantity and Location columns, compact status and page information, raised headers and a selected-entry details area.
+- Retain authenticated reads, literal search, room filtering, paging, media checks and taskbar behavior. Paper reading and shared gameplay/protocols remain unchanged.
+- Compatible client presentation checkpoint within the 0.18 minor development line. Offline/native evidence is recorded in docs/WINDOWS93_COMPUTER.md; no deployment/publication.
+
 ## [0.18.0-dev.5] - 2026-10-17
 
 - Clean the CRT artwork with softer molded-case shading and fewer concentric edge bands, retaining its bulky housing, recessed glass and substantial stand.

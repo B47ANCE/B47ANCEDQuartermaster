@@ -90,7 +90,9 @@ function C.open(num,computer,hooks)
  if not require('B47ANCEDQuartermaster/LedgerPolicy').enabled() then return end
  local actor=getSpecificPlayer(num);if not actor or not Media.computer(actor,computer,true) then return end
  local current=C.active[num];if current and not current.closed then if current.computer==computer then setJoypadFocus(num,current);return current end;current:close() end
- local m=U.Theme.metrics();local minW=math.max(840,m.font*28+172);local minH=math.max(180+8*m.button,160+5*m.font+5*m.button)+260+math.max(0,m.font-28)
+ local m=U.Theme.metrics();local minW=math.max(840,m.font*28+172)
+ -- Reserve one complete ledger row, its fixed header/details, and CRT chrome.
+ local minH=math.max(math.max(180+8*m.button,160+5*m.font+5*m.button)+260,6*m.font+5*m.button+429)+math.max(0,m.font-28)
  if getPlayerScreenWidth(num)<minW+20 or getPlayerScreenHeight(num)<minH+20 then actor:setHaloNote(tr('LedgerScreenSmall'));return end
  local screen=ISCollapsableWindowJoypad:new(0,0,math.max(minW,math.min(920,getPlayerScreenWidth(num)-20)),math.max(minH,math.min(800,getPlayerScreenHeight(num)-20)))
  screen.playerNum=num;screen.computer=computer;screen.minimumWidth=minW;screen.minimumHeight=minH;screen.resizable=true;screen.pin=true

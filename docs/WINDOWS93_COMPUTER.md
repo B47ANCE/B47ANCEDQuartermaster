@@ -1,6 +1,6 @@
 # Windows '93 computer desktop
 
-Project Version: 0.18.0-dev.5
+Project Version: 0.18.0-dev.6
 
 Computers open an original Lua-drawn Windows '93 desktop inside a beige CRT monitor. The bulky molded case has a thick front bezel, deep chamfered glass rim, offset vented rear housing, a broad lower control deck, central model badge, green power light and a physical power button. A tall swivel neck and substantial beveled pedestal support the case. The desktop, taskbar and status text stay inside the glass. Opening the desktop never auto-runs the ledger.
 
@@ -46,9 +46,34 @@ ComputerUI owns presentation and proxies returned by server drive discovery, nev
 
 Native buttons/dropdowns, B/controller navigation, keyboard Escape, resize minimums, taskbar/list/footer bounds and light search-entry glyphs remain. Existing native `ISTextEntryBox:setTextRGBA` colors the actual native text-entry glyphs. All 29 UI locales retain English fallbacks. New UI code uses existing Lua-exposed ISUI primitives and original symbols; no external OS assets, arbitrary executable loader, filesystem, Java modification or separate runtime dependency is introduced.
 
+## Ledger application
+
+The digital reader now uses an original Windows '93 table inside QUARTERMASTER.EXE. A labelled Find item entry and Room selector sit above a compact location/freshness strip and current-page entry count. Raised fixed column headers label Item, Quantity and Location; quantities align to the right, rows alternate, and the selected entry uses navy/white contrast. The column gutter is reserved for the native scrollbar. Long cells truncate safely, with full authorized data in clipped-row tooltips and a two-line details area (recording time, FullType, condition and exact compartment location). No fake menu commands or external OS assets are introduced.
+
+Search remains literal/case-insensitive through existing server requests. Room options and rows come from the authenticated page only. Native list/controller selection is reachable and B returns to the app; minimum window height now reserves a complete row and the fixed details/footer at large fonts. Automatic refresh preserves exact FullType/location/condition identity and clamped scroll position; a changed search, room or page starts at its top. Empty/redacted/waiting results clear old rows and details. Counts describe this returned page, not a fabricated whole-building total. Paper reading and all authoritative ledger/media behavior remain unchanged. UI dimensions are internal presentation constants; no shared gameplay setting is added.
+
 ## Validation
 
-### 0.18.0-dev.5 taskbar and artwork cleanup - 2026-10-17
+### 0.18.0-dev.6 ledger application - 2026-10-17
+
+[TESTED OFFLINE] Focused production-path ledger UI fixture PASS. Checks include separate column widths, quantity alignment, selected-row contrast/details, clipping and reserved native scrollbar space; offscreen rows skip formatting/drawing. Forty synthetic rows verify refresh selection/scroll preservation with exact item/location identities, page/search reset, empty/redacted/waiting cleanup, no per-render requests, and controller row access. Minimum and enlarged layouts pass at 14/24/32/42 font heights. Existing desktop/taskbar/media-loss/late-response/power and paper fixtures pass.
+
+Current source preview executes the actual LedgerUI and LedgerTable with synthetic authorized responses. Fonts and native widget painting are approximated, so preview pixels are not PZ evidence. Full paired regression PASS against Rooms 0.2.0-dev.6. After that run, the strengthened reordered-row selection fixture also PASSed in the focused suite. Version checks and source-manifest parity PASS for 224 runtime files. Runtime SHA-256: `a80ef09fcd0f28f0e3e1c84013eb50c6b1b789d828d119ac6f353ad0e2a3c67f` (sorted relative UTF-8 path, NUL, binary file SHA-256).
+
+Exact commands (development Lupa/Pillow environment; never launches PZ):
+
+```powershell
+python -B tests/run_tests.py --require-rooms --rooms 'C:/Users/willi/Desktop/Work/Project Zomboid/Mod Repositories/B47ANCEDRooms'
+python -B scripts/render_computer_preview.py --output 'C:/Users/willi/.codex/visualizations/quartermaster-ledger-windows93'
+python -B scripts/check_versions.py
+python -B scripts/check_deployment.py
+git -c core.safecrlf=false diff --cached --check
+```
+
+The focused suite executes `tests/test_ledger_ui.lua` with the runner's same Lua 5.1 path/globals. Shared source differences are only the project Identity version and 12 English-fallback UI labels in all 29 locales; no server code changes. New production file: `42/media/lua/client/B47ANCEDQuartermaster/LedgerTable.lua`. Other implementation files: `LedgerUI.lua` and the computer window minimum-height calculation in `ComputerUI.lua`. Tests, development preview renderer, version mirrors, manifest, README/changelog and reviewed overview are maintained in this branch. No external assets or runtime dependencies. G6 native visual/controller NOT TESTED; inherited G7/stable G8 remains BLOCKED. No package, deployment, game/server launch or Workshop publication.
+
+
+### Historical 0.18.0-dev.5 taskbar and artwork cleanup - 2026-10-17
 
 [TESTED OFFLINE] Final full paired regression PASS with Rooms 0.2.0-dev.6 after the keyboard/tooltip/controller corrections. Current UI fixtures verify independent retained tasks, no duplicate app launches, query/page/choice preservation, active-task minimize, inactive restore, most-recent visible fallback, per-app close/X, Show Desktop restoration excluding individually minimized apps, and taskbar bounds at minimum size and 14/24/32/42 font heights. The controller taskbar is one horizontal row matching its layout.
 

@@ -205,3 +205,73 @@ local entries={addOption=function() error('disabled ledger action was offered') 
 V.inventoryMenu(0,entries,{paper});V.worldMenu(0,entries,{computer},false)
 SandboxVars.B47ANCEDQuartermaster.LedgerMode=1
 print('PASS OFFLINE disabled ledger UI: menus suppressed, computer open refused, active screen closed')
+
+-- Actual table production path: distinct identities, columns, details, native
+-- selection/scroll, empty/redacted refreshes and minimum geometry. No pixel proof.
+local rows={};local reads=0;local empty=false;local waiting=false;local redacted=false
+local oldText=getText
+getText=function(key,...)
+ local values={...}
+ if key=='UI_QMSS_LedgerItemLine' or key=='UI_QMSS_LedgerLocationLine' or key=='UI_QMSS_LedgerRecordedLine' then
+  for n,v in ipairs(values) do values[n]=tostring(v) end;return table.concat(values,' | ')
+ end
+ local labels={UI_QMSS_LedgerTableItem='Item',UI_QMSS_LedgerTableQuantity='Quantity',UI_QMSS_LedgerTableLocation='Location'}
+ return labels[key] or oldText(key,...)
+end
+for n=1,40 do rows[n]={name=n==2 and ('Long item '..string.rep('name ',60)) or 'Same display name',quantity=n*100,
+ fullType='Fixture.Type'..n,condition=10,room='Workshop',roomID='fixture-room',container='Crate '..n,
+ position={x=n,y=0,z=0,ci=0},recorded=42} end
+local baseRequest=Q.Authority.request
+Q.Authority.request=function(num,command,args,reply)
+ if command~='ledgerRead' then return baseRequest(num,command,args,reply) end
+ reads=reads+1
+ reply(waiting and {status='waiting',summary='LedgerLoading'} or {status='ok',rows=empty and {} or rows,
+  rooms=redacted and {} or {{id='fixture-room',name='Workshop'}},redacted=redacted,
+  scope='Fixture building',summary='LedgerComplete',live=true,fresh=true,revision=1,cursor=args.cursor==nil and 'page-two' or nil})
+end
+getPlayerScreenWidth=function() return 3840 end;getPlayerScreenHeight=function() return 2160 end
+for _,font in ipairs({14,24,32,42}) do
+ getTextManager=function() return {getFontHeight=function() return font end,MeasureStringX=function(_,_,s) return #s*font/2 end} end
+ screen=assert(V.computer(0,computer));screen:openDrive();if not screen.mounted then screen.content.insert.onclick() end;screen:runDisc()
+ panel=assert(V.readers[0]);local controls=panel.ledgerControls;local list=controls.list;local tableView=assert(panel.ledgerTable)
+ for _,size in ipairs({{screen.minimumWidth,screen.minimumHeight},{screen.minimumWidth+300,screen.minimumHeight+250}}) do
+  screen:setWidth(size[1]);screen:setHeight(size[2]);screen:prerender();panel:prerender()
+  assert(#tableView.columns==3 and list.itemheight==font+10,'ledger is still a multi-line list')
+  assert(list.y>=tableView.headerY+U.Theme.metrics().button and list.height>=list.itemheight,'header overlaps first row')
+  assert(list.y+list.height<=tableView.detailsY-8,'table overlaps details at font '..font)
+  assert(tableView.detailsY+tableView.detailsHeight<=controls.close.y-8,'details overlap footer')
+  assert(controls.previous.x+controls.previous.width<controls.more.x and controls.more.x+controls.more.width<controls.close.x,'footer buttons overlap')
+  assert(list.vscroll.x+list.vscroll.width<=list.width and list.vscroll.height==list.height,'native scrollbar escaped table')
+  local columns=tableView.columns
+  assert(columns[1].x+columns[1].width==columns[2].x and columns[2].x+columns[2].width==columns[3].x)
+  assert(columns[3].x+columns[3].width<=list.width-U.Theme.metrics().scrollbar,'Location overlaps scrollbar')
+  local drawn={};list.drawText=function(_,s,x,y,r,g,b) drawn[#drawn+1]={s=s,x=x,y=y,r=r,g=g,b=b} end
+  list.selected=2;list:setYScroll(0);list:doDrawItem(0,list.items[2],false)
+  assert(#drawn==3 and drawn[2].s=='200' and drawn[1].r==C.colors.white.r,'columns/selection contrast lost')
+  for i,cell in ipairs(drawn) do assert(cell.x>=columns[i].x and cell.x+#cell.s*font/2<=columns[i].x+columns[i].width-8,'cell overflows column') end
+  assert(list.items[2].tooltip and list.items[2].tooltip:find('Fixture.Type2',1,true),'clipped item lost full detail tooltip')
+  drawn={};list:doDrawItem(list.height+1,list.items[2],false);assert(#drawn==0,'offscreen row did formatting/drawing')
+ end
+ local reachable=false;for _,widget in ipairs(panel.allJoypadButtons) do if widget==list then reachable=true end end
+ assert(reachable and list.joypadParent==panel and list.resetSelectionOnChangeFocus==false,'controller cannot select rows and return')
+ list.selected=30;list:setYScroll(-150);rows[1],rows[30]=rows[30],rows[1];f.advance(2100);panel:prerender()
+ assert(list.selected==1 and list.items[1].item.fullType=='Fixture.Type30' and list:getYScroll()==-150,'reordered live refresh lost exact item identity/scroll')
+ local details={};panel.drawText=function(_,text) details[#details+1]=text end;panel:prerender()
+ local found=false;for _,text in ipairs(details) do if text:find('Fixture.Type30',1,true) then found=true end end
+ assert(found,'selected row metadata is missing from the details area')
+ local T=require 'B47ANCEDQuartermaster/LedgerTable'
+ assert(T.key(list.items[list.selected].item)==T.key(rows[1]) and T.key(rows[1])~=T.key(rows[2]))
+ rows[1],rows[30]=rows[30],rows[1]
+ controls.more.onclick();assert(tableView.page==2 and list.selected==1 and list:getYScroll()==0,'new page retained an unrelated selection')
+ controls.previous.onclick();assert(tableView.page==1)
+ local before=reads;for n=1,10 do panel:prerender() end;assert(reads==before,'table redraw emitted server requests')
+ controls.search:setText('literal [item]');controls.search.onTextChangeFunction();f.advance(400);panel:prerender()
+ assert(list.selected==1 and list:getYScroll()==0,'query change kept old page position')
+ controls.rooms.selected=2;controls.rooms.onChange(panel,controls.rooms);f.advance(1);panel:prerender()
+ empty=true;redacted=true;f.advance(2100);panel:prerender()
+ assert(#list.items==0 and list.selected==-1 and tableView.count==0 and #controls.rooms.options==1,'redaction retained private rows/room choices')
+ waiting=true;f.advance(2100);panel:prerender();assert(tableView.emptyLabel=='UI_QMSS_LedgerLoading','waiting result displayed an empty-success state')
+ empty=false;waiting=false;redacted=false;screen:close()
+end
+Q.Authority.request=baseRequest;getText=oldText;getTextManager=measure;getPlayerScreenWidth,getPlayerScreenHeight=width,height
+print('PASS OFFLINE ledger table: columns, numeric alignment, clipping, selection contrast/details, exact row identity, live refresh/scroll, pages/query reset, redaction/empty/waiting states, controller access and 14/24/32/42 minimum layouts; native visual acceptance NOT TESTED')

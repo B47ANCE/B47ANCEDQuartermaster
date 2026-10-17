@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.18.0-dev.5",
+  "version": "0.18.0-dev.6",
   "reviewed": true,
-  "source_digest": "bfa8a2e0f9fd1a54830a99ab1cb32f6ea888703897df6f3cc51d8dbe17ff2981",
+  "source_digest": "5203d506ab4c32b0248eb2dea3d15e30de16c6fdd174df1e395cfd26cdf425a1",
   "features": [
     {
       "status": "Source",
@@ -40,10 +40,10 @@
     },
     {
       "status": "Source",
-      "text": "Original bulky CRT art with softer shading and pixel icons; retained drive/writer/ledger tasks, minimize/restore, app switching, per-app close and Show Desktop. Cached ledger resume revalidates through existing server reads; presentation only."
+      "text": "Original bulky CRT art with softer shading and pixel icons; retained drive/writer/ledger tasks, minimize/restore, app switching, per-app close and Show Desktop. Cached ledger resume revalidates through existing server reads; presentation only. Digital ledger table with separate item/quantity/location columns, selected-entry details and preserved refresh selection/scroll."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.5; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.6; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",
