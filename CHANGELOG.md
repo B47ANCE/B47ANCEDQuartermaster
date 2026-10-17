@@ -6,6 +6,7 @@
 - Add server Ledger Mode (periodic live, disabled, live without expiry, historical snapshots), Update Interval (1–365 in-game days, default 7) and Computer Manual Updates (default on).
 - Renew paper records through native inspection without changing older CDs. Live readers refresh confirmed contents of recorded physical compartments through bounded, permission-checked server analysis; historical pages remain immutable.
 - Disabled mode hides ledger/computer actions and rejects ledger work without disabling physical shopping papers. Existing data is preserved for re-enabling.
+- Correct the mod-browser description to match scoped ledger requirements, freshness modes, computer updates and current protocol capabilities; runtime behavior is unchanged by this metadata correction.
 - Development source only; native client and dedicated multiplayer acceptance NOT TESTED (G7/stable G8 blocked).
 
 ## [0.16.0-dev.2] — Keep sorting setup open after Save
@@ -149,6 +150,8 @@ Compatible MINOR: physical Building Supply Ledger, with separate ledger protocol
 Compatible PATCH correction pass: category clearing/ranges, renamed-item presentation, hidden container selection, inventory category ordering, picker text/layout, preference preservation, known-unsubmitted shopping cancellation and reproducible runtime directories. Native continuation investigation and expanded transaction lifecycle coverage; no dedicated success claim. No deployment/publication.
 
 ## [0.4.0-dev.46]
+
+- Documentation-only README refresh: describe the current Workshop features, required Rooms and optional integrations; link current published source, preserve the previous README as dated history and retire obsolete README version selectors. No gameplay or project-version changes.
 
 Compatible diagnostic PATCH iteration. Distinguish operation-state, pending-item guard, native validation, transaction rejection and native cancellation before/after perform. Transfer execution and authority unchanged. Dev.45 live dedicated attempts still stop after one item; root cause remains unproven. No deployment/publication.
 

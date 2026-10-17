@@ -256,6 +256,14 @@
     {
       "reference": "docs/WORKSHOP_TEST_0_16_0.md; dist/workshop-publish/0.16.0-dev.2",
       "reason": "Version-bound 0.16.0-dev.2 Workshop test preparation/publication evidence and immutable package identity; retain exact observed version and runtime gates."
+    },
+    {
+      "reference": "docs/historical/README_BEFORE_2026-10-15_GITHUB_DEFAULT.md",
+      "reason": "Exact prior README preserved as dated source/history evidence. The root README now describes the current Workshop product and links its current source; it intentionally contains no source version mirror. Canonical VERSION and all runtime/version-bearing mirrors are unchanged."
+    },
+    {
+      "reference": "docs/PR_STACK_INTEGRATION_2026_10_16.md",
+      "reason": "Dated per-PR integration evidence retains exact observed source version, commits, source hashes and offline/native gate distinctions; not a current version mirror."
     }
   ]
 }
