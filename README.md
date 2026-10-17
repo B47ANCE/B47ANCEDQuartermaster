@@ -8,9 +8,11 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.18.0-dev.2 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/fix/designated-room-scopes).
+The Workshop feature guide is below. This branch also contains **0.19.0-dev.1 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/fix/designated-room-scopes).
 
 ## Development work in this branch
+
+The computer desktop and reusable drive service now live in the separate [B47ANCED PC Framework](https://github.com/B47ANCE/B47ANCEDPCFramework). Quartermaster supplies the ledger reader and CD Writer apps. See [dependency installation, ownership and validation](docs/PC_FRAMEWORK_INTEGRATION.md).
 
 - Room organization uses B47ANCEDRooms designations only; building scope uses native PZ buildings. Native-room selectors/fallbacks are retired. Existing building-ledger coverage and dormant native-room allocation records are preserved. [Scope corrections and test report](docs/DESIGNATED_ROOM_SCOPES.md).
 
@@ -59,7 +61,7 @@ Choose **Use computer (Windows '93)** at a supported powered desktop. Open **CD 
 
 ## Getting started
 
-1. Subscribe to Quartermaster and B47ANCE'd Rooms, then enable both mods.
+1. For this development source, enable Quartermaster, B47ANCE'd Rooms and B47ANCED PC Framework on all peers. PC Framework is not yet on Workshop.
 2. Open **Quartermaster** from your player inventory.
 3. Select a container and choose its categories, individual items or sorting presets.
 4. Save the configuration. Repeat for other storage, or reuse settings with copy/paste and presets.
@@ -84,7 +86,7 @@ Visible-list operations affect displayed item rows. Category and mod-group actio
 ## Compatibility
 
 - **Project Zomboid Build 42.21.**
-- **B47ANCE'd Rooms is required.** Enable `B47ANCEDRooms` alongside `B47ANCEDQuartermaster` on the server and every client.
+- **B47ANCE'd Rooms and B47ANCED PC Framework are required by this development source.** Enable `B47ANCEDRooms`, `B47ANCEDPCFramework` and `B47ANCEDQuartermaster` on every peer. [Framework setup and preserved saves](docs/PC_FRAMEWORK_INTEGRATION.md). The framework has no assigned Workshop item yet.
 - **Better Sorting, Better Containers and [Extended Categories](https://steamcommunity.com/sharedfiles/filedetails/?id=3650035249) are optional alternatives.** Quartermaster reads native category metadata. Better Containers and Extended Categories category clicks save explicit item selections so client-local categories do not control server classification. Reselect after changing category membership. Extended Categories declares Better Sorting incompatible; follow their load rules. Inventory presentation stays with the installed UI mods.
 - **Project Cook, Neat Crafting and Neat Building are optional.** Shopping controls support compatible recipes; partial portions, fluids and other unsupported cooking demands are not handled.
 - Disable original Quartermaster and older B47 sorting copies.
@@ -96,13 +98,13 @@ For automated cleaning, install the separate [B47ANCE'd Auto Clean](https://stea
 
 ## Development and documentation
 
-Use the [current Workshop source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/fix/designated-room-scopes) for current source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
+Use the [development source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/fix/designated-room-scopes) for current source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
 
 From that source checkout, with Python and the host-only Lupa dependency available:
 
 ```powershell
 python -B scripts/check_versions.py
-python -B tests/run_tests.py --require-rooms
+python -B tests/run_tests.py --require-rooms --pc-framework <framework-checkout>
 ./Build.ps1 -PythonPath <python.exe>
 ```
 

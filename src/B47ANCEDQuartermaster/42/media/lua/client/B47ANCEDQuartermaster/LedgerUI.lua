@@ -244,19 +244,24 @@ function V.inventoryMenu(num,menu,items)
  end
  U.menu(menu)
 end
-function V.computer(num,computer)
+local PC=require 'B47ANCEDPCFramework/API'
+PC.registerApplication('quartermaster',function(num,computer)
  if not Policy.enabled() or not computer then return end
- return Computer.open(num,computer,{inventory=inventory,
+ return {inventory=inventory,enabled=Policy.enabled,canUse=Media.computer,
+  text=tr,file='QUARTERMASTER.EXE',toolTitle=tr('ComputerWriter'),
+  canRun=function(item) return item and item:getFullType()==Media.disc end,
+  writer=require 'B47ANCEDQuartermaster/ComputerWriter',
   drive=function(command,args,reply)
    local sq=computer:getSquare();if not sq then reply({status='LedgerPower'});return end
    args.computer={x=sq:getX(),y=sq:getY(),z=sq:getZ(),index=computer:getObjectIndex()}
-   Q.Authority.request(num,command,args,reply)
+   Q.Authority.request(num,({list='ledgerDriveList',mount='ledgerDriveMount',eject='ledgerDriveEject'})[command],args,reply)
   end,
   read=function(item,host) return V.read(num,item,computer,host) end,
   burn=function(paper,cd) V.burn(num,paper,cd,computer) end,
   busy=function() return V.work[num]~=nil end,
-  close=function() local op=V.work[num];if op and op.burn then V.cancel(num) end end})
-end
+  close=function() local op=V.work[num];if op and op.burn then V.cancel(num) end end}
+end,tr('LedgerDigitalTitle'))
+function V.computer(num,computer) return PC.open(num,computer,'quartermaster') end
 function V.worldMenu(num,menu,objects,test)
  if test or not Policy.enabled() then return end
  local actor=getSpecificPlayer(num);if not actor then return end
@@ -281,7 +286,7 @@ function V.tick()
 end
 if Events then
  Events.OnFillInventoryObjectContextMenu.Add(V.inventoryMenu)
- Events.OnFillWorldObjectContextMenu.Add(V.worldMenu)
+ -- PC Framework owns the world computer entry point.
  Events.OnTick.Add(V.tick)
  Events.OnServerCommand.Add(function(module,command,args)
   if module~='B47ANCEDQuartermasterLedger' or type(args)~='table' then return end

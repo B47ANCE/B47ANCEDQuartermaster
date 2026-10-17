@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.18.0-dev.2",
+  "version": "0.19.0-dev.1",
   "reviewed": true,
-  "source_digest": "6a5c72f53136ca2d4c605f48764d539b8172a3c8860b57b674df6eacf3486bce",
+  "source_digest": "ffdccf66b2f17e3a2d37eef1a2a01ae2c47b2592cedd2d8abddc0497a0ad4c46",
   "features": [
     {
       "status": "Source",
@@ -24,7 +24,7 @@
     },
     {
       "status": "Source",
-      "text": "Powered Windows'93 desktop, CD Writer and QUARTERMASTER.EXE; ledger freshness requirements for room/building work."
+      "text": "PC Framework hosts Windows 93; Quartermaster registers the ledger reader and CD Writer app. Ledger freshness remains server-authoritative."
     },
     {
       "status": "Source",
@@ -39,17 +39,23 @@
       "text": "Designated-room-only UI/server scopes with native building scope; retired native profiles stay dormant even through aliases. No-profile Shadow comparisons preserve ordinary native eligibility and capacity checks."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.2; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.19.0-dev.1; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",
-    "docs/DESIGNATED_ROOM_SCOPES.md"
+    "docs/DESIGNATED_ROOM_SCOPES.md",
+    "docs/PC_FRAMEWORK_INTEGRATION.md"
   ],
   "relations": [
     {
       "target": "rooms",
       "kind": "Required",
       "text": "Designated UUID geometry, metadata and independent action permissions; current storageScopes/roomDesignations contracts for advisory room profiles."
+    },
+    {
+      "target": "local-b47ancedpcframework",
+      "kind": "Required",
+      "text": "Independent desktop/device/server-drive host; Quartermaster supplies ledger privacy, data and app callbacks."
     }
   ]
 }

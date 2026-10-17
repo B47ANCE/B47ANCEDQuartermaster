@@ -1,4 +1,4 @@
-[b]Version 0.18.0-dev.2[/b]
+[b]Version 0.19.0-dev.1[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
 Port sparse allocation profiles and percentage editing onto the current supply ledger, computers, physical Shopping Lists and carry-first transfer stack. Container/Whole/preset migrations retain recovery snapshots. Use current designated-room APIs and preserve independent native action permissions.
@@ -8,3 +8,6 @@ Allocation remains advisory: Off/Shadow, default Shadow. Enforcement and live Pr
 Source-only development; no upload, deployment or native acceptance. G7 and stable G8 remain BLOCKED.
 
 Room organization uses designated B47ANCEDRooms rooms only; native buildings define building scope. Retired native-room scope requests are rejected (Quartermaster Rooms capability 4). Existing building-ledger coverage and historical data are preserved. Allocation limits and live role routing remain disabled.
+
+
+Development source 0.19.0-dev.1: requires B47ANCED PC Framework (no Workshop item assigned yet). Desktop and reusable drives are extracted; Quartermaster registers its ledger/CD Writer apps. MP testing build - dedicated multiplayer NOT TESTED. G7/stable G8 BLOCKED. This text is source preparation only; no upload is authorized or performed.

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.19.0-dev.1] - 2026-10-17
+
+- Extract the Windows '93 desktop, computer validation and reusable server drive engine into the required B47ANCED PC Framework mod.
+- Quartermaster registers its ledger reader/CD writer as an app; existing paper/CD identities, snapshots and persisted drive bindings remain unchanged.
+- 0.x compatibility change: enable B47ANCEDPCFramework on every peer. Missing framework fails closed through the loader dependency. No deployment/publication; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED.
+
 ## [0.18.0-dev.2] - 2026-10-17
 
 - Retire native-room selectors, fallback requests, allocation aliases and active grouping. Use B47ANCEDRooms designated rooms for room organization and native PZ buildings for building scope, with proximity fallback where no designation applies.
