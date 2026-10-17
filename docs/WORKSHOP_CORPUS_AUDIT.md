@@ -97,3 +97,7 @@ Lua used by authoritative server planning; no networking/state-ownership change
 or runtime scanning added. Existing sandbox settings remain unchanged; these
 are internal semantic corrections, not new configurable gameplay modes.
 G7 NOT TESTED/BLOCKED; stable G8 BLOCKED. No deployment, package or publication.
+
+## Integration source review — 2026-10-16
+
+Codex reviewed this PR under B47ANCE's explicit request to test/merge the stack and the established owner self-merge policy. The earlier independent-review-pending wording records the original draft checkpoint; a separate independent reviewer was not used and is not claimed. Review signoff applies to the no-import compatibility boundary: the five generic category hints use public metadata, do not import item lists, and only apply after stronger native evidence. The inventory parser uses declarative fields without executing external Lua. Production/test files are unchanged by default-branch reconciliation. No third-party implementation, assets or private diagnostics are added. Licensing remains UNKNOWN for reuse; no reuse is performed. Full offline regression and source/version checks pass; native/dedicated gates remain pending.
