@@ -1,8 +1,14 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.4.0-dev.49
+Project Version: 0.4.0-dev.50
 
-## Current dev.49 Workshop corpus classification
+## Current dev.50 native queue assembly
+
+Compatible PATCH candidate: use native ISQueueActionsAction to enqueue all authorized donors before the first transfer begins. Existing server batch size, native weight/type grouping, transaction timing and stable item-ID guards remain. Regression reproduces one-item first submission before the fix; actual installed native helper and transfer lifecycle are exercised offline. See DEV50_NATIVE_QUEUE.md. No package/deployment/publication.
+
+[VERIFIED scoped runtime] User confirms dev.49 fixed the one-item stop. Client log reports client/server dev.49, 140 completed, zero transfer failures, followed by a no-work run with 1,467 noMatchingRule skips. This is not complete G7 acceptance; dev.50 queue behavior remains runtime-unverified. G7 NOT TESTED/BLOCKED; stable G8 BLOCKED.
+
+## Historical dev.49 Workshop corpus classification
 
 Compatible PATCH correction: 378 installed packages, 13,893 script files, 37,320 declarations and 27,274 distinct types inventoried read-only. Five metadata fallback meanings refine 298 declarations (274 distinct types); all other classifications and approved vanilla deviations stay unchanged. No third-party implementation/assets imported. See WORKSHOP_CORPUS_AUDIT.md for provenance, limits and validation. Native effective-load-order/SP/dedicated evidence remains pending; G7 NOT TESTED/BLOCKED, stable G8 BLOCKED. No deployment/publication.
 

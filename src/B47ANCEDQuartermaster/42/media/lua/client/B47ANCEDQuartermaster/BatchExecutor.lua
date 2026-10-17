@@ -116,18 +116,27 @@ local function transfer(b,leg)
         if not b.closed then b.phase=leg=='take' and 'confirmCarried' or 'confirmDone';b.phaseTime=getTimestampMs() end
     end)
     b.phase=leg=='take' and 'taking' or 'putting'
-    -- The first native action may start immediately. Its first transaction may
-    -- contain one item; vanilla absorbs later donors on subsequent queue checks.
-    ISTimedActionQueue.add(head)
-    for i=2,#ops do
-        if b.closed then break end
-        local action=native:new(b.player,ops[i].item,src,dst)
-        action.b47Batch,action.leg=b,leg
-        -- If native merging stops at an unrelated action, an owned donor must
-        -- still fail closed after cancellation rather than execute unguarded.
-        for _,method in ipairs({'canMergeAction','isValid','checkQueueList','start','perform','stop','forceCancel'}) do action[method]=head[method] end
-        ISTimedActionQueue.add(action)
-    end
+    -- Vanilla's queue gate inserts all donors before the head can begin. This
+    -- lets native start() submit its full first group instead of a lone item.
+    -- Native weight/type grouping, timing and item transactions remain intact.
+    require 'TimedActions/ISQueueActionsAction'
+    local gate=ISQueueActionsAction:new(b.player,function()
+        if b.closed then return end
+        ISTimedActionQueue.add(head)
+        for i=2,#ops do
+            if b.closed then break end
+            local action=native:new(b.player,ops[i].item,src,dst)
+            action.b47Batch,action.leg=b,leg
+            -- If native merging stops at an unrelated action, an owned donor
+            -- still fails closed after cancellation rather than run unguarded.
+            for _,method in ipairs({'canMergeAction','isValid','checkQueueList','start','perform','stop','forceCancel'}) do action[method]=head[method] end
+            ISTimedActionQueue.add(action)
+        end
+    end)
+    gate.b47Batch=b
+    function gate:stop() done(b,'cancelled');ISQueueActionsAction.stop(self) end
+    function gate:forceCancel() done(b,'cancelled') end
+    ISTimedActionQueue.add(gate)
     Trace.emit(b.trace,'ACTION_QUEUED',leg..'-batch',nil,nil,nil,#ops)
 end
 local function requestAll(b,command,fromState,toState,nextPhase)

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.0-dev.50]
+- Compatible PATCH candidate: assemble each authorized native transfer batch through vanilla ISQueueActionsAction before the first transfer begins. Keep existing server batch-size, native grouping/timing, per-item guards and stable item-ID lookup.
+- User confirms dev.49 fixes the one-item stop; client log reports 140 completed with zero transfer failures. This is scoped runtime evidence, not full dedicated G7 acceptance. New queue behavior requires in-game testing.
+
 ## [0.4.0-dev.49]
 - Compatible PATCH development iteration: audit installed Workshop item declarations and improve metadata-based fallback classification. Preserve taxonomy IDs, tool-first priority and native/server movement authority; no external classifier, source or assets imported.
 - Add reproducible corpus inventory including common-folder definitions and ambiguous ownership reporting. Static audit is not runtime effective-load-order proof; dedicated validation pending.
