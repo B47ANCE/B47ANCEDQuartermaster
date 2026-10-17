@@ -1,6 +1,6 @@
 B47ANCEDQuartermaster = B47ANCEDQuartermaster or {}
 require 'B47ANCEDQuartermaster/Store'
-local C={fields={cats=true,items=true,presets=true,priority=true}}
+local C={fields={cats=true,items=true,presets=true,priority=true,allocation=true}}
 B47ANCEDQuartermaster.Configuration=C
 function C.clone(value)
     if type(value)~='table' then return value end

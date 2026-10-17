@@ -24,7 +24,7 @@ function F.group(t,player)
  local anchor=members[1];local r,err=root(anchor);if err then return nil,err end
  local parent=r and r.parents[slot(anchor)]
  if parent then
-  if type(parent)~='table' or parent.schema~=1 or not S.valid(parent.config) or not revision(parent.revision) or type(parent.id)~='string' or type(parent.members)~='table' then return nil,'schema' end
+  if type(parent)~='table' or (parent.schema~=1 and parent.schema~=2) or not S.valid(parent.config) or not revision(parent.revision) or type(parent.id)~='string' or type(parent.members)~='table' then return nil,'schema' end
   local count=0;for _ in pairs(parent.members) do count=count+1 end
   if count~=#members then return nil,'invalid' end
   for _,v in ipairs(members) do
@@ -66,6 +66,15 @@ local function ensure(t)
  if not data then data={schema=1,id=fresh(),children={},parents={}};md[F.key]=data end
  return data
 end
+local function preserve(t)
+ local data=root(t);if not data or data.allocationBackup then return end
+ local function clone(v)
+  if type(v)~='table' then return v end
+  local out={};for k,value in pairs(v) do if k~='allocationBackup' then out[k]=clone(value) end end;return out
+ end
+ data.allocationBackup=clone(data)
+ print('[B47ANCEDQuartermaster] allocation migration: preserved original furniture inheritance')
+end
 local function authorized(group,player,session,view)
  local B=B47ANCEDQuartermaster.Bindings;local bound=B.session(player,session);if not bound then return false end
  local V=B47ANCEDQuartermaster.DiscoveryView
@@ -94,6 +103,7 @@ function F.change(player,record,args)
     local state=F.state(t)
     if state and state.mode=='inherit' then local old,e,rev=Store.rawLoad(t);if not old then return {status=e} end;writes[#writes+1]={target=t,original=old,revision=rev} end
    end
+   preserve(group.anchor);for _,t in ipairs(group.members) do preserve(t) end
    for _,w in ipairs(writes) do local config,e=Store.rawCommit(w,group.parent.config);if not config then return {status=e} end end
    for _,t in ipairs(group.members) do local data=ensure(t);data.children[slot(t)]=nil;t.obj:transmitModData() end
    ensure(group.anchor).parents[slot(group.anchor)]=nil;group.anchor.obj:transmitModData()
@@ -108,9 +118,10 @@ function F.change(player,record,args)
     existing[t.container]=native~=nil or imported==true end
    local id=fresh();local keys={}
    for _,t in ipairs(group.members) do local data=ensure(t);local pos=T.descriptor(t);keys[memberKey(t)]={x=pos.x,y=pos.y,z=pos.z,ci=t.ci,kind=t.container:getType(),count=t.obj:getContainerCount()};data.children[slot(t)]={group=id,mode=existing[t.container] and 'custom' or 'inherit',revision=0} end
-   group.parent={schema=1,id=id,revision=0,config=S.empty(),members=keys};ensure(group.anchor).parents[slot(group.anchor)]=group.parent
+   group.parent={schema=2,id=id,revision=0,config=S.empty(),members=keys};ensure(group.anchor).parents[slot(group.anchor)]=group.parent
   end
-  group.parent.config=S.copy(args.config);group.parent.revision=group.parent.revision+1
+  if group.parent.schema==1 then preserve(group.anchor) end
+  group.parent.schema=2;group.parent.config=S.copy(args.config);group.parent.revision=group.parent.revision+1
   for _,t in ipairs(group.members) do t.obj:transmitModData() end
   return {status='ok',config=S.copy(group.parent.config),revision=group.parent.revision,mode='whole'}
  end
@@ -118,13 +129,13 @@ function F.change(player,record,args)
  local state=F.state(record.target);if not state or state.group~=group.parent.id then return {status='invalid'} end
  if args.action=='reset' then
   if args.confirm~=true then return {status='invalid'} end
-  state.mode='inherit';state.revision=state.revision+1;record.target.obj:transmitModData()
+  preserve(record.target);state.mode='inherit';state.revision=state.revision+1;record.target.obj:transmitModData()
  else
   if state.mode=='inherit' and args.action~='custom' then return {status='invalid'} end
   if not S.current(args.config) then return {status='invalid'} end
   local old,e,rev=Store.rawLoad(record.target);if not old then return {status=e} end
   local saved,error=Store.rawCommit({target=record.target,original=old,revision=rev},args.config);if not saved then return {status=error} end
-  state.mode='custom';state.revision=state.revision+1;record.target.obj:transmitModData()
+  preserve(record.target);state.mode='custom';state.revision=state.revision+1;record.target.obj:transmitModData()
  end
  local c,e,rev,info=F.load(record.target,player,false);return c and {status='ok',config=c,revision=rev,mode=info.mode} or {status=e}
 end

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.18.0-dev.1]
+
+Port the advisory allocation foundation onto the current ledger/physical-shopping/carry stack; retain movement 11, personal 2, shopping 3, ledger 3, Rooms 3 and load-policy 1. Add sparse profiles, Whole/preset migrations with recovery snapshots, percentage editors, bounded server shadow diagnostics and paired designated-room permissions. Configuration/preset wire capabilities become 6/3; saved configuration/preset schemas become 3/2. Fix current Rooms metadata discovery when retired nativeRooms is omitted; reject malformed metadata and obsolete allocation providers. Enforcement and live routing remain disabled. Native/dedicated NOT TESTED; G7/stable G8 BLOCKED.
+
 ## [0.17.0-dev.1] - 2026-10-16
 
 - Inventory and selected-container Sort no longer require a supply ledger. Room/Building Sort still require current location knowledge when enabled.

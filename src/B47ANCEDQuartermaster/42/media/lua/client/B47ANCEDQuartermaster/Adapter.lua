@@ -3,6 +3,7 @@ require 'B47ANCEDQuartermaster/Model'
 require 'B47ANCEDQuartermaster/Ownership'
 require 'B47ANCEDQuartermaster/UIOptions'
 require 'B47ANCEDUI/Controls'
+local AllocationUI=require 'B47ANCEDQuartermaster/AllocationUI'
 
 local Q = B47ANCEDQuartermaster
 local function tr(key) return getText('UI_QMSS_' .. key) end
@@ -47,12 +48,13 @@ local function rebuild(p)
     end
     a.model:refresh()
     local rows, matches = a.model:rows(text, p.onlyChecked, contents, a.expanded, a.filterExpanded)
+    rows=AllocationUI.rows(p,rows)
     a.matches = matches
     lb:clear()
     lb:setScrollHeight(0)
     local anchorIndex, parentIndex, selectedIndex
     for index, row in ipairs(rows) do
-        local label = (row.kind == 'category' or row.kind=='subcategory') and row.group.label or (row.kind == 'mod' and row.mod.label or row.key)
+        local label = (row.kind == 'category' or row.kind=='subcategory') and row.group.label or (row.kind == 'mod' and row.mod.label or row.allocationLabel or row.key)
         local entry = lb:addItem(label, row)
         if row.kind == 'item' and #(a.model.memberships[row.key] or {}) > 1 then
             entry.tooltip = tr('SharedTip')
@@ -80,6 +82,7 @@ local function rowState(p, row)
 end
 function Q.updateActionVisibility(p)
     if not p.qmss or not p.qmss.model or not combined(p) then return end
+    if p.allocationOnly then p.btnAll:setVisible(false);p.btnClear:setVisible(false);return end
     local canSelect,canClear=false,false
     for _,entry in ipairs(p.listbox.items) do
         local row=entry.item
@@ -115,6 +118,7 @@ function Q.expandAll(p, on)
 end
 
 function Q.visibleAction(p, action)
+    if p.allocationOnly then return end
     local rows = {}
     for _, entry in ipairs(p.listbox.items) do
         if entry.item.kind == 'item' then rows[#rows + 1] = entry.item end
@@ -125,6 +129,7 @@ function Q.visibleAction(p, action)
 end
 
 function Q.rangeAction(p, row, preserveAnchor, range)
+    if p.allocationOnly then return end
     if not row then return end
     local a = p.qmss
     local current, index = rowById(p, row.id)
@@ -166,6 +171,14 @@ end
 
 function Q.context(p, row, x, y)
     local menu = B47ANCEDUI.menu(ISContextMenu.get(p.playerNum or 0, x, y))
+    AllocationUI.context(p,row,menu)
+    AllocationUI.actions(p,menu)
+    if p.allocationOnly then
+        if row and row.kind~='item' then menu:addOption(tr(row.open and 'CollapseCategory' or 'ExpandCategory'),p,function() expand(p,row) end) end
+        if p.allocationRoomMenu then p.allocationRoomMenu(menu) end
+        if p.grabbedJoypad then setJoypadFocus(p.playerNum,menu) end
+        return menu
+    end
     local function add(target, key, fn) target:addOption(tr(key), p, fn) end
     local function visibleOptions(target)
         add(target, 'SelectVisible', function() Q.visibleAction(p, 'select') end)
@@ -217,7 +230,7 @@ local function updateCount(p)
     local effective=Q.Schema.effective({cats=cats,items=items,presets=p.selectedPresets,priority=0},p:getPresetStore())
     cats,items=effective.cats,effective.items
     p.qmss.count = p.qmss.model:effectiveCount(cats, items)
-    p.btnModeCat:setTitle(tr('Combined') .. ' (' .. p.qmss.count .. ')')
+    p.btnModeCat:setTitle(p.allocationOnly and tr('AllocationControl') or tr('Combined') .. ' (' .. p.qmss.count .. ')')
 end
 Q.updateCount = updateCount
 
@@ -248,13 +261,13 @@ local function drawRow(lb, y, entry, alt)
     UI.Renderer.row(lb,y,height,entry.index,lb.selected==entry.index,lb.mouseoverselected==entry.index and lb:isMouseOver())
     local x = UI.Tree.indent(row.depth)
     local by = y + (height - 16) / 2
-    UI.Tree.checkbox(lb,x,by,state)
+    if not p.allocationOnly then UI.Tree.checkbox(lb,x,by,state) end
     local label = (row.kind == 'category' or row.kind=='subcategory') and row.group.label or (row.kind == 'mod' and row.mod.label or row.key)
     local font = UIFont.Small
     local fy = y + (height - getTextManager():getFontHeight(font)) / 2
     local textX = x + 23
     if row.kind == 'item' then
-        local texture = Q.Picker.itemTexture((p.qmss.catalog or p.api).getItemFullType(row.key))
+        local texture = Q.Picker.itemTexture(row.allocationFullType or (p.qmss.catalog or p.api).getItemFullType(row.key))
         if texture then
             UI.Renderer.icon(lb,texture,textX,y+(height-18)/2,18)
         end
@@ -262,7 +275,9 @@ local function drawRow(lb, y, entry, alt)
         textX = textX + 24
     end
     -- Vanilla's outer stencil clips long labels; reserve the disclosure area with an opaque backing.
-    UI.Renderer.text(lb,label,textX,fy,row.kind=='category' and UI.Theme.colors.text or row.kind=='mod' and UI.Theme.colors.muted or UI.Theme.colors.text,font)
+    local allocationLeft=AllocationUI.index(p) and select(1,AllocationUI.geometry(lb)) or width-29
+    UI.Renderer.text(lb,UI.Renderer.fit(row.allocationLabel or label,math.max(0,allocationLeft-textX-8),font),textX,fy,row.kind=='category' and UI.Theme.colors.text or row.kind=='mod' and UI.Theme.colors.muted or UI.Theme.colors.text,font)
+    AllocationUI.draw(p,lb,y,height,row)
     if row.kind ~= 'item' then
         UI.Renderer.rect(lb,width-25,y,25,height-1,UI.Theme.colors.raised)
         UI.Renderer.text(lb,row.open and '-' or '+',width-18,fy,UI.Theme.colors.accent,font)
@@ -287,7 +302,7 @@ local function layout(p)
     p.btnModePreset:setX(10 + inner - presetWidth)
     p.btnModePreset:setWidth(presetWidth)
     p.btnModePreset:setVisible(p.targetKind=='box')
-    p.btnModeCat:setTitle(tr('Combined') .. ' (' .. (p.qmss.count or 0) .. ')')
+    p.btnModeCat:setTitle(p.allocationOnly and tr('AllocationControl') or tr('Combined') .. ' (' .. (p.qmss.count or 0) .. ')')
     local a = p.qmss
     if a.bulkButton then
         a.bulkButton:setVisible(p.targetKind=='box' or combined(p))
@@ -350,6 +365,7 @@ function Q.adapt(p)
         if a.presetSignature ~= signature then a.presetSignature = signature; updateCount(self) end
         self.btnModeCat:setTitle(tr('Combined') .. ' (' .. (a.count or 0) .. ')')
         self.btnModeItem:setVisible(false)
+        AllocationUI.notice(self)
     end
     p.setMode = function(self, target)
         if self.targetKind~='box' then target='cats' end
@@ -392,11 +408,21 @@ function Q.adapt(p)
             and not self.filter:isFocused() and not self.priorityEntry:isFocused()
     end
     local keyConsumed, keyPress = p.isKeyConsumed, p.onKeyPress
+    local function allocationKey(self,key)
+        return combined(self) and isAltKeyDown and isAltKeyDown() and (key==Keyboard.KEY_LEFT or key==Keyboard.KEY_RIGHT or key==Keyboard.KEY_RETURN)
+            and self:isVisible() and not self.removed and not self.dimmer:isVisible() and not self.filter:isFocused() and not self.priorityEntry:isFocused()
+    end
     p.isKeyConsumed = function(self, key)
-        if shortcut(self, key) then return true end
+        if shortcut(self, key) or allocationKey(self,key) then return true end
         return keyConsumed and keyConsumed(self, key) or false
     end
     p.onKeyPress = function(self, key)
+        if allocationKey(self,key) then
+            local entry=self.listbox.items[self.listbox.selected];if not entry then return end
+            if key==Keyboard.KEY_RETURN then AllocationUI.exact(self,entry.item)
+            else local value=AllocationUI.state(self,entry.item);AllocationUI.set(self,entry.item,math.max(0,math.min(100,(value or 100)+(key==Keyboard.KEY_LEFT and -5 or 5)))) end
+            return true
+        end
         if shortcut(self, key) then
             Q.visibleAction(self, isShiftKeyDown() and 'clear' or 'select')
         elseif keyPress then return keyPress(self, key) end
@@ -415,6 +441,8 @@ function Q.adapt(p)
         local entry = self.items[index]
         if not entry then return end
         self.selected = index
+        if AllocationUI.press(p,self,entry.item,x) then return true end
+        if p.allocationOnly then if entry.item.kind~='item' then expand(p,entry.item) else AllocationUI.exact(p,entry.item) end;return true end
         getSoundManager():playUISound('UISelectListItem')
         if entry.item.kind ~= 'item' and x >= 30 + (entry.item.depth or 0) * 20 then
             if isShiftKeyDown() then Q.expandAll(p, not entry.item.open) else expand(p, entry.item) end
@@ -425,9 +453,30 @@ function Q.adapt(p)
         local entry = self.items[self:rowAt(x, y)]
         return Q.context(p, entry and entry.item, getMouseX(), getMouseY())
     end
+    local oldMove,oldMoveOutside,oldUp,oldUpOutside=lb.onMouseMove,lb.onMouseMoveOutside,lb.onMouseUp,lb.onMouseUpOutside
+    lb.onMouseMove=function(self,x,y)
+        if p.allocationDrag then return AllocationUI.move(p,self,self:getMouseX()) end
+        if oldMove then return oldMove(self,x,y) end
+    end
+    lb.onMouseMoveOutside=function(self,x,y)
+        if p.allocationDrag then return AllocationUI.move(p,self,self:getMouseX()) end
+        if oldMoveOutside then return oldMoveOutside(self,x,y) end
+    end
+    lb.onMouseUp=function(self,x,y)
+        if p.allocationDrag then AllocationUI.release(p);return true end
+        if oldUp then return oldUp(self,x,y) end
+    end
+    lb.onMouseUpOutside=function(self,x,y)
+        if p.allocationDrag then AllocationUI.release(p);return true end
+        if oldUpOutside then return oldUpOutside(self,x,y) end
+    end
+    local close=p.closePicker
+    p.closePicker=function(self,...) AllocationUI.release(self);return close(self,...) end
+    p.close=function(self,...) return self:closePicker(...) end
     lb.onJoypadDown = function(self, button, data)
         if not combined(p) then local result = a.original.joypad(self, button, data); updateCount(p); return result end
         local entry = self.items[self.selected]
+        if p.allocationOnly and button==Joypad.AButton then if entry then Q.context(p,entry.item,getMouseX(),getMouseY()) end;return end
         if button == Joypad.AButton then selectRow(p, entry and entry.item); return end
         if button == Joypad.XButton or button == Joypad.YButton then expand(p, entry and entry.item); return end
         return a.original.joypad(self, button, data)

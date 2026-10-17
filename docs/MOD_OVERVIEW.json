@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "id": "qm",
+  "name": "Quartermaster",
+  "version": "0.18.0-dev.1",
+  "reviewed": true,
+  "source_digest": "1bdd0592c3886a9808e114f7723b1747909588de42e0b71b0c0c0059aca5de05",
+  "features": [
+    {
+      "status": "Source",
+      "text": "Configure category/item storage rules, priorities, presets and whole-furniture sections."
+    },
+    {
+      "status": "Source",
+      "text": "Sort inventory, containers, rooms, buildings and eligible floor items; shopping demands and Dibs lists."
+    },
+    {
+      "status": "Source",
+      "text": "Rooms integration and supply API used by Auto Clean."
+    },
+    {
+      "status": "Source",
+      "text": "physical shareable shopping papers and held-list HUD; paper supply inspections and ledger CDs."
+    },
+    {
+      "status": "Source",
+      "text": "Powered Windows'93 desktop, CD Writer and QUARTERMASTER.EXE; ledger freshness requirements for room/building work."
+    },
+    {
+      "status": "Source",
+      "text": "Carry grouping, progress, vehicle/trailer cargo and nested bags; optional Dangerous Load and extra carry allowance."
+    },
+    {
+      "status": "Foundation",
+      "text": "Sparse container/Whole/preset/room allocation profiles and percentage UI; bounded shadow accounting and reservation primitives. Enforcement and live role routing disabled."
+    }
+  ],
+  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.1; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
+  "evidence": [
+    "README.md",
+    "docs/ALLOCATION_INTEGRATION.md"
+  ],
+  "relations": [
+    {
+      "target": "rooms",
+      "kind": "Required",
+      "text": "Designated UUID geometry, metadata and independent action permissions; current storageScopes/roomDesignations contracts for advisory room profiles."
+    }
+  ]
+}

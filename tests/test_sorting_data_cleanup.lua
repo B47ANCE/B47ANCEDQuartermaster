@@ -34,7 +34,7 @@ for _,alias in ipairs(D.aliases) do
  assert(c and not err and c.cats[native] and not c.cats.B47_Food and not c.cats.UnknownOld)
  assert(c.items.Apple and c.priority==17 and c.presets.Meals=='b47:7' and not c.presets.Foreign)
  assert(rev==4 and f.a.md[alias]==nil and f.a.md.UnrelatedMod==protected and f.a.md.LSBox==foreign)
- local e=f.a.md[S.key].containers['0'];assert(e.schemaVersion==2 and e.taxonomyVersion==7 and e.legacyImported==nil)
+ local e=f.a.md[S.key].containers['0'];assert(e.schemaVersion==S.version and e.taxonomyVersion==7 and e.legacyImported==nil)
  assert(f.sent()==before+1)
  local again,_,sameRev=Store.load(t);assert(S.equal(c,again) and sameRev==rev and f.sent()==before+1,'cleanup not idempotent')
  local record={target=t,original=S.copy(c),revision=rev};c.priority=18;assert(Store.commit(record,c))

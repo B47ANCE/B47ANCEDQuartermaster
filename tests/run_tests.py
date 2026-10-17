@@ -42,12 +42,20 @@ runtime().execute((ROOT / 'tests/test_carry_budget.lua').read_text(encoding='utf
 runtime().execute((ROOT / 'tests/test_container_sources.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_progress.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_supply_api.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_allocation_profile.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_allocation_capacity.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_allocation_ui.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_native_categories.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_sorting_data_cleanup.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_allocation_persistence.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_allocation_storage.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_allocation_routing.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_allocation_editor.lua').read_text(encoding='utf-8'))
 # Embedded 0.7 room tests remain historical; standalone production tests live in Rooms.
 runtime().execute((ROOT / 'tests/test_room_preferences.lua').read_text(encoding='utf-8'))
 if (ARGS.rooms / 'src/B47ANCEDRooms/42/media/lua/shared/B47ANCEDRooms/API.lua').is_file():
     runtime().execute((ROOT / 'tests/test_rooms_integration.lua').read_text(encoding='utf-8'))
+    runtime().execute((ROOT / 'tests/test_allocation_rooms.lua').read_text(encoding='utf-8'))
 elif ARGS.require_rooms:
     raise SystemExit('Required standalone Rooms checkout is unavailable: ' + str(ARGS.rooms))
 else:
@@ -125,6 +133,19 @@ for _ in range(1000):
         if count==256 and -value>=portion: count=0
         assert capacity(h,use,kind,skill)==count,(h,use,kind,skill,count)
 print('PASS OFFLINE 2,000 native-shaped portion cases against independent binary32 oracle; not native execution')
+native_float=arithmetic.eval("require('B47ANCEDQuartermaster/NativeFloat').round")
+values=[0.0,2**-149,2**-150,3*2**-150,2**-126,1.0+2**-24,1.0+3*2**-24]
+values.extend(random_source.random()*1000 for _ in range(2000))
+for value in values:
+    assert native_float(value)==f32(value),(value,native_float(value),f32(value))
+native_sum=0.0
+for _ in range(4096):
+    weight=f32(random_source.random())
+    native_sum=f32(native_sum+weight)
+    if _==0: lua_sum=0.0
+    lua_sum=native_float(lua_sum+weight)
+assert lua_sum==native_sum
+print('PASS OFFLINE binary32 weight oracle: 2,007 normal/subnormal/tie cases and 4,096-item accumulation; not native execution')
 for name in ('ItemPicker.lua','ItemCatalog.lua'):
     code=(CLIENT / 'B47ANCEDQuartermaster' / name).read_text(encoding='utf-8')
     assert not re.search(r'instanceItem|AddItem|GiveItem|/additem|SendCommandToServer',code), name

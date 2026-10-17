@@ -47,5 +47,13 @@
   "Sandbox_B47ANCEDQuartermaster_LedgerUpdateDays": "Ledger update interval (in-game days)",
   "Sandbox_B47ANCEDQuartermaster_LedgerUpdateDays_tooltip": "Days after a completed inspection before it expires in Periodic and Historical modes. Range 1-365; default 7. Expired records remain readable as history. Uses server world age and survives restart. No effect in Disabled/No updates modes or for automatically updating computers.",
   "Sandbox_B47ANCEDQuartermaster_LedgerComputerManualUpdates": "Computers require manual updates",
-  "Sandbox_B47ANCEDQuartermaster_LedgerComputerManualUpdates_tooltip": "On: record storage and write/load an updated CD when it expires; computer display follows Ledger mode. Off: a matching completed CD at an accessible powered computer provides live statistics for its recorded compartments without expiry. Power, real CD presence, scope and current inspection permissions are always required. Does not update paper or rewrite the CD snapshot."
+  "Sandbox_B47ANCEDQuartermaster_LedgerComputerManualUpdates_tooltip": "On: record storage and write/load an updated CD when it expires; computer display follows Ledger mode. Off: a matching completed CD at an accessible powered computer provides live statistics for its recorded compartments without expiry. Power, real CD presence, scope and current inspection permissions are always required. Does not update paper or rewrite the CD snapshot.",
+  "Sandbox_B47ANCEDQuartermaster_AllocationMode": "Allocation evaluation",
+  "Sandbox_B47ANCEDQuartermaster_AllocationMode_tooltip": "Off disables advisory work. Shadow compares percentage profiles with the legacy sorter without enforcing quotas or moving items. Existing saves default to Shadow. Enforcement is unavailable until native and dedicated acceptance.",
+  "Sandbox_B47ANCEDQuartermaster_AllocationMode_option1": "Off",
+  "Sandbox_B47ANCEDQuartermaster_AllocationMode_option2": "Shadow (advisory only)",
+  "Sandbox_B47ANCEDQuartermaster_PrimaryOverflowAt": "Primary room overflow threshold (%)",
+  "Sandbox_B47ANCEDQuartermaster_PrimaryOverflowAt_tooltip": "Default Primary fill threshold for newly created room allocation profiles. Server controlled, 0–100%, default 60. Existing explicit room values remain unchanged.",
+  "Sandbox_B47ANCEDQuartermaster_SecondaryReturnAt": "Secondary room return threshold (%)",
+  "Sandbox_B47ANCEDQuartermaster_SecondaryReturnAt_tooltip": "Default Secondary fill threshold for newly created room allocation profiles. Server controlled, 0–100%, default 80. Existing explicit room values remain unchanged."
 }

@@ -97,6 +97,14 @@
     {
       "path": "WORKSHOP_DESCRIPTION.txt",
       "pattern": "^Version (?P<version>\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?)(?:\\.|\\s)"
+    },
+    {
+      "path": "docs/ALLOCATION_INTEGRATION.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/ALLOCATION_SYSTEM.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {
@@ -264,6 +272,10 @@
     {
       "reference": "docs/PR_STACK_INTEGRATION_2026_10_16.md",
       "reason": "Dated per-PR integration evidence retains exact observed source version, commits, source hashes and offline/native gate distinctions; not a current version mirror."
+    },
+    {
+      "reference": "docs/ALLOCATION_BASELINE.md",
+      "reason": "Original pre-allocation source audit at 0.8.0-dev.1, retained as historical evidence; not the current ledger/shopping/carry baseline."
     }
   ]
 }

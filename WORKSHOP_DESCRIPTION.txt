@@ -3,7 +3,7 @@ B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep t
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.17.0-dev.1 (development source; not yet uploaded). New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
+Version 0.18.0-dev.1 (development source; not yet uploaded). New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
 
 [h2]Sorting made simple[/h2]
 • Choose whole categories or individual items in a searchable tree with native item icons.
