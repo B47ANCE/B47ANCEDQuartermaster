@@ -8,7 +8,17 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-This guide describes the current Workshop release. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
+The Workshop feature guide is below. This branch also contains **0.12.0-dev.1 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
+
+## Development work in this branch
+
+- Overall Sort/Shopping progress beside vanilla's current-action bar, including room/building job progress.
+- Fill a carry before walking, then unload it before the next carry. Vanilla's smaller transfer groups and timing stay unchanged.
+- Server-controlled extra carry allowance (0-40 kg, default 0), subject to native capacity and encumbrance.
+- Selected native vehicle/trailer cargo and nested storage bags, with native access checks and cargo-area walking.
+- Pre-authorization full-crate fallback and permitted source returns; safe retention when a return or native outcome is unavailable.
+
+Movement protocol 9 requires matching server/client builds and reconnect. Saved category rules, selections, presets and priorities are unchanged. No automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks or unverified virtual storage. Actual PZ SP and dedicated testing for this iteration are pending. See [behavior, clean-room audit, validation and limitations](docs/PROGRESS_CARRY_AND_CONTAINERS.md).
 
 ## Sorting
 
@@ -84,7 +94,7 @@ python -B tests/run_tests.py --require-rooms
 - [Artwork sources and exports](assets/branding/README.md)
 - [Issues and feedback](https://github.com/B47ANCE/B47ANCEDQuartermaster/issues)
 
-Dedicated multiplayer tests passed according to the owner's report on 2026-10-15. Historical implementation and validation notes retain their original context in the repository and Git history.
+Dedicated multiplayer tests passed for the earlier Quartermaster build according to the owner's report on 2026-10-15; this does not validate the new 0.12 development changes. Historical implementation and validation notes retain their original context in the repository and Git history.
 
 **Mod ID:** `B47ANCEDQuartermaster`
 

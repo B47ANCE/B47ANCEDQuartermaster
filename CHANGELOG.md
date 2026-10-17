@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.12.0-dev.1] - 2026-10-15
+
+- Add overall Sort/Shopping overhead progress alongside vanilla's current-action bar. Room/building Sort aggregates sources; Shopping uses authoritative remaining demand. Auto Clean remains separate and unchanged.
+- Reconcile the owner-supplied carry-load patch: load a weight-limited carry before walking and unload it before starting another. Route Optimization groups one native room per carry when on, one crate when off. Preserve vanilla's smaller transfer groups and timing.
+- Add server sandbox Extra carry allowance (0–40 kg, default 0), with equipped-bag reduction and native capacity enforced. Retire the unused SortBatchSize UI control; saved values no longer slice a carry.
+- Support selected native vehicle/trailer storage and nested physical-storage bags through exact identities, access checks and native cargo-area walking. Read-only Workshop metadata census records 112 relevant items among 422 downloads; no third-party code/assets imported. Automatic vehicle area sweeps, vehicle destination configuration, fluids and unverified virtual stores remain unsupported.
+- Before PUT authorization, redirect full destinations to matching storage or request a permitted native return to the exact source. Include pending alternative reservations, prevent fallback cycles and preserve partial completion. Retain carried items when safe return or native outcome is unavailable; stop wholly rejected batches.
+- Fix the non-public recipe-input lookup, preserve completed work when queued items become inadmissible, and explain zero-move skip reasons. Uncarryable items no longer reserve space needed by lighter items.
+- Compatible MINOR iteration; movement capability 8 to 9 requires matching server/client builds and reconnect. Save/category/preset schemas and SupplyAPI 1 are unchanged. Offline regressions and source checks pass; actual PZ SP/dedicated G7 NOT TESTED, stable G8 BLOCKED. No package, deployment or publication.
+
 ## [0.11.0-dev.1] - 2026-10-15
 
 - Approved artwork follow-up: replace the crowded thumbnail/poster with a simple crate-and-checklist design and a matching transparent icon. Preserve the original masters and reproducible size/format exports. Presentation-only source update; runtime version, gameplay and previously published package are unchanged. Not deployed or uploaded by this change.

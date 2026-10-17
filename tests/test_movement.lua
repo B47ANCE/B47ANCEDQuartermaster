@@ -12,10 +12,12 @@ local function container(c)
     function c:hasRoomFor() return self.room end
     function c:isItemAllowed() return true end
     function c:isRemoveItemAllowed() return true end
+    function c:getCapacityWeight() return #self.items end
     return c
 end
 local carried=container({})
 f.player.getInventory=function() return carried end
+f.player.getMaxWeight=function() return 100 end
 local source,dest=container(f.a.containers[1]),container(f.b.containers[1])
 local discovery=assert(B.discover(f.player,{scope={x=0,y=0,z=0}}))
 local records={}
@@ -25,7 +27,7 @@ local config=S.empty();config.items.RoundA=true;assert(Store.commit(r,config))
 local item={container=source,getID=function() return 17 end,getCategory=function() return 'Ammo' end,
     getScriptItem=function() return CATALOG_FIXTURE.items[1] end,getDisplayName=function() return 'RoundA' end,
     isEquipped=function() return false end,isFavorite=function() return false end,getAttachedSlot=function() return -1 end,
-    getIsCraftingConsumed=function() return false end}
+    getIsCraftingConsumed=function() return false end,getActualWeight=function() return 1 end}
 function item:getContainer() return self.container end
 local function reset()
     M.operations={};item.container=source;source.items={item};carried.items={};dest.items={};dest.room=true
@@ -82,7 +84,7 @@ reset();assert(M.handle(f.player,'movePlan',{session=discovery.session,source=re
 reset();offer=plan();assert(cmd(offer,'moveTake').status=='ok')
 source.items={};carried.items={item};item.container=carried
 assert(cmd(offer,'moveCarried').status=='ok');dest.room=false
-assert(cmd(offer,'movePut').status=='invalid');assert(item.container==carried)
+assert(cmd(offer,'movePut').status=='revert');assert(item.container==carried)
 reset();offer=plan();f.network(true,false)
 assert(cmd(offer,'moveTake').status=='invalid','client authority')
 f.network(false,false)

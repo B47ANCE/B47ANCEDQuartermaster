@@ -1,6 +1,10 @@
 # Quartermaster supply extension API
 
-Project Version: 0.11.0-dev.1
+Project Version: 0.12.0-dev.1
+
+## Current development iteration
+
+SupplyAPI remains version 1; its public contract is unchanged. Sort movement capability is separately 9. Auto Clean is the existing separate Workshop mod (3820151540) and is unchanged here. Extraction/no-item statements below describe the original checkpoint, not current publication status. See [implementation and evidence](PROGRESS_CARRY_AND_CONTAINERS.md).
 
 The user requested a separate Auto Clean mod and explicitly selected a required
 Quartermaster supply provider. Quartermaster owns SupplyAPI 1 and configured

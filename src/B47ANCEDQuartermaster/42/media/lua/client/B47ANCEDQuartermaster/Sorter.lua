@@ -2,8 +2,17 @@ require 'B47ANCEDQuartermaster/Executor'
 local E,A,T=B47ANCEDQuartermaster.Executor,B47ANCEDQuartermaster.Authority,B47ANCEDQuartermaster.Targets
 local Trace=require 'B47ANCEDQuartermaster/SortTrace'
 local S={active={}}
+local Progress=require 'B47ANCEDQuartermaster/Progress'
+local External=require 'B47ANCEDQuartermaster/ContainerSources'
 local traceSequence=0
 B47ANCEDQuartermaster.Sorter=S
+function S.progress(run)
+    local total=tonumber(run.sourceCount)
+    local processed=run.completed+run.failed+(run.planningSkipped or 0)
+    local batch=E.batches and E.batches[run.playerNum]
+    if batch and batch.trace==run.trace then processed=processed+(batch.completed or 0)+(batch.failed or 0) end
+    return {known=total~=nil,total=total or 0,completed=math.min(total or 0,processed),label='UI_B47_ProgressSort'}
+end
 local function empty(player) return #ISTimedActionQueue.getTimedActionQueue(player).queue==0 end
 local function diagnostic(value) return tostring(value or 'unknown'):gsub('[^%w_:%.-]','?'):sub(1,80) end
 local function planningResult(run,result)
@@ -15,8 +24,13 @@ local function planningResult(run,result)
 end
 local function endRun(run,status)
     if run.closed then return end
+    local batch=E.batches and E.batches[run.playerNum]
+    if batch and batch.trace==run.trace then
+        run.completed=run.completed+(batch.completed or 0);run.failed=run.failed+(batch.failed or 0)
+    end
     Trace.emit(run.trace,'OPERATION_COMPLETED',status)
     run.closed=true;S.active[run.playerNum]=nil
+    Progress.clear(run.playerNum,run)
     E.cancel(run.playerNum)
     local reasons={}
     for _,key in ipairs({'sourceChanged','itemProtected','noMatchingRule','destinationRejected','carryCapacity','planningRejected','alreadySorted'}) do
@@ -29,7 +43,7 @@ local function endRun(run,status)
         ..' sourceCount='..diagnostic(run.sourceCount)..' planningTargets='..diagnostic(run.planningTargets)
         ..' firstFailure='..diagnostic(rejection.phase)..':'..diagnostic(rejection.status)..':'..diagnostic(rejection.reason))
     if run.id then A.request(run.playerNum,'tripCancel',{run=run.id},function() end) end
-    if run.callback then run.callback(status,run.completed,run.failed+(run.planningSkipped or 0)) end
+    if run.callback then run.callback(status,run.completed,run.failed+(run.planningSkipped or 0),run.skipReasons) end
 end
 function S.cancel(playerNum)
     local run=S.active[playerNum]
@@ -61,11 +75,14 @@ function S.start(playerNum,source,callback,options)
     local clicked=Trace.begin()
     if not require('B47ANCEDQuartermaster/Compatibility').allowed() then return false,'IncompatibleMod' end
     local player=getSpecificPlayer(playerNum)
+    if B47ANCEDQuartermaster.Collector and B47ANCEDQuartermaster.Collector.active[playerNum] then return false,'busy' end
     if B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[playerNum] and not (options and options.area) then return false,'busy' end
     if not player or not source or S.active[playerNum] or E.active[playerNum] or E.batches[playerNum] or not empty(player) then return false,'busy' end
-    local token,target,sourceItems
-    if (source:getType()=='floor' or (not source:getParent() and not source:getContainingItem() and source~=player:getInventory())) then sourceItems=B47ANCEDQuartermaster.GroundSources.hints(source,player);if not sourceItems then return false,'invalid' end;token='ground' end
-    if token=='ground' then
+    local token,target,sourceItems,sourceHint
+    if not (options and options.area) then sourceHint=External.hint(source,player) end
+    if sourceHint then token='external'
+    elseif (source:getType()=='floor' or (not source:getParent() and not source:getContainingItem() and source~=player:getInventory())) then sourceItems=B47ANCEDQuartermaster.GroundSources.hints(source,player);if not sourceItems then return false,'invalid' end;token='ground' end
+    if token=='ground' or token=='external' then
     elseif source==player:getInventory() then token='inventory'
     elseif source:getContainingItem() then
         local bag=source:getContainingItem()
@@ -73,19 +90,20 @@ function S.start(playerNum,source,callback,options)
         token='bag:'..bag:getID()
     else
         local obj=source:getParent()
-        if obj then target=T.make(obj,obj:getContainerIndex(source),player) end
+        if obj and obj.getContainerIndex then target=T.make(obj,obj:getContainerIndex(source),player) end
         if not target then return false,'invalid' end
     end
     if options and options.area and token=='ground' then return false,'invalid' end
     local square=player:getCurrentSquare()
     traceSequence=traceSequence+1
     local participant=player.getOnlineID and player:getOnlineID() or playerNum
-    local run={player=player,playerNum=playerNum,source=source,sourceTarget=target,sourceToken=token,sourceItems=sourceItems,
+    local run={player=player,playerNum=playerNum,source=source,sourceTarget=target,sourceToken=token,sourceItems=sourceItems,sourceHint=sourceHint,
         trace=tostring(participant)..':'..tostring(getTimestampMs())..':'..traceSequence,
         startSquare=player:getCurrentSquare(),callback=callback,completed=0,failed=0,time=getTimestampMs(),phase='discover'}
     S.active[playerNum]=run
     run.pipeline=E.batchSupported();run.buffer={}
     run.area=options and options.area;run.sweep=options and options.sweep
+    if not run.area then Progress.start(playerNum,run,S.progress,function(r) return S.active[playerNum]==r end) end
     Trace.emit(run.trace,'OPERATION_CREATED',token or 'container')
     Trace.observe(run.trace,player)
     if player.setHaloNote then player:setHaloNote(getText('UI_B47_SortPreparing')) end
@@ -116,64 +134,143 @@ local function itemFinished(run,status)
     if status=='ok' then run.completed=run.completed+1 else run.failed=run.failed+1 end
     run.busy=false
 end
-local function compatible(a,b,player)
+local function sameSourceOffer(a,b,player)
+    if not a or not b or a.carrierID~=b.carrierID then return false end
     if (a.source and a.source.ground) or (b.source and b.source.ground) then
         local p,q=a.source,b.source
         if not p or not q or not p.ground or not q.ground or p.x~=q.x or p.y~=q.y or p.z~=q.z then return false end
         local first,second=E.resolve(p,player),E.resolve(q,player)
         return first and second and first.container==second.container
-            and a.destination.instance==b.destination.instance and a.destination.ci==b.destination.ci and a.carrierID==b.carrierID
     end
-    local x,y=a.destination,b.destination
     local p,q=a.source,b.source
-    return x.instance==y.instance and x.ci==y.ci and a.carrierID==b.carrierID
-        and ((not p and not q) or (p and q and p.instance==q.instance and p.ci==q.ci))
+    if not p and not q then return true end
+    return p and q and p.instance==q.instance and p.ci==q.ci
+end
+local function samePutOffer(a,b)
+    local x,y=a.destination,b.destination
+    return x and y and x.instance==y.instance and x.ci==y.ci and a.carrierID==b.carrierID and not a.revert and not b.revert
+end
+local function applyReport(run,group,report)
+    report=report or {}
+    for _,offer in ipairs(group) do
+        local id=offer.operation
+        if report.kept and report.kept[id] then offer.taken=true
+        elseif report.done and report.done[id] then offer.put=true
+        elseif report.spill and report.spill[id] then offer.taken=true;offer.destination=report.spill[id];offer.put=nil;offer.revert=nil
+        elseif report.revert and report.revert[id] then offer.taken=true;offer.revert=true;offer.put=nil
+        elseif report.failed and report.failed[id] then offer.drop=true end
+    end
+    if run.haul then
+        local live={}
+        for _,offer in ipairs(run.haul) do if not offer.drop then live[#live+1]=offer end end
+        run.haul=live
+    end
+end
+local function onHaulBatch(run,group,status,completed,failed,rejection,report)
+    run.busy=false
+    if rejection then run.rejection=run.rejection or rejection;run.serverVersion=rejection.serverVersion or run.serverVersion end
+    if run.closed then return end
+    run.completed=run.completed+(completed or 0)
+    run.failed=run.failed+(failed or 0)
+    if status=='cancelled' or status=='uncertain' then endRun(run,status);return end
+    applyReport(run,group,report)
+    local progressed=false
+    for _,field in ipairs({'kept','done','spill','revert','failed'}) do
+        for _ in pairs(report and report[field] or {}) do progressed=true;break end
+    end
+    local failures=0
+    for _ in pairs(report and report.failed or {}) do failures=failures+1 end
+    if failures==#group or status=='invalid' and not progressed then endRun(run,'invalid');return end
+end
+local function takeGroup(run)
+    local group={}
+    for _,offer in ipairs(run.haul or {}) do
+        if not offer.taken and not offer.carried and not offer.revert and not offer.drop then
+            if #group==0 or (#group<100 and sameSourceOffer(group[1],offer,run.player)) then group[#group+1]=offer end
+        end
+    end
+    return group
+end
+local function putGroup(run)
+    local group,first={},nil
+    for _,offer in ipairs(run.haul or {}) do
+        if (offer.taken or offer.carried) and not offer.put and not offer.revert and not offer.drop then
+            if not first then first=offer end
+            if first and #group<100 and samePutOffer(first,offer) then group[#group+1]=offer end
+        end
+    end
+    return group
+end
+local function revertGroup(run)
+    local group,first={},nil
+    for _,offer in ipairs(run.haul or {}) do
+        if offer.revert and not offer.put and not offer.drop then
+            if not first then first=offer end
+            if first and #group<100 and sameSourceOffer(first,offer,run.player) then group[#group+1]=offer end
+        end
+    end
+    return group
 end
 local function pipelineStep(run)
     local sq=run.player:getCurrentSquare();local origin=run.startSquare
-    local building=run.discovery.building and origin:getBuilding()
+    local building=run.discovery and run.discovery.building and origin and origin:getBuilding()
     local currentBuilding=sq and sq:getBuilding()
     local scopeReady=run.scopeRoom or building and currentBuilding and currentBuilding:getDef()==building:getDef()
-        or not building and sq and sq:getZ()==origin:getZ()
+        or not building and sq and origin and sq:getZ()==origin:getZ()
         and math.max(math.abs(sq:getX()-origin:getX()),math.abs(sq:getY()-origin:getY()))<=3
-    -- Prefetch has its own request state: it must not stall the executing batch.
-    if scopeReady and #run.buffer==0 and not run.prefetch and not run.exhausted
-        and getTimestampMs()>=(run.nextPrefetchAt or 0) then
-        run.prefetch=true
-        run.nextPrefetchAt=getTimestampMs()+250
-        Trace.emit(run.trace,'PREFETCH_REQUEST','tripNext')
-        A.request(run.playerNum,'tripNext',{run=run.id,trace=run.trace},function(r)
-            run.prefetch=false
-            if run.closed then return end
-            planningResult(run,r)
-            if r.status=='waiting' or r.status=='rateLimited' then return end
-            if r.status=='done' then run.exhausted=true;return end
-            if r.status~='ok' then endRun(run,r.status);return end
-            run.planningSkipped=r.skipped or run.planningSkipped
-            run.buffer=r.offers or {};run.exhausted=not r.remaining
-            Trace.emit(run.trace,'PLAN_READY',#run.buffer)
-        end)
-    end
     if run.busy or not empty(run.player) then return end
-    if #run.buffer==0 then
-        if run.exhausted and not run.prefetch then endRun(run,'ok')
-        elseif not scopeReady and not run.prefetch then
-            local action=returnWalk(run,origin);run.busy=true
-            action:setOnComplete(function() if not run.closed then run.busy=false end end)
-            ISTimedActionQueue.add(action)
+    if run.haul and #run.haul>0 then
+        local mode,group
+        if run.haulPhase~='put' and run.haulPhase~='revert' then
+            group=takeGroup(run);mode='take'
+            if #group==0 then run.haulPhase='put' end
         end
+        if (not group or #group==0) and run.haulPhase=='put' then
+            group=putGroup(run);mode='put'
+            if #group==0 then run.haulPhase='revert' end
+        end
+        if (not group or #group==0) and run.haulPhase=='revert' then
+            group=revertGroup(run);mode='revert'
+        end
+        if group and #group>0 then
+            run.busy=true
+            if not E.startBatch(run.playerNum,group,function(status,completed,failed,rejection,report)
+                onHaulBatch(run,group,status,completed,failed,rejection,report)
+            end,mode) then endRun(run,'cancelled') end
+            return
+        end
+        run.haul=nil;run.haulPhase=nil
+    end
+    if not scopeReady and not run.prefetch and origin then
+        local action=returnWalk(run,origin);run.busy=true
+        action:setOnComplete(function() if not run.closed then run.busy=false end end)
+        ISTimedActionQueue.add(action)
         return
     end
-    local group={table.remove(run.buffer,1)}
-    while #run.buffer>0 and compatible(group[1],run.buffer[1],run.player) do group[#group+1]=table.remove(run.buffer,1) end
-    run.busy=true
-    if not E.startBatch(run.playerNum,group,function(status,completed,failed,rejection)
-        run.completed=run.completed+completed;run.failed=run.failed+failed;run.busy=false
-        if rejection then run.rejection=run.rejection or rejection;run.serverVersion=rejection.serverVersion or run.serverVersion end
+    if run.exhausted and not run.prefetch then endRun(run,'ok');return end
+    if run.prefetch or getTimestampMs()<(run.nextPrefetchAt or 0) then return end
+    run.prefetch=true
+    run.nextPrefetchAt=getTimestampMs()+250
+    Trace.emit(run.trace,'PREFETCH_REQUEST','tripNext')
+    A.request(run.playerNum,'tripNext',{run=run.id,trace=run.trace},function(r)
+        run.prefetch=false
         if run.closed then return end
-        if status~='ok' and status~='partial' then endRun(run,status)
-        elseif completed==0 and failed>0 then endRun(run,'invalid') end
-    end) then endRun(run,'cancelled') end
+        planningResult(run,r)
+        if r.status=='waiting' or r.status=='rateLimited' then return end
+        if r.status=='done' then run.exhausted=true;return end
+        if r.status~='ok' then endRun(run,r.status);return end
+        run.planningSkipped=r.skipped or run.planningSkipped
+        run.haul=r.offers or {}
+        run.haulPhase='take'
+        local pendingTake=false
+        for _,offer in ipairs(run.haul) do
+            if offer.carried then offer.taken=true else pendingTake=true end
+        end
+        if not pendingTake then run.haulPhase='put' end
+        if #run.haul==0 then run.haul=nil;run.exhausted=not r.remaining end
+        run.exhausted=not r.remaining
+        Trace.emit(run.trace,'PLAN_READY',#(run.haul or {}))
+    end)
 end
 local function step(run)
     if (run.player.pressedMovement and run.player:pressedMovement(false)) or (run.player.pressedCancelAction and run.player:pressedCancelAction()) then S.cancel(run.playerNum);return end
@@ -202,7 +299,7 @@ local function step(run)
             end -- await native ModData replication
         end
         Trace.emit(run.trace,'HANDLE_RESOLUTION','resolved',nil,nil,run.traceBindAt)
-        request(run,'tripBegin',{session=run.discovery.session,source=run.sourceToken,sourceItems=run.sourceItems,area=run.area,sweep=run.sweep},function(r)
+        request(run,'tripBegin',{session=run.discovery.session,source=run.sourceToken,sourceItems=run.sourceItems,sourceHint=run.sourceHint,area=run.area,sweep=run.sweep},function(r)
             if r.status~='ok' then endRun(run,r.status);return end
             run.id=r.run;run.phase='next'
             Trace.emit(run.trace,'RESPONSE_ACCEPTED','tripBegin')

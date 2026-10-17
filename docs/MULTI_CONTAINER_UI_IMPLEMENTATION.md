@@ -1,6 +1,10 @@
 # Multi-container editor implementation
 
-Project Version: 0.11.0-dev.1
+Project Version: 0.12.0-dev.1
+
+## Current development iteration
+
+The configuration tree is unchanged. Overall Sort/Shopping progress is a separate local HUD. Vehicle support selects cargo sources; it does not add vehicle destination designations to this editor. Original implementation/evidence below is historical. See [implementation and evidence](PROGRESS_CARRY_AND_CONTAINERS.md).
 
 Implementation date: 2026-09-28. [TESTED: offline] Lua 5.1 host fixtures and installed Quartermaster 0.24.0 Picker integration. [RUNTIME GATE] SP, hosted, remote client and dedicated server are NOT TESTED. This is a development candidate, not a release-readiness claim.
 

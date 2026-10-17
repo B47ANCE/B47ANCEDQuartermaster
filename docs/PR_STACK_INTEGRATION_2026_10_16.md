@@ -81,3 +81,12 @@ The owner subsequently authorized a read-only review agent. That agent inspected
 - Source review: Standalone Rooms extraction uses guarded versioned APIs and fails closed for unavailable protected-room permission services. This PR does not merge or modify Rooms itself.
 - Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
 - [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.
+
+## PR #11 — 0.12.0-dev.1: full carries, overall progress and native vehicle sources
+
+- Observed version: `0.12.0-dev.1`; original tested feature head `f1be19acaba4e4704f34696a76136425fad1a365`. Reconciled default predecessor `674c8e8b2721ad65cb769209b652c1376ea0571a` using a non-rewriting merge.
+- Runtime files: 134. Source SHA-256: `3446d8ee8b83db1fdc40eb1635feece1ddb059428d50c494e82435f491729512`. Production, tests and validation scripts remain byte/blob-equivalent to the original tested head; reconciliation changes only documentation/evidence.
+- [TESTED OFFLINE] Full `python -B tests/run_tests.py --require-rooms --rooms <verified B47ANCEDRooms repository>` passed on the exact original head; this evidence applies unchanged to the identical runtime/test/tool tree. Re-ran `python -B scripts/check_versions.py`, `python -B scripts/check_deployment.py`, and `git -c core.safecrlf=false diff --cached --check` after reconciliation. Public secret/private-diagnostic, runtime Lua-only and case-uniqueness checks passed. No package was created; absent development artifacts are deferred, not a packaging PASS.
+- Source review: Closed carries fill before walking and unload before another carry; vanilla small transfer groups remain. Local progress is presentation only. Generic vehicle/trailer/bag handles use native physical identities/access checks; no vehicle sweep or bulk-fluid path.
+- Independent read-only clean-room agent signoff is recorded above for this exact runtime head. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
+- [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.

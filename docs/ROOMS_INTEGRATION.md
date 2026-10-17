@@ -1,6 +1,10 @@
 # Required Rooms integration and scoped sorting
 
-Project Version: 0.11.0-dev.1
+Project Version: 0.12.0-dev.1
+
+## Current development iteration
+
+Current movement capability is 9; configuration 5, rooms 2, Rooms API/protocol 1 and saved schemas are unchanged. Source withdrawal and return deposit permissions are checked separately. Room/building Sort uses one aggregate HUD. Parked-vehicle enumeration is not added. Earlier capability-8/extraction statements below are historical. See [implementation and evidence](PROGRESS_CARRY_AND_CONTAINERS.md).
 
 ## Baseline and ownership
 

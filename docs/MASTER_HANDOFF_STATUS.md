@@ -1,12 +1,16 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.11.0-dev.1
+Project Version: 0.12.0-dev.1
 
-## Separate Auto Clean and supply API — current 0.11.0-dev.1
+## Current development iteration
+
+Implementation is isolated on feature/progress-and-containers. Full carries preserve vanilla grouping; overall HUD, selected vehicle/nested sources, carry allowance and recipe lookup fixes are implemented. No package/deploy/publish is part of this pass. Native/dedicated G7 and stable G8 remain BLOCKED. See [implementation and evidence](PROGRESS_CARRY_AND_CONTAINERS.md).
+
+## Separate Auto Clean and supply API — historical 0.11.0-dev.1
 
 Clean Building's production modules/menu/jobs now belong to B47ANCEDAutoClean. Quartermaster provides SupplyAPI 1 for configured storage, live permission/capacity checks and exact native transfers. Auto Clean requires Quartermaster and Rooms; no reverse dependency was added. Storage/save schemas and Rooms sandbox settings remain unchanged. See [current contract and validation](SUPPLY_API.md). This extraction is not deployed or published. SP/dedicated acceptance remains NOT TESTED; G7/stable G8 BLOCKED. Earlier embedded-cleaning sections below are historical checkpoints.
 
-## Single-player Clean Building — current 0.10.0-dev.1
+## Single-player Clean Building — historical 0.10.0-dev.1
 
 Lua-only SP support now queues the retained guarded Job/Poc native actions locally. Exact local-player binding, Rooms settings/permissions, supply locks, measured recipe and cross-level footprint checks remain active. Multiplayer command authentication and reconstruction are unchanged. Offline SP/native-Lua regression tests pass; real PZ SP and dedicated acceptance remain NOT TESTED, G7 and stable G8 BLOCKED. See [SP design, exact validation commands and runtime gates](CLEAN_BUILDING_SINGLE_PLAYER.md).
 

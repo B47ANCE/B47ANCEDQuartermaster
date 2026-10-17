@@ -65,6 +65,14 @@
     {
       "path": "docs/SUPPLY_API.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/PROGRESS_CARRY_AND_CONTAINERS.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "README.md",
+      "pattern": "contains \\*\\*(?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+) development work\\*\\*"
     }
   ],
   "changelog": {
@@ -192,6 +200,10 @@
     {
       "reference": "docs/historical/README_BEFORE_2026-10-15_CURRENT_SOURCE.md",
       "reason": "Exact prior README preserved as dated source/history evidence. The root README now describes the current Workshop product and links its current source; it intentionally contains no source version mirror. Canonical VERSION and all runtime/version-bearing mirrors are unchanged."
+    },
+    {
+      "reference": "assets/branding/validation.json; docs/CONTAINER_SOURCE_AUDIT_2026-10-15.json; docs/PROGRESS_CARRY_NATIVE_EVIDENCE.json; docs/PROGRESS_CARRY_VALIDATION.json",
+      "reason": "Dated artwork/metadata/API observations preserve their audited versions and environments, not current package/runtime validation."
     },
     {
       "reference": "docs/historical/README_BEFORE_2026-10-15_GITHUB_DEFAULT.md",

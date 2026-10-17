@@ -1,6 +1,10 @@
 # Required Rooms dependency
 
-Project Version: 0.11.0-dev.1
+Project Version: 0.12.0-dev.1
+
+## Current development iteration
+
+Rooms remains required. Vehicle/nested sources repeat existing safehouse/Rooms access checks. Update Quartermaster server/clients together for movement capability 9. Auto Clean remains separate. See [implementation and evidence](PROGRESS_CARRY_AND_CONTAINERS.md).
 
 Current source still requires Rooms. Auto Clean is now a separate consumer requiring Quartermaster SupplyAPI 1 and Rooms, described in [SUPPLY_API.md](SUPPLY_API.md). The bundled Auto Clean statements below describe the historical 0.9/0.10 publication.
 

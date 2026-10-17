@@ -6,8 +6,10 @@ local E=B47ANCEDQuartermaster.Executor or {active={},batches={}}
 B47ANCEDQuartermaster.Executor=E
 local A,T=B47ANCEDQuartermaster.Authority,B47ANCEDQuartermaster.Targets
 local Trace=require 'B47ANCEDQuartermaster/SortTrace'
+local External=require 'B47ANCEDQuartermaster/ContainerSources'
 local function queue(player) return ISTimedActionQueue.getTimedActionQueue(player).queue end
 local function alive(t,player)
+    if t and t.external then return External.valid(t,player,false) end
     if t and t.ground then return B47ANCEDQuartermaster.GroundSources.valid(t,player) end
     return t and T.valid(t,player) and t.obj:getModData().B47MovementInstance==t.instance
 end
@@ -15,6 +17,7 @@ end
 -- object-list index. Once resolved, retain these references for the operation.
 local function resolve(meta,player)
     if not meta then return end
+    if meta.external then return External.resolve(meta,player) end
     if meta.ground then return B47ANCEDQuartermaster.GroundSources.resolve(meta,player) end
     local sq=getCell():getGridSquare(meta.x,meta.y,meta.z)
     if not sq then return end
@@ -57,7 +60,10 @@ local function check(op,leg,item,source,destination)
     if B47ANCEDQuartermaster.Movement.carrier(op.player,op.offer.carrierID)~=op.carrier then return false,'carrierChanged' end
     if leg=='take' and not alive(op.source,op.player) then return false,'sourceInvalidated' end
     local square=(leg=='take' and op.source or op.destination).obj:getSquare()
-    if not T.sameFloor(op.player,square) or math.max(math.abs(op.player:getX()-square:getX()),math.abs(op.player:getY()-square:getY()))>2 then return false,'playerOutOfReach' end
+    local externalTarget=leg=='take' and op.source or op.destination
+    if externalTarget.external then
+        if not External.reachable(externalTarget,op.player) then return false,'sourceAccessChanged' end
+    elseif not T.sameFloor(op.player,square) or math.max(math.abs(op.player:getX()-square:getX()),math.abs(op.player:getY()-square:getY()))>2 then return false,'playerOutOfReach' end
     if item~=op.item or item:getID()~=op.itemID then return false,'itemIdentityChanged' end
     if item:getContainer()~=source or (not (op.source and op.source.ground and leg=='take') and source:getItemWithID(op.itemID)~=item) then return false,'sourceContainmentChanged' end
     if item:isFavorite() or item:isEquipped() or item:getAttachedSlot()~=-1 or item:getIsCraftingConsumed() then return false,'itemProtected' end

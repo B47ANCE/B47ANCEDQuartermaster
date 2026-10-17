@@ -40,7 +40,9 @@ local function resolve(kind,name,executions,player)
     if recipe:hasOnTickInputs() or recipe:hasOnTickOutputs() then return nil,'unsupported' end
     local nodes={};local reusableTypes={}
     for i,input in ipairs(list(recipe:getInputs())) do
-        if not input:isValid() or input:getResourceType()~=ResourceType.Item or input:isVariableAmount()
+        -- InputScript.isValid is protected in B42.21 and is not exposed to Lua.
+        -- Validate supported resource/amount/candidate semantics through public APIs below.
+        if input:getResourceType()~=ResourceType.Item or input:isVariableAmount()
             or input:isApplyOnTick() or input:hasCreateToItem() or input:hasConsumeFromItem() or input:isReplace()
             or input:hasParentScript() or input:isAutomationOnly() or input:isHandcraftOnly() or input:isExclusive()
             or input:isAcceptsAnyItem() or input:mayDegrade() or input:mayDegradeLight() or input:mayDegradeVeryLight()

@@ -123,7 +123,9 @@ local function flush()
  local run=Q.Movement.runs[f.player];local n=0;if run then for _ in pairs(run.operations) do n=n+1 end end
  maxOutstanding=math.max(n,maxOutstanding)
 end
+local moveProbe
 local function nativeMove(item,source,dest)
+ if moveProbe then moveProbe(item,source,dest) end
  if routeCase and dest==routeFar then if routeOptimized then assert(#dst.items==200,'left nearby book work for distant bandage') end;routeOrder[#routeOrder+1]=#dst.items end
  if routeCase and dest==dst and #routeOrder>0 then routeBookAfterFar=true end
  assert(item:getContainer()==source,'duplicate or stale native move')
@@ -200,6 +202,7 @@ local function item(id,weight)
  return it
 end
 local inventoryMode=false
+local additionalDestination
 local function scenario(count,size,hook,weight)
  local worldSource=src
  if inventoryMode then src=carried end
@@ -233,10 +236,10 @@ local function scenario(count,size,hook,weight)
   if result then flush();break end
  end
  assert(result,'pipeline stalled')
- local actual=#dst.items+(routeCase and #routeFar.items or 0)
+ local actual=#dst.items+(routeCase and #routeFar.items or 0)+(additionalDestination and #additionalDestination.items or 0)
  assert(actual+#src.items+(src==carried and 0 or #carried.items)==count,'item conservation violated')
  assert(moved<=actual,'completion credited before server observation')
- assert(maxOutstanding<=math.max(1,math.min(100,size))*2,'unbounded prefetch')
+ assert(maxOutstanding<=400,'carry exceeded protocol bound')
  src=worldSource
  return result,moved,failed,opens,maxGroup,prefetched
 end
@@ -246,7 +249,7 @@ for _,case in ipairs({{0,1},{1,1},{2,1},{3,1},{5,2},{6,3},{7,3},{20,20},{21,20},
  local status,moved,_,opened,group,prefetch=scenario(case[1],case[2])
  assert(status=='ok' and moved==case[1])
  if case[1]>1 and case[2]>1 then assert(opened<case[1]*2,'container reopened per item') end
- if case[1]>case[2] and case[2]>1 then assert(prefetch,'next batch not prefetched during execution') end
+ assert(not prefetch,'new carry planned while previous carry was executing')
 end
 inventoryMode=true;aliasItem=true
 local aliasStatus,aliasMoved=scenario(41,20)
@@ -325,7 +328,7 @@ Q.Movement.handle=function(player,command,args)
 end
 local stopped,moved,failed=scenario(701,20)
 Q.Movement.handle=normalHandle;print=normalPrint;inventoryMode=false
-assert(stopped=='invalid' and moved==0 and failed<=20 and rejected<=20,'zero-progress rejection discarded later inventory batches')
+assert(stopped=='invalid' and moved==0 and failed<=100 and rejected<=100,'zero-progress rejection discarded later inventory batches')
 assert(summary and summary:find('movePut:invalid:testPutRejected',1,true) and summary:find('server=fixture-server',1,true),'first rejection/server version absent from client summary')
 print('PASS OFFLINE zero-progress player inventory: fail closed after first rejected batch, untouched remainder and exact first-failure diagnostics')
 inventoryMode=true;summary=nil
@@ -410,12 +413,12 @@ if DEV25_GROUND then
 end
 do
  routeCase=true;routeOptimized=false;SandboxVars.B47ANCEDQuartermaster.RouteOptimization=false
- local status,moved=scenario(201,20);assert(status=='ok' and moved==201 and routeBookAfterFar and routeOrder[1]<200,'baseline did not reproduce early departure')
+ local status,moved=scenario(201,20);assert(status=='ok' and moved==201 and not routeBookAfterFar and routeOrder[1]==200,'crate carry left before unloading all nearby items')
  local baseline=routeOrder[1]
  routeOptimized=true;SandboxVars.B47ANCEDQuartermaster.RouteOptimization=true
  status,moved=scenario(201,20);assert(status=='ok' and moved==201 and #routeOrder==1 and routeOrder[1]==200 and not routeBookAfterFar,'optimized bookshelf workload/revisit failed')
  routeCase=false
- print('PASS OFFLINE dev27 production benchmark: baseline first distant visit after '..baseline..' nearby transfers and revisits nearby work; optimized after 200, zero premature revisit; all 201 exact native transfers conserved')
+ print('PASS OFFLINE carry routing: one crate with optimization off / one room with optimization on; both finish 200 nearby items before distant destination; all 201 native transfers conserved')
 end
 assert(N.checkQueueList==nativeQueueList and N.perform==nativePerform,'global native methods replaced')
 -- Distinguish native rejection from a stop after the first completed group.
@@ -458,22 +461,22 @@ if lifecycle then
  print('PASS OFFLINE dev47 actual native update/stop rejection after first submitted transaction, with exact diagnostic classification')
 end
 local P=require 'B47ANCEDQuartermaster/Protocol'
-assert(P.version('tripNext')==8 and not P.accepts('tripNext',{protocol=1}) and not P.accepts('movePut',{protocol=3}))
+assert(P.version('tripNext')==9 and not P.accepts('tripNext',{protocol=1}) and not P.accepts('movePut',{protocol=3}))
 assert(replicationGapChecks>0,'replication-gap guard regression was not exercised')
 print('PASS OFFLINE dev45 native in-flight replication gap validation')
-print('PASS OFFLINE dev24: 29 production pipeline scenarios, native donor merge/perform, bounded overlap, capacity, cancellation and mixed-peer rejection')
+print('PASS OFFLINE dev24: 29 production pipeline scenarios, native donor merge/perform, bounded closed carries, capacity, cancellation and mixed-peer rejection')
 if lifecycle then print('PASS OFFLINE dev47 installed native constructor/start/update/validation/perform with simulated transaction acknowledgements; engine/network unverified') end
 
 
 -- Network cardinality is independent of native item/group timing.
 inventoryMode=true
 local batchStatus,batchMoved=scenario(20,20,nil,1)
-assert(batchStatus=='ok' and batchMoved==20 and rpcCounts.moveBatch==3)
+assert(batchStatus=='ok' and batchMoved==20 and rpcCounts.moveBatch==2)
 assert(not rpcCounts.moveCarried and not rpcCounts.movePut and not rpcCounts.moveDone,'per-item query roundtrips remain')
 inventoryMode=false
 batchStatus,batchMoved=scenario(20,20,nil,1)
 assert(batchStatus=='ok' and batchMoved==20 and rpcCounts.moveBatch==4 and not rpcCounts.moveTake)
-print('PASS OFFLINE throughput: 20-item deposit 60 -> 3 requests; container transfer 80 -> 4; unchanged native grouping/timing')
+print('PASS OFFLINE throughput: 20-item deposit 60 -> 2 requests; container transfer 80 -> 4; unchanged native grouping/timing')
 
 -- Failed correlation cannot authorize even a valid server grant response.
 inventoryMode=true
@@ -525,6 +528,104 @@ end)
 A.request=query;inventoryMode=false
 assert(cancelledStatus=='cancelled' and cancelledMoved==0,'late grant response escaped cancellation')
 print('PASS OFFLINE phase batching: partial item rejection preserves 19/20 authorized transfers; late cancellation dispatches none')
+
+-- A carry is loaded completely before the first PUT; the next TAKE waits for
+-- the current carry to be empty. Native groups above remain capped at 20.
+do
+ local normalWeight=f.player.getMaxWeight
+ f.player.getMaxWeight=function() return 6 end
+ local phase,loads,unloads='put',0,0
+ moveProbe=function(_,from,to)
+  if to==carried and phase=='put' then
+   assert(#carried.items==0,'next carry began before previous carry was unloaded')
+   phase='take';loads=loads+1
+  elseif to==dst and phase=='take' then
+   assert(#carried.items==4,'walk/unload began before filling the carry')
+   phase='put';unloads=unloads+1
+  end
+ end
+ local status,moved=scenario(8,1,nil,1.5)
+ assert(status=='ok' and moved==8 and loads==2 and unloads==2)
+ -- A server allowance raises the comfort budget, while native storage still caps it.
+ f.player.getMaxWeight=function() return 3 end
+ SandboxVars.B47ANCEDQuartermaster.CarryAllowance=3
+ loads,unloads,phase=0,0,'put'
+ status,moved=scenario(8,100,function(step) if step==1 then carried.capacity=6 end end,1.5)
+ assert(status=='ok' and moved==8 and loads==2 and unloads==2)
+ SandboxVars.B47ANCEDQuartermaster.CarryAllowance=0
+ f.player.getMaxWeight=function() return 150 end
+ local beforeFirstTake
+ moveProbe=function(_,_,to) if to==carried and not beforeFirstTake then beforeFirstTake=rpcCounts.tripNext end end
+ status,moved=scenario(601,20,nil,1)
+ assert(status=='ok' and moved==601 and beforeFirstTake==1,'waited for the entire source catalog before first carry')
+ moveProbe=nil;f.player.getMaxWeight=normalWeight
+ print('PASS OFFLINE full carries: fill before unload, no overlapping carry, allowance bounded by native capacity; 601 items start after one 250-item planning slice')
+end
+
+do
+ local object=f.object(f.square(3,0,0));local alternate=storage(object.containers[1])
+ additionalDestination=alternate
+ for _,returnToSource in ipairs({false,true}) do
+  alternate.items={};alternate.capacity=returnToSource and 0 or 1000
+  local filled=false
+  local status,moved,failed=scenario(6,20,function(step)
+   if step==1 then
+    f.network(false,true)
+    for _,entry in ipairs({{obj=f.b,priority=100},{obj=object,priority=0}}) do
+     local target=assert(Q.Targets.make(entry.obj,0,f.player));local old,_,revision=Q.Store.load(target)
+     local cfg=Q.Schema.empty();cfg.items.RoundA=true;cfg.priority=entry.priority
+     assert(Q.Store.rawCommit({target=target,original=old,revision=revision},cfg))
+    end
+    f.network(true,false)
+   end
+   if not filled and #carried.items==6 then dst.capacity=0;filled=true end
+  end,1)
+  if returnToSource then
+   assert(filled and status=='ok' and moved==0 and failed==6 and #src.items==6 and #carried.items==0,'failed carry was not returned natively to its source')
+  else
+   assert(filled and status=='ok' and moved==6 and #alternate.items==6 and #carried.items==0,'full destination did not spill carry to alternate matching storage')
+  end
+ end
+ additionalDestination=nil;object.md={};alternate.items={}
+ print('PASS OFFLINE native carry fallback: crate fills after TAKE, alternate receives six items; no alternate returns six items to source; no loss/duplication')
+end
+
+-- Generic native vehicle source, with an access area far from the vehicle's
+-- center. No Workshop Lua is executed and no model-specific IDs are hardcoded.
+do
+ local oldSource,oldDestination,oldObject=src,dst,f.b
+ local oldMetadata=oldObject.md;oldObject.md={}
+ local oldVehicleLookup=getVehicleById
+ local sq=f.square(12,0,0);local vehicle={};local part={md={}};local calls=0
+ local cargo=storage({});src=cargo
+ f.b=f.object(f.square(5,0,0));dst=storage(f.b.containers[1])
+ function vehicle:getId() return 55 end;function vehicle:getSquare() return sq end
+ function vehicle:getPartByIndex(index) if index==0 then return part end end
+ function vehicle:canAccessContainer(index,player) return index==0 and player==f.player end
+ function vehicle:isInArea(area,player) return area=='CargoAccess' and player:getX()==0 end
+ function vehicle:transmitPartModData(p) assert(p==part) end
+ function part:getVehicle() return vehicle end;function part:getIndex() return 0 end
+ function part:getId() return 'CargoFixture' end;function part:getArea() return 'CargoAccess' end
+ function part:getModData() return self.md end;function part:getItemContainer() return cargo end
+ function cargo:getParent() return vehicle end;function cargo:getOutermostContainer() return self end
+ function cargo:getVehiclePart() return part end
+ getVehicleById=function(id) if id==55 then return vehicle end end
+ package.loaded['Vehicles/TimedActions/ISPathFindAction']=true
+ ISPathFindAction={pathToVehicleArea=function(_,player,v,area)
+  assert(v==vehicle and area=='CargoAccess');calls=calls+1
+  return W:new(player,f.a.sq)
+ end}
+ local drift=false
+ local status,moved=scenario(6,20,function(_,_,batch)
+  if S.active[0] and S.active[0].haul and not drift then drift=true;f.player.square=f.b.sq end
+ end,1)
+ assert(status=='ok' and moved==6 and calls==1 and #cargo.items==0 and #carried.items==0,'vehicle source/native access-area route failed')
+ vehicle.canAccessContainer=function() return false end
+ local started,reason=S.start(0,cargo,function() end)
+ assert(not started and reason=='invalid','inaccessible vehicle fell through to an unsupported world-object API')
+ getVehicleById=oldVehicleLookup;oldObject.md=oldMetadata;src,dst,f.b=oldSource,oldDestination,oldObject
+ print('PASS OFFLINE vehicle source: exact native part, server capture/grants, native access-area walk far from center, six native TAKE/PUT moves conserved')
+end
 
 -- Real multi-source room orchestration on the same installed native queue fixture.
 do

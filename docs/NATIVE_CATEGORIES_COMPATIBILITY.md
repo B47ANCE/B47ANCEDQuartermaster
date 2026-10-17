@@ -1,6 +1,10 @@
 # Native categories and sorting-data retirement
 
-Project Version: 0.11.0-dev.1
+Project Version: 0.12.0-dev.1
+
+## Current development iteration
+
+Category resolution, native/Better Sorting/Better Containers behavior and saved sorting-data cleanup are unchanged. This iteration adds native source/carry/UI behavior, not another taxonomy or third-party container implementation. See [implementation and evidence](PROGRESS_CARRY_AND_CONTAINERS.md).
 
 ## Compatibility decision
 
