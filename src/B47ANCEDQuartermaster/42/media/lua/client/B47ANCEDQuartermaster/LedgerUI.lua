@@ -203,9 +203,15 @@ function V.read(num,item,computer,host)
  panel.joypadButtonsY={};panel.joypadButtons={};panel.allJoypadButtons={};panel.joypadIndexY=1;panel.joypadIndex=1
  if search then panel:insertNewLineOfButtons(search,rooms) end;panel:insertNewLineOfButtons(previous,more,close)
  local joy=panel.onJoypadDown;panel.onJoypadDown=function(self,key,...)
-  if key==Joypad.BButton then self:close() elseif joy then joy(self,key,...) end
+  if key==Joypad.BButton then if host then host:minimizeApp('ledger');setJoypadFocus(num,host) else self:close() end elseif joy then joy(self,key,...) end
  end
- if host then host:showApp(panel,tr('LedgerDigitalTitle')) else U.bounds(panel,num);panel:addToUIManager();setJoypadFocus(num,panel) end
+ if host then
+  function panel:onComputerResume()
+   if closed then return end
+   requestSerial=requestSerial+1;pending=false;due=nil;list:clear();summary=tr('LedgerLoading');fetch()
+  end
+ end
+ if host then host:showApp(panel,tr('LedgerDigitalTitle'),'ledger') else U.bounds(panel,num);panel:addToUIManager();setJoypadFocus(num,panel) end
  fetch();return panel
 end
 local function inventory(actor)

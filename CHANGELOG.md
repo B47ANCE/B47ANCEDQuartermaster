@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.18.0-dev.5] - 2026-10-17
+
+- Clean the CRT artwork with softer molded-case shading and fewer concentric edge bands, retaining its bulky housing, recessed glass and substantial stand.
+- Replace the single placeholder task button with independent retained CD-ROM, CD Writer and ledger tasks. Add active/minimized states, task switching, most-recent visible fallback, per-app Close and Show Desktop/restore.
+- Preserve query, pagination and media choices across minimizing/switching; clear old ledger rows and revalidate through existing server reads on resume. Media loss/ejection closes the ledger without discarding unrelated apps; late mount/read replies do not reopen closed windows.
+- Refresh controller rows after mounting a CD, ignore Escape in hidden panels, and keep native full-title tooltips and tooltip cleanup on task switches. Power/Log Off still closes all tasks and cancels pending CD writing.
+- Client presentation only: no new commands, protocol/save changes, runtime dependency or gameplay settings. Offline and native evidence are recorded in docs/WINDOWS93_COMPUTER.md; no deployment/publication.
+
 ## [0.18.0-dev.4] - 2026-10-17
 
 - Increase CRT case mass with thick front molding, offset vented rear housing, a deeper glass recess, a broad lower control deck and a large swivel-neck pedestal.

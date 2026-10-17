@@ -534,5 +534,6 @@
   "UI_QMSS_AllocationNoOverLimit": "No captured stock exceeds this local profile.",
   "UI_QMSS_AllocationTruncated": "Only the first 32 over-limit rules are shown.",
   "UI_QMSS_AllocationDefaultPreview": "Inherited default: %1% → %2%",
-  "UI_QMSS_LedgerUnassigned": "No designated room"
+  "UI_QMSS_LedgerUnassigned": "No designated room",
+  "UI_QMSS_ComputerShowDesktop": "Show desktop"
 }

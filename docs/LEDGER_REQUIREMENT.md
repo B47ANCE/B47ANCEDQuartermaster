@@ -1,6 +1,6 @@
 # Ledger requirement for sorting and collection
 
-Project Version: 0.18.0-dev.4
+Project Version: 0.18.0-dev.5
 
 Physical Shopping now has separate writing supplies and carried shopping papers; those do not replace the completed supply ledger required for collection. Planning/reading do not require a supply ledger. See [physical Shopping](PHYSICAL_SHOPPING_LISTS.md).
 

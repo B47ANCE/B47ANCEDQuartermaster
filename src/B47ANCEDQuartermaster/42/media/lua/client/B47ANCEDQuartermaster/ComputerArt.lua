@@ -4,7 +4,7 @@ local R=B47ANCEDUI.Renderer
 local A={}
 local function c(r,g,b) return {r=r,g=g,b=b,a=1} end
 A.colors={ink=c(.12,.14,.14),shade=c(.39,.38,.32),shell=c(.73,.71,.61),
- face=c(.83,.81,.71),light=c(.94,.92,.83),edge=c(.59,.57,.48),
+ face=c(.83,.81,.71),light=c(.91,.89,.79),edge=c(.59,.57,.48),deck=c(.79,.77,.67),
  recess=c(.24,.25,.22),glass=c(.035,.07,.065),rim=c(.075,.105,.095),
  teal=c(0,.34,.33),glint=c(.16,.30,.28),silver=c(.69,.77,.78),
  white=c(.94,.97,.93),blue=c(.12,.26,.48),green=c(.40,.75,.24),
@@ -45,6 +45,17 @@ function A.icon(w,kind,x,y,scale)
   R.rect(w,x+v[1]*scale,y+v[2]*scale,v[3]*scale,v[4]*scale,P[v[5]])
  end
 end
+-- Separate 16px silhouettes keep taskbar icons crisp at integer scale.
+local mini={
+ desktop={{1,1,14,10,'ink'},{2,2,12,8,'shell'},{3,3,10,6,'teal'},{6,11,4,2,'shade'},{3,13,10,2,'light'}},
+ drive={{4,0,8,2,'ink'},{2,2,12,7,'silver'},{6,3,4,4,'teal'},{1,9,14,6,'ink'},{2,10,12,4,'shell'},{3,11,8,1,'shade'},{12,12,1,1,'green'}},
+ writer={{1,4,14,11,'ink'},{2,5,12,9,'shell'},{3,7,10,2,'shade'},{8,0,6,6,'silver'},{10,1,2,3,'teal'},{5,10,2,4,'amber'},{7,8,2,4,'amber'},{9,6,2,4,'amber'}},
+ ledger={{1,1,13,12,'ink'},{2,2,11,10,'blue'},{7,5,8,10,'ink'},{8,6,6,8,'paper'},{9,8,2,1,'green'},{9,11,4,1,'shade'}}}
+function A.miniIcon(w,kind,x,y,scale)
+ for _,v in ipairs(mini[kind] or mini.ledger) do
+  R.rect(w,x+v[1]*scale,y+v[2]*scale,v[3]*scale,v[4]*scale,P[v[5]])
+ end
+end
 local function cutbox(w,x,y,width,height,cut,color)
  R.rect(w,x+cut,y,width-2*cut,height,color)
  R.rect(w,x,y+cut,width,height-2*cut,color)
@@ -69,24 +80,24 @@ function A.monitor(w,g)
  cutbox(w,width*.42,height-99,width*.19,61,7,P.shell)
  R.rect(w,width*.43,height-80,3,34,P.light)
  cutbox(w,width*.30,height-59,width*.43,29,7,P.edge)
- cutbox(w,width*.20,height-42,width*.61,38,7,P.shade)
- cutbox(w,width*.20,height-46,width*.60,32,6,P.shell)
- R.rect(w,width*.22,height-45,width*.56,2,P.light)
- R.rect(w,width*.21,height-16,width*.58,2,P.edge)
+ cutbox(w,width*.20,height-42,width*.61,38,7,P.edge)
+ cutbox(w,width*.20,height-46,width*.60,32,6,P.face)
+ R.rect(w,width*.22,height-45,width*.56,1,P.light)
  cutbox(w,3,37,width-35,height-134,10,P.edge)
  R.rect(w,5,54,3,height-172,P.light)
  for n=0,9 do R.rect(w,13,112+n*17,3,11,P.shade) end
  -- Heavy front molding, rather than a thin flat border around the desktop.
- cutbox(w,29,3,width-35,height-89,14,P.shade)
- cutbox(w,30,4,width-40,height-95,13,P.light)
- cutbox(w,35,9,width-50,height-104,10,P.shell)
- cutbox(w,41,15,width-62,height-116,8,P.face)
- R.rect(w,44,32,3,height-174,P.light)
- R.rect(w,width-28,35,5,height-177,P.edge)
- cutbox(w,g.x-26,g.y-25,g.width+52,g.height+50,13,P.edge)
- cutbox(w,g.x-21,g.y-20,g.width+42,g.height+40,12,P.shade)
- cutbox(w,g.x-15,g.y-14,g.width+30,g.height+28,10,P.recess)
- cutbox(w,g.x-8,g.y-7,g.width+16,g.height+14,7,P.rim)
+ cutbox(w,29,3,width-35,height-89,14,P.edge)
+ cutbox(w,32,6,width-42,height-97,12,P.face)
+ R.rect(w,47,7,width-77,1,P.light)
+ R.rect(w,33,25,1,height-140,P.light)
+ R.rect(w,width-15,29,3,height-147,P.shell)
+ -- A quiet molded lip and directional recess shading replace concentric stripes.
+ cutbox(w,g.x-20,g.y-20,g.width+40,g.height+40,12,P.shell)
+ cutbox(w,g.x-16,g.y-15,g.width+32,g.height+30,10,P.recess)
+ R.rect(w,g.x-6,g.y-15,g.width+12,2,P.shade)
+ R.rect(w,g.x+g.width+13,g.y-4,2,g.height+8,P.edge)
+ R.rect(w,g.x-5,g.y+g.height+13,g.width+10,1,P.light)
  cutbox(w,g.x-4,g.y-3,g.width+8,g.height+6,4,P.glass)
  -- Reflections stay on the glass rim, away from application text and controls.
  R.rect(w,g.x+8,g.y-2,g.width-16,1,P.glint)
@@ -99,11 +110,10 @@ function A.monitor(w,g)
  R.rect(w,badgeX+1,badgeY+1,badge+16,badgeH-2,P.recess)
  R.text(w,label,badgeX+9,badgeY+4,P.light)
  -- Separate lower control deck and the inset physical power switch.
- R.rect(w,54,g.panelY-2,width-88,2,P.edge)
- R.rect(w,54,g.panelY,width-88,g.panelHeight,P.shell)
- R.rect(w,54,g.panelY+g.panelHeight-2,width-88,2,P.shade)
+ R.rect(w,54,g.panelY-1,width-88,1,P.edge)
+ R.rect(w,54,g.panelY,width-88,g.panelHeight,P.deck)
+ R.rect(w,54,g.panelY+g.panelHeight-1,width-88,1,P.edge)
  R.rect(w,width-144,g.panelY,1,g.panelHeight,P.edge)
- R.rect(w,width-143,g.panelY,1,g.panelHeight,P.light)
  for n=0,7 do R.rect(w,74+n*11,g.panelY+20,6,3,P.shade) end
  R.rect(w,g.powerX-20,g.powerY+12,6,4,P.recess)
  R.rect(w,g.powerX-19,g.powerY+13,4,2,P.green)
@@ -111,8 +121,7 @@ end
 function A.power(w)
  local width,height=w:getWidth(),w:getHeight()
  cutbox(w,0,0,width,height,4,P.edge)
- cutbox(w,1,1,width-3,height-3,3,w.pressed and P.shell or P.light)
- cutbox(w,3,3,width-7,height-7,2,P.face)
+ cutbox(w,1,1,width-3,height-3,3,w.pressed and P.shell or P.face)
  local x=math.floor(width/2);local y=math.floor(height/2)
  R.rect(w,x-6,y-3,2,7,P.shade);R.rect(w,x+4,y-3,2,7,P.shade)
  R.rect(w,x-4,y+4,8,2,P.shade);R.rect(w,x-1,y-7,2,8,P.recess)

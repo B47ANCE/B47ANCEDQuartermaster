@@ -31,15 +31,29 @@ local function button(owner,label,fn)
  b:initialise();b:instantiate();owner:addChild(b);C.decorate(b,'button');b.font=U.Theme.fonts.body
  b.prerender=function(self)
   rect(self,0,0,self:getWidth(),self:getHeight(),self.mouseOver and P.light or P.grey)
-  bevel(self,0,0,self:getWidth(),self:getHeight(),self.pressed)
+  bevel(self,0,0,self:getWidth(),self:getHeight(),self.pressed or self.osActive)
  end
  -- Use native input/controller handling, with original, clipped OS captions.
  b.render=function(self)
+  if self.osIcon then
+   local scale=U.Theme.metrics().button>=40 and 2 or 1;local size=16*scale
+   Art.miniIcon(self,self.osIcon,6,math.floor((self:getHeight()-size)/2),scale)
+   text(self,self.title,12+size,math.floor((self:getHeight()-U.Theme.metrics().font)/2),self:getWidth()-18-size)
+   R.focus(self);return
+  end
   local full=self.title or '';local caption=R.fit(full,self:getWidth()-12)
   self:drawTextCentre(caption,self:getWidth()/2,(self:getHeight()-U.Theme.metrics().font)/2,
    self.enable==false and P.muted.r or P.black.r,self.enable==false and P.muted.g or P.black.g,
    self.enable==false and P.muted.b or P.black.b,1,U.Theme.fonts.body)
   U.Renderer.focus(self)
+ end
+ b.tooltip=label
+ local update=b.update
+ b.update=function(self,...)
+  if self.isReallyVisible and not self:isReallyVisible() then U.Tooltip.hide(self);return end
+  if update then update(self,...) end
+  if self.updateTooltip then self:updateTooltip() end
+  if self.tooltipUI and self.tooltipUI.getIsVisible and self.tooltipUI:getIsVisible() then U.Tooltip.prepare(self.tooltipUI,self.tooltip,owner.playerNum) end
  end
  U.Tooltip.attach(b,owner.playerNum);return b
 end
@@ -51,7 +65,11 @@ local function initFocus(p)
 end
 function C.keyboard(panel,back)
  panel:setWantKeyEvents(true)
- panel.isKeyConsumed=function(self,key) return self.playerNum==0 and key==Keyboard.KEY_ESCAPE end
+ panel.isKeyConsumed=function(self,key)
+  local host=C.active[self.playerNum]
+  if host and host~=self and host.menuOpen then return false end
+  return not self.closed and self:isVisible() and self.playerNum==0 and key==Keyboard.KEY_ESCAPE
+ end
  panel.onKeyRelease=function(self,key) if self:isKeyConsumed(key) then back() end end
 end
 local function choice(owner)
@@ -78,6 +96,7 @@ function C.open(num,computer,hooks)
  screen.playerNum=num;screen.computer=computer;screen.minimumWidth=minW;screen.minimumHeight=minH;screen.resizable=true;screen.pin=true
  screen.drawFrame=false;screen.clearStentil=false;screen.title='Windows \'93';screen.titleBarHeight=function() return 32 end
  screen:initialise();screen:instantiate();C.active[num]=screen;initFocus(screen)
+ screen.apps={};screen.taskOrder={};screen.appSerial=0
  local desktop=box(screen,18,34,screen:getWidth()-36,screen:getHeight()-100)
  local frame=box(desktop,12,12,desktop:getWidth()-24,desktop:getHeight()-24);frame:setVisible(false)
  local menu=box(desktop,4,4,math.max(230,m.font*15),4*m.button+16);menu:setVisible(false)
@@ -88,7 +107,7 @@ function C.open(num,computer,hooks)
  end
  function screen:applyDrive(result)
   local old=self.mounted;local current=result.mounted and media(result.mounted)
-  if old and (not current or old.drive~=current.drive or old:getID()~=current:getID()) then self:closeApp();status=tr('ComputerMediaLost') end
+  if old and (not current or old.drive~=current.drive or old:getID()~=current:getID()) then self:closeApp('ledger');status=tr('ComputerMediaLost') end
   self.mounted=current;self.slot=result.slot or current and current.drive;self.occupied=result.occupied==true;available={}
   for _,row in ipairs(result.choices or {}) do available[#available+1]=media(row) end
  end
@@ -98,7 +117,7 @@ function C.open(num,computer,hooks)
   hooks.drive('ledgerDriveList',{},function(r)
    if self.closed or getSpecificPlayer(num)~=actor then return end
    drivePending=false;driveReady=r.status=='ok'
-   if driveReady then self:applyDrive(r) else self.mounted=nil;self:closeApp();status=tr(r.status) end
+   if driveReady then self:applyDrive(r) else self.mounted=nil;self:closeApp('ledger');status=tr(r.status) end
   end)
  end
  function screen:message(key) status=tr(key);mediaAt=-10000 end
@@ -106,35 +125,96 @@ function C.open(num,computer,hooks)
   if getTimestampMs()-mediaAt<1000 then return end;mediaAt=getTimestampMs();sheets,discs,cds=hooks.inventory(actor)
  end
  function screen:refreshFocus()
-  initFocus(self)
-  if menu:isVisible() then self:insertNewLineOfButtons(self.start);self:insertNewLineOfButtons(menu.drive);self:insertNewLineOfButtons(menu.writer);self:insertNewLineOfButtons(menu.off)
-  elseif frame:isVisible() then self:insertNewLineOfButtons(frame.minimize,frame.exit);self:insertNewLineOfButtons(self.start,self.task,self.off);self:insertNewLineOfButtons(self.power)
-  else self:insertNewLineOfButtons(self.driveIcon,self.writerIcon);self:insertNewLineOfButtons(self.start,self.task,self.off);self:insertNewLineOfButtons(self.power) end
+  initFocus(self);self.menuOpen=menu:isVisible();self.start.osActive=self.menuOpen
+  if menu:isVisible() then
+   self:insertNewLineOfButtons(self.start);self:insertNewLineOfButtons(menu.drive);self:insertNewLineOfButtons(menu.writer);self:insertNewLineOfButtons(menu.off)
+  else
+   if frame:isVisible() then self:insertNewLineOfButtons(frame.minimize,frame.exit)
+   else self:insertNewLineOfButtons(self.driveIcon,self.writerIcon) end
+   local bar={self.start,self.showDesktop};for _,key in ipairs(self.taskOrder) do bar[#bar+1]=self.apps[key].task end
+   self:insertNewLineOfButtons(unpack(bar))
+  end
+  self:insertNewLineOfButtons(self.power)
+ end
+ function screen:activateApp(key,resume)
+  local app=self.apps[key];if self.closed or not app then return end
+  local changed=self.activeKey~=key or app.minimized
+  self.desktopRestore=nil;menu:setVisible(false);app.minimized=false
+  self.appSerial=self.appSerial+1;app.order=self.appSerial
+  self.activeKey=key;self.content=app.content;self.appTitle=app.title
+  for name,entry in pairs(self.apps) do if name~=key then U.Tooltip.dispose(entry.content) end;entry.content:setVisible(name==key);entry.task.osActive=name==key end
+  frame:setVisible(true);frame:bringToTop();self:layoutComputer();self:refreshFocus()
+  if changed and resume~=false and app.content.onComputerResume then app.content:onComputerResume() end
+  if self.apps[key]==app then setJoypadFocus(num,app.content) end
+  return app.content
+ end
+ function screen:nextApp()
+  local best
+  for key,app in pairs(self.apps) do if not app.minimized and (not best or app.order>self.apps[best].order) then best=key end end
+  if best then return self:activateApp(best) end
+  self.activeKey=nil;self.content=nil;self.appTitle=nil;frame:setVisible(false)
+  self:layoutComputer();self:refreshFocus();if not self.closed then setJoypadFocus(num,self) end
+ end
+ function screen:minimizeApp(key)
+  local app=self.apps[key or self.activeKey];if not app then return end
+  app.minimized=true;U.Tooltip.dispose(app.content);app.content:setVisible(false);app.task.osActive=false
+  if self.activeKey==app.key then self.activeKey=nil;self.content=nil;self:nextApp() end
  end
  function screen:release(content)
-  frame:removeChild(content)
-  if self.content==content then self.content=nil;frame:setVisible(false);self.task.title=tr('ComputerDesktop') end
-  self:refreshFocus();if not self.closed then setJoypadFocus(num,self) end
+  local app
+  for _,entry in pairs(self.apps) do if entry.content==content then app=entry;break end end
+  if not app then return end
+  frame:removeChild(content);U.Tooltip.dispose(app.task);self:removeChild(app.task);self.apps[app.key]=nil
+  for i,key in ipairs(self.taskOrder) do if key==app.key then table.remove(self.taskOrder,i);break end end
+  if self.activeKey==app.key then self.activeKey=nil;self.content=nil end
+  if not self.closed then self:nextApp() end
  end
- function screen:closeApp()
-  local content=self.content
-  if content then if content.close then content:close() else self:release(content) end end
+ function screen:closeApp(key)
+  local app=self.apps[key or self.activeKey];if not app then return end
+  if app.content.close then app.content:close() else self:release(app.content) end
  end
- function screen:showApp(content,title)
-  self:closeApp();menu:setVisible(false);self.content=content;self.appTitle=title;self.task.title=title
-  frame:addChild(content);frame:setVisible(true);frame:bringToTop();self:layoutComputer();self:refreshFocus();setJoypadFocus(num,content)
+ function screen:showApp(content,title,key)
+  key=key or 'ledger'
+  if self.closed or (key~='drive' and key~='writer' and key~='ledger') then return end
+  if self.apps[key] then self:closeApp(key) end
+  local app={key=key,title=title,content=content,minimized=false};self.apps[key]=app;self.taskOrder[#self.taskOrder+1]=key
+  app.task=button(self,title,function()
+   if self.closed or self.apps[key]~=app then return end
+   menu:setVisible(false)
+   if self.activeKey==key then self:minimizeApp(key) else self:activateApp(key) end
+  end)
+  app.task.osIcon=key;frame:addChild(content)
+  if key=='ledger' and self.mounted then app.mediaID=self.mounted:getID();app.mediaDrive=self.mounted.drive end
+  self:activateApp(key,false);return content
  end
  function screen:desktop()
-  frame:setVisible(false);menu:setVisible(false);self:refreshFocus();setJoypadFocus(num,self)
+  if self.closed then return end
+  local restore={active=self.activeKey,keys={}}
+  for key,app in pairs(self.apps) do
+   if not app.minimized then restore.keys[#restore.keys+1]=key end
+   app.minimized=true;U.Tooltip.dispose(app.content);app.content:setVisible(false);app.task.osActive=false
+  end
+  self.desktopRestore=restore;self.activeKey=nil;self.content=nil;frame:setVisible(false);menu:setVisible(false)
+  self:layoutComputer();self:refreshFocus();setJoypadFocus(num,self)
+ end
+ function screen:toggleDesktop()
+  if self.activeKey then return self:desktop() end
+  local restore=self.desktopRestore;if not restore then return end;self.desktopRestore=nil
+  for _,key in ipairs(restore.keys) do if self.apps[key] then self.apps[key].minimized=false end end
+  if self.apps[restore.active] then self:activateApp(restore.active) else self:nextApp() end
  end
  function screen:close()
-  if self.closed then return end;self.closed=true;self:closeApp();C.active[num]=nil;self.mounted=nil
+  if self.closed then return end;self.closed=true
+  local keys={};for _,key in ipairs(self.taskOrder) do keys[#keys+1]=key end
+  for _,key in ipairs(keys) do self:closeApp(key) end
+  C.active[num]=nil;self.mounted=nil;self.content=nil;self.desktopRestore=nil
   U.Tooltip.dispose(self);self:removeFromUIManager();hooks.close();U.Focus.restore(num)
  end
  function screen:eject()
+  if self.closed then return end
   hooks.drive('ledgerDriveEject',{drive=self.slot},function(r)
    if self.closed then return end
-   if r.status=='ok' then self:closeApp();self.mounted=nil;self.occupied=false;status=tr('ComputerEjected');driveAt=-10000;self:openDrive() else status=tr(r.status) end
+   if r.status=='ok' then self:closeApp('ledger');self.mounted=nil;self.occupied=false;status=tr('ComputerEjected');driveAt=-10000;self:openDrive() else status=tr(r.status) end
   end)
  end
  function screen:runDisc()
@@ -143,29 +223,32 @@ function C.open(num,computer,hooks)
   local disc=self.mounted
   if not disc or not driveReady or drivePending or not disc.drive then status=tr('ComputerNoApplication');return end
   if not Media.computer(actor,computer,true) then self:close();return end
+  local app=self.apps.ledger
+  if app and app.mediaID==disc:getID() and app.mediaDrive==disc.drive then return self:activateApp('ledger') end
   hooks.read(disc,self)
  end
- local function view(title)
+ local function view(title,key)
   local v=ISPanelJoypad:new(0,0,frame:getWidth()-8,frame:getHeight()-m.button-12);v.playerNum=num;v:initialise();v:instantiate();initFocus(v)
-  v.close=function(self) U.Tooltip.dispose(self);screen:release(self) end
+  v.close=function(self) if self.closed then return end;self.closed=true;U.Tooltip.dispose(self);screen:release(self) end
   C.keyboard(v,function() v:close() end)
-  v.onJoypadDown=function(self,key) if key==Joypad.BButton then self:close() else ISPanelJoypad.onJoypadDown(self,key) end end
-  screen:showApp(v,title);return v
+  v.onJoypadDown=function(self,pressed) if pressed==Joypad.BButton then screen:minimizeApp(key);setJoypadFocus(num,screen) else ISPanelJoypad.onJoypadDown(self,pressed) end end
+  screen:showApp(v,title,key);return v
  end
  function screen:openDrive()
-  self:refreshDrive();local v=view(tr('ComputerDrive'));v.media=choice(v)
+  self:refreshDrive();if self.apps.drive then return self:activateApp('drive') end
+  local v=view(tr('ComputerDrive'),'drive');v.media=choice(v)
   v.insert=button(v,tr('ComputerInsert'),function()
-   if hooks.busy() then return end
+   if v.closed or hooks.busy() then return end
    local disc=picked(v.media);if not disc or not disc.token or drivePending then return end
    hooks.drive('ledgerDriveMount',{token=disc.token},function(r)
     if screen.closed then return end
-    if r.status=='ok' then screen:closeApp();screen:applyDrive(r);status=tr('ComputerInserted',disc:getDisplayName());driveAt=-10000;screen:openDrive() else status=tr(r.status);driveAt=-10000 end
+    if r.status=='ok' then screen:applyDrive(r);status=tr('ComputerInserted',disc:getDisplayName());driveAt=-10000 else status=tr(r.status);driveAt=-10000 end
    end)
   end)
   v.run=button(v,tr('ComputerRun'),function() screen:runDisc() end)
   v.eject=button(v,tr('ComputerEject'),function() screen:eject() end)
   v.file=button(v,'QUARTERMASTER.EXE',function() status=tr('ComputerRunHint') end)
-  v.file.onMouseDoubleClick=function() screen:runDisc();return true end
+  v.file.onMouseDoubleClick=function() if not v.closed then screen:runDisc() end;return true end
   v.file.render=function(self)
    local scale=m.button>=40 and 2 or 1;local size=32*scale
    Art.icon(self,'application',12,math.floor((self:getHeight()-size)/2),scale)
@@ -177,21 +260,25 @@ function C.open(num,computer,hooks)
    options(self.media,available,'ComputerNoCD');local w,h=self:getWidth(),self:getHeight()
    U.Layout.place(self.media,12,12,w-24,m.button);U.Layout.place(self.insert,12,20+m.button,w-24,m.button)
    local runnable=driveReady and screen.mounted and screen.mounted:getFullType()==Media.disc
+   if self.runnable~=(runnable==true) then
+    self.runnable=runnable==true;initFocus(self)
+    self:insertNewLineOfButtons(self.media);self:insertNewLineOfButtons(self.insert)
+    if self.runnable then self:insertNewLineOfButtons(self.file) end
+    self:insertNewLineOfButtons(self.run,self.eject)
+   end
    U.Layout.place(self.file,12,40+2*m.button,w-24,2*m.button);self.file:setVisible(runnable==true)
    U.Layout.place(self.run,12,h-m.button-12,(w-36)/2,m.button);U.Layout.place(self.eject,24+(w-36)/2,h-m.button-12,(w-36)/2,m.button)
    self.run:setEnable(runnable==true and not hooks.busy() and not drivePending);self.eject:setEnable(screen.mounted~=nil or screen.occupied);self.insert:setEnable(driveReady and not drivePending and not screen.mounted and not screen.occupied and not hooks.busy() and picked(self.media)~=false and picked(self.media)~=nil)
    if not runnable then text(self,screen.mounted and tr('ComputerBlankCD') or tr('ComputerInsertHint'),12,40+2*m.button,w-24) end
   end
-  v:insertNewLineOfButtons(v.media);v:insertNewLineOfButtons(v.insert)
-  if screen.mounted and screen.mounted:getFullType()==Media.disc then v:insertNewLineOfButtons(v.file) end
-  v:insertNewLineOfButtons(v.run,v.eject)
   v:prerender();self:refreshFocus();return v
  end
  function screen:openWriter()
-  self:refreshDrive();scan();local v=view(tr('ComputerWriter'));v.paper=choice(v);v.cd=choice(v)
+  self:refreshDrive();scan();if self.apps.writer then return self:activateApp('writer') end
+  local v=view(tr('ComputerWriter'),'writer');v.paper=choice(v);v.cd=choice(v)
   v.write=button(v,tr('ComputerWrite'),function()
    local paper,cd=picked(v.paper),picked(v.cd)
-   if not paper or not cd or hooks.busy() then return end
+   if v.closed or not paper or not cd or hooks.busy() then return end
    if screen.mounted or screen.occupied or not driveReady or drivePending then status=tr('ComputerEjectFirst');return end
    if not Media.computer(actor,computer,true) then screen:close();return end
    hooks.burn(paper,cd);status=tr('ComputerWriting')
@@ -220,11 +307,14 @@ function C.open(num,computer,hooks)
   end
  end
  screen.start=button(screen,tr('ComputerStart'),function() menu:setVisible(not menu:isVisible());if menu:isVisible() then menu:bringToTop() end;screen:refreshFocus();setJoypadFocus(num,screen) end)
- screen.task=button(screen,tr('ComputerDesktop'),function() if screen.content then frame:setVisible(not frame:isVisible()) end;menu:setVisible(false);screen:refreshFocus();setJoypadFocus(num,frame:isVisible() and screen.content or screen) end)
- screen.off=button(screen,tr('ComputerPowerOff'),function() screen:close() end)
+ screen.showDesktop=button(screen,tr('ComputerShowDesktop'),function() screen:toggleDesktop() end)
+ screen.showDesktop.osIcon='desktop'
+ screen.showDesktop.render=function(self)
+  local scale=m.button>=40 and 2 or 1;Art.miniIcon(self,'desktop',math.floor((self:getWidth()-16*scale)/2),math.floor((self:getHeight()-16*scale)/2),scale);R.focus(self)
+ end
  screen.power=button(screen,tr('ComputerPowerOff'),function() screen:close() end)
  screen.power.tooltip=tr('ComputerPowerOff');screen.power.prerender=Art.power;screen.power.render=function(self) R.focus(self) end
- frame.minimize=button(frame,'_',function() screen:desktop() end);frame.exit=button(frame,'X',function() screen:closeApp() end)
+ frame.minimize=button(frame,'_',function() screen:minimizeApp() end);frame.exit=button(frame,'X',function() screen:closeApp() end)
  menu.drive=button(menu,tr('ComputerDrive'),function() screen:openDrive() end)
  menu.writer=button(menu,tr('ComputerWriter'),function() screen:openWriter() end)
  menu.off=button(menu,tr('ComputerPowerOff'),function() screen:close() end)
@@ -240,8 +330,11 @@ function C.open(num,computer,hooks)
   if self.content then U.Layout.place(self.content,4,m.button+8,frame:getWidth()-8,frame:getHeight()-m.button-12) end
   U.Layout.place(self.driveIcon,12,14,math.max(180,m.font*12),m.font+96);U.Layout.place(self.writerIcon,12,m.font+126,math.max(180,m.font*12),m.font+96)
   U.Layout.place(self.start,g.x+4,g.taskY,math.max(90,m.font*5),m.button)
-  U.Layout.place(self.off,g.x+g.width-math.max(120,m.font*7)-4,g.taskY,math.max(120,m.font*7),m.button)
-  U.Layout.place(self.task,self.start.x+self.start:getWidth()+8,g.taskY,self.off.x-self.start.x-self.start:getWidth()-16,m.button)
+  U.Layout.place(self.showDesktop,self.start.x+self.start:getWidth()+8,g.taskY,m.button,m.button)
+  self.showDesktop:setEnable(#self.taskOrder>0);self.showDesktop.osActive=not self.activeKey and self.desktopRestore~=nil
+  local left=self.showDesktop.x+m.button+10;local count=#self.taskOrder
+  local taskWidth=math.min(math.max(170,m.font*10),math.floor((g.x+g.width-8-left)/math.max(1,count))-4)
+  for i,key in ipairs(self.taskOrder) do U.Layout.place(self.apps[key].task,left+(i-1)*(taskWidth+4),g.taskY,taskWidth,m.button) end
   U.Layout.place(self.power,g.powerX,g.powerY,36,34)
   U.Layout.place(menu,4,dh-menu:getHeight()-4,menu:getWidth(),menu:getHeight())
   for i,b in ipairs({menu.drive,menu.writer,menu.off}) do U.Layout.place(b,8,8+(i-1)*(m.button+4),menu:getWidth()-16,m.button) end
@@ -266,8 +359,8 @@ function C.open(num,computer,hooks)
   if self.content and self.content.updateComputer then self.content:updateComputer() end
  end
  screen.render=function(self) if self.resizeWidget then bevel(self,self:getWidth()-24,self:getHeight()-38,10,10) end end
- screen.onJoypadDown=function(self,key) if key==Joypad.BButton then if menu:isVisible() then menu:setVisible(false);self:refreshFocus() elseif frame:isVisible() then self:desktop() else self:close() end else ISPanelJoypad.onJoypadDown(self,key) end end
- C.keyboard(screen,function() if screen.content then screen:closeApp() else screen:onJoypadDown(Joypad.BButton) end end)
+ screen.onJoypadDown=function(self,key) if key==Joypad.BButton then if menu:isVisible() then menu:setVisible(false);self:refreshFocus() elseif frame:isVisible() then self:minimizeApp();setJoypadFocus(num,self) else self:close() end else ISPanelJoypad.onJoypadDown(self,key) end end
+ C.keyboard(screen,function() if menu:isVisible() then menu:setVisible(false);screen:refreshFocus() elseif screen.content then screen:closeApp() else screen:onJoypadDown(Joypad.BButton) end end)
  U.bounds(screen,num);screen:addToUIManager();screen:layoutComputer();screen:refreshFocus();setJoypadFocus(num,screen)
  return screen
 end

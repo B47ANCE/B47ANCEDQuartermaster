@@ -1,6 +1,6 @@
 # Windows '93 computer desktop
 
-Project Version: 0.18.0-dev.4
+Project Version: 0.18.0-dev.5
 
 Computers open an original Lua-drawn Windows '93 desktop inside a beige CRT monitor. The bulky molded case has a thick front bezel, deep chamfered glass rim, offset vented rear housing, a broad lower control deck, central model badge, green power light and a physical power button. A tall swivel neck and substantial beveled pedestal support the case. The desktop, taskbar and status text stay inside the glass. Opening the desktop never auto-runs the ledger.
 
@@ -18,13 +18,25 @@ This executes the current Lua art/layout and exports desktop, Start, loaded-CD a
 
 Server Ledger Mode can disable the entire computer/CD path. With Computer Manual Updates on, the configured ledger expiry applies; record storage and write/load a new CD to renew it. With that option off, a powered authorized computer with a matching completed CD shows live statistics without expiry. This does not rewrite its CD or paper snapshot. [Modes and limits](LEDGER_FRESHNESS.md).
 
+## Taskbar and presentation
+
+The chunky CRT keeps its vented housing and broad stand, with a quieter molded face and fewer hard concentric stripes. The artwork remains original code-native drawing, not a newly imported texture/photo pack.
+
+CD-ROM, CD Writer and the ledger each have one retained task. Opening an already open app activates its existing panel. Clicking the active task minimizes it; clicking an inactive/minimized task restores/focuses it. The active task uses a pressed border and an icon. Closing one task removes its button and reveals the most recent remaining non-minimized app. Closing all apps leaves the desktop and an empty taskbar, not a fake application button.
+
+Show Desktop minimizes all currently visible apps. Press it again to restore those apps and their prior active task; apps that were already individually minimized stay minimized. Opening/activating another app leaves Show Desktop mode. Query, current page and CD/writer choices survive switching and minimizing. Reopening a closed app starts a new panel. Native full-title hover/controller tooltips identify clipped task labels and the icon-only Show Desktop action.
+
+The ledger is tied to the mounted CD. Removing/ejecting/changing that media closes its active or hidden task; drive and writer windows stay open. Resuming a cached ledger clears old rows and revalidates the preserved query/page through the existing authenticated ledgerRead request. Closed readers ignore late replies. A late CD-mount result may update the reported drive binding but cannot reopen a closed drive window or steal focus from another app. This is presentation cleanup, not new authority or a cancellation guarantee for already completed native media work.
+
+Minimize, Show Desktop and task switching preserve panels while clearing their tooltips. Hidden panels do not consume Escape. Controller B returns an app to the taskbar; its existing explicit Close/X remains available. Escape dismisses Start first; otherwise the existing active-app/desktop close flow remains. CD insertion/removal updates controller rows so QUARTERMASTER.EXE stays reachable. Power and Start-menu Log Off close every task and retain the existing pending-CD-write cancellation path. Closing only the Writer window remains a presentation action; it does not replace that existing job-cancellation policy.
+
 ## Using the drive
 
 1. Create a completed Supply Sheet and use **CD Writer** to write a selected carried vanilla CD, keeping the paper.
 2. Put the resulting ledger CD in an accessible physical desk/container within one square of the computer, on the same floor. This approved Lua-only storage path avoids creating an unverified computer inventory or virtual item.
 3. Choose **Use computer (Windows '93)**, open **CD-ROM (D:)**, select the storage CD and press **Load selected storage CD**. The server validates the real item, storage and computer, then saves a drive binding. No item is moved or consumed.
 4. Double-click **QUARTERMASTER.EXE** or press **Run application**. The embedded reader supports literal search, authorized room browsing and pages. Merely loading a CD does not fetch ledger pages.
-5. Minimize/restore through the taskbar. Eject/unload closes the app and removes only its drive binding; the CD stays in storage. Log Off/closing the screen cancels this player's active CD writing but leaves an established storage-CD binding available. It does not switch off shared world electricity.
+5. Minimize/restore and switch between retained apps through the taskbar. Eject/unload closes the app and removes only its drive binding; the CD stays in storage. Log Off/closing the screen cancels this player's active CD writing but leaves an established storage-CD binding available. It does not switch off shared world electricity.
 
 The **sorting/collection requirement** is described in [LEDGER_REQUIREMENT.md](LEDGER_REQUIREMENT.md). A powered loaded computer can provide the matching record while players work around its building. Private computer/storage permissions, real CD presence and power are checked by the server for every new grant. Carrying a ledger CD by itself does not qualify. Paper reading/recording remains independent.
 
@@ -36,7 +48,17 @@ Native buttons/dropdowns, B/controller navigation, keyboard Escape, resize minim
 
 ## Validation
 
-### 0.18.0-dev.4 bulky CRT pass - 2026-10-17
+### 0.18.0-dev.5 taskbar and artwork cleanup - 2026-10-17
+
+[TESTED OFFLINE] Final full paired regression PASS with Rooms 0.2.0-dev.6 after the keyboard/tooltip/controller corrections. Current UI fixtures verify independent retained tasks, no duplicate app launches, query/page/choice preservation, active-task minimize, inactive restore, most-recent visible fallback, per-app close/X, Show Desktop restoration excluding individually minimized apps, and taskbar bounds at minimum size and 14/24/32/42 font heights. The controller taskbar is one horizontal row matching its layout.
+
+Additional regressions cover EXE controller rows after mount, hidden panels ignoring Escape, Start consuming Escape before the app behind it, native full-title tooltip updates/cleanup, cached ledger rows clearing before authenticated resume, late mount/read replies not resurrecting closed tasks, media loss invalidating a hidden ledger while preserving drive/writer, power cancellation and disabled-mode cleanup. Native button updateTooltip and panel removeChild/bringToTop contracts were checked in the installed ISUI Lua; no new engine methods are assumed.
+
+Version/source-manifest and source-rendered preview checks PASS; runtime inventory remains 223 files. Runtime SHA-256: `bed23305e5949d3376182a6968806486691d387bf676aa87bd3c32761fea2c99` (sorted relative UTF-8 path, NUL, binary file SHA-256). Shared gameplay changes are limited to the canonical version mirror and the localized Show Desktop label. There are no new commands, protocol/schema changes, native transfer changes, copied assets or runtime dependencies. Artwork remains original code-native drawing; the preview uses approximate host fonts/native widgets and is not a game screenshot.
+
+Exact commands are the full regression, preview, version/source-manifest and whitespace commands listed under the historical dev.3 section below; they were rerun for this source. No package was created. G6 native UI/controller NOT TESTED; inherited G7/stable G8 remains BLOCKED. No game/server launch, deployment or Workshop upload.
+
+### Historical 0.18.0-dev.4 bulky CRT pass - 2026-10-17
 
 [TESTED OFFLINE] Full paired regression PASS with Rooms 0.2.0-dev.6. The current UI fixture verifies thick surround dimensions, control-deck/stand separation, usable minimum geometry, large fonts, controller reachability and the existing media workflow. A pending CD-writing fixture now proves the physical power callback closes the UI, marks the work closed, stops its queued local native action and sends the existing ledgerCancel request. This is source/host evidence, not an in-game power test or proof of a remote cancellation outcome.
 

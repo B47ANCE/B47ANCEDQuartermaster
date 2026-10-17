@@ -1,8 +1,8 @@
-[b]Version 0.18.0-dev.4[/b]
+[b]Version 0.18.0-dev.5[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Windows '93 computers now have a much bulkier beige CRT case: thick front molding, deep recessed screen, visible vented rear housing, broad lower control panel and a substantial swivel pedestal. Original pixel desktop/application icons remain.
+Clean the bulky CRT artwork with softer case shading and fewer outline bands. Replace the placeholder task button with separate CD-ROM, CD Writer and ledger tasks: minimize/restore, switch apps, close one app, or Show Desktop and restore. Keep queries, pages and media choices while switching. Power/Log Off still closes all tasks and cancels pending CD writing.
 
-The physical power button closes the local computer UI and cancels pending CD writing through the existing workflow; it does not change shared world electricity or eject stored media. Minimum dimensions preserve controls and labels at large fonts.
+Resume revalidates ledger rows using existing server reads; media loss closes the ledger task while preserving unrelated apps. Fix hidden-window input/tooltips, controller EXE rows after mounting, and late replies reopening closed windows. No new commands, protocols, save formats or runtime dependencies.
 
-Presentation only. No ledger permissions, native transfers, protocols or save formats change. Allocation enforcement and live role routing remain disabled. Current source is not deployed or uploaded; native client and dedicated acceptance remain pending.
+Source-only development. Native visual/controller and dedicated acceptance remain pending. Allocation enforcement/live role routing stay disabled. No deployment or Workshop upload.
