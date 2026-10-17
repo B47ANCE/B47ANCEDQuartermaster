@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.0-dev.3] - 2026-10-17
+
+- Replace the flat computer surround with an original Lua-drawn beige CRT, recessed glass rim, pedestal, vents and power light. Add detailed CD-drive, CD-writer and application pixel icons.
+- Keep the desktop, taskbar and status text within the glass; increase resize minimums for the bezel and large fonts. The physical power button uses the existing Log Off/cancellation path and controller focus.
+- Presentation only: no networking, saved-data, ledger authorization, CD handling or native transfer changes. No protocol bump or new gameplay setting.
+- Offline/UI evidence and remaining native gates: docs/WINDOWS93_COMPUTER.md. No deployment or publication.
+
 ## [0.18.0-dev.2] - 2026-10-17
 
 - Retire native-room selectors, fallback requests, allocation aliases and active grouping. Use B47ANCEDRooms designated rooms for room organization and native PZ buildings for building scope, with proximity fallback where no designation applies.

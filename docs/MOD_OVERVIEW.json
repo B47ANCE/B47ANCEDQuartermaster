@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.18.0-dev.2",
+  "version": "0.18.0-dev.3",
   "reviewed": true,
-  "source_digest": "6a5c72f53136ca2d4c605f48764d539b8172a3c8860b57b674df6eacf3486bce",
+  "source_digest": "8632bfb176de4365fb8722a6958b0735cb3894f43526754dd74344236ec0a869",
   "features": [
     {
       "status": "Source",
@@ -37,13 +37,18 @@
     {
       "status": "Source",
       "text": "Designated-room-only UI/server scopes with native building scope; retired native profiles stay dormant even through aliases. No-profile Shadow comparisons preserve ordinary native eligibility and capacity checks."
+    },
+    {
+      "status": "Source",
+      "text": "Original code-drawn beige CRT computer surround and pixel desktop/application icons; glass-contained taskbar/status, resizable layout and physical Log Off control. Presentation only."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.2; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.3; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",
-    "docs/DESIGNATED_ROOM_SCOPES.md"
+    "docs/DESIGNATED_ROOM_SCOPES.md",
+    "docs/WINDOWS93_COMPUTER.md"
   ],
   "relations": [
     {

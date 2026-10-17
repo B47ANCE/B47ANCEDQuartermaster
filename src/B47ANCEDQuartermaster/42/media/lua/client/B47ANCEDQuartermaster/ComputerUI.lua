@@ -4,6 +4,7 @@ require 'B47ANCEDUI/Controls'
 require 'ISUI/ISComboBox'
 local U=B47ANCEDUI
 local Media=require 'B47ANCEDQuartermaster/LedgerMedia'
+local Art=require 'B47ANCEDQuartermaster/ComputerArt'
 local C={active={}};B47ANCEDQuartermaster.ComputerUI=C
 local function color(r,g,b) return {r=r,g=g,b=b,a=1} end
 C.colors={case=color(.25,.24,.21),grey=color(.75,.75,.72),light=color(.96,.96,.91),shadow=color(.36,.36,.34),
@@ -42,17 +43,6 @@ local function button(owner,label,fn)
  end
  U.Tooltip.attach(b,owner.playerNum);return b
 end
-local function icon(w,kind,x,y)
- if kind=='computer' then
-  rect(w,x,y,36,26,P.grey);bevel(w,x,y,36,26);rect(w,x+4,y+4,28,17,P.black);rect(w,x+6,y+6,24,13,P.teal)
-  rect(w,x+14,y+26,8,4,P.grey);rect(w,x+7,y+30,24,4,P.light)
- elseif kind=='disc' then
-  for n=0,5 do local inset=math.abs(2.5-n)*3;rect(w,x+inset,y+n*5,36-inset*2,5,n%2==0 and P.light or P.grey) end
-  rect(w,x+15,y+12,7,7,P.teal)
- else
-  rect(w,x,y+10,38,23,P.grey);bevel(w,x,y+10,38,23);rect(w,x+4,y+15,29,4,P.black);rect(w,x+27,y+25,5,3,P.teal)
- end
-end
 local function box(owner,x,y,w,h)
  local p=ISPanelJoypad:new(x,y,w,h);p.playerNum=owner.playerNum;p:initialise();p:instantiate();owner:addChild(p);return p
 end
@@ -82,11 +72,11 @@ function C.open(num,computer,hooks)
  if not require('B47ANCEDQuartermaster/LedgerPolicy').enabled() then return end
  local actor=getSpecificPlayer(num);if not actor or not Media.computer(actor,computer,true) then return end
  local current=C.active[num];if current and not current.closed then if current.computer==computer then setJoypadFocus(num,current);return current end;current:close() end
- local m=U.Theme.metrics();local minW=math.max(700,m.font*28);local minH=math.max(180+8*m.button,160+5*m.font+5*m.button)
+ local m=U.Theme.metrics();local minW=math.max(760,m.font*28+80);local minH=math.max(180+8*m.button,160+5*m.font+5*m.button)+110
  if getPlayerScreenWidth(num)<minW+20 or getPlayerScreenHeight(num)<minH+20 then actor:setHaloNote(tr('LedgerScreenSmall'));return end
- local screen=ISCollapsableWindowJoypad:new(0,0,math.min(1120,getPlayerScreenWidth(num)-20),math.min(780,getPlayerScreenHeight(num)-20))
+ local screen=ISCollapsableWindowJoypad:new(0,0,math.max(minW,math.min(1000,getPlayerScreenWidth(num)-20)),math.max(minH,math.min(800,getPlayerScreenHeight(num)-20)))
  screen.playerNum=num;screen.computer=computer;screen.minimumWidth=minW;screen.minimumHeight=minH;screen.resizable=true;screen.pin=true
- screen.drawFrame=false;screen.clearStentil=false;screen.title='Windows \'93';screen.titleBarHeight=function() return m.font+20 end
+ screen.drawFrame=false;screen.clearStentil=false;screen.title='Windows \'93';screen.titleBarHeight=function() return 32 end
  screen:initialise();screen:instantiate();C.active[num]=screen;initFocus(screen)
  local desktop=box(screen,18,34,screen:getWidth()-36,screen:getHeight()-100)
  local frame=box(desktop,12,12,desktop:getWidth()-24,desktop:getHeight()-24);frame:setVisible(false)
@@ -118,8 +108,8 @@ function C.open(num,computer,hooks)
  function screen:refreshFocus()
   initFocus(self)
   if menu:isVisible() then self:insertNewLineOfButtons(self.start);self:insertNewLineOfButtons(menu.drive);self:insertNewLineOfButtons(menu.writer);self:insertNewLineOfButtons(menu.off)
-  elseif frame:isVisible() then self:insertNewLineOfButtons(frame.minimize,frame.exit);self:insertNewLineOfButtons(self.start,self.task,self.off)
-  else self:insertNewLineOfButtons(self.driveIcon,self.writerIcon);self:insertNewLineOfButtons(self.start,self.task,self.off) end
+  elseif frame:isVisible() then self:insertNewLineOfButtons(frame.minimize,frame.exit);self:insertNewLineOfButtons(self.start,self.task,self.off);self:insertNewLineOfButtons(self.power)
+  else self:insertNewLineOfButtons(self.driveIcon,self.writerIcon);self:insertNewLineOfButtons(self.start,self.task,self.off);self:insertNewLineOfButtons(self.power) end
  end
  function screen:release(content)
   frame:removeChild(content)
@@ -176,6 +166,12 @@ function C.open(num,computer,hooks)
   v.eject=button(v,tr('ComputerEject'),function() screen:eject() end)
   v.file=button(v,'QUARTERMASTER.EXE',function() status=tr('ComputerRunHint') end)
   v.file.onMouseDoubleClick=function() screen:runDisc();return true end
+  v.file.render=function(self)
+   local scale=m.button>=40 and 2 or 1;local size=32*scale
+   Art.icon(self,'application',12,math.floor((self:getHeight()-size)/2),scale)
+   text(self,self.title,24+size,math.floor((self:getHeight()-m.font)/2),self:getWidth()-36-size)
+   R.focus(self)
+  end
   v.prerender=function(self)
    screen:refreshDrive()
    options(self.media,available,'ComputerNoCD');local w,h=self:getWidth(),self:getHeight()
@@ -217,30 +213,41 @@ function C.open(num,computer,hooks)
  for _,entry in ipairs({{screen.driveIcon,'disc'},{screen.writerIcon,'writer'}}) do
   local b,kind=entry[1],entry[2]
   b.prerender=function(self) if self.mouseOver or self.joypadFocused then R.border(self,0,0,self:getWidth(),self:getHeight(),P.light) end end
-  b.render=function(self) icon(self,kind,math.floor((self:getWidth()-38)/2),8);text(self,self.title,4,48,self:getWidth()-8,P.white);R.focus(self) end
+  b.render=function(self)
+   Art.icon(self,kind,math.floor((self:getWidth()-64)/2),8,2)
+   local caption=R.fit(self.title,self:getWidth()-12);local x=math.floor((self:getWidth()-getTextManager():MeasureStringX(U.Theme.fonts.body,caption))/2)
+   text(self,caption,x+1,81,self:getWidth()-12,P.black);text(self,caption,x,80,self:getWidth()-12,P.white);R.focus(self)
+  end
  end
  screen.start=button(screen,tr('ComputerStart'),function() menu:setVisible(not menu:isVisible());if menu:isVisible() then menu:bringToTop() end;screen:refreshFocus();setJoypadFocus(num,screen) end)
  screen.task=button(screen,tr('ComputerDesktop'),function() if screen.content then frame:setVisible(not frame:isVisible()) end;menu:setVisible(false);screen:refreshFocus();setJoypadFocus(num,frame:isVisible() and screen.content or screen) end)
  screen.off=button(screen,tr('ComputerPowerOff'),function() screen:close() end)
+ screen.power=button(screen,tr('ComputerPowerOff'),function() screen:close() end)
+ screen.power.tooltip=tr('ComputerPowerOff');screen.power.prerender=Art.power;screen.power.render=function(self) R.focus(self) end
  frame.minimize=button(frame,'_',function() screen:desktop() end);frame.exit=button(frame,'X',function() screen:closeApp() end)
  menu.drive=button(menu,tr('ComputerDrive'),function() screen:openDrive() end)
  menu.writer=button(menu,tr('ComputerWriter'),function() screen:openWriter() end)
  menu.off=button(menu,tr('ComputerPowerOff'),function() screen:close() end)
  function screen:layoutComputer()
-  local w,h=self:getWidth(),self:getHeight();local top=m.font+20;local bottom=m.button+m.font+44
-  U.Layout.place(desktop,18,top,w-36,h-top-bottom)
+  local w,h=self:getWidth(),self:getHeight()
+  if not self.crt or self.crt.windowWidth~=w or self.crt.windowHeight~=h then
+   self.crt=Art.geometry(w,h,m.font,m.button);self.crt.windowWidth=w;self.crt.windowHeight=h
+  end
+  local g=self.crt
+  U.Layout.place(desktop,g.x,g.y,g.width,g.desktopHeight)
   local dw,dh=desktop:getWidth(),desktop:getHeight();U.Layout.place(frame,10,10,dw-20,dh-20)
   U.Layout.place(frame.minimize,frame:getWidth()-2*m.button-8,4,m.button,m.button);U.Layout.place(frame.exit,frame:getWidth()-m.button-4,4,m.button,m.button)
   if self.content then U.Layout.place(self.content,4,m.button+8,frame:getWidth()-8,frame:getHeight()-m.button-12) end
-  U.Layout.place(self.driveIcon,12,14,math.max(180,m.font*12),m.font+64);U.Layout.place(self.writerIcon,12,m.font+94,math.max(180,m.font*12),m.font+64)
-  local taskY=h-m.button-m.font-24
-  U.Layout.place(self.start,18,taskY,math.max(90,m.font*5),m.button);U.Layout.place(self.off,w-math.max(180,m.font*11)-18,taskY,math.max(180,m.font*11),m.button)
-  U.Layout.place(self.task,self.start.x+self.start:getWidth()+8,taskY,self.off.x-self.start.x-self.start:getWidth()-16,m.button)
+  U.Layout.place(self.driveIcon,12,14,math.max(180,m.font*12),m.font+96);U.Layout.place(self.writerIcon,12,m.font+126,math.max(180,m.font*12),m.font+96)
+  U.Layout.place(self.start,g.x+4,g.taskY,math.max(90,m.font*5),m.button)
+  U.Layout.place(self.off,g.x+g.width-math.max(120,m.font*7)-4,g.taskY,math.max(120,m.font*7),m.button)
+  U.Layout.place(self.task,self.start.x+self.start:getWidth()+8,g.taskY,self.off.x-self.start.x-self.start:getWidth()-16,m.button)
+  U.Layout.place(self.power,g.powerX,g.powerY,32,30)
   U.Layout.place(menu,4,dh-menu:getHeight()-4,menu:getWidth(),menu:getHeight())
   for i,b in ipairs({menu.drive,menu.writer,menu.off}) do U.Layout.place(b,8,8+(i-1)*(m.button+4),menu:getWidth()-16,m.button) end
   for _,key in ipairs({'closeButton','pinButton','collapseButton','infoButton'}) do if self[key] then self[key]:setVisible(false) end end
  end
- desktop.prerender=function(self) rect(self,0,0,self:getWidth(),self:getHeight(),P.teal) end
+ desktop.prerender=Art.desktop
  frame.prerender=function(self)
   rect(self,0,0,self:getWidth(),self:getHeight(),P.grey);bevel(self,0,0,self:getWidth(),self:getHeight())
   rect(self,4,4,self:getWidth()-8,m.button,P.blue);text(self,screen.appTitle or '',10,7,self:getWidth()-2*m.button-26,P.white)
@@ -251,12 +258,14 @@ function C.open(num,computer,hooks)
   if getSpecificPlayer(num)~=actor or actor:isDead() or not Media.computer(actor,computer,true) then self:close();return end
   if driveReady then self:refreshDrive() end
   self:layoutComputer();local w,h=self:getWidth(),self:getHeight()
-  rect(self,0,0,w,h,P.case);bevel(self,0,0,w,h);rect(self,10,m.font+12,w-20,desktop:getHeight()+16,P.black)
-  text(self,"Windows '93",20,7,w-40,P.light);rect(self,18,self.start.y-4,w-36,m.button+8,P.grey)
-  rect(self,w-35,h-20,6,6,P.teal);text(self,status,20,h-m.font-10,w-70,P.light)
+  local g=self.crt;Art.monitor(self,g)
+  Art.glass(self,g)
+  rect(self,g.x,g.taskY-4,g.width,m.button+8,P.grey)
+  rect(self,g.x,g.taskY-4,g.width,2,P.light)
+  text(self,status,g.x+6,g.statusY,g.width-12,P.white)
   if self.content and self.content.updateComputer then self.content:updateComputer() end
  end
- screen.render=function(self) if self.resizeWidget then bevel(self,self:getWidth()-14,self:getHeight()-14,12,12) end end
+ screen.render=function(self) if self.resizeWidget then bevel(self,self:getWidth()-24,self:getHeight()-38,10,10) end end
  screen.onJoypadDown=function(self,key) if key==Joypad.BButton then if menu:isVisible() then menu:setVisible(false);self:refreshFocus() elseif frame:isVisible() then self:desktop() else self:close() end else ISPanelJoypad.onJoypadDown(self,key) end end
  C.keyboard(screen,function() if screen.content then screen:closeApp() else screen:onJoypadDown(Joypad.BButton) end end)
  U.bounds(screen,num);screen:addToUIManager();screen:layoutComputer();screen:refreshFocus();setJoypadFocus(num,screen)

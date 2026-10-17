@@ -1,6 +1,6 @@
 # Required Rooms integration and scoped sorting
 
-Project Version: 0.18.0-dev.2
+Project Version: 0.18.0-dev.3
 
 Current designated-only scope correction: native room selectors/requests are retired; B47ANCEDRooms designations provide room identity and native buildings provide building scope. Quartermaster Rooms capability is 4; movement remains 11. Existing ledger signatures, upstream complete-footprint configuration permission and provider-capability checks remain. Enforcement/live role routing stay disabled. [Exact validation and limitations](DESIGNATED_ROOM_SCOPES.md).
 

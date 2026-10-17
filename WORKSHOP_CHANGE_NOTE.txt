@@ -1,10 +1,6 @@
-[b]Version 0.18.0-dev.2[/b]
+[b]Version 0.18.0-dev.3[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Port sparse allocation profiles and percentage editing onto the current supply ledger, computers, physical Shopping Lists and carry-first transfer stack. Container/Whole/preset migrations retain recovery snapshots. Use current designated-room APIs and preserve independent native action permissions.
+Windows '93 computers now have an original beige CRT frame, recessed screen, stand, vents, power light and detailed pixel desktop/application icons. The taskbar and status text stay inside the glass; larger minimum dimensions preserve controls with large fonts. The physical power button uses the existing Log Off/cancel path.
 
-Allocation remains advisory: Off/Shadow, default Shadow. Enforcement and live Primary/Secondary routing stay disabled. Match all peers: configuration 6, presets 3, allocation 1; movement 11, personal 2, shopping 3, ledger 3 and load-policy 1 retained; Rooms becomes 4 for designated-only scope.
-
-Source-only development; no upload, deployment or native acceptance. G7 and stable G8 remain BLOCKED.
-
-Room organization uses designated B47ANCEDRooms rooms only; native buildings define building scope. Retired native-room scope requests are rejected (Quartermaster Rooms capability 4). Existing building-ledger coverage and historical data are preserved. Allocation limits and live role routing remain disabled.
+Presentation only. No ledger permissions, native transfers, protocols or save formats change. Allocation enforcement and live role routing remain disabled. Current source is not deployed or uploaded; native client and dedicated acceptance remain pending.

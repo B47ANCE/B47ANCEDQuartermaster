@@ -1,8 +1,20 @@
 # Windows '93 computer desktop
 
-Project Version: 0.18.0-dev.2
+Project Version: 0.18.0-dev.3
 
-Computers open an original Lua-drawn Windows '93 desktop with a CRT bezel, teal desktop, grey beveled controls, Start menu and taskbar. Opening the desktop never auto-runs the ledger.
+Computers open an original Lua-drawn Windows '93 desktop inside a beige CRT monitor. The molded case has a recessed chamfered glass rim, pedestal, ventilation slots, embossed identification, a green power light and a physical power button. The desktop, taskbar and status text stay inside the glass. Opening the desktop never auto-runs the ledger.
+
+CD-ROM, CD Writer and QUARTERMASTER.EXE use original layered pixel artwork on a 32x32 grid. Desktop icons use integer 2x scale, separate centered captions and text shadows; the application entry uses its own monitor/checklist icon. Artwork lives in `ComputerArt.lua`, not external images, copied OS resources or a generated texture pack. The renderer uses the already verified native ISUI rectangle/text primitives. No new engine APIs or runtime dependencies are needed.
+
+The physical power button follows the existing Log Off/close path, including pending-write cancellation. It does not cut shared building electricity or move/eject a real CD. It remains reachable through the controller focus rows. Minimum dimensions now reserve the bezel, status line and taskbar at 14/24/32/42 font heights. No protocol, persistence or gameplay settings change: the chrome is local presentation, not configurable gameplay.
+
+For a reproducible **host preview**, install/use the existing development Pillow and Lupa (Lua 5.1) environment, then run:
+
+```powershell
+python -B scripts/render_computer_preview.py --output <local-preview-directory>
+```
+
+This executes the current Lua art/layout and exports desktop, Start, loaded-CD and writer views plus a contact sheet. The item names are synthetic fixtures; native widget paint/fonts are approximations. These images are not Project Zomboid screenshots or native acceptance evidence. The script is development-only and excluded from the runtime manifest.
 
 Server Ledger Mode can disable the entire computer/CD path. With Computer Manual Updates on, the configured ledger expiry applies; record storage and write/load a new CD to renew it. With that option off, a powered authorized computer with a matching completed CD shows live statistics without expiry. This does not rewrite its CD or paper snapshot. [Modes and limits](LEDGER_FRESHNESS.md).
 
@@ -23,6 +35,24 @@ ComputerUI owns presentation and proxies returned by server drive discovery, nev
 Native buttons/dropdowns, B/controller navigation, keyboard Escape, resize minimums, taskbar/list/footer bounds and light search-entry glyphs remain. Existing native `ISTextEntryBox:setTextRGBA` colors the actual native text-entry glyphs. All 29 UI locales retain English fallbacks. New UI code uses existing Lua-exposed ISUI primitives and original symbols; no external OS assets, arbitrary executable loader, filesystem, Java modification or separate runtime dependency is introduced.
 
 ## Validation
+
+### 0.18.0-dev.3 CRT pass - 2026-10-17
+
+[TESTED OFFLINE] Full paired regression passed against Rooms 0.2.0-dev.6. After the final font-aware case badge and physical-power tooltip adjustments, reran the focused ledger/computer UI fixture successfully. Rendering the four preview states from current source also passed. Code-native icons satisfy their 32x32 bounds/palette checks; the shared geometry tests verify current minimum sizes, separate icon captions, glass-contained taskbar, physical power placement and controller reachability. No native frame-time claim is made; drawing uses fixed-size artwork/layer loops and no world scans.
+
+Exact commands (development Lupa/Pillow environment):
+
+```powershell
+python -B tests/run_tests.py --require-rooms --rooms <verified-Rooms-checkout>
+python -B scripts/render_computer_preview.py --output <local-preview-directory>
+python -B scripts/check_versions.py
+python -B scripts/check_deployment.py
+git -c core.safecrlf=false diff --cached --check
+```
+
+The final focused run executes `tests/test_ledger_ui.lua` through the same Lua 5.1 runtime and native-fixture globals used by the full runner. Source-manifest parity covers 223 runtime files; no package/deployment is implied. Runtime SHA-256: `ceb77a01663520ead5f32b91cfed77779e689543aa6d1d89b06ebed941c1acf5` (sorted relative UTF-8 path, NUL, binary file SHA-256). Overview digest binds the current source, README and VERSION separately. Earlier source reports and artifact receipts remain historical and unchanged.
+
+G6 native visual/controller acceptance is NOT TESTED. This slice is client presentation only, but the combined source candidate still inherits pending gameplay G7/stable G8 gates. No stable-readiness claim, game/server launch, package, deployment or Workshop upload.
 
 [TESTED OFFLINE] Full regression suite with actual Rooms source and installed native Lua fixtures. UI tests cover no automatic read; explicit storage-CD load/Run/EXE double-click; embedded search/rooms; exact writer choices; minimize/eject/logoff; server-reported CD loss; power loss; Escape/controller; native entry glyph color; and geometry at 14/24/32/42 font heights. These are host fixtures, not native pixels/network execution. See the [current requirement report](LEDGER_REQUIREMENT.md) for exact commands, server-side tests and limits.
 

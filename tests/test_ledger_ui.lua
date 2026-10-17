@@ -44,6 +44,12 @@ panel.ledgerControls.previous.onclick();assert(sent[#sent].args.cursor==nil)
 panel:onJoypadDown(Joypad.BButton);assert(not V.readers[0])
 local before=readCount()
 local C=require 'B47ANCEDQuartermaster/ComputerUI'
+local art=require 'B47ANCEDQuartermaster/ComputerArt'
+-- The shared grid is original artwork, not a texture/foreign-asset dependency.
+for kind,layers in pairs(art.icons) do
+ assert(#layers>0)
+ for _,v in ipairs(layers) do assert(v[1]>=0 and v[2]>=0 and v[3]>0 and v[4]>0 and v[1]+v[3]<=32 and v[2]+v[4]<=32 and art.colors[v[5]],'icon outside authoring grid: '..kind) end
+end
 local screen=assert(V.computer(0,computer));assert(not screen.content and readCount()==before,'computer auto-ran the ledger')
 assert(V.computer(0,computer)==screen,'duplicate computer screen')
 local drive=screen:openDrive();assert(readCount()==before and not V.readers[0],'drive browser auto-read the CD')
@@ -53,7 +59,7 @@ panel=assert(V.readers[0]);assert(screen.content==panel and panel.parent and not
 assert(readCount()==before+1 and panel.ledgerControls.search and panel.ledgerControls.rooms)
 assert(panel.ledgerControls.search.nativeTextColor[1]<.1,'native text-entry glyphs stayed white on white')
 assert(#panel.ledgerControls.rooms.options==2,'digital room browser missing')
-for _,size in ipairs({{700,404},{1100,700}}) do
+for _,size in ipairs({{screen.minimumWidth,screen.minimumHeight},{1100,700}}) do
  screen:setWidth(size[1]);screen:setHeight(size[2]);screen:prerender();panel:prerender()
  assert(panel.ledgerControls.list.y+panel.ledgerControls.list.height<=panel.ledgerControls.close.y,'computer reader overlaps footer')
  assert(screen.start.x+screen.start.width<screen.task.x and screen.task.x+screen.task.width<screen.off.x,'taskbar overlap')
@@ -89,6 +95,15 @@ for _,font in ipairs({24,32,42}) do
  writer=screen:openWriter();writer:prerender();local metrics=U.Theme.metrics()
  assert(writer.write.y>=48+3*metrics.font+2*metrics.button,'large-font writer warning overlaps action')
  assert(writer.write.y+writer.write.height<=writer:getHeight()-8)
+ local glass=screen.crt
+ assert(glass.x>20 and glass.y>=32 and glass.x+glass.width<screen:getWidth()-20,'CRT lost recessed surround')
+ assert(screen.start.x>=glass.x and screen.off.x+screen.off.width<=glass.x+glass.width,'taskbar escaped glass')
+ assert(screen.start.y+screen.start.height<=glass.y+glass.height,'taskbar escaped glass bottom')
+ assert(screen.driveIcon.y+screen.driveIcon.height<=screen.writerIcon.y,'desktop icon captions overlap')
+ assert(screen.writerIcon.y+screen.writerIcon.height<=screen.writerIcon.parent.height,'desktop icons escaped glass')
+ assert(screen.power.y>=glass.y+glass.height and screen.power.y+screen.power.height<=screen:getHeight()-26,'power control overlaps glass/stand')
+ local reachable=false;for _,widget in ipairs(screen.allJoypadButtons) do if widget==screen.power then reachable=true end end
+ assert(reachable,'physical power control unreachable with controller')
  screen:onJoypadDown(Joypad.BButton);assert(screen.content==writer,'controller minimize lost application')
  screen:close()
 end
@@ -98,6 +113,9 @@ screen=assert(V.computer(0,computer));screen:openWriter();screen:onKeyRelease(Ke
 assert(not screen.content and C.active[0]==screen,'Escape did not return to desktop')
 screen:onKeyRelease(Keyboard.KEY_ESCAPE);assert(not C.active[0],'desktop Escape did not shut down')
 print('PASS OFFLINE Windows 93 ledger UI: desktop has no automatic reads, explicit CD insert/run and EXE double-click, embedded literal search/rooms, resize/footer/taskbar at 14/24/32/42 font heights, minimize/eject, exact media-loss cleanup, explicit writer choices, shutdown cancellation, Escape/controller and power-loss close; paper navigation preserved; native visual acceptance NOT TESTED')
+
+-- Physical power closes only the UI and uses the same cancellation path as Log Off.
+screen=assert(V.computer(0,computer));screen.power.onclick();assert(not C.active[0] and not V.work[0],'physical power left screen or writing active')
 
 -- Server-disabled mode removes ledger/computer entry points and closes screens.
 screen=assert(V.computer(0,computer));SandboxVars.B47ANCEDQuartermaster.LedgerMode=2

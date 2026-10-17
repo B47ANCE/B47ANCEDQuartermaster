@@ -1,6 +1,6 @@
 # Physical Supply Ledger and Dangerous Load
 
-Project Version: 0.18.0-dev.2
+Project Version: 0.18.0-dev.3
 
 Current policy is [0.17 ledger modes/freshness](LEDGER_FRESHNESS.md): manual inventory/container Sort is free; scoped Sort requires fresh knowledge. The physical inspection/conversion implementation below remains the baseline. Historical snapshots stay immutable; live statistics are separate ephemeral server projections. Prior dated artifacts/tests retain their actual versions.
 

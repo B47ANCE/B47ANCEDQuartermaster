@@ -1,6 +1,6 @@
 # Ledger modes and scoped sorting
 
-Project Version: 0.18.0-dev.2
+Project Version: 0.18.0-dev.3
 
 Inventory and selected-container Sort do not need a ledger, including supported ground/proximity/vehicle sources. Room/Building Sort includes carried inventory and requires fresh location knowledge by default. Shopping planning/physical papers remain independent; collection retains its separate server requirement. Native capacity, access, routing, smaller transfer groups and timing are preserved.
 
