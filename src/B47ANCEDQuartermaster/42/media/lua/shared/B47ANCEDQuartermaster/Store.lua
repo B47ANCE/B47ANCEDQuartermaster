@@ -27,7 +27,20 @@ function Store.rawCommit(record,config)
     local md=record.target.obj:getModData()
     local old=md[S.key]
     local root={schemaVersion=1,containers={}}
-    if old then for k,v in pairs(old.containers) do root.containers[k]=v end end
+    if old then
+        for key,value in pairs(old) do if key~='containers' then root[key]=value end end
+        for k,v in pairs(old.containers) do root.containers[k]=v end
+    end
+    if native and native.schemaVersion~=S.version then
+        local backups={};for key,value in pairs(root.allocationBackups or {}) do backups[key]=value end
+        local key=tostring(record.target.ci)
+        if not backups[key] then
+            local original={};for k,v in pairs(native) do original[k]=v end;original.config=S.copy(native.config)
+            backups[key]=original
+            print('[B47ANCEDQuartermaster] allocation migration: preserved original physical configuration schema '..tostring(native.schemaVersion))
+        end
+        root.allocationBackups=backups
+    end
     root.containers[tostring(record.target.ci)]=envelope
     -- Commit a complete owned envelope. Never touch LSBox fields or foreign registries.
     md[S.key]=root

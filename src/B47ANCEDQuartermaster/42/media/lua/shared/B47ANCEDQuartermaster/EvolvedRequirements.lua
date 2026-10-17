@@ -33,13 +33,7 @@ function E.lookup(id)
 end
 -- Java's native portion arithmetic uses binary32, including the Cooking-level
 -- reduction in regular ingredient consumption. Never simulate by item creation.
-local function float(n)
-    if n==0 then return 0 end
-    local sign=n<0 and -1 or 1;local m,e=math.frexp(math.abs(n));local value=math.ldexp(m,24)
-    local lo=math.floor(value);local fraction=value-lo
-    if fraction>0.5 or (fraction==0.5 and lo%2==1) then lo=lo+1 end
-    return sign*math.ldexp(lo,e-24)
-end
+local float=require('B47ANCEDQuartermaster/NativeFloat').round
 E.float=float
 local function fresh(item)
     return not item:isBurnt() and not item:isRotten() and not item:isCooked() and not item:isFrozen()

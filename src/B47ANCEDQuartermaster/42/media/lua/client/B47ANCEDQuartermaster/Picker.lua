@@ -17,7 +17,7 @@ local Q=B47ANCEDQuartermaster
 local S=Q.Schema
 local Picker=ISCollapsableWindowJoypad:derive('B47SortingPicker')
 Q.Picker=Picker
-local function tr(key) return getText('UI_QMSS_'..key) end
+local function tr(key,...) return getText('UI_QMSS_'..key,...) end
 local textures={}
 function Picker.itemTexture(fullType)
     if not fullType then return end
@@ -45,6 +45,7 @@ function Picker:new(obj,ci,playerNum,options)
     o.api=o.options.api or Q.Catalog.build()
     local config=S.copy(o.options.config or S.empty())
     o.selectedCats,o.selectedItems,o.selectedPresets=config.cats,config.items,config.presets
+    o.allocation=config.allocation
     o.priority,o.mode=config.priority,'cats';o.selection=o.selectedCats
     o.presetLibrary=o.options.library or {revision=0,definitions={}}
     o.title=tr('EditorTitle');o.resizable=true
@@ -63,9 +64,11 @@ end
 function Picker:closePicker()
     if self.removed then return end
     self.removed=true;self:removeFromUIManager()
+    if self.childPicker and not self.childPicker.removed then self.childPicker:closePicker() end
     if Q.presetEditor and Q.presetEditor.options.parent==self then Q.presetEditor:closePicker() end
     if self.options.parent then
         local parent=self.options.parent
+        if parent.childPicker==self then parent.childPicker=nil end
         parent.dimmer:setVisible(false)
         if not parent.removed then parent:refreshPresets();setJoypadFocus(self.playerNum,parent) end
     elseif self.grabbedJoypad then setJoypadFocus(self.playerNum,nil) end
@@ -135,8 +138,9 @@ function Picker:rebuild()
         return false
     end
     for _,name in ipairs(sorted) do
-        if string.find(string.lower(name),filter,1,true) and (not self.onlyChecked or self.selectedPresets[name])
-            and matchesContents(self:getPresetStore()[name]) then lb:addItem(name,name) end
+        local def=self:getPresetStore()[name];local label=def and def.label or name
+        if string.find(string.lower(label),filter,1,true) and (not self.onlyChecked or self.selectedPresets[name])
+            and matchesContents(def) then lb:addItem(label,name) end
     end
     lb:setScrollHeight(#lb.items*lb.itemheight)
     self.btnModePreset:setTitle(tr('Presets')..' ('..#sorted..')')
@@ -185,7 +189,7 @@ function Picker:onJoypadDown(button,data)
     else ISCollapsableWindowJoypad.onJoypadDown(self,button,data) end
 end
 function Picker:onSave()
-    if self.options.save then self.options.save(self,{cats=self.selectedCats,items=self.selectedItems,presets=self.selectedPresets,priority=self.priority}) end
+    if self.options.save then self.options.save(self,{cats=self.selectedCats,items=self.selectedItems,presets=self.selectedPresets,priority=self.priority,allocation=self.allocation}) end
 end
 function Picker:refreshPresets()
     local session=self.qmsSession or (self.options.parent and self.options.parent.qmsSession)
@@ -198,24 +202,36 @@ function Picker:refreshPresets()
         else self.title=tr(result.status) end
     end)
 end
-function Picker:changePreset(name,config,remove,done,generation,revision)
-    local session=self.qmsSession
+function Picker:changePreset(name,config,remove,done,generation,revision,extra)
+    local session=self.qmsSession or self.options.parent and self.options.parent.qmsSession
     if not session or not session.selected or session.busy then return end
     session.busy=true
-    session:request('presetChange',{token=session.selected.token,name=name,config=config,delete=remove,
-        generation=generation,revision=revision},function(result)
+    local args={token=session.selected.token,name=name,config=config,delete=remove,generation=generation,revision=revision}
+    for key,value in pairs(extra or {}) do args[key]=value end
+    session:request('presetChange',args,function(result)
         session.busy=false
         if result.status=='ok' and result.library.revision>=self.presetLibrary.revision then self.presetLibrary=result.library;self:rebuild() end
         self.title=tr(result.status);if done then done(result.status) end
     end)
+end
+function Picker:promptPreset(mode,name)
+    local def=name and self:getPresetStore()[name]
+    local dialog=ISTextBox:new(0,0,400,190,tr('PresetName'),mode=='rename' and (def.label or name) or '',self,function(owner,b)
+        if b.internal~='OK' or owner.removed then return end
+        local text=b.parent.entry:getInternalText()
+        if mode=='new' then owner:editPreset(text,true)
+        elseif mode=='rename' then owner:changePreset(name,nil,false,nil,def.gen,owner.presetLibrary.revision,{renameTo=text})
+        else owner:changePreset(text,nil,false,nil,0,owner.presetLibrary.revision,{duplicateOf=name,sourceGeneration=def.gen}) end
+    end,self.playerNum)
+    dialog:initialise();dialog:addToUIManager();B47ANCEDUI.Dialog.decorate(dialog,self.playerNum,self);setJoypadFocus(self.playerNum,dialog)
 end
 function Picker:editPreset(name,isNew)
     local def=self:getPresetStore()[name]
     if (not isNew and not def) or (isNew and def) then self.title=tr('conflict');return end
     local revision=self.presetLibrary.revision
     local generation=def and def.gen or 0
-    local config=def and {cats=def.cats,items=def.items,presets={},priority=0}
-        or S.effective({cats=self.selectedCats,items=self.selectedItems,presets=self.selectedPresets,priority=0},self:getPresetStore())
+    local config=def and {cats=def.cats,items=def.items,presets={},priority=0,allocation=def.allocation}
+        or S.effective({cats=self.selectedCats,items=self.selectedItems,presets=self.selectedPresets,priority=0,allocation=self.allocation},self:getPresetStore())
     config.presets={}
     self.dimmer:setVisible(true)
     local parent=self
@@ -224,6 +240,8 @@ function Picker:editPreset(name,isNew)
             working.presets={};working.priority=0
             parent:changePreset(name,working,false,function(result) if result=='ok' then child:closePicker() else child.title=tr(result) end end,generation,revision)
         end})
+    editor.requiresAllocationInfo=self.requiresAllocationInfo;editor.allocationInfo=self.allocationInfo
+    self.childPicker=editor
     editor.title=tr('PresetEditor')..': '..name
     editor:initialise();editor:addToUIManager();Q.adapt(editor);Q.UI.attach(editor);Q.presetEditor=editor
     setJoypadFocus(self.playerNum,editor)
@@ -231,16 +249,13 @@ end
 function Picker:presetMenu()
     if self.targetKind~='box' then return end
     local menu=B47ANCEDUI.menu(ISContextMenu.get(self.playerNum,getMouseX(),getMouseY()))
-    menu:addOption(tr('PresetNew'),self,function(p)
-        local dialog=ISTextBox:new(0,0,360,180,tr('PresetName'),'',p,function(owner,b)
-            if b.internal=='OK' then owner:editPreset(b.parent.entry:getInternalText(),true) end
-        end,p.playerNum)
-        dialog:initialise();dialog:addToUIManager();B47ANCEDUI.Dialog.decorate(dialog,p.playerNum,p);setJoypadFocus(p.playerNum,dialog)
-    end)
+    menu:addOption(tr('PresetNew'),self,function(p) p:promptPreset('new') end)
     local row=self.listbox.items[self.listbox.selected]
     local name=row and type(row.item)=='string' and row.item
     local def=name and self:getPresetStore()[name]
     if def then
+        menu:addOption(tr('AllocationRenamePreset'),self,function(p) p:promptPreset('rename',name) end)
+        menu:addOption(tr('AllocationDuplicatePreset'),self,function(p) p:promptPreset('duplicate',name) end)
         menu:addOption(tr('PresetEdit'),self,function(p) p:editPreset(name,false) end)
         menu:addOption(tr('PresetDelete'),self,function(p)
             local revision,generation=p.presetLibrary.revision,def.gen

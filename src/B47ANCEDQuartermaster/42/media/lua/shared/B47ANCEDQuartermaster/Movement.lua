@@ -11,6 +11,7 @@ local Carry=require 'B47ANCEDQuartermaster/CarryBudget'
 local External=require 'B47ANCEDQuartermaster/ContainerSources'
 local Knowledge=require 'B47ANCEDQuartermaster/LedgerRequirement'
 local function sourceValid(t,player) return t and t.external and External.valid(t,player,false) or t and not t.external and T.valid(t,player) end
+local Allocation=require 'B47ANCEDQuartermaster/AllocationRuntime'
 local function fresh()
     sequence=sequence+1
     return tostring(getTimestampMs())..':'..sequence
@@ -146,6 +147,7 @@ function M.planOne(player,args,context)
         local bound=B.sessions[player];op.customRoom=bound.customRoom;op.roomRevision=bound.roomRevision
         op.area=context and context.area==true or false
         if context and context.area then op.areaSourceConfig=context.sourceConfig;op.areaSourceEffective=context.sourceEffective end
+        if Allocation.enforcing() then local ok,reason=Allocation.admit(player,op);if not ok then return {status=ok==nil and 'waiting' or 'noDestination',reason=reason} end end
         return {status='ok',operation=op.id,itemID=item:getID(),destination=dest,
             carrierID=carrierID,source=sourceMeta,carried=not source},op
 end
@@ -185,6 +187,7 @@ function M.spill(player,op)
     return dest
 end
 local function forget(player,op)
+    Allocation.release(op)
     if M.operations[player]==op then M.operations[player]=nil end
     local run=M.runs[player]
     if run then run.operations[op.id]=nil end
@@ -224,6 +227,7 @@ function M.handle(player,command,args)
         if args.outcome~=nil and args.outcome~='notSubmitted' and args.outcome~='rejected' and args.outcome~='unknown' then return {status='invalid'} end
         -- Cancellation only relinquishes this player's grant; it never moves,
         -- credits or rolls back an item. Keep unknown native outcomes observed.
+        Allocation.release(op,args.outcome)
         if op.withdrawal and op.phase=='take' and args.outcome~='notSubmitted' and args.outcome~='rejected' then op.cancelRequested=true
         else forget(player,op) end
         return {status='ok'}
@@ -298,6 +302,7 @@ function M.handle(player,command,args)
         if not authorized then return {status='invalid',reason=reason} end
         local waiting=arrival(player,op,op.destination,'put')
         if waiting then return waiting end
+        if Allocation.enforcing() then local ok,reason=Allocation.admit(player,op);if not ok then return {status=ok==nil and 'waiting' or 'invalid',reason=reason} end end
         op.phase='put';Trace.emit(op.trace or op.id,'PUT_GRANTED','ok',op.id,op.marker);return {status='ok'}
     elseif command=='moveRevert' then
         if op.withdrawal then return {status='invalid'} end

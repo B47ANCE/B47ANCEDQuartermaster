@@ -49,7 +49,7 @@ function M.attach(p)
         p.btnSave.onclick=function() end; p.onSave=function() end
         p.btnSave:setEnable(false); p.btnSave:setTooltip(tr('TargetUnavailable')); return
     end
-    local s=Q.Session.new(origin,p.playerNum); p.qmsSession=s
+    local s=Q.Session.new(origin,p.playerNum); p.qmsSession=s;p.requiresAllocationInfo=true
     active[p]=s;observeWorld()
     local highlight=Q.WorldHighlight.new(p.playerNum);p.worldHighlight=highlight
     local rail=ISScrollingListBox:new(8,30,54,200)
@@ -64,7 +64,7 @@ function M.attach(p)
     local function capture()
         local r=s.selected
         if not r or s.binding or not editable(r) then return end
-        r.working={cats=p.selectedCats,items=p.selectedItems,presets=p.selectedPresets,priority=p.priority}
+        r.working={cats=p.selectedCats,items=p.selectedItems,presets=p.selectedPresets,priority=p.priority,allocation=p.allocation}
         r.introduced=p.qmss.model.introduced
         r.dirty=s:dirty(r)
     end
@@ -76,6 +76,7 @@ function M.attach(p)
         p.targetObj,p.targetCI=r.target.obj,r.target.ci
         local displayed=editable(r) and r.working or C.clone(r.working)
         p.selectedCats,p.selectedItems,p.selectedPresets=displayed.cats,displayed.items,displayed.presets
+        p.allocation=displayed.allocation
         p.selection=p.mode=='presets' and p.selectedPresets or p.selectedCats
         p:setPriority(r.working.priority)
         p._contents=nil
@@ -186,7 +187,7 @@ function M.attach(p)
         if not s.selected then return end
         local clip=Q.workingClipboard
         if not clip then status('NoClipboard'); return end
-        local config={cats=C.clone(clip.cats or {}),items=C.clone(clip.items or {}),presets=C.clone(clip.presets or {}),priority=clip.priority or 0}
+        local config={cats=C.clone(clip.cats or {}),items=C.clone(clip.items or {}),presets=C.clone(clip.presets or {}),priority=clip.priority or 0,allocation=C.clone(clip.allocation)}
         if not C.valid(config) then status('invalid'); return end
         if s.selected.partial then status('invalid');return end
         if s.selected.configMode=='inherit' then s:customize() end
@@ -195,6 +196,7 @@ function M.attach(p)
     local function clearSelection()
         local empty=Q.Schema.empty()
         p.selectedCats,p.selectedItems,p.selectedPresets=empty.cats,empty.items,empty.presets
+        p.allocation=empty.allocation
         p.selection=p.mode=='presets' and p.selectedPresets or p.selectedCats;p:setPriority(0)
         p.qmss.catalog=Catalog.build({},{});p.qmss.model=Q.Model.new(p,p.qmss.catalog,tr('Other'),p.qmss.catalog.owner)
         p.qmss.model.readOnly=true;p.qmss.rangeAnchor=nil
@@ -254,6 +256,9 @@ function M.attach(p)
         custom.notAvailable=customCount==0
         if select(2,Q.RoomAccess.service())=='ready' then
         menu:addOption(tr('DesignateRoom'),p,function() capture();highlight:clear();Q.RoomAccess.openEditor(p.playerNum,p,function() if not p.removed then p.discoveryDirty=true end end) end)
+        if p.allocationInfo and p.allocationInfo.roomProfiles then
+            menu:addOption(tr('AllocationRooms'),p,function() require('B47ANCEDQuartermaster/RoomAllocationUI').menu(p) end)
+        end
         end
         local sorting=Q.RoomSort and Q.RoomSort.active[p.playerNum]
         local sort=roomMenu:addOption(tr(sorting and 'RoomStopSorting' or 'RoomSort'),p,function()
@@ -383,6 +388,7 @@ function M.attach(p)
         if oldUpdate then oldUpdate(self,...) end
         if not self.removed and getTimestampMs()>=nextCheck then
             nextCheck=getTimestampMs()+500
+            Q.AllocationUI.info(self)
             highlight:tick(s.selected and s.selected.target)
         end
         if not self.removed and self.discoveryDirty and not s.busy and s.discoveryState~='discovering' and not (Q.RoomSort and Q.RoomSort.active[self.playerNum]) then

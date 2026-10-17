@@ -1,10 +1,8 @@
-[b]Version 0.17.0-dev.1[/b]
+[b]Version 0.18.0-dev.1[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Inventory and selected-container Sort work without a supply ledger. Room/Building Sort and Shopping collection require fresh location knowledge by default.
+Port sparse allocation profiles and percentage editing onto the current supply ledger, computers, physical Shopping Lists and carry-first transfer stack. Container/Whole/preset migrations retain recovery snapshots. Use current designated-room APIs and preserve independent native action permissions.
 
-New server Ledger modes: periodic updates with live statistics, Disabled, live statistics without expiry, or real historical snapshots. The update interval defaults to 7 in-game days (1-365). Computers can require manual recording/CD updates or refresh automatically while powered. Renewing a paper preserves older CD snapshots. Live readers cover recorded, loaded physical compartments; newly added storage needs another inspection.
+Allocation remains advisory: Off/Shadow, default Shadow. Enforcement and live Primary/Secondary routing stay disabled. Match all peers: configuration 6, presets 3, allocation 1; movement 11, personal 2, shopping 3, ledger 3, Rooms 3 and load-policy 1 retained.
 
-Disabled mode turns off ledger/CD/computer actions and their prerequisites, preserving saved records and physical Shopping Lists. Native transfer groups and timing, permissions, rules, priorities and presets remain unchanged.
-
-Source-only development: no upload or native acceptance for this iteration yet. Update all peers and reconnect when testing (movement 11, Shopping 3, Personal 2, Ledger 3, Rooms 3). G7 and stable G8 remain blocked pending dedicated testing.
+Source-only development; no upload, deployment or native acceptance. G7 and stable G8 remain BLOCKED.

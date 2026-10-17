@@ -57,7 +57,9 @@ function A.metadata(player)
  local api,status=A.service();if not api then return {},0,nil,status end
  local ok,result=invoke(api,'listRooms',player)
  if not ok or type(result)~='table' or result.status~='ok' then return {},0,nil,type(result)=='table' and result.status or 'RoomPermissionUnavailable' end
- if type(result.rooms)~='table' or type(result.nativeRooms)~='table' or #result.rooms>128 or #result.nativeRooms>128 then return {},0,nil,'RoomPermissionUnavailable' end
+ -- Current designated-only Rooms omits the retired native-room collection.
+ -- A present malformed collection is still a provider failure, never empty.
+ if type(result.rooms)~='table' or result.nativeRooms~=nil and type(result.nativeRooms)~='table' or #result.rooms>128 or result.nativeRooms and #result.nativeRooms>128 then return {},0,nil,'RoomPermissionUnavailable' end
  local all={};for _,r in ipairs(result.rooms or {}) do all[#all+1]=r end;for _,r in ipairs(result.nativeRooms or {}) do all[#all+1]=r end
  return all,result.revision,result.world,'ready'
 end

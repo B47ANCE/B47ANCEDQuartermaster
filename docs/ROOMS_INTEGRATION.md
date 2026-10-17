@@ -1,8 +1,13 @@
 # Required Rooms integration and scoped sorting
 
-Project Version: 0.17.0-dev.1
+Project Version: 0.18.0-dev.1
 
-Current iteration: [Dangerous Load, ledger boundaries and validation](LEDGER_AND_LOAD.md). Existing SupplyAPI, Rooms permissions and container configuration contracts are unchanged.
+Current iteration: [advisory allocation integration](ALLOCATION_INTEGRATION.md).
+Current Rooms is designated-only; nativeOverrides=false. Allocation profiles
+require roomDesignations/storageScopes=1 and native permission across the loaded
+configuration footprint. Gameplay action permissions remain independent. The
+retired nativeRooms list may be absent in current metadata; malformed supplied
+collections still fail closed. SupplyAPI and ledger privacy remain unchanged.
 
 ## Historical Supply Ledger privacy
 
@@ -10,7 +15,14 @@ Ledger reads at loaded origin squares use the public current inspect policy. Por
 
 ## Current development iteration
 
-Current movement capability is 9; configuration 5, rooms 2, Rooms API/protocol 1 and saved schemas are unchanged. Source withdrawal and return deposit permissions are checked separately. Room/building Sort uses one aggregate HUD. Parked-vehicle enumeration is not added. Earlier capability-8/extraction statements below are historical. See [implementation and evidence](PROGRESS_CARRY_AND_CONTAINERS.md).
+Current movement/personal/shopping/ledger/Rooms capabilities are 11/2/3/3/3;
+load-policy 1, configuration 6, presets 3 and allocation 1. Container schema 3
+reads schema 2 without schema-only rewriting; explicit saves preserve originals.
+Source withdrawal and return deposit permissions are checked separately.
+Current parked-vehicle, nested-bag, physical-paper, ledger and carry behavior is
+preserved. Rooms API/protocol 1 and registry schema 2 remain unchanged. Earlier
+extraction/native-override descriptions below are historical; they do not restore
+retired native definitions or override current designated-room contracts.
 
 ## Baseline and ownership
 

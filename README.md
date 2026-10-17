@@ -8,13 +8,13 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.17.0-dev.1 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/ledger-freshness).
+The Workshop feature guide is below. This branch also contains **0.18.0-dev.1 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidateâ€™s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/ledger-freshness).
 
 ## Development work in this branch
 
 - Optional Extended Categories support, including client/server detail differences through explicit category-member selections.
-- Dangerous Load: disabled by default, with a server-validated personal 50–100% native-capacity limit for Sort and Collect. Native restrictions and penalties still apply.
-- Craft paper Supply Sheets, physically inspect building/safehouse storage, and copy completed snapshots to a selected CD at a powered desktop. Ledger modes provide periodic live statistics, no-expiry live statistics, or historical snapshots; Disabled turns off ledgers/CDs/computers. Computers open a Windows ’93 desktop: insert a CD and run QUARTERMASTER.EXE to search and browse its ledger. See the [workflow, authority and acceptance report](docs/LEDGER_AND_LOAD.md). The shelf experiment remains out of scope.
+- Dangerous Load: disabled by default, with a server-validated personal 50â€“100% native-capacity limit for Sort and Collect. Native restrictions and penalties still apply.
+- Craft paper Supply Sheets, physically inspect building/safehouse storage, and copy completed snapshots to a selected CD at a powered desktop. Ledger modes provide periodic live statistics, no-expiry live statistics, or historical snapshots; Disabled turns off ledgers/CDs/computers. Computers open a Windows â€™93 desktop: insert a CD and run QUARTERMASTER.EXE to search and browse its ledger. See the [workflow, authority and acceptance report](docs/LEDGER_AND_LOAD.md). The shelf experiment remains out of scope.
 - Overall Sort/Shopping progress beside vanilla's current-action bar, including room/building job progress.
 - Fill a carry before walking, then unload it before the next carry. Vanilla's smaller transfer groups and timing stay unchanged.
 - Server-controlled extra carry allowance (0-40 kg, default 0), subject to native capacity and encumbrance.
@@ -111,10 +111,15 @@ python -B tests/run_tests.py --require-rooms
 - [Artwork sources and exports](assets/branding/README.md)
 - [Issues and feedback](https://github.com/B47ANCE/B47ANCEDQuartermaster/issues)
 
-Dedicated multiplayer tests passed for the earlier Quartermaster build according to the owner's report on 2026-10-15; this does not validate the 0.12–0.14 development changes. Historical implementation and validation notes retain their original context in the repository and Git history.
+Dedicated multiplayer tests passed for the earlier Quartermaster build according to the owner's report on 2026-10-15; this does not validate the 0.12â€“0.14 development changes. Historical implementation and validation notes retain their original context in the repository and Git history.
 
 **Mod ID:** `B47ANCEDQuartermaster`
 
 **Workshop ID:** `3807217050`
 
 Created by B47ANCE. Original Lua-only implementation; no third-party mod source or assets are bundled.
+
+
+Current integration 0.18.0-dev.1: see [allocation integration and evidence](docs/ALLOCATION_INTEGRATION.md).
+
+Allocation profiles and percentage controls are now an advisory foundation. Off/Shadow defaults to Shadow; quota enforcement and Primary/Secondary routing remain disabled. Use matching peers after the configuration/preset wire upgrade. Original configurations and preset libraries are backed up on explicit migration writes. [Behavior, permissions and rollback](docs/ALLOCATION_SYSTEM.md).

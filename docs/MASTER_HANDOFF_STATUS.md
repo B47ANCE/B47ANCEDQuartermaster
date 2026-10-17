@@ -1,6 +1,6 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.17.0-dev.1
+Project Version: 0.18.0-dev.1
 
 ## Ledger freshness — current 0.17 source iteration
 
