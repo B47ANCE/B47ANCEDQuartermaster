@@ -152,6 +152,14 @@
     {
       "reference": "dist/history/0.4.0-dev.17; dist/handoffs/dev18-baseline; dist/handoffs/full-audit-dev17*",
       "reason": "Immutable audited dev.17 source/package and original defect observations; never current native evidence."
+    },
+    {
+      "reference": "docs/historical/README_BEFORE_2026-10-15_GITHUB_DEFAULT.md",
+      "reason": "Exact prior README preserved as dated source/history evidence. The root README now describes the current Workshop product and links its current source; it intentionally contains no source version mirror. Canonical VERSION and all runtime/version-bearing mirrors are unchanged."
+    },
+    {
+      "reference": "docs/PR_STACK_INTEGRATION_2026_10_16.md",
+      "reason": "Dated per-PR integration evidence retains exact observed source version, commits, source hashes and offline/native gate distinctions; not a current version mirror."
     }
   ]
 }
