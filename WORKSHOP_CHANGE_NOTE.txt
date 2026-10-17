@@ -1,10 +1,10 @@
-[b]Version 0.16.0-dev.2[/b]
+[b]Version 0.17.0-dev.1[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Save keeps Quartermaster open, ready to configure the next container. Selected rules and inherited sections refresh; close or Cancel explicitly when finished.
+Inventory and selected-container Sort work without a supply ledger. Room/Building Sort and Shopping collection require fresh location knowledge by default.
 
-Includes physical Shopping Lists: create named papers using one blank sheet and a retained notebook/pen, select carried lists, share them with friends, and hold a paper in either hand for its checklist HUD. Reading and collecting need no writing supplies; editing does. The old personal plan is preserved for explicit one-time import.
+New server Ledger modes: periodic updates with live statistics, Disabled, live statistics without expiry, or real historical snapshots. The update interval defaults to 7 in-game days (1-365). Computers can require manual recording/CD updates or refresh automatically while powered. Renewing a paper preserves older CD snapshots. Live readers cover recorded, loaded physical compartments; newly added storage needs another inspection.
 
-Also includes the physical Building Supply Ledger and Windows '93 computer workflow. Sort and Shopping collection require a matching completed carried ledger or an authorized powered computer with a matching ledger CD in adjacent storage by default. Planning/configuration remains available without a supply ledger. Server options control these requirements, physical lists and writing supplies.
+Disabled mode turns off ledger/CD/computer actions and their prerequisites, preserving saved records and physical Shopping Lists. Native transfer groups and timing, permissions, rules, priorities and presets remain unchanged.
 
-Offline regression, version and package checks are required for this upload. Native client and dedicated acceptance remain pending. Stock desktop support only; no automatic vehicle-area sweeps or unsupported fluid/partial cooking plans. Back up saves. Update the server and every client, then reconnect (movement 10, Shopping 3, Personal 2, Ledger 2). Native transfer grouping remains unchanged.
+Source-only development: no upload or native acceptance for this iteration yet. Update all peers and reconnect when testing (movement 11, Shopping 3, Personal 2, Ledger 3, Rooms 3). G7 and stable G8 remain blocked pending dedicated testing.

@@ -116,7 +116,7 @@ function M.planOne(player,args,context)
             sourceRecord=r
         end
         if source and not source.ground and not B47ANCEDQuartermaster.RoomAccess.can(player,source,'withdraw') then return {status='RoomAccessDenied'} end
-        local known,why=Knowledge.operation(player,{source=source});if not known then return {status=why} end
+        local known,why=Knowledge.operation(player,{source=source,area=context and context.area});if not known then return {status=why} end
         local container=source and source.container or M.carrier(player,tonumber(carriedSource))
         if not container then return {status='invalid'} end
         local item=context and context.ground and context.ground.item or container:getItemWithID(args.itemID)
@@ -127,7 +127,7 @@ function M.planOne(player,args,context)
         local library=context and context.library or B47ANCEDQuartermaster.Presets.snapshot()
         local knowledgeRejected=false
         local choice,rejection=P.choose(player,args.session,item,library and library.definitions or {},function(t,it,candidate)
-            if not Knowledge.check(player,t.obj:getSquare(),'sort') then knowledgeRejected=true;return false end
+            if not Knowledge.check(player,t.obj:getSquare(),context and context.area and 'area' or 'sort') then knowledgeRejected=true;return false end
             if context and context.planning then
                 return candidate.rulesReady and accepts(player,t.container,it) and (not context.accepts or context.accepts(t,it))
             end
@@ -144,6 +144,7 @@ function M.planOne(player,args,context)
             destinationRecord=B.sessions[player].records[choice.key],
             destination=choice.target,config=choice.config,effective=choice.effective,marker=dest.instance,trace=context and context.trace,phase=source and 'planned' or 'carried'}
         local bound=B.sessions[player];op.customRoom=bound.customRoom;op.roomRevision=bound.roomRevision
+        op.area=context and context.area==true or false
         if context and context.area then op.areaSourceConfig=context.sourceConfig;op.areaSourceEffective=context.sourceEffective end
         return {status='ok',operation=op.id,itemID=item:getID(),destination=dest,
             carrierID=carrierID,source=sourceMeta,carried=not source},op
@@ -168,7 +169,7 @@ function M.spill(player,op)
         return total
     end
     local choice=P.choose(player,run.session,op.item,library and library.definitions or {},function(t,it,candidate)
-        if not candidate or not candidate.rulesReady or not t or not t.container or not Knowledge.check(player,t.obj:getSquare(),'sort') or op.spillTried[t.container] or t.container==op.container then return false end
+        if not candidate or not candidate.rulesReady or not t or not t.container or not Knowledge.check(player,t.obj:getSquare(),op.area and 'area' or 'sort') or op.spillTried[t.container] or t.container==op.container then return false end
         return accepts(player,t.container,it) and it:getActualWeight()<=math.max(0,t.container:getEffectiveCapacity(player)-t.container:getCapacityWeight()-reserved(t.container))
     end,op.trace)
     if not choice or not choice.target or not choice.key then return nil end

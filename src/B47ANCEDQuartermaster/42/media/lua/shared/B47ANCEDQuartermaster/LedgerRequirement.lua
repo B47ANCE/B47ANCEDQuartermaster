@@ -4,14 +4,16 @@ local Media=require 'B47ANCEDQuartermaster/LedgerMedia'
 local Scope=require 'B47ANCEDQuartermaster/LedgerScope'
 local Options=require 'B47ANCEDQuartermaster/Migration'
 local Drives=require 'B47ANCEDQuartermaster/LedgerDrives'
+local Policy=require 'B47ANCEDQuartermaster/LedgerPolicy'
 local papers=setmetatable({},{__mode='k'});local buildings=setmetatable({},{__mode='k'})
 local function at(sq,kind) return Scope.capture({getCurrentSquare=function() return sq end},kind) end
 function G.enabled(kind)
- return Options.option(kind=='shopping' and 'RequireLedgerForCollecting' or 'RequireLedgerForSorting')~=false
+ return Policy.enabled() and (kind=='shopping' and Options.option('RequireLedgerForCollecting')~=false
+  or kind=='area' and Options.option('RequireLedgerForSorting')~=false) or false
 end
 local function complete(item)
  local s=require('B47ANCEDQuartermaster/Ledger').snapshotFor(item)
- return s and s.complete==true and s.status=='LedgerComplete' and s or nil
+ return Policy.fresh(s,false) and s or nil
 end
 local function building(sq)
  local b=sq and sq:getBuilding();local def=b and b:getDef()
@@ -62,7 +64,7 @@ function G.check(actor,sq,kind)
  if not ids then return false,'LedgerRequired' end
  for _,id in ipairs(ids) do
   local disc,s,computer=Drives.provider(actor,id)
-  if disc and s.complete==true and s.status=='LedgerComplete' and G.covers(s,sq) then
+  if disc and Policy.fresh(s,true) and G.covers(s,sq) then
    local cs=computer:getSquare();local cb=building(cs)
    if b and cb and b.key==cb.key or cs:getZ()==sq:getZ() and math.max(math.abs(cs:getX()-sq:getX()),math.abs(cs:getY()-sq:getY()))<=range then return true end
   end
@@ -70,7 +72,7 @@ function G.check(actor,sq,kind)
  return false,'LedgerRequired'
 end
 function G.operation(actor,op)
- local kind=op.withdrawal and 'shopping' or 'sort'
+ local kind=op.withdrawal and 'shopping' or op.area and 'area' or 'sort'
  if not G.enabled(kind) then return true end
  local ok,why=G.check(actor,actor:getCurrentSquare(),kind);if not ok then return false,why end
  if op.source and op.source.obj then ok,why=G.check(actor,op.source.obj:getSquare(),kind);if not ok then return false,why end end
@@ -78,7 +80,7 @@ function G.operation(actor,op)
  return true
 end
 function G.protected(actor,item)
- if isClient() or not G.enabled('sort') and not G.enabled('shopping') then return false end
+ if isClient() or not G.enabled('area') and not G.enabled('shopping') then return false end
  if item:getFullType()==Media.sheet and Media.owned(actor,item:getID(),Media.sheet)==item and complete(item) then return true end
  return item:getFullType()==Media.disc and Drives.protected(item) or false
 end

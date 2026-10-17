@@ -1,6 +1,12 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.16.0-dev.2
+Project Version: 0.17.0-dev.1
+
+## Ledger freshness — current 0.17 source iteration
+
+Inventory/selected-container Sort is independent of ledger possession. Room/Building jobs retain server-validated fresh scope checks. Four ledger modes, in-game update days, manual/automatic computer updates, immutable renewal generations and bounded read-only live projections are implemented. Current branch: `feature/ledger-freshness`, from `2cac3ae5497bdbf793e119d12f3ef61ceb457457`; current manifest: 211 runtime files. No package/deployment/publication/game/server launch. [Exact policy, validation and pending runtime gates](LEDGER_FRESHNESS.md). G6/G7 NOT TESTED; stable G8 BLOCKED.
+
+Earlier iteration sections below retain their original publication/validation context and do not describe this source-only iteration.
 
 ## Current development iteration
 

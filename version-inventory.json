@@ -89,6 +89,14 @@
     {
       "path": "docs/PHYSICAL_SHOPPING_LISTS.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/LEDGER_FRESHNESS.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "WORKSHOP_DESCRIPTION.txt",
+      "pattern": "^Version (?P<version>\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?)(?:\\.|\\s)"
     }
   ],
   "changelog": {

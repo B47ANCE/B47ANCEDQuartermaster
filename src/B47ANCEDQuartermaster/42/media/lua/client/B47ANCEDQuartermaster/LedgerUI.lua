@@ -6,6 +6,7 @@ require 'B47ANCEDQuartermaster/Authority'
 local L=require 'B47ANCEDQuartermaster/Ledger'
 local Media=require 'B47ANCEDQuartermaster/LedgerMedia'
 local Scope=require 'B47ANCEDQuartermaster/LedgerScope'
+local Policy=require 'B47ANCEDQuartermaster/LedgerPolicy'
 local Action=require 'B47ANCEDQuartermaster/LedgerAction'
 local Computer=require 'B47ANCEDQuartermaster/ComputerUI'
 local U,Q=B47ANCEDUI,B47ANCEDQuartermaster
@@ -165,11 +166,14 @@ function V.read(num,item,computer,host)
    if closed or serial~=requestSerial or getSpecificPlayer(num)~=actor then return end
    pending=false;U.RowTooltip.hide(list);list:clear();cursor=nil
    if r.status=='LedgerPageChanged' then page={};history={};due=getTimestampMs()+250;return end
+   if r.status=='waiting' then summary=tr(r.summary or 'LedgerLoading');due=getTimestampMs()+250;return end
+   if r.status=='LedgerChanged' then page={};history={};due=getTimestampMs()+500;return end
    if r.status=='LedgerBlank' then summary=tr('LedgerBlank');return end
    if r.status~='ok' then summary=tr(r.status);if digital then panel:close();note(actor,r.status) end;return end
    if revision and revision~=r.revision and page.cursor~=nil then revision=r.revision;page={};history={};due=getTimestampMs()+250;return end
    revision=r.revision
-   summary=tr(r.summary)..' - '..r.scope..' - '..tr('LedgerStatic')
+   summary=tr(r.summary)..' - '..r.scope..' - '..tr(r.live and 'LedgerLive' or r.fresh==false and r.summary=='LedgerComplete' and 'LedgerExpired' or 'LedgerStatic')
+   if r.expires and r.fresh then summary=summary..' - '..tr('LedgerExpires',r.expires) end
    for _,row in ipairs(r.rows) do list:addItem(row.name,row) end
    cursor=r.cursor
    if rooms then
@@ -184,7 +188,7 @@ function V.read(num,item,computer,host)
  end
  local pre=panel.prerender
  panel.prerender=function(self,...)
-  if getSpecificPlayer(num)~=actor or actor:isDead() or (not digital and Media.owned(actor,item:getID())~=item) or digital and not Media.computer(actor,computer,true) then self:close();return end
+  if not Policy.enabled() or getSpecificPlayer(num)~=actor or actor:isDead() or (not digital and Media.owned(actor,item:getID())~=item) or digital and not Media.computer(actor,computer,true) then self:close();return end
   if host then U.Renderer.rect(self,0,0,self:getWidth(),self:getHeight(),colors.white) else pre(self,...) end
   local w,h=self:getWidth(),self:getHeight();local top=header+(digital and m.button+16 or 8)
   list:setX(12);list:setY(top+2*m.button);list:setWidth(w-24);list:setHeight(math.max(m.button,h-top-3*m.button-24))
@@ -219,6 +223,7 @@ local function inventory(actor)
  visit(actor:getInventory(),0);return sheets,discs,cds
 end
 function V.inventoryMenu(num,menu,items)
+ if not Policy.enabled() then return end
  local actor=getSpecificPlayer(num);if not actor then return end
  local seen={}
  for n=1,math.min(64,#items) do
@@ -227,8 +232,8 @@ function V.inventoryMenu(num,menu,items)
    seen[item]=true
    menu:addOption(tr('LedgerReadPaper'),nil,function() V.read(num,item) end)
    if V.work[num] then menu:addOption(tr('LedgerCancel'),nil,function() V.cancel(num) end)
-   else local md=item:getModData().B47Ledger
-    if not md or md.complete~=true then
+   else
+    do -- Completed sheets can be renewed into a new historical generation.
      local inv=actor:getInventory();local writing=inv:containsTypeRecurse('Base.Pen') or inv:containsTypeRecurse('Base.Pencil')
      if writing and actor:getCurrentSquare():getBuilding() then menu:addOption(tr('LedgerRecordBuilding'),nil,function() V.record(num,item,'building') end) end
      if writing and Scope.capture(actor,'safehouse') then menu:addOption(tr('LedgerRecordSafehouse'),nil,function() V.record(num,item,'safehouse') end) end
@@ -240,7 +245,7 @@ function V.inventoryMenu(num,menu,items)
  U.menu(menu)
 end
 function V.computer(num,computer)
- if not computer then return end
+ if not Policy.enabled() or not computer then return end
  return Computer.open(num,computer,{inventory=inventory,
   drive=function(command,args,reply)
    local sq=computer:getSquare();if not sq then reply({status='LedgerPower'});return end
@@ -253,7 +258,7 @@ function V.computer(num,computer)
   close=function() local op=V.work[num];if op and op.burn then V.cancel(num) end end})
 end
 function V.worldMenu(num,menu,objects,test)
- if test then return end
+ if test or not Policy.enabled() then return end
  local actor=getSpecificPlayer(num);if not actor then return end
  for n=1,math.min(#objects,64) do local obj=objects[n]
   if Media.computer(actor,obj,false) then
