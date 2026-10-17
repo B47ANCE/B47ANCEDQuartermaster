@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.18.0-dev.4] - 2026-10-17
+
+- Increase CRT case mass with thick front molding, offset vented rear housing, a deeper glass recess, a broad lower control deck and a large swivel-neck pedestal.
+- Keep icons/CD behavior unchanged; reserve usable desktop area and adapt the centered badge/control deck at large fonts. The power switch still closes the local UI and cancels pending CD writing, without changing shared electricity or stored media.
+- Strengthen offline coverage for power-button cancellation and glass/control/stand separation. UI-only compatible correction; no protocol, persistence or gameplay change. Native visual acceptance remains pending; no deployment/publication.
+
 ## [0.18.0-dev.3] - 2026-10-17
 
 - Replace the flat computer surround with an original Lua-drawn beige CRT, recessed glass rim, pedestal, vents and power light. Add detailed CD-drive, CD-writer and application pixel icons.

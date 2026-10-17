@@ -1,12 +1,12 @@
 # Windows '93 computer desktop
 
-Project Version: 0.18.0-dev.3
+Project Version: 0.18.0-dev.4
 
-Computers open an original Lua-drawn Windows '93 desktop inside a beige CRT monitor. The molded case has a recessed chamfered glass rim, pedestal, ventilation slots, embossed identification, a green power light and a physical power button. The desktop, taskbar and status text stay inside the glass. Opening the desktop never auto-runs the ledger.
+Computers open an original Lua-drawn Windows '93 desktop inside a beige CRT monitor. The bulky molded case has a thick front bezel, deep chamfered glass rim, offset vented rear housing, a broad lower control deck, central model badge, green power light and a physical power button. A tall swivel neck and substantial beveled pedestal support the case. The desktop, taskbar and status text stay inside the glass. Opening the desktop never auto-runs the ledger.
 
 CD-ROM, CD Writer and QUARTERMASTER.EXE use original layered pixel artwork on a 32x32 grid. Desktop icons use integer 2x scale, separate centered captions and text shadows; the application entry uses its own monitor/checklist icon. Artwork lives in `ComputerArt.lua`, not external images, copied OS resources or a generated texture pack. The renderer uses the already verified native ISUI rectangle/text primitives. No new engine APIs or runtime dependencies are needed.
 
-The physical power button follows the existing Log Off/close path, including pending-write cancellation. It does not cut shared building electricity or move/eject a real CD. It remains reachable through the controller focus rows. Minimum dimensions now reserve the bezel, status line and taskbar at 14/24/32/42 font heights. No protocol, persistence or gameplay settings change: the chrome is local presentation, not configurable gameplay.
+The physical power button follows the existing Log Off/close path, including pending-write cancellation. It does not cut shared building electricity or move/eject a real CD. It remains reachable through the controller focus rows. Minimum dimensions reserve the thicker bezel, badge, control deck, stand, status line and taskbar at 14/24/32/42 font heights. No protocol, persistence or gameplay settings change: the chrome is local presentation, not configurable gameplay.
 
 For a reproducible **host preview**, install/use the existing development Pillow and Lupa (Lua 5.1) environment, then run:
 
@@ -36,7 +36,17 @@ Native buttons/dropdowns, B/controller navigation, keyboard Escape, resize minim
 
 ## Validation
 
-### 0.18.0-dev.3 CRT pass - 2026-10-17
+### 0.18.0-dev.4 bulky CRT pass - 2026-10-17
+
+[TESTED OFFLINE] Full paired regression PASS with Rooms 0.2.0-dev.6. The current UI fixture verifies thick surround dimensions, control-deck/stand separation, usable minimum geometry, large fonts, controller reachability and the existing media workflow. A pending CD-writing fixture now proves the physical power callback closes the UI, marks the work closed, stops its queued local native action and sends the existing ledgerCancel request. This is source/host evidence, not an in-game power test or proof of a remote cancellation outcome.
+
+Version and source-manifest checks PASS (223 runtime files). Current source-rendered desktop, Start, loaded-CD and writer previews were inspected; the preview contact sheet now preserves the case aspect ratio. Commands are the full runner, preview renderer, version/source-manifest and whitespace commands listed below. No native performance claim or package was produced.
+
+Runtime SHA-256: `efac190e589799088fcf8eb5e4ddda0d2699a22e1d4626473790cabc2ccfdf77` (sorted relative UTF-8 path, NUL, binary file SHA-256). Changes are original code-native geometry, influenced by the user-supplied hardware proportions; no reference photograph, product logo or third-party asset is shipped. Protocols, saves, authoritative ledger handling and physical inventory remain unchanged.
+
+[RUNTIME GATE] Native visual/controller G6 remains NOT TESTED; inherited gameplay G7/stable G8 remains BLOCKED. No game/server launch, deployment, packaging or Workshop publication.
+
+### Historical 0.18.0-dev.3 CRT pass - 2026-10-17
 
 [TESTED OFFLINE] Full paired regression passed against Rooms 0.2.0-dev.6. After the final font-aware case badge and physical-power tooltip adjustments, reran the focused ledger/computer UI fixture successfully. Rendering the four preview states from current source also passed. Code-native icons satisfy their 32x32 bounds/palette checks; the shared geometry tests verify current minimum sizes, separate icon captions, glass-contained taskbar, physical power placement and controller reachability. No native frame-time claim is made; drawing uses fixed-size artwork/layer loops and no world scans.
 

@@ -72,9 +72,9 @@ function C.open(num,computer,hooks)
  if not require('B47ANCEDQuartermaster/LedgerPolicy').enabled() then return end
  local actor=getSpecificPlayer(num);if not actor or not Media.computer(actor,computer,true) then return end
  local current=C.active[num];if current and not current.closed then if current.computer==computer then setJoypadFocus(num,current);return current end;current:close() end
- local m=U.Theme.metrics();local minW=math.max(760,m.font*28+80);local minH=math.max(180+8*m.button,160+5*m.font+5*m.button)+110
+ local m=U.Theme.metrics();local minW=math.max(840,m.font*28+172);local minH=math.max(180+8*m.button,160+5*m.font+5*m.button)+260+math.max(0,m.font-28)
  if getPlayerScreenWidth(num)<minW+20 or getPlayerScreenHeight(num)<minH+20 then actor:setHaloNote(tr('LedgerScreenSmall'));return end
- local screen=ISCollapsableWindowJoypad:new(0,0,math.max(minW,math.min(1000,getPlayerScreenWidth(num)-20)),math.max(minH,math.min(800,getPlayerScreenHeight(num)-20)))
+ local screen=ISCollapsableWindowJoypad:new(0,0,math.max(minW,math.min(920,getPlayerScreenWidth(num)-20)),math.max(minH,math.min(800,getPlayerScreenHeight(num)-20)))
  screen.playerNum=num;screen.computer=computer;screen.minimumWidth=minW;screen.minimumHeight=minH;screen.resizable=true;screen.pin=true
  screen.drawFrame=false;screen.clearStentil=false;screen.title='Windows \'93';screen.titleBarHeight=function() return 32 end
  screen:initialise();screen:instantiate();C.active[num]=screen;initFocus(screen)
@@ -242,7 +242,7 @@ function C.open(num,computer,hooks)
   U.Layout.place(self.start,g.x+4,g.taskY,math.max(90,m.font*5),m.button)
   U.Layout.place(self.off,g.x+g.width-math.max(120,m.font*7)-4,g.taskY,math.max(120,m.font*7),m.button)
   U.Layout.place(self.task,self.start.x+self.start:getWidth()+8,g.taskY,self.off.x-self.start.x-self.start:getWidth()-16,m.button)
-  U.Layout.place(self.power,g.powerX,g.powerY,32,30)
+  U.Layout.place(self.power,g.powerX,g.powerY,36,34)
   U.Layout.place(menu,4,dh-menu:getHeight()-4,menu:getWidth(),menu:getHeight())
   for i,b in ipairs({menu.drive,menu.writer,menu.off}) do U.Layout.place(b,8,8+(i-1)*(m.button+4),menu:getWidth()-16,m.button) end
   for _,key in ipairs({'closeButton','pinButton','collapseButton','infoButton'}) do if self[key] then self[key]:setVisible(false) end end

@@ -8,11 +8,11 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.18.0-dev.3 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/computer-crt).
+The Workshop feature guide is below. This branch also contains **0.18.0-dev.4 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/computer-crt).
 
 ## Development work in this branch
 
-- Windows ’93 computer presentation now has an original beige CRT bezel, recessed glass, stand, status light and pixel-art desktop/application icons. Native visual acceptance remains pending. [Computer UI details](docs/WINDOWS93_COMPUTER.md).
+- Windows ’93 computer presentation now has a bulky original beige CRT case, thick recessed bezel, broad lower control panel, substantial stand and status light and pixel-art desktop/application icons. Native visual acceptance remains pending. [Computer UI details](docs/WINDOWS93_COMPUTER.md).
 
 - Room organization uses B47ANCEDRooms designations only; building scope uses native PZ buildings. Native-room selectors/fallbacks are retired. Existing building-ledger coverage and dormant native-room allocation records are preserved. [Scope corrections and test report](docs/DESIGNATED_ROOM_SCOPES.md).
 

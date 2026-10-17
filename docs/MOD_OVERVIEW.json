@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.18.0-dev.3",
+  "version": "0.18.0-dev.4",
   "reviewed": true,
-  "source_digest": "8632bfb176de4365fb8722a6958b0735cb3894f43526754dd74344236ec0a869",
+  "source_digest": "df373cf72709a5983791598e4f8ee8284a970ac8f9e19579a0a052c3d1b61eb4",
   "features": [
     {
       "status": "Source",
@@ -40,10 +40,10 @@
     },
     {
       "status": "Source",
-      "text": "Original code-drawn beige CRT computer surround and pixel desktop/application icons; glass-contained taskbar/status, resizable layout and physical Log Off control. Presentation only."
+      "text": "Original code-drawn bulky beige CRT with thick recessed bezel, vented rear housing, lower control deck and swivel pedestal; pixel desktop/application icons and a physical Log Off/cancel control. Presentation only."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.3; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.4; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",

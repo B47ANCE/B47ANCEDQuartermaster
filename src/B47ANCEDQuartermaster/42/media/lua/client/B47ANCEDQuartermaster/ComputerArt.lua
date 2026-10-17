@@ -54,38 +54,57 @@ local function cutbox(w,x,y,width,height,cut,color)
  end
 end
 function A.geometry(width,height,font,button)
- local g={x=40,y=38,width=width-80,height=height-138}
+ local g={x=88,y=70,width=width-172,height=height-288-math.max(0,font-28)}
  g.taskY=g.y+g.height-button-4
  g.statusY=g.taskY-font-9
  g.desktopHeight=g.statusY-g.y-8
- g.powerX=width-92;g.powerY=height-77
+ g.panelY=g.y+g.height+math.max(74,font+46);g.panelHeight=50
+ g.powerX=width-110;g.powerY=g.panelY+8
  return g
 end
 function A.monitor(w,g)
  local width,height=w:getWidth(),w:getHeight()
- -- A shallow pedestal and a molded, chamfered ABS shell around recessed glass.
- cutbox(w,width*.34,height-31,width*.32,20,5,P.shade)
- cutbox(w,width*.26,height-16,width*.48,14,4,P.shell)
- R.rect(w,width*.28,height-16,width*.44,2,P.light)
- cutbox(w,3,1,width-6,height-27,12,P.shade)
- cutbox(w,5,2,width-12,height-32,11,P.light)
- cutbox(w,8,5,width-18,height-38,9,P.shell)
- cutbox(w,14,10,width-30,height-48,8,P.face)
- R.rect(w,17,19,3,height-89,P.light)
- R.rect(w,width-25,24,5,height-91,P.edge)
- cutbox(w,g.x-17,g.y-16,g.width+34,g.height+32,10,P.edge)
- cutbox(w,g.x-13,g.y-12,g.width+26,g.height+24,9,P.recess)
+ -- Broad pedestal, swivel neck and offset rear housing give the case depth.
+ cutbox(w,width*.40,height-104,width*.23,72,8,P.shade)
+ cutbox(w,width*.42,height-99,width*.19,61,7,P.shell)
+ R.rect(w,width*.43,height-80,3,34,P.light)
+ cutbox(w,width*.30,height-59,width*.43,29,7,P.edge)
+ cutbox(w,width*.20,height-42,width*.61,38,7,P.shade)
+ cutbox(w,width*.20,height-46,width*.60,32,6,P.shell)
+ R.rect(w,width*.22,height-45,width*.56,2,P.light)
+ R.rect(w,width*.21,height-16,width*.58,2,P.edge)
+ cutbox(w,3,37,width-35,height-134,10,P.edge)
+ R.rect(w,5,54,3,height-172,P.light)
+ for n=0,9 do R.rect(w,13,112+n*17,3,11,P.shade) end
+ -- Heavy front molding, rather than a thin flat border around the desktop.
+ cutbox(w,29,3,width-35,height-89,14,P.shade)
+ cutbox(w,30,4,width-40,height-95,13,P.light)
+ cutbox(w,35,9,width-50,height-104,10,P.shell)
+ cutbox(w,41,15,width-62,height-116,8,P.face)
+ R.rect(w,44,32,3,height-174,P.light)
+ R.rect(w,width-28,35,5,height-177,P.edge)
+ cutbox(w,g.x-26,g.y-25,g.width+52,g.height+50,13,P.edge)
+ cutbox(w,g.x-21,g.y-20,g.width+42,g.height+40,12,P.shade)
+ cutbox(w,g.x-15,g.y-14,g.width+30,g.height+28,10,P.recess)
  cutbox(w,g.x-8,g.y-7,g.width+16,g.height+14,7,P.rim)
  cutbox(w,g.x-4,g.y-3,g.width+8,g.height+6,4,P.glass)
  -- Reflections stay on the glass rim, away from application text and controls.
  R.rect(w,g.x+8,g.y-2,g.width-16,1,P.glint)
  R.rect(w,g.x-2,g.y+8,1,g.height-16,P.glint)
- local chin=g.y+g.height+20
- R.text(w,'B47',g.x,chin,P.recess)
- local badge=getTextManager():MeasureStringX(B47ANCEDUI.Theme.fonts.body,'B47')
- R.rect(w,g.x+badge+6,chin+2,1,11,P.edge)
- R.text(w,'CRT / 93',g.x+badge+14,chin,P.shade)
- for n=0,7 do R.rect(w,width/2-42+n*12,chin+1,7,2,P.edge) end
+ local label='B47 / CRT 93';local font=B47ANCEDUI.Theme.fonts.body
+ local badge=getTextManager():MeasureStringX(font,label)
+ local badgeX=math.floor((width-badge-18)/2);local badgeY=g.y+g.height+29
+ local badgeH=getTextManager():getFontHeight(font)+8
+ R.rect(w,badgeX,badgeY,badge+18,badgeH,P.edge)
+ R.rect(w,badgeX+1,badgeY+1,badge+16,badgeH-2,P.recess)
+ R.text(w,label,badgeX+9,badgeY+4,P.light)
+ -- Separate lower control deck and the inset physical power switch.
+ R.rect(w,54,g.panelY-2,width-88,2,P.edge)
+ R.rect(w,54,g.panelY,width-88,g.panelHeight,P.shell)
+ R.rect(w,54,g.panelY+g.panelHeight-2,width-88,2,P.shade)
+ R.rect(w,width-144,g.panelY,1,g.panelHeight,P.edge)
+ R.rect(w,width-143,g.panelY,1,g.panelHeight,P.light)
+ for n=0,7 do R.rect(w,74+n*11,g.panelY+20,6,3,P.shade) end
  R.rect(w,g.powerX-20,g.powerY+12,6,4,P.recess)
  R.rect(w,g.powerX-19,g.powerY+13,4,2,P.green)
 end

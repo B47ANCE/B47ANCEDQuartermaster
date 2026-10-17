@@ -110,7 +110,8 @@ for i,(title,code) in enumerate(states):
  if code:lua.execute(code)
  canvas=Image.new('RGBA',(int(lua.globals().screen.width),int(lua.globals().screen.height)),(28,28,26,255));lua.execute('walk(screen)')
  p=OUT/f'computer-{i+1}.png';canvas.convert('RGB').save(p);images.append((title,canvas.copy()))
-thumbW,thumbH=700,546
+thumbW=700
+thumbH=round(thumbW*images[0][1].height/images[0][1].width)
 sheet=Image.new('RGB',(thumbW*2+48,thumbH*2+134),(24,27,28));d=ImageDraw.Draw(sheet)
 d.text((16,12),'Quartermaster computer UI - source-rendered preview',font=heading,fill=(235,236,230))
 d.text((16,38),'Actual Lua layout, palette and symbols. Host fonts/native controls approximate; not a PZ screenshot.',font=font,fill=(175,185,185))

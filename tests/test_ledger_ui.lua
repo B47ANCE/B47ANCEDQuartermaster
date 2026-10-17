@@ -96,12 +96,12 @@ for _,font in ipairs({24,32,42}) do
  assert(writer.write.y>=48+3*metrics.font+2*metrics.button,'large-font writer warning overlaps action')
  assert(writer.write.y+writer.write.height<=writer:getHeight()-8)
  local glass=screen.crt
- assert(glass.x>20 and glass.y>=32 and glass.x+glass.width<screen:getWidth()-20,'CRT lost recessed surround')
+ assert(glass.x>=80 and glass.y>=64 and glass.x+glass.width<=screen:getWidth()-80,'CRT lost recessed surround')
  assert(screen.start.x>=glass.x and screen.off.x+screen.off.width<=glass.x+glass.width,'taskbar escaped glass')
  assert(screen.start.y+screen.start.height<=glass.y+glass.height,'taskbar escaped glass bottom')
  assert(screen.driveIcon.y+screen.driveIcon.height<=screen.writerIcon.y,'desktop icon captions overlap')
  assert(screen.writerIcon.y+screen.writerIcon.height<=screen.writerIcon.parent.height,'desktop icons escaped glass')
- assert(screen.power.y>=glass.y+glass.height and screen.power.y+screen.power.height<=screen:getHeight()-26,'power control overlaps glass/stand')
+ assert(screen.power.y>=glass.panelY and screen.power.y+screen.power.height<=glass.panelY+glass.panelHeight and glass.panelY+glass.panelHeight<=screen:getHeight()-86,'power control overlaps glass/stand')
  local reachable=false;for _,widget in ipairs(screen.allJoypadButtons) do if widget==screen.power then reachable=true end end
  assert(reachable,'physical power control unreachable with controller')
  screen:onJoypadDown(Joypad.BButton);assert(screen.content==writer,'controller minimize lost application')
@@ -115,7 +115,14 @@ screen:onKeyRelease(Keyboard.KEY_ESCAPE);assert(not C.active[0],'desktop Escape 
 print('PASS OFFLINE Windows 93 ledger UI: desktop has no automatic reads, explicit CD insert/run and EXE double-click, embedded literal search/rooms, resize/footer/taskbar at 14/24/32/42 font heights, minimize/eject, exact media-loss cleanup, explicit writer choices, shutdown cancellation, Escape/controller and power-loss close; paper navigation preserved; native visual acceptance NOT TESTED')
 
 -- Physical power closes only the UI and uses the same cancellation path as Log Off.
-screen=assert(V.computer(0,computer));screen.power.onclick();assert(not C.active[0] and not V.work[0],'physical power left screen or writing active')
+screen=assert(V.computer(0,computer))
+local pending={actor=actor,burn=true};V.work[0]=pending
+local oldQueue=q.queue;local stopped=false;local beforePower=#sent
+q.queue={{b47LedgerWork=pending,action=true,forceStop=function() stopped=true end}}
+screen.power.onclick()
+assert(not C.active[0] and not V.work[0] and pending.closed and stopped,'physical power left screen or writing active')
+assert(#sent==beforePower+1 and sent[#sent].command=='ledgerCancel','power did not cancel pending authoritative write')
+q.queue=oldQueue
 
 -- Server-disabled mode removes ledger/computer entry points and closes screens.
 screen=assert(V.computer(0,computer));SandboxVars.B47ANCEDQuartermaster.LedgerMode=2
