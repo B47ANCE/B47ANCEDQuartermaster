@@ -328,19 +328,22 @@ local function nextWork(actor,j,args)
  L.jobs[actor]=nil;return {status='done',summary=s.status}
 end
 local function read(actor,args)
- local item,s,unused,error
+ local item,s,unused,error,computer
  if args.drive~=nil then
-  item,s=require('B47ANCEDQuartermaster/LedgerDrives').read(actor,args.drive,Media.object(args.computer))
+  item,s,computer=require('B47ANCEDQuartermaster/LedgerDrives').read(actor,args.drive,Media.object(args.computer))
  else item,s,unused,error=binding(actor,args.item) end
  if not item then return {status='invalid'} end
  if not s then return {status=error or 'LedgerBlank'} end
  local digital=item:getFullType()==Media.disc
- if digital and not Media.computer(actor,Media.object(args.computer),true) then return {status='LedgerPower'} end
+ computer=computer or digital and Media.object(args.computer)
+ if digital and not Media.computer(actor,computer,true) then return {status='LedgerPower'} end
  if type(args.query or '')~='string' or #(args.query or '')>128 or type(args.room or '')~='string' or #(args.room or '')>128 then return {status='invalid'} end
  if not digital and ((args.query or '')~='' or (args.room or '')~='') then return {status='invalid'} end
  if args.entry~=nil or args.row~=nil or args.cursor~=nil and (type(args.cursor)~='string' or #args.cursor>80) then return {status='invalid'} end
  local query=string.lower(args.query or '');local room=args.room or '';local session=L.readers[actor]
- local fresh=Policy.fresh(s,digital);local live=Policy.live(s,digital)
+ local computerScope=digital and Scope.capture({getCurrentSquare=function() return computer:getSquare() end},'building')
+ local localComputer=digital and Policy.computerMatches(s,computerScope and Scope.signature(computerScope)) or false
+ local fresh=Policy.fresh(s,localComputer);local live=(not digital or localComputer) and Policy.live(s,localComputer) or false
  local policy=Policy.mode()..':'..Policy.days()..':'..tostring(Policy.manualComputer())..':'..tostring(fresh)..':'..tostring(live)
  if not session or session.item~=item:getID() or session.snapshot~=s.id or session.revision~=s.revision or session.query~=query or session.room~=room or session.policy~=policy or live and session.liveServedAt and getTimestampMs()-session.liveServedAt>=5000 then
   local tag=uuid();if not tag then return {status='failed'} end
@@ -350,7 +353,7 @@ local function read(actor,args)
  local position=args.cursor and session.tokens[args.cursor]
  if args.cursor and not position then return {status='LedgerPageChanged'} end
  local entry,index=position and position.entry or 1,position and position.row or 1
- local result={status='ok',rows={},rooms={},scope=s.scope.label,began=s.began,finished=s.finished,summary=s.status or 'LedgerPartial',revision=session.publicRevision,digital=digital,live=live,fresh=fresh,expires=Policy.deadline(s,digital)}
+ local result={status='ok',rows={},rooms={},scope=s.scope.label,began=s.began,finished=s.finished,summary=s.status or 'LedgerPartial',revision=session.publicRevision,digital=digital,live=live,fresh=fresh,expires=Policy.deadline(s,localComputer),computerOffsite=digital and not localComputer or false}
  local rooms={};local bytes=0;local permissions={};local disclosure={}
  local function addRoom(e)
   if not rooms[e.room] and #result.rooms<16 then

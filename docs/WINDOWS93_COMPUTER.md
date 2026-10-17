@@ -1,6 +1,6 @@
 # Windows '93 computer desktop
 
-Project Version: 0.18.0-dev.6
+Project Version: 0.18.0-dev.7
 
 Computers open an original Lua-drawn Windows '93 desktop inside a beige CRT monitor. The bulky molded case has a thick front bezel, deep chamfered glass rim, offset vented rear housing, a broad lower control deck, central model badge, green power light and a physical power button. A tall swivel neck and substantial beveled pedestal support the case. The desktop, taskbar and status text stay inside the glass. Opening the desktop never auto-runs the ledger.
 
@@ -16,7 +16,7 @@ python -B scripts/render_computer_preview.py --output <local-preview-directory>
 
 This executes the current Lua art/layout and exports desktop, Start, loaded-CD and writer views plus a contact sheet. The item names are synthetic fixtures; native widget paint/fonts are approximations. These images are not Project Zomboid screenshots or native acceptance evidence. The script is development-only and excluded from the runtime manifest.
 
-Server Ledger Mode can disable the entire computer/CD path. With Computer Manual Updates on, the configured ledger expiry applies; record storage and write/load a new CD to renew it. With that option off, a powered authorized computer with a matching completed CD shows live statistics without expiry. This does not rewrite its CD or paper snapshot. [Modes and limits](LEDGER_FRESHNESS.md).
+Server Ledger Mode can disable the entire computer/CD path. With Computer Manual Updates on, the configured ledger expiry applies; record storage and write/load a new CD to renew it. With that option off, a powered authorized computer inside the exact native building recorded by a completed CD shows live statistics without expiry. Off-site and safehouse-wide CDs show history under normal expiry. This does not rewrite its CD or paper snapshot. [Modes and limits](LEDGER_FRESHNESS.md).
 
 ## Taskbar and presentation
 
@@ -50,11 +50,13 @@ Native buttons/dropdowns, B/controller navigation, keyboard Escape, resize minim
 
 The digital reader now uses an original Windows '93 table inside QUARTERMASTER.EXE. A labelled Find item entry and Room selector sit above a compact location/freshness strip and current-page entry count. Raised fixed column headers label Item, Quantity and Location; quantities align to the right, rows alternate, and the selected entry uses navy/white contrast. The column gutter is reserved for the native scrollbar. Long cells truncate safely, with full authorized data in clipped-row tooltips and a two-line details area (recording time, FullType, condition and exact compartment location). No fake menu commands or external OS assets are introduced.
 
-Search remains literal/case-insensitive through existing server requests. Room options and rows come from the authenticated page only. Native list/controller selection is reachable and B returns to the app; minimum window height now reserves a complete row and the fixed details/footer at large fonts. Automatic refresh preserves exact FullType/location/condition identity and clamped scroll position; a changed search, room or page starts at its top. Empty/redacted/waiting results clear old rows and details. Counts describe this returned page, not a fabricated whole-building total. Paper reading and all authoritative ledger/media behavior remain unchanged. UI dimensions are internal presentation constants; no shared gameplay setting is added.
+Search remains literal/case-insensitive through existing server requests. Room options and rows come from the authenticated page only. Native list/controller selection is reachable and B returns to the app; minimum window height now reserves a complete row and the fixed details/footer at large fonts. Automatic refresh preserves exact FullType/location/condition identity and clamped scroll position; a changed search, room or page starts at its top. Empty/redacted/waiting results clear old rows and details. Counts describe this returned page, not a fabricated whole-building total. Paper now uses the matching three-column clipboard reader; computer live/freshness behavior is constrained to the recorded building. See [current clipboard and server-policy evidence](CLIPBOARD_AND_LOCAL_COMPUTER.md). UI dimensions are internal presentation constants; no shared gameplay setting is added.
 
 ## Validation
 
-### 0.18.0-dev.6 ledger application - 2026-10-17
+Current 0.18.0-dev.7 clipboard and server-policy validation is recorded in [CLIPBOARD_AND_LOCAL_COMPUTER.md](CLIPBOARD_AND_LOCAL_COMPUTER.md). Earlier versioned results below remain historical.
+
+### Historical 0.18.0-dev.6 ledger application - 2026-10-17
 
 [TESTED OFFLINE] Focused production-path ledger UI fixture PASS. Checks include separate column widths, quantity alignment, selected-row contrast/details, clipping and reserved native scrollbar space; offscreen rows skip formatting/drawing. Forty synthetic rows verify refresh selection/scroll preservation with exact item/location identities, page/search reset, empty/redacted/waiting cleanup, no per-render requests, and controller row access. Minimum and enlarged layouts pass at 14/24/32/42 font heights. Existing desktop/taskbar/media-loss/late-response/power and paper fixtures pass.
 

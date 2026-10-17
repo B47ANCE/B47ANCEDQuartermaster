@@ -273,5 +273,30 @@ for _,font in ipairs({14,24,32,42}) do
  waiting=true;f.advance(2100);panel:prerender();assert(tableView.emptyLabel=='UI_QMSS_LedgerLoading','waiting result displayed an empty-success state')
  empty=false;waiting=false;redacted=false;screen:close()
 end
+for _,font in ipairs({14,24,32,42}) do
+ getTextManager=function() return {getFontHeight=function() return font end,MeasureStringX=function(_,_,s) return #s*font/2 end} end
+ panel=assert(V.read(0,paper));local controls=panel.ledgerControls;local list=controls.list;local tableView=panel.ledgerTable
+ assert(panel.ledgerClipboard and tableView.paper and not controls.search and not controls.rooms,'paper is not a clipboard-only reader')
+ assert(controls.previous.title=='UI_QMSS_LedgerClipboardPrevious' and controls.more.title=='UI_QMSS_LedgerClipboardNext','paper has no page-turn controls')
+ for _,size in ipairs({{panel.minimumWidth,panel.minimumHeight},{panel.minimumWidth+280,panel.minimumHeight+230}}) do
+  panel:setWidth(size[1]);panel:setHeight(size[2]);panel:prerender()
+  assert(list.height>=list.itemheight and list.y+list.height<=tableView.detailsY-8,'clipboard table/details overlap')
+  assert(tableView.detailsY+tableView.detailsHeight<=controls.close.y-8,'clipboard details/footer overlap')
+  assert(controls.more.x+controls.more.width<controls.close.x and controls.close.y+controls.close.height<=panel.height-20,'page controls escape paper')
+  assert(tableView.left>=38 and tableView.headerY>=66+2*font,'clip/title/header overlap')
+ end
+ assert(list.joypadParent==panel and panel.allJoypadButtons[1]==list,'paper rows unreachable by controller')
+ list.selected=2;local draw={};list.drawText=function(_,s,x,y,r,g,b) draw[#draw+1]={r=r,g=g,b=b} end
+ list:doDrawItem(0,list.items[2],false);assert(draw[1].r==require('B47ANCEDQuartermaster/ClipboardArt').colors.black.r,'paper uses white screen text')
+ controls.more.onclick();assert(tableView.page==2 and not controls.search,'paper page attempted digital search')
+ controls.previous.onclick();assert(tableView.page==1)
+ panel:onKeyRelease(Keyboard.KEY_ESCAPE);assert(not V.readers[0] and panel.removed,'clipboard Escape did not close local reader')
+ panel=assert(V.read(0,paper));panel:onJoypadDown(Joypad.BButton);assert(not V.readers[0],'clipboard B did not close reader')
+end
+-- Ordinary reader errors must be visible on paper, not an eternal Loading line.
+Q.Authority.request=function(_,command,_,reply) assert(command=='ledgerRead');reply({status='LedgerLiveUnavailable'}) end
+panel=assert(V.read(0,paper));assert(panel.ledgerTable.status=='UI_QMSS_LedgerLiveUnavailable' and #panel.ledgerControls.list.items==0)
+panel:close()
 Q.Authority.request=baseRequest;getText=oldText;getTextManager=measure;getPlayerScreenWidth,getPlayerScreenHeight=width,height
 print('PASS OFFLINE ledger table: columns, numeric alignment, clipping, selection contrast/details, exact row identity, live refresh/scroll, pages/query reset, redaction/empty/waiting states, controller access and 14/24/32/42 minimum layouts; native visual acceptance NOT TESTED')
+print('PASS OFFLINE paper clipboard: original board/clip/ruled-sheet layout, three columns and ink contrast, details/page footer bounds at four font sizes, next/previous sheet, no digital query controls, Escape/B close and visible read failure')

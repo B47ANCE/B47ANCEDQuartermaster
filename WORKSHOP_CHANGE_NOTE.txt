@@ -1,8 +1,8 @@
-[b]Version 0.18.0-dev.6[/b]
+[b]Version 0.18.0-dev.7[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Give the computer ledger a Windows 93 interface: compact Item, Quantity and Location columns, raised headers, selected-entry details, live/snapshot status and page counts. Keep search, room filtering, paging and independent taskbar apps. Preserve exact selected entries and scroll position during live refresh; reset them on a new search or page.
+Paper ledgers now open a wooden clipboard with a metal clip, ruled sheets, Item / Quantity / Location columns, selected-entry details and previous/next-sheet controls. Preserve resizing, controller access, ink contrast and server-authorized paging.
 
-Client presentation only. Paper reading, server-authorized ledger reads, CD handling, native transfers, protocols and save formats remain unchanged. No new runtime dependency or gameplay setting.
+Computers display live inventory and receive automatic freshness only inside the exact native building recorded by their loaded ledger. Off-site/outdoor computers and safehouse-wide CDs show recorded history under ordinary expiry; no remote inventory refresh. Unexpired nearby historical CDs retain existing coverage. Carried paper follows its existing ledger mode.
 
-Source-only development. Native visual/controller and dedicated acceptance remain pending. Allocation enforcement/live role routing stay disabled. No deployment or Workshop upload.
+No inventory, historical snapshot, protocol or save-format changes. Manual Sort, permissions and vanilla transfer groups/timing are preserved. Source-only development; native visual and dedicated acceptance pending. No deployment or Workshop upload.

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.0-dev.7] - 2026-10-17
+
+- Give paper ledgers an original clipboard, metal clip, ruled sheets, Item / Quantity / Location columns and previous/next-sheet controls, with exact-entry details and native resizing/controller access.
+- Limit computer live updates and automatic freshness exemptions to the exact recorded native building. Off-site and safehouse-wide CDs stay readable as historical records under ordinary expiry; they cannot refresh remote buildings.
+- Preserve paper live-mode policy, manual Sort, permissions, immutable snapshots, transfer grouping and server-owned media. Compatible UI/policy correction within the 0.18 development line; no save/protocol change.
+- Offline/native evidence: docs/CLIPBOARD_AND_LOCAL_COMPUTER.md. No deployment/publication.
+
 ## [0.18.0-dev.6] - 2026-10-17
 
 - Give the computer ledger a Windows 93 table with Item, Quantity and Location columns, compact status and page information, raised headers and a selected-entry details area.

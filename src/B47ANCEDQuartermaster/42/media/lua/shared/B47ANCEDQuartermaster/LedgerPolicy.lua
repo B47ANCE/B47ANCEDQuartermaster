@@ -11,6 +11,12 @@ function P.days()
 end
 function P.manualComputer() return Options.option('LedgerComputerManualUpdates')~=false end
 function P.complete(s) return s and s.complete==true and s.status=='LedgerComplete' or false end
+function P.computerMatches(s,signature)
+ -- The caller derives the signature from the verified computer's native building,
+ -- never a client-supplied scope. Safehouse ledgers have no single building.
+ return type(s)=='table' and type(s.scope)=='table' and s.scope.kind=='building'
+  and type(signature)=='string' and signature==s.signature or false
+end
 function P.fresh(s,computer)
  if not P.enabled() or not P.complete(s) then return false end
  local now=getGameTime():getWorldAgeHours();local finished=s.finished

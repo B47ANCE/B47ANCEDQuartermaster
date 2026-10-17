@@ -1,6 +1,9 @@
 # Physical Supply Ledger and Dangerous Load
 
-Project Version: 0.18.0-dev.6
+Project Version: 0.18.0-dev.7
+
+Current reader: paper ledgers use a ruled clipboard with three columns and page-turn controls. Computers can show live stock and waive expiry only in the exact native building recorded by their CD. Off-site/outdoor computers and safehouse-wide CDs fall back to recorded history and ordinary freshness. Existing privacy, inspection, CD binding and native transfer boundaries remain. See [current policy and validation](CLIPBOARD_AND_LOCAL_COMPUTER.md).
+
 
 Current policy is [0.17 ledger modes/freshness](LEDGER_FRESHNESS.md): manual inventory/container Sort is free; scoped Sort requires fresh knowledge. The physical inspection/conversion implementation below remains the baseline. Historical snapshots stay immutable; live statistics are separate ephemeral server projections. Prior dated artifacts/tests retain their actual versions.
 

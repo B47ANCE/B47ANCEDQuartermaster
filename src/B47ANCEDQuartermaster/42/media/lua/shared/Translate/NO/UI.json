@@ -547,5 +547,11 @@
   "UI_QMSS_LedgerTableExpired": "Expired snapshot",
   "UI_QMSS_LedgerTableSnapshot": "Recorded snapshot",
   "UI_QMSS_LedgerTableNoEntries": "No entries match this view.",
-  "UI_QMSS_LedgerTableExpires": "Update due: %1h"
+  "UI_QMSS_LedgerTableExpires": "Update due: %1h",
+  "UI_QMSS_LedgerClipboardTitle": "BUILDING SUPPLY LEDGER",
+  "UI_QMSS_LedgerClipboardPage": "Sheet %1 | %2 entries",
+  "UI_QMSS_LedgerClipboardPrevious": "Previous sheet",
+  "UI_QMSS_LedgerClipboardNext": "Next sheet",
+  "UI_QMSS_LedgerComputerOffsite": "Recorded inventory only. Live computer updates require the exact building recorded by this ledger; safehouse-wide ledgers have no single building.",
+  "UI_QMSS_LedgerTableOffsite": "Off-site snapshot"
 }

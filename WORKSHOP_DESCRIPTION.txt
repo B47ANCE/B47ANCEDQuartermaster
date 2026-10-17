@@ -3,7 +3,7 @@ B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep t
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.18.0-dev.6 (development source; not yet uploaded). Computers have a bulky beige CRT case, softer artwork, original pixel icons and a working taskbar with retained apps and Show Desktop. New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
+Version 0.18.0-dev.7 (development source; not yet uploaded). Computers have a bulky beige CRT case, softer artwork, original pixel icons and a working taskbar with retained apps and Show Desktop. New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
 
 [h2]Sorting made simple[/h2]
 • Choose whole categories or individual items in a searchable tree with native item icons.
@@ -34,7 +34,7 @@ Inventory and selected-container Sort work without a ledger. Room/Building Sort 
 Computers open a Windows '93 desktop. Use CD Writer to create a ledger CD; place it in storage beside the computer, load it through CD-ROM (D:) and run QUARTERMASTER.EXE to open the application.
 Craft a Supply Sheet, then walk through building or safehouse storage to record what is there, including unconfigured containers. Paper pages show rooms, containers, quantities, locations and recording times. Interrupted inspections keep completed entries.
 
-At a supported powered desktop computer, copy a completed sheet onto a chosen vanilla CD. The paper stays intact; the CD's original music is overwritten. Read the portable ledger CD at a supported powered desktop to search item names/IDs and browse rooms. Choose periodic live statistics, Disabled, no-expiry live statistics, or historical snapshots. The update interval defaults to 7 in-game days; computers can require manual inspection/CD updates or refresh automatically while powered. Live readers show confirmed contents of recorded storage; older snapshots and CDs are retained. The initial terminal is the stock desktop computer.
+At a supported powered desktop computer, copy a completed sheet onto a chosen vanilla CD. The paper stays intact; the CD's original music is overwritten. Read the portable ledger CD at a supported powered desktop to search item names/IDs and browse rooms. Choose periodic live statistics, Disabled, no-expiry live statistics, or historical snapshots. The update interval defaults to 7 in-game days; computers can require manual inspection/CD updates or refresh automatically while powered in the exact building recorded by the loaded ledger. Off-site and safehouse-wide CDs remain readable snapshots under ordinary expiry. Live readers show confirmed contents of recorded storage; older snapshots and CDs are retained. The initial terminal is the stock desktop computer.
 
 [h2]Rooms and your base[/h2]
 Use [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url] to designate rooms and organize storage around your base. Open Designate Room from Quartermaster, then choose room or building sorting when putting supplies away.

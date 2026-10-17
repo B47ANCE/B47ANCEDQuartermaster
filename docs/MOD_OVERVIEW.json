@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.18.0-dev.6",
+  "version": "0.18.0-dev.7",
   "reviewed": true,
-  "source_digest": "5203d506ab4c32b0248eb2dea3d15e30de16c6fdd174df1e395cfd26cdf425a1",
+  "source_digest": "0667e6d9defb53f8eab32e5146f4cee1ef67ec85c2550ef31eab48b539ab1142",
   "features": [
     {
       "status": "Source",
@@ -41,14 +41,19 @@
     {
       "status": "Source",
       "text": "Original bulky CRT art with softer shading and pixel icons; retained drive/writer/ledger tasks, minimize/restore, app switching, per-app close and Show Desktop. Cached ledger resume revalidates through existing server reads; presentation only. Digital ledger table with separate item/quantity/location columns, selected-entry details and preserved refresh selection/scroll."
+    },
+    {
+      "status": "Source",
+      "text": "Ruled paper clipboard with three-column ledger and page-turn controls. Server limits live computer statistics and automatic freshness to the exact recorded building; off-site/safehouse-wide CDs retain ordinary historical access."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.6; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.18.0-dev.7; G7/stable G8 BLOCKED. Advisory allocation does not override native transfer grants. Earlier runtime evidence is historical.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",
     "docs/DESIGNATED_ROOM_SCOPES.md",
-    "docs/WINDOWS93_COMPUTER.md"
+    "docs/WINDOWS93_COMPUTER.md",
+    "docs/CLIPBOARD_AND_LOCAL_COMPUTER.md"
   ],
   "relations": [
     {

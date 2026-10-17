@@ -1,6 +1,6 @@
 # Ledger requirement for sorting and collection
 
-Project Version: 0.18.0-dev.6
+Project Version: 0.18.0-dev.7
 
 Physical Shopping now has separate writing supplies and carried shopping papers; those do not replace the completed supply ledger required for collection. Planning/reading do not require a supply ledger. See [physical Shopping](PHYSICAL_SHOPPING_LISTS.md).
 
@@ -39,7 +39,7 @@ The stock desktop sprite remains `appliances_com_01_72`; the CD must be the exis
 | --- | --- | --- | --- |
 | LedgerMode | 1 | enum 1–4 | Periodic live / Disabled / No updates live / Historical |
 | LedgerUpdateDays | 7 | integer, 1–365 days | Expiry for Periodic and Historical modes |
-| LedgerComputerManualUpdates | true | boolean | Require inspection and new CD; false provides live automatic computer statistics |
+| LedgerComputerManualUpdates | true | boolean | Require inspection and new CD; false provides live automatic computer statistics only in the exact recorded building |
 | RequireLedgerForSorting | true | boolean | Require fresh paper/computer knowledge only for Room/Building Sort |
 | RequireLedgerForCollecting | true | boolean | Require it for Shopping collection; planning stays free |
 | LedgerComputerRange | 10 | integer, 1–30 tiles | Nearby computer distance outside the same native building, same floor |

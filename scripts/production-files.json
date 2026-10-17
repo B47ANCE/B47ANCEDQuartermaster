@@ -4,6 +4,7 @@
   "42/media/lua/client/B47ANCEDQuartermaster/AllocationUI.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/AppearanceUI.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/BatchExecutor.lua",
+  "42/media/lua/client/B47ANCEDQuartermaster/ClipboardArt.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/Collector.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/ComputerArt.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/ComputerUI.lua",

@@ -64,9 +64,12 @@ function G.check(actor,sq,kind)
  if not ids then return false,'LedgerRequired' end
  for _,id in ipairs(ids) do
   local disc,s,computer=Drives.provider(actor,id)
-  if disc and Policy.fresh(s,true) and G.covers(s,sq) then
+  if disc then
    local cs=computer:getSquare();local cb=building(cs)
-   if b and cb and b.key==cb.key or cs:getZ()==sq:getZ() and math.max(math.abs(cs:getX()-sq:getX()),math.abs(cs:getY()-sq:getY()))<=range then return true end
+   local localComputer=Policy.computerMatches(s,cb and cb.signature)
+   if Policy.fresh(s,localComputer) and G.covers(s,sq) then
+    if b and cb and b.key==cb.key or cs:getZ()==sq:getZ() and math.max(math.abs(cs:getX()-sq:getX()),math.abs(cs:getY()-sq:getY()))<=range then return true end
+   end
   end
  end
  return false,'LedgerRequired'

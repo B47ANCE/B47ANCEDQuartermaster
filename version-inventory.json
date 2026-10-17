@@ -105,6 +105,10 @@
     {
       "path": "docs/MOD_OVERVIEW.json",
       "pattern": "^  \"version\": \"(?P<version>[^\\\"]+)\"[,]?$"
+    },
+    {
+      "path": "docs/CLIPBOARD_AND_LOCAL_COMPUTER.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {

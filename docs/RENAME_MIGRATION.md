@@ -1,6 +1,6 @@
 # Rename and technical-ID migration
 
-Project Version: 0.18.0-dev.6
+Project Version: 0.18.0-dev.7
 
 ## Current development iteration
 
