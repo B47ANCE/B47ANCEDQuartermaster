@@ -77,7 +77,7 @@ function C.build(observed,baseEntries)
         if not text(category) then return end
         semantic=semantic or category;category=R.families.destination(category)
         categories[category]=true
-        if secondary then categories[secondary]=true end
+        if secondary and not (R.nativeName and R.nativeName(category)) then categories[secondary]=true end
         local memberships=R.memberships(category,legacy,semantic,historical,secondary)
         for membership in pairs(memberships) do
             groups[membership]=groups[membership] or {};groups[membership][name]=true
@@ -114,7 +114,8 @@ function C.build(observed,baseEntries)
         entries[cat]={}
         for _,name in ipairs(keys(set)) do entries[cat][#entries[cat]+1]={name=name,fullType=types[name]} end
     end
-    local api={entries=sourceEntries,isFamily=R.isCompatibility,categoryLabel=R.label,getCategories=function() return catList end,getItemNames=function() return nameList end,
+    local compatibility=require 'B47ANCEDQuartermaster/Compatibility'
+    local api={entries=sourceEntries,isFamily=R.isCompatibility,categoryLabel=R.label,nativeCategories=R.nativeName~=nil,explicitCategories=compatibility.explicitCategorySelections and compatibility.explicitCategorySelections() or false,getCategories=function() return catList end,getItemNames=function() return nameList end,
         getItemsInCategory=function(cat) return entries[cat] or {} end,
         getItemFullType=function(name) return types[name] end,
         getScriptName=function(fullType) return scriptNames[fullType] end}

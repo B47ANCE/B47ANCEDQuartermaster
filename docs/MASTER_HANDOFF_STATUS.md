@@ -1,8 +1,14 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.4.0-dev.50
+Project Version: 0.5.0-dev.1
 
-## Current dev.50 native queue assembly
+## Current native categories and optional-mod integration
+
+The active category source is native DisplayCategory/getCategory metadata. Vanilla standalone, Better Sorting categories and Better Containers coexistence replace the former owned taxonomy. Original Quartermaster remains blocked. Better Containers client-local category groups save explicit item selections rather than client category authority. Inventory rendering/sorting is untouched; loading uses the custom B47 shell. Previous rules are preserved as visibly marked compatibility selections. See NATIVE_CATEGORIES_COMPATIBILITY.md for source boundaries, tests, migration limitations and G7 runtime gates. No deployment/publication.
+
+Historical implementation notes below describe their original versions, not the current category architecture.
+
+## Historical dev.50 native queue assembly
 
 Compatible PATCH candidate: use native ISQueueActionsAction to enqueue all authorized donors before the first transfer begins. Existing server batch size, native weight/type grouping, transaction timing and stable item-ID guards remain. Regression reproduces one-item first submission before the fix; actual installed native helper and transfer lifecycle are exercised offline. See DEV50_NATIVE_QUEUE.md. No package/deployment/publication.
 

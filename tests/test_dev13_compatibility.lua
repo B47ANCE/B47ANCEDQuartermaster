@@ -12,7 +12,9 @@ active({'SimilarBetterSortCC','QuartermasterLegacy'})
 assert(C.allowed(),'display/name similarity must not reject')
 local historical={Quartermaster={cats={B47_MedicalBandages=true}}}
 assert(historical.Quartermaster and C.allowed(),'historical data is not an active mod')
-for _,id in ipairs({'Quartermaster','BetterSortCC'}) do
+active({'B47ANCEDQuartermaster','BetterSortCC','EURY_CONTAINERS'})
+assert(C.allowed() and C.explicitCategorySelections(),'optional mods were rejected')
+for _,id in ipairs({'Quartermaster'}) do
  active({'B47ANCEDQuartermaster',id})
  local allowed,found,label=C.allowed()
  assert(not allowed and found==id and label==C.names[id])

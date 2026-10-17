@@ -16,6 +16,16 @@ end} end
 C.invalidate();Q.ItemCatalog.invalidate()
 local loading=Q.openPicker(f.a,0,0)
 assert(loading and not loading.qmsSession and reads==0,'open synchronously scanned registry or discovered before preparation')
+assert(loading.drawFrame==false and loading.titleBarHeight()==B47ANCEDUI.Theme.metrics().header,'catalog preparation retained native frame')
+local textManager=getTextManager;local managerUI=getTextManager();local height=managerUI.getFontHeight
+getTextManager=function() return managerUI end
+for _,font in ipairs({14,24,32}) do
+ managerUI.getFontHeight=function() return font end
+ loading:prerender()
+ local button=loading.cancelButton
+ assert(button.y+button.height<=loading:getHeight()-10 and button.y>B47ANCEDUI.Theme.metrics().header+font+34,'catalog loading controls overlap at scaled fonts')
+end
+managerUI.getFontHeight=height;getTextManager=textManager;loading:prerender()
 assert(Q.openPicker(f.a,0,0)==loading,'double open started another job')
 handlers[1]();assert(reads<=64 and not loading.closed,'catalog work exceeded per-tick item bound')
 while not loading.closed do local before=reads;handlers[1]();assert(reads-before<=64,'unbounded scan tick') end

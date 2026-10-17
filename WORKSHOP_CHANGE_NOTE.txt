@@ -1,3 +1,3 @@
-[b]Version 0.4.0-dev.50[/b]
+[b]Version 0.5.0-dev.1[/b]
 MP testing build - dedicated multiplayer NOT TESTED
-Queue all authorized actions in a batch before the first native transfer begins, so matching light items can use native bulk groups from the start. Preserve native grouping, heavier-item timing, server batch size and transfer checks. User confirms the prior one-item stop fixed on dev.49; this queue adjustment still requires in-game retesting.
+Retire the active B47 taxonomy. Use vanilla/native item categories, including categories supplied by Better Sorting or Better Containers. Keep native inventory presentation untouched. Better Containers category clicks store explicit member selections to preserve server authority. Previous B47 rules remain loadable and marked for compatibility. Catalog preparation now uses B47's custom window header and scalable progress layout. Optional-mod combinations and native UI require in-game/dedicated testing; no third-party classifiers or assets included. Original Quartermaster must be disabled. The reported Sort startup delay remains under investigation.

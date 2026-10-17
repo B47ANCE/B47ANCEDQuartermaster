@@ -36,3 +36,12 @@ The owner subsequently authorized a read-only review agent. That agent inspected
 - Source review: Native queue assembly retains vanilla transfer timing/group splitting, stable item IDs, guarded donors and cancellation; no direct inventory mutation or capacity bypass.
 - Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
 - [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.
+
+## PR #4 — Use native categories and optional inventory mods in 0.5.0-dev.1
+
+- Observed version: `0.5.0-dev.1`; original tested feature head `f8b51b6c07a1d14244e22707ef7eee0c65bf157e`. Reconciled default predecessor `6243569fe2faab79273e76ba6f93a507b654ea31` using a non-rewriting merge.
+- Runtime files: 128. Source SHA-256: `b7faccdb1d71b55db53c093446acba7f4da5adb15001623a9012754d20a80fea`. Production, tests and validation scripts remain byte/blob-equivalent to the original tested head; reconciliation changes only documentation/evidence.
+- [TESTED OFFLINE] Full `python -B tests/run_tests.py` passed on the exact original head; this evidence applies unchanged to the identical runtime/test/tool tree. Re-ran `python -B scripts/check_versions.py`, `python -B scripts/check_deployment.py`, and `git -c core.safecrlf=false diff --cached --check` after reconciliation. Public secret/private-diagnostic, runtime Lua-only and case-uniqueness checks passed. No package was created; absent development artifacts are deferred, not a packaging PASS.
+- Source review: Native display-category metadata replaces the owned classifier; exact optional mod detection and explicit item membership preserve server-held item/configuration checks. No external implementation or assets imported.
+- Independent read-only clean-room agent signoff is recorded above for this exact runtime head. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
+- [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.

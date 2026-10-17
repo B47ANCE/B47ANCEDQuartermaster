@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [string]$PythonPath = (Join-Path $env:USERPROFILE '.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe')
+    [string]$PythonPath = (Join-Path $env:USERPROFILE '.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'),
+    [string]$GamePath = 'E:\Program Files (x86)\Steam\steamapps\common\ProjectZomboid'
 )
 $ErrorActionPreference = 'Stop'
 if (-not (Test-Path -LiteralPath $PythonPath)) { throw 'Pass -PythonPath with a Python runtime containing lupa, or install lupa into .test-deps.' }
@@ -8,6 +9,8 @@ if (-not (Test-Path -LiteralPath $PythonPath)) { throw 'Pass -PythonPath with a 
 if ($LASTEXITCODE -ne 0) { throw 'Required runtime directory preparation failed.' }
 & $PythonPath (Join-Path $PSScriptRoot 'scripts\check_versions.py') --root $PSScriptRoot
 if ($LASTEXITCODE -ne 0) { throw 'Version consistency failed.' }
+& $PythonPath (Join-Path $PSScriptRoot 'scripts\check_native_categories.py') --game $GamePath --output (Join-Path $env:TEMP 'B47ANCEDQuartermaster-native-categories.json')
+if ($LASTEXITCODE -ne 0) { throw 'Native category metadata comparison failed.' }
 & $PythonPath (Join-Path $PSScriptRoot 'tests\run_tests.py') --package
 if ($LASTEXITCODE -ne 0) { throw 'Quartermaster Balanced Sorting validation/package failed.' }
 & $PythonPath (Join-Path $PSScriptRoot 'scripts\check_deployment.py') --package

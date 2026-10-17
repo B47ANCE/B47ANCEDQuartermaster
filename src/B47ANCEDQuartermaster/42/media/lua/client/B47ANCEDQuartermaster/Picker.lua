@@ -278,6 +278,10 @@ function Q.openPicker(obj,ci,playerNum)
     Q.catalogWindows=Q.catalogWindows or {}
     local existing=Q.catalogWindows[playerNum]
     if existing and not existing.closed then return existing end
+    local compatibility=require 'B47ANCEDQuartermaster/Compatibility'
+    if compatibility.explicitCategorySelections and compatibility.explicitCategorySelections() then
+        Q.Catalog.invalidate('external-category-refresh')
+    end
     local loading,result
     local request=Q.Catalog.prepare(function(api,err)
         if loading then
@@ -289,7 +293,8 @@ function Q.openPicker(obj,ci,playerNum)
     end)
     if result then return result end
     local U=B47ANCEDUI;local metrics=U.Theme.metrics()
-    loading=U.WindowShell:new(100,80,400,180);loading.playerNum=playerNum;loading.title=tr('LoadingCatalog');loading.resizable=false
+    loading=U.WindowShell:new(100,80,400,180);loading.playerNum=playerNum;loading.title=tr('ProductTitle');loading.resizable=false
+    loading.drawFrame=false;loading.titleBarHeight=function() return U.Theme.metrics().header end
     loading:initialise();loading:addToUIManager();U.bounds(loading,playerNum)
     local function close()
         request.cancel();loading.closed=true;loading:removeFromUIManager();Q.catalogWindows[playerNum]=nil;setJoypadFocus(playerNum,nil)
@@ -297,13 +302,29 @@ function Q.openPicker(obj,ci,playerNum)
     loading.close=close;loading.closePicker=close
     local cancel=U.Button:new(12,132,376,metrics.button,tr('Cancel'),loading,close)
     cancel:initialise();cancel:instantiate();loading:addChild(cancel)
+    loading.cancelButton=cancel
+    U.skinChildren(loading)
+    for _,key in ipairs({'pinButton','collapseButton'}) do if loading[key] then loading[key]:setVisible(false) end end
+    loading.layout=function(self)
+        local t=U.Theme.metrics();self:setHeight(t.header+t.font+t.button+64)
+        cancel:setX(12);cancel:setY(self:getHeight()-t.button-12);cancel:setWidth(self:getWidth()-24);cancel:setHeight(t.button)
+        if self.closeButton then
+            self.closeButton:setX(self:getWidth()-40);self.closeButton:setY(6);self.closeButton:setWidth(30);self.closeButton:setHeight(t.header-12)
+            self.closeButton.anchorRight=false
+        end
+        self.b47Font=t.font
+    end
+    loading:layout();U.bounds(loading,playerNum)
     loading.joypadButtonsY={};loading.allJoypadButtons={};loading:insertNewLineOfButtons(cancel)
     loading.onJoypadDown=function(self,button,data) if button==Joypad.BButton then close() else ISPanelJoypad.onJoypadDown(self,button,data) end end
-    local pre=loading.prerender
     loading.prerender=function(self)
-        if pre then pre(self) end
-        U.Renderer.text(self,tr('LoadingCatalog'),12,56,U.Theme.colors.text)
-        U.Progress.draw(self,12,98,self:getWidth()-24,request.progress(),1,'accent')
+        local t=U.Theme.metrics();if self.b47Font~=t.font then self:layout();U.bounds(self,playerNum) end
+        U.Appearance.prepare(self,'window')
+        U.Renderer.background(self,0,0,self:getWidth(),self:getHeight(),U.Theme.colors.window)
+        U.Renderer.border(self,0,0,self:getWidth(),self:getHeight(),U.Theme.colors.strong)
+        U.Renderer.text(self,U.Renderer.fit(tr('ProductTitle'),self:getWidth()-64,U.Theme.fonts.title),12,10,U.Theme.colors.text,U.Theme.fonts.title)
+        U.Renderer.text(self,U.Renderer.fit(tr('LoadingCatalog'),self:getWidth()-24),12,t.header+12,U.Theme.colors.text)
+        U.Progress.draw(self,12,t.header+t.font+26,self:getWidth()-24,request.progress(),1,'accent')
     end
     Q.catalogWindows[playerNum]=loading
     if getSpecificPlayer(playerNum):getJoypadBind()~=-1 then setJoypadFocus(playerNum,loading) end

@@ -1,10 +1,10 @@
 -- Exact active Mod IDs only. Historical data and installed-but-disabled mods do not count.
 B47ANCEDQuartermaster=B47ANCEDQuartermaster or {}
-local C={names={Quartermaster='Quartermaster',BetterSortCC='Better Sorting'}}
+local C={names={Quartermaster='Quartermaster'}}
 B47ANCEDQuartermaster.Compatibility=C
-local reported,cached,cachedID,cachedName
+local reported,cached,cachedID,cachedName,active
 function C.invalidate()
-    cached,cachedID,cachedName,reported=nil,nil,nil,nil
+    cached,cachedID,cachedName,reported,active=nil,nil,nil,nil,nil
 end
 function C.conflict()
     if cached then return cachedID,cachedName end
@@ -12,12 +12,19 @@ function C.conflict()
     local ok,mods=pcall(getActivatedMods)
     if not ok or not mods then return nil,'active-mod-api-unavailable' end
     local count=type(mods.size)=='function' and mods:size() or type(mods)=='table' and #mods or nil
-    if not count then return nil,'active-mod-api-unavailable' end
+    if type(count)~='number' or count<0 or count>8192 then return nil,'active-mod-api-unavailable' end
+    active={}
     for i=0,count-1 do
         local id=type(mods.get)=='function' and mods:get(i) or mods[i+1]
+        if type(id)=='string' then active[id]=true end
         if C.names[id] then cached,cachedID,cachedName=true,id,C.names[id];return cachedID,cachedName end
     end
     cached=true
+end
+function C.explicitCategorySelections()
+    C.conflict()
+    -- Custom categories can be client-local: send explicit item choices instead.
+    return active and (active.EURY_CONTAINERS==true or active.REORDER_CONTAINERS==true) or false
 end
 function C.allowed()
     local id,name=C.conflict()

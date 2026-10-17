@@ -48,30 +48,26 @@
     },
     {
       "path": "README.md",
-      "pattern": "Current source version: (?P<version>0\\.4\\.0-dev\\.\\d+)\\."
+      "pattern": "Current source version: (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+)\\."
     },
     {
       "path": "docs/ARCHITECTURE.md",
-      "pattern": "Current source version: (?P<version>0\\.4\\.0-dev\\.\\d+)\\."
+      "pattern": "Current source version: (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+)\\."
     },
     {
       "path": "docs/TESTING.md",
-      "pattern": "Current source version: (?P<version>0\\.4\\.0-dev\\.\\d+)\\."
+      "pattern": "Current source version: (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+)\\."
     },
     {
       "path": "docs/ROADMAP.md",
-      "pattern": "Current source version: (?P<version>0\\.4\\.0-dev\\.\\d+)\\."
+      "pattern": "Current source version: (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+)\\."
     },
     {
       "path": "README.md",
-      "pattern": "Current source is (?P<version>0\\.4\\.0-dev\\.\\d+);"
+      "pattern": "Current source is (?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+);"
     },
     {
-      "path": "docs/DEV47_AUDIT_REMEDIATION.md",
-      "pattern": "^Project Version: (?P<version>\\S+)$"
-    },
-    {
-      "path": "docs/DEV50_NATIVE_QUEUE.md",
+      "path": "docs/NATIVE_CATEGORIES_COMPATIBILITY.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
@@ -152,6 +148,14 @@
     {
       "reference": "dist/history/0.4.0-dev.17; dist/handoffs/dev18-baseline; dist/handoffs/full-audit-dev17*",
       "reason": "Immutable audited dev.17 source/package and original defect observations; never current native evidence."
+    },
+    {
+      "reference": "docs/DEV47_AUDIT_REMEDIATION.md",
+      "reason": "Frozen dev.50 evidence/document snapshot, not a current project-version mirror."
+    },
+    {
+      "reference": "docs/DEV50_NATIVE_QUEUE.md",
+      "reason": "Frozen dev.50 evidence/document snapshot, not a current project-version mirror."
     },
     {
       "reference": "docs/historical/README_BEFORE_2026-10-15_GITHUB_DEFAULT.md",
