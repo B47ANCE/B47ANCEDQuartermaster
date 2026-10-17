@@ -27,6 +27,7 @@ Give supplies a purpose and keep your goals together.
 • Track the supplies you carry, add missing amounts to Shopping and collect what remains.
 
 [h2]Building Supply Ledger[/h2]
+Computers open a Windows '93 desktop. Use CD Writer to create a ledger CD; insert it in CD-ROM (D:) and run QUARTERMASTER.EXE to open the application.
 Craft a Supply Sheet, then walk through building or safehouse storage to record what is there, including unconfigured containers. Paper pages show rooms, containers, quantities, locations and recording times. Interrupted inspections keep completed entries.
 
 At a supported powered desktop computer, copy a completed sheet onto a chosen vanilla CD. The paper stays intact; the CD's original music is overwritten. Read the portable ledger CD at a supported powered desktop to search item names/IDs and browse rooms. It is a historical snapshot with current privacy checks, not a live inventory database. The initial terminal is the stock desktop computer.

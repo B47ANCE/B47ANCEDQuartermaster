@@ -108,3 +108,12 @@ The owner subsequently authorized a read-only review agent. That agent inspected
 - Source review: Server-bound physical ledgers use one-use native action challenges, bounded immutable snapshots, current access/privacy checks and conservative conversion journals. Uncertain conversion outcomes do not respawn inputs.
 - Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
 - [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.
+
+## PR #14 — Run Ledger CDs inside a Windows '93 computer desktop
+
+- Observed version: `0.14.0-dev.2`; original tested feature head `4a9be2bf7ae664e49880158d996268ee56c61097`. Reconciled default predecessor `3bffd68e567aff3d95efcf4457138b358a2b842e` using a non-rewriting merge.
+- Runtime files: 204. Source SHA-256: `f633689aba7db163f9eb07064aabd9ee07016b8c4778e5afa7bb86c50326342b`. Production, tests and validation scripts remain byte/blob-equivalent to the original tested head; reconciliation changes only documentation/evidence.
+- [TESTED OFFLINE] Full `python -B tests/run_tests.py --require-rooms --rooms <verified B47ANCEDRooms repository>` passed on the exact original head; this evidence applies unchanged to the identical runtime/test/tool tree. Re-ran `python -B scripts/check_versions.py`, `python -B scripts/check_deployment.py`, and `git -c core.safecrlf=false diff --cached --check` after reconciliation. Public secret/private-diagnostic, runtime Lua-only and case-uniqueness checks passed. No package was created; absent development artifacts are deferred, not a packaging PASS.
+- Source review: Windows '93 is a local desktop presentation requiring explicit CD load/run; it adds no arbitrary execution, copied OS assets or new shared-state authority.
+- Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
+- [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.

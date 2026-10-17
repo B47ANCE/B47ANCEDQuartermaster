@@ -1,12 +1,12 @@
 # Physical Supply Ledger and Dangerous Load
 
-Project Version: 0.14.0-dev.1
+Project Version: 0.14.0-dev.2
 
 ## Implemented workflow
 
 The production Supply Ledger is implemented: craftable physical media, server-owned inspections, native timed completion, persistence/recovery, CD copying and both readers. It replaces the inactive 0.13 prototype as the current implementation. Dangerous Load, Extended Categories interoperability, existing sorting/presets/priorities, movement protocol 9 and vanilla smaller transfer groups/timing are preserved. The shelf experiment remains out of scope. No game/server was launched; no local deployment or Workshop publication occurred.
 
-This compatible MINOR iteration branches from 2bc847af921cbe5baf06583928898e0164250b5f on `feature/building-supply-ledger`, in the isolated `supply-ledger/B47ANCEDQuartermaster` worktree. Parent PR #12 is not silently merged. The unrelated original checkout and prior packages remain untouched. The remote default branch's README-only difference is already represented in the feature ancestry; its older gameplay baseline is not the source for this change.
+The compatible MINOR Ledger baseline was implemented on `feature/building-supply-ledger`. This compatible UI prerelease iteration, 0.14.0-dev.2, branches from 0d95b2872b7d8f83c9a775925788e02365a737ca on `feature/windows93-computer` in an isolated `windows93/B47ANCEDQuartermaster` worktree. It adds the [Windows ’93 desktop and deliberate application launch flow](WINDOWS93_COMPUTER.md), without a protocol/save change. Parent PR #12 is not silently merged. The unrelated original checkout and prior packages remain untouched. The remote default branch's README-only difference is already represented in the feature ancestry; its older gameplay baseline is not the source for this change.
 
 ### Using it
 
@@ -14,8 +14,8 @@ This compatible MINOR iteration branches from 2bc847af921cbe5baf06583928898e0164
 2. Carry the sheet and a writing implement. Right-click the sheet and choose **Record / resume building supply sheet**, or the safehouse option when a supported native safehouse contains the character.
 3. The character walks through storage and performs a timed inspection for each physical compartment. Unconfigured storage is included. Cancel safely; completed records stay on the sheet.
 4. Use **Read supply sheet** without electricity. It shows static room/container sections, actual quantities, exact FullTypes/condition, coordinates and each inspection's world-hour timestamp. Empty containers are shown. There is no paper search, filtering or digital sort control.
-5. Right-click a supported powered desktop, choose the completed sheet, then explicitly choose which vanilla CD to overwrite. The original paper is retained. One CD becomes one **Quartermaster Supply Ledger CD**; its original music/media identity is replaced.
-6. Carry that disc to a supported powered desktop to read it. The computer reader adds literal case-insensitive item/FullType search, an authorized room browser and pagination. It closes on power/reachability/possession loss. A remote/unloaded origin is historical data, not an instruction to load or inspect remote inventories.
+5. Right-click a supported powered desktop and choose **Use computer (Windows '93)**. Open **CD Writer**, choose the completed sheet and the vanilla CD, then choose **Write Supply Ledger CD**. The original paper is retained. One CD becomes one **Quartermaster Supply Ledger CD**; its original music/media identity is replaced.
+6. Carry that disc to a supported powered desktop. Open **CD-ROM (D:)**, select and insert it, then double-click **QUARTERMASTER.EXE** or choose **Run application**. Desktop opening/insertion never auto-runs it. The embedded computer reader adds literal case-insensitive item/FullType search, an authorized room browser and pagination. It closes on power/reachability/possession loss. A remote/unloaded origin is historical data, not an instruction to load or inspect remote inventories.
 
 The initial verified terminal identity is the stock desktop sprite `appliances_com_01_72` (`Base.Mov_DesktopComputer`). Other sprites are not guessed to be working computers. `Base.Disc_Retail` covers the verified vanilla music CD definition, including its different recorded-media instances. VHS tapes and other disc-like or modded media are not accepted by resemblance. These are explicit compatibility limits, not stubbed actions.
 
@@ -72,13 +72,13 @@ Each page reauthorizes records and withholds inaccessible room names, contents a
 
 New runtime modules: Ledger.lua, LedgerAction.lua, LedgerMedia.lua, LedgerScope.lua, LedgerAccess.lua, client LedgerUI.lua, shared B47ANCEDQuartermasterLedger.lua; plus media/scripts/b47_supply_ledger.txt and 58 ItemName/Recipes fallback files. Authority/Protocol wire the new family; ContentAnalysis adds condition validation. Existing sandbox/translation/source manifests and current documentation/version mirrors are synchronized. The 0.13 domain model remains historical outside runtime/current acceptance.
 
-The dated [native evidence](LEDGER_NATIVE_EVIDENCE_2026-10-16.json) binds installed game/JAR/native Lua/script fingerprints, signatures and findings. Installed target is 42.21.0, Steam build 25485521. No Java runtime mod, bytecode patch, third-party classifier, copied assets or external mod edits are introduced. The [development artifact receipt](LEDGER_ARTIFACT_2026-10-16.json) binds exact source commit, runtime count, package/source hashes and artifact location. Earlier packages/evidence keep their original versions and gates.
+The dated [native evidence](LEDGER_NATIVE_EVIDENCE_2026-10-16.json) binds installed game/JAR/native Lua/script fingerprints, signatures and findings. Installed target is 42.21.0, Steam build 25485521. No Java runtime mod, bytecode patch, third-party classifier, copied assets or external mod edits are introduced. The [0.14.0-dev.1 development artifact receipt](LEDGER_ARTIFACT_2026-10-16.json) binds that earlier source/package, not this UI iteration. Version 0.14.0-dev.2 is source-only, with 204 declared runtime files and no package/deployment/publication; see its [current validation report](WINDOWS93_COMPUTER.md). Earlier packages/evidence keep their original versions and gates.
 
 ## Validation and remaining acceptance
 
 [TESTED OFFLINE] Lua 5.1/Lupa production service/action and UI fixtures, including installed native base action/ComboBox Lua and actual Rooms integration. Coverage includes 200-round aggregation; distinct quantities and empty compartments; server duration; paper retention; no paper search; static timestamps; changed-content refusal; partial/resume; safehouse bounds; exact reachability; power loss; rollback and unknown-outcome locking; CD conservation; literal 5.56 search; delegated privacy with unloaded origins; native constructor/challenge/actor/replay checks; opaque paging; resize/footer/controller close; explicit CD selection and 29-folder metadata fallback parity. These are not game execution or pixel/latency evidence.
 
-Commands from the feature worktree (Python is the host runtime with Lupa; the installed native audit helper also uses host-only Jawa):
+The earlier physical-ledger baseline used these commands (including packaging). Its exact receipt remains dated/versioned above. Current source-only UI validation commands are in [WINDOWS93_COMPUTER.md](WINDOWS93_COMPUTER.md); no current package or release validation is claimed. Python is the host runtime with Lupa; the installed native audit helper also uses host-only Jawa:
 
 ```powershell
 python -B scripts/check_versions.py

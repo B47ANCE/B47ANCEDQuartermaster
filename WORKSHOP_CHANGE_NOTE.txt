@@ -1,10 +1,8 @@
-[b]Version 0.14.0-dev.1[/b]
+[b]Version 0.14.0-dev.2[/b]
 MP testing build - dedicated multiplayer NOT TESTED
 
-Adds the Building Supply Ledger workflow. Craft a Supply Sheet from vanilla paper/notebook and a retained pen/pencil. Record or resume a building/safehouse through physical walking and timed inspections, including unconfigured storage. Paper is paged static history with room/container locations, quantities and individual recording times. Ground loot, dropped bags and carried inventories are excluded.
+Computers now open an original Lua-drawn Windows '93 desktop with a CRT bezel, teal desktop, Start menu, CD-ROM drive and CD Writer application. Select and insert a carried ledger CD, then double-click QUARTERMASTER.EXE or choose Run application. Opening the desktop/inserting the CD does not automatically read the ledger.
 
-At a supported powered desktop, choose a vanilla CD to overwrite with a completed ledger. The original paper is retained. The portable ledger CD supports literal item/FullType search and room browsing at another supported powered desktop. Current safehouse/Rooms privacy is rechecked. Initial terminal support: the stock appliances_com_01_72 desktop. Server sandbox settings control preparation, container, entry and copying time.
+CD Writer requires an explicit completed paper sheet and CD overwrite selection. Paper remains available without power. The digital reader runs inside the computer, preserving search, room browsing and pages. Minimize to the taskbar, eject to close the CD application, or shut down to close/cancel computer work. Power/access/media checks remain active. Native rendering/input and dedicated acceptance are pending.
 
-Server-owned grants, authenticated native-action challenges, native completion and conversion journals protect the workflow. Confirmed partial inspections persist. After restart or uncertain physical identity, reinspection is required. Unknown item-conversion outcomes remain locked; no automatic respawn or retry. A native inventory notification failure is reported as synchronization pending.
-
-Keeps Dangerous Load, Extended Categories support and vanilla smaller transfer groups/timing unchanged. The shelf experiment stays out of scope. Ledger protocol 1 requires the new build on server and clients; movement remains 9. Native SP/G6 and dedicated G7 NOT TESTED; stable G8 BLOCKED. No deployment or upload is claimed by this source note.
+Ledger protocol/schema 1, server authorization, native media conversion, saved sorting, Dangerous Load and vanilla transfer grouping/timing remain unchanged. Shelf work remains out of scope. This is a source note, not an upload or deployment receipt.
