@@ -140,7 +140,7 @@ Keyboard={KEY_A=30}
 function isCtrlKeyDown() return ctrlDown end
 function isShiftKeyDown() return shiftDown end
 
-local stored={cats={Food=true},items={OldName=true},presets={Kit=7},priority=8}
+local stored={cats={Food=true},items={OldName=true},presets={Kit='b47:7'},priority=8}
 local saves=0
 local api={
     getCategories=function() return {'Food','Medical'} end,
@@ -158,7 +158,7 @@ local api={
     setBoxItems=function(_,_,v) stored.items=v; saves=saves+1 end,
     setBoxPresets=function(_,_,v) stored.presets=v; saves=saves+1 end,
     setBoxPriority=function(_,_,v) stored.priority=v; saves=saves+1 end,
-    getPresetStore=function() return {Kit={cats={Medical=true},items={},gen=7,rev=2}} end,
+    getPresetStore=function() return {Kit={owned=true,cats={Medical=true},items={},gen=7,rev=2}} end,
     presetNames=function() return {'Kit'} end,
     getItemFullType=function() return nil end,
     itemTexture=function() return nil end,
@@ -213,7 +213,7 @@ for _,button in ipairs(p.allJoypadButtons) do
 end
 assert(hasBulk, 'controller cannot reach bulk actions')
 p.btnSave.onclick(p)
-assert(stored.cats.Food and stored.items.OldName and stored.presets.Kit==7 and saves==1)
+assert(stored.cats.Food and stored.items.OldName and stored.presets.Kit=='b47:7' and saves==1)
 p=open();lb=p.listbox
 assert(Q.adapt(p)==false)
 click('category','Food',true)
@@ -251,9 +251,9 @@ for _,button in ipairs(p.allJoypadButtons) do if button==p.qmss.bulkButton then 
 assert(manageReachable,'controller cannot reach preset management')
 lb.selected=1;lb:onJoypadDown(Joypad.AButton,joypad);p:prerender()
 assert(not p.selectedPresets.Kit and p.qmss.count==3)
-p.btnAll.onclick(p);p:prerender();assert(p.selectedPresets.Kit==7 and p.qmss.count==4)
+p.btnAll.onclick(p);p:prerender();assert(p.selectedPresets.Kit=='b47:7' and p.qmss.count==4)
 local originalStore=api.getPresetStore
-api.getPresetStore=function() return {Kit={cats={},items={},gen=7,rev=3}} end
+api.getPresetStore=function() return {Kit={owned=true,cats={},items={},gen=7,rev=3}} end
 p:prerender();assert(p.qmss.count==3,'preset revision did not refresh effective count')
 api.getPresetStore=originalStore;p:prerender();assert(p.qmss.count==4)
 p:cycleMode(-1)

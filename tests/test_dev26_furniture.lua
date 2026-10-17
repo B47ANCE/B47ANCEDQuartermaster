@@ -7,10 +7,17 @@ local function discover() local d=assert(Q.Bindings.discover(player,{scope={x=0,
 local d,a,b=discover();local ta,tb=T.make(f.a,0,player),T.make(f.b,0,player)
 local function load(token,whole) local r=A.handle(player,'load',{session=d.session,token=token,whole=whole});assert(r.status=='ok',r.status);return r end
 local function change(token,whole,c,action,revision,confirm)
- return A.handle(player,'groupChange',{session=d.session,token=token,whole=whole,config=c,action=action,revision=revision,confirm=confirm,taxonomyVersion=6})
+ return A.handle(player,'groupChange',{session=d.session,token=token,whole=whole,config=c,action=action,revision=revision,confirm=confirm,taxonomyVersion=7})
 end
 local before=f.sent();local p=load(a,true);assert(p.revision==0 and p.config.priority==0 and f.sent()==before,'viewing created shared data')
 local r=change(a,true,config(5),nil,p.revision);assert(r.status=='ok');assert(Store.load(ta,player).priority==5 and Store.load(tb,player).priority==5)
+local beforeCleanup=assert(F.group(ta,player));local groupID=beforeCleanup.parent.id
+beforeCleanup.parent.config.cats.B47_Food=true
+assert(Store.load(ta,player).priority==5 and not F.group(ta,player).parent.config.cats.B47_Food)
+assert(F.group(ta,player).parent.id==groupID and F.state(tb).mode=='inherit')
+local parent=F.group(ta,player).parent;parent.schema=99;parent.config.cats.B47_Food=true
+local unchanged=f.sent();assert(not Store.load(ta,player) and parent.config.cats.B47_Food and f.sent()==unchanged,'future parent mutated')
+parent.schema=1;parent.config.cats.B47_Food=nil
 local child=load(b,false);assert(child.mode=='inherit')
 assert(change(b,false,config(8),nil,child.revision).status=='invalid','implicit override allowed')
 assert(change(b,false,config(8),'custom',child.revision).status=='ok');assert(Store.load(tb,player).priority==8)
@@ -30,7 +37,7 @@ for _,case in ipairs({{nil,nil},{4,nil},{4,4},{4,7},{0,0},{'legacy',7}}) do
  f.a.md={};f.b.md={};Q.Bindings.sessions={}
  local vals={}
  for i,t in ipairs({ta,tb}) do local v=case[i]
-  if v=='legacy' then t.obj.md.LSBoxItems={['0']={RoundA=true}};t.obj.md.LSBoxPriority={['0']=6};vals[i]=6
+  if v=='legacy' then local e=S.envelope(config(6),2);e.schemaVersion=1;e.taxonomyVersion=6;e.kind=t.container:getType();e.containerCount=t.obj:getContainerCount();t.obj.md.QuartermasterSorting={schemaVersion=1,containers={['0']=e}};vals[i]=6
   elseif v~=nil then local old,_,rev=Store.rawLoad(t);assert(Store.rawCommit({target=t,original=old,revision=rev},config(v)));vals[i]=v end
  end
  d,a,b=discover();p=load(a,true);assert(change(a,true,config(15),nil,p.revision).status=='ok')
@@ -44,10 +51,10 @@ local pd=assert(Q.Bindings.discover(peer,{scope={x=0,y=0,z=0}}));local pa,pb
 for _,m in ipairs(pd.targets) do local obj=Q.Bindings.sessions[peer].records[m.token].target.obj;if obj==f.a then pa=m.token elseif obj==f.b then pb=m.token end end
 local pp=A.handle(peer,'load',{session=pd.session,token=pa,whole=true})
 p=load(a,true);assert(change(a,true,config(21),nil,p.revision).status=='ok')
-assert(A.handle(peer,'groupChange',{session=pd.session,token=pa,whole=true,config=config(99),revision=pp.revision,taxonomyVersion=6}).status=='conflict')
+assert(A.handle(peer,'groupChange',{session=pd.session,token=pa,whole=true,config=config(99),revision=pp.revision,taxonomyVersion=7}).status=='conflict')
 child=load(a,false);assert(change(a,false,config(22),'custom',child.revision).status=='ok')
 local pc=A.handle(peer,'load',{session=pd.session,token=pb})
-assert(A.handle(peer,'groupChange',{session=pd.session,token=pb,config=config(23),action='custom',revision=pc.revision,taxonomyVersion=6}).status=='ok')
+assert(A.handle(peer,'groupChange',{session=pd.session,token=pb,config=config(23),action='custom',revision=pc.revision,taxonomyVersion=7}).status=='ok')
 assert(Store.load(ta,player).priority==22 and Store.load(tb,player).priority==23)
 -- Engine-shaped reload with native ModData retained; live inheritance resolves new physical references.
 child=load(a,false);assert(change(a,false,nil,'reset',child.revision,true).status=='ok')

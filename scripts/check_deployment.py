@@ -34,7 +34,8 @@ def validate(stage=None, local=None, package=False):
         p = SOURCE / name
         if p.suffix in ('.lua', '.json', '.txt', '.info'):
             code = p.read_text(encoding='utf-8')
-            if name != '42/media/lua/shared/B47ANCEDQuartermaster/Migration.lua':
+            if name not in {'42/media/lua/shared/B47ANCEDQuartermaster/Migration.lua',
+                            '42/media/lua/shared/B47ANCEDQuartermaster/SortingData.lua'}:
                 assert not re.search(r'QuartermasterSimpleSorting|QuartermasterSorting|B47ANCEDSorting', code), name
             if p.suffix == '.lua':
                 assert not re.search(r'(?<![\w:.])next\s*\(', code), name

@@ -1,5 +1,5 @@
 -- Payload capabilities are independent from project SemVer and taxonomy IDs.
-local P={versions={handshake=1,configuration=2,presets=1,personal=1,shopping=1,dibs=1,movement=4}}
+local P={versions={handshake=1,configuration=3,presets=2,personal=1,shopping=1,dibs=1,movement=5}}
 local commands={hello='handshake',discover='configuration',load='configuration',groupChange='configuration',viewSelect='configuration',commit='configuration',close='configuration',
  presetsList='presets',presetChange='presets',personalList='personal',personalChange='personal',
  personalProject='shopping',wishToShopping='shopping',shoppingAdd='shopping',shoppingSourceRemove='shopping',

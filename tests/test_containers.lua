@@ -35,7 +35,7 @@ SandboxVars.B47ANCEDQuartermaster.ContainerRange=10
 local s=S.new(ta,0);local result
 s:open(function(x) result=x end)
 assert(result=='ok' and s.selected and f.sent()==0)
-s.selected.working.cats.B47_Food=true;s.selected.working.presets.Kit=7;s.selected.working.priority=4
+s.selected.working.cats.B47_Native_466F6F64=true;s.selected.working.presets.Kit='b47:7';s.selected.working.priority=4
 local originalGetItems=a.containers[1].getItems
 a.containers[1].getItems=function() return f.list({{getDisplayName=function() return 'New contents' end,
     getFullType=function() return 'Fixture.New' end,getScriptItem=function() return nil end}}) end
@@ -43,17 +43,17 @@ s:refresh(function(x) result=x end)
 assert(result=='ok' and s.selected.contents['New contents'] and s.selected.working.priority==4 and f.sent()==0,'refresh lost edits or stale contents')
 a.containers[1].getItems=originalGetItems
 s.whole=true;s:applyWhole(function(x) result=x end)
-assert(result=='ok' and f.sent()==0 and s:record(tb).working.cats.B47_Food)
+assert(result=='ok' and f.sent()==0 and s:record(tb).working.cats.B47_Native_466F6F64)
 assert(not s:record(tu).working,'discovery eagerly loaded unrelated configuration')
 s:select(tb,function(x) result=x end);assert(not s.whole)
-s.selected.working.cats={B47_Beverages=true}
-s:select(ta,function() end);assert(s.selected.working.cats.B47_Food)
+s.selected.working.cats={B47_Native_426576657261676573=true}
+s:select(ta,function() end);assert(s.selected.working.cats.B47_Native_466F6F64)
 s:save(function(x) result=x end)
-assert(result=='ok' and f.sent()==2 and C.read(ta).cats.B47_Food and C.read(tb).cats.B47_Beverages)
-assert(C.read(ta).presets.Kit==7 and C.read(tb).priority==4)
+assert(result=='ok' and f.sent()==2 and C.read(ta).cats.B47_Native_466F6F64 and C.read(tb).cats.B47_Native_426576657261676573)
+assert(C.read(ta).presets.Kit=='b47:7' and C.read(tb).priority==4)
 assert(not a.md.LSBox and not b.md.LSBox,'legacy data written')
 s:save(function(x) result=x end);assert(f.sent()==2,'clean targets wrote data')
-s:select(tb,function() end);s.selected.working.cats.B47_Medical=true;s:close();assert(not C.read(tb).cats.B47_Medical)
+s:select(tb,function() end);s.selected.working.cats.B47_Native_4D65646963616C=true;s:close();assert(not C.read(tb).cats.B47_Native_4D65646963616C)
 local s2=S.new(ta,0);s2:open(function() end);s2.selected.working.items.Shells=true
 a.md.B47ANCEDQuartermaster.containers['0'].config.cats.External=true
 a.md.B47ANCEDQuartermaster.containers['0'].revision=2

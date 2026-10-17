@@ -17,10 +17,10 @@ assert(#session.viewInfo.rooms==3 and session.viewInfo.rooms[1].label~=session.v
 local rows=V.rows(session,player,{});assert(#rows==1 and rows[1].target.whole and rows[1].partial,'partial group leaked hidden children')
 local sectionNumbers={};for _,r in ipairs(session.targets) do if r.target.group then assert(not sectionNumbers[r.target.groupSection]);sectionNumbers[r.target.groupSection]=true end end
 local parent=rows[1];local loaded=A.handle(player,'load',{session=session.id,token=parent.token,whole=true});assert(loaded.status=='ok')
-local blocked=A.handle(player,'groupChange',{session=session.id,token=parent.token,whole=true,revision=loaded.revision,config=Q.Schema.empty(),taxonomyVersion=6});assert(blocked.status=='invalid','partial scope parent write authorized')
+local blocked=A.handle(player,'groupChange',{session=session.id,token=parent.token,whole=true,revision=loaded.revision,config=Q.Schema.empty(),taxonomyVersion=7});assert(blocked.status=='invalid','partial scope parent write authorized')
 local function select(view) session:setView(view,function(s) assert(s=='ok') end) end
 select({kind='building'});rows=V.rows(session,player,{[parent.target.group]=true});assert(#rows==4 and rows[1].target.whole and rows[2].target.group==rows[3].target.group,'nested group separated by distance order')
-loaded=A.handle(player,'load',{session=session.id,token=parent.token,whole=true});assert(A.handle(player,'groupChange',{session=session.id,token=parent.token,whole=true,revision=loaded.revision,config=Q.Schema.empty(),taxonomyVersion=6}).status=='ok')
+loaded=A.handle(player,'load',{session=session.id,token=parent.token,whole=true});assert(A.handle(player,'groupChange',{session=session.id,token=parent.token,whole=true,revision=loaded.revision,config=Q.Schema.empty(),taxonomyVersion=7}).status=='ok')
 select({kind='room',room=session.viewInfo.rooms[2].token});rows=V.rows(session,player,{});assert(#rows==1 and rows[1].partial)
 select({kind='proximity',radius=1});assert(#V.rows(session,player,{})==2)
 local old=session.view.radius;local response=A.handle(player,'viewSelect',{session=session.id,view={kind='proximity',radius=31}});assert(response.status=='invalid' and session.view.radius==old)

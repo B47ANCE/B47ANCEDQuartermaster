@@ -1,21 +1,17 @@
 require 'B47ANCEDQuartermaster/Schema'
 require 'B47ANCEDQuartermaster/Categorizer'
 local S=B47ANCEDQuartermaster.Schema
-local Migration=require 'B47ANCEDQuartermaster/Migration'
+local SortingData=require 'B47ANCEDQuartermaster/SortingData'
 local Store={}
 B47ANCEDQuartermaster.Store=Store
 function Store.rawLoad(target)
     local md=target.obj:getModData()
-    local native,migrationError,legacyNamespace=Migration.envelope(md,target.ci)
+    local root,migrationError=SortingData.object(target.obj)
     if migrationError then return nil,migrationError end
+    local native=root and root.containers[tostring(target.ci)]
     if native~=nil and (type(native)~='table' or native.kind~=target.container:getType() or native.containerCount~=target.obj:getContainerCount()) then return nil,'invalid' end
-    local config,err,imported,revision=S.read(native,md,target.ci)
-    if config then
-        local categories,migrationError=B47ANCEDQuartermaster.Categorizer.migrate(config.cats,native and native.taxonomyVersion or 0)
-        if not categories then return nil,migrationError end
-        config.cats=categories
-    end
-    return config,err,revision,imported or legacyNamespace,native
+    local config,err,imported,revision=S.read(native)
+    return config,err,revision,false,native
 end
 function Store.rawCommit(record,config)
     if isClient() or not S.valid(config) then return nil,'invalid' end
@@ -23,7 +19,8 @@ function Store.rawCommit(record,config)
     if not current then return nil,err end
     if not B47ANCEDQuartermaster.Categorizer.validRules(config.cats,current.cats) then return nil,'invalid' end
     if not record.original or revision~=record.revision or not S.equal(current,record.original) then return nil,'conflict' end
-    local envelope=S.envelope(config,revision+1,imported or (native and native.legacyImported))
+    for _,link in pairs(config.presets) do if not S.ownedLink(link) then return nil,'invalid' end end
+    local envelope=S.envelope(config,revision+1)
     if not envelope then return nil,'invalid' end
     envelope.kind=record.target.container:getType()
     envelope.containerCount=record.target.obj:getContainerCount()

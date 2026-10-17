@@ -158,6 +158,10 @@
       "reason": "Frozen dev.50 evidence/document snapshot, not a current project-version mirror."
     },
     {
+      "reference": "docs/NATIVE_CATEGORIES_0_5_HISTORICAL.md; tests/historical; dist/history/0.5.0-dev.1",
+      "reason": "Published 0.5 native integration and retired owned taxonomy snapshots; never current migration/runtime evidence."
+    },
+    {
       "reference": "docs/historical/README_BEFORE_2026-10-15_GITHUB_DEFAULT.md",
       "reason": "Exact prior README preserved as dated source/history evidence. The root README now describes the current Workshop product and links its current source; it intentionally contains no source version mirror. Canonical VERSION and all runtime/version-bearing mirrors are unchanged."
     },

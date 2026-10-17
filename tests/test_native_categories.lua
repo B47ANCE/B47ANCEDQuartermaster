@@ -37,15 +37,11 @@ config.cats={[R.nativeID('ClientOnlyCategory')]=true}
 assert(not C.destination(item,{candidate},{},function() return true end),'client-only category claim controlled server routing')
 config.items.Sample=true
 assert(C.destination(item,{candidate},{},function() return true end)==candidate,'explicit item intent was treated as category authority')
--- Old configured categories are interpreted without replacing native classification.
-local cat,_,legacy,semantic,historical,secondary=R.resolve(scissors)
-assert(R.match(cat,{B47_Stationery=true},legacy,semantic,historical,secondary)>0)
-assert(R.label('B47_Stationery'):find('Previous category rule:',1,true))
+-- Retired categories are no longer recognized, displayed or routed.
+local cat=R.resolve(scissors)
+assert(R.match(cat,{B47_Stationery=true})==0)
+assert(not R.known('B47_Stationery') and not R.validRules({B47_Stationery=true},{B47_Stationery=true}))
 local Model=require 'B47ANCEDQuartermaster/Model'
-local previous={selectedCats={B47_Weapons=true,B47_Handguns=true,B47_Melee=true},selectedItems={}}
-local retired=Model.new(previous,api,'Other')
-assert(#retired.groups==4 and not retired.byId['c:B47_Firearms'],'previous rule recreated retired taxonomy hierarchy')
-assert(#retired.displayRoots==4 and not retired.byId['c:B47_Handguns'].displayParent,'previous rules remained nested or hidden')
 local envelope=assert(S.envelope({cats={[R.nativeID('ExampleCustom')]=true},items={},presets={},priority=0},0,false))
 local restored=assert(S.decode(envelope));assert(restored.cats[R.nativeID('ExampleCustom')])
 for _,ids in ipairs({{'BetterSortCC'},{'EURY_CONTAINERS'},{'REORDER_CONTAINERS'},{'BetterSortCC','EURY_CONTAINERS'}}) do
@@ -70,4 +66,4 @@ local pane={itemslist={{cat='External Category'}}};I.present(pane)
 assert(ISInventoryPane.refreshContainer==refresh and ISInventoryPane.renderdetails==render and ISInventoryPane.itemSortByCatInc==sort and pane.itemslist[1].cat=='External Category')
 active({'Quartermaster'});assert(not Compatibility.allowed())
 active({'B47ANCEDQuartermaster'})
-print('PASS OFFLINE native categories: vanilla/mod metadata, safe tokens, server routing, retired rules, optional combinations, explicit snapshots and untouched inventory UI')
+print('PASS OFFLINE native categories: vanilla/mod metadata, safe tokens, server routing, retired-rule rejection, optional combinations, explicit snapshots and untouched inventory UI')

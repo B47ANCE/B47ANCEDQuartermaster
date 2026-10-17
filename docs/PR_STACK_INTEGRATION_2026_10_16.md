@@ -45,3 +45,12 @@ The owner subsequently authorized a read-only review agent. That agent inspected
 - Source review: Native display-category metadata replaces the owned classifier; exact optional mod detection and explicit item membership preserve server-held item/configuration checks. No external implementation or assets imported.
 - Independent read-only clean-room agent signoff is recorded above for this exact runtime head. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
 - [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.
+
+## PR #5 — Retire obsolete sorting data and taxonomy in 0.6.0-dev.1
+
+- Observed version: `0.6.0-dev.1`; original tested feature head `2c3d5a8370e0c02135eb22f4d0408294e862290f`. Reconciled default predecessor `3db3faa69cc29c2a126665f8171e963f00a62c36` using a non-rewriting merge.
+- Runtime files: 126. Source SHA-256: `b88d8d1a539e3fd2fb0e4010c6c235be79ee8b27e596f77f06f4ec588716dad0`. Production, tests and validation scripts remain byte/blob-equivalent to the original tested head; reconciliation changes only documentation/evidence.
+- [TESTED OFFLINE] Full `python -B tests/run_tests.py` passed on the exact original head; this evidence applies unchanged to the identical runtime/test/tool tree. Re-ran `python -B scripts/check_versions.py`, `python -B scripts/check_deployment.py`, and `git -c core.safecrlf=false diff --cached --check` after reconciliation. Public secret/private-diagnostic, runtime Lua-only and case-uniqueness checks passed. No package was created; absent development artifacts are deferred, not a packaging PASS.
+- Source review: Retired formats are validated and staged before authoritative writes; native rules, explicit items, priorities and valid owned presets are retained. Migration is bounded/idempotent and rejects corrupt/future data.
+- Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
+- [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.

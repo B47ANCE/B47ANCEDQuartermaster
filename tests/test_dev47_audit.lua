@@ -28,12 +28,12 @@ do
  ISContextMenu.get=get;Q.Authority.request=request;p:closePicker()
 end
 do
- local base=Q.Catalog.build({},{{name='Vehicle Key',category='B47_HouseholdKeys',fullType='Base.CarKey',owner='pz-vanilla'}})
- local api=Q.Catalog.forObserved(base,{{name='Test Sedan Key',category='B47_HouseholdKeys',fullType='Base.CarKey',owner='pz-vanilla'}})
+ local base=Q.Catalog.build({},{{name='Vehicle Key',category='B47_Native_4B6579',fullType='Base.CarKey',owner='pz-vanilla'}})
+ local api=Q.Catalog.forObserved(base,{{name='Test Sedan Key',category='B47_Native_4B6579',fullType='Base.CarKey',owner='pz-vanilla'}})
  assert(api==base,'renamed indexed item rebuilt the entire catalog')
- local overlay=Q.Catalog.build({{name='Test Sedan Key',category='B47_HouseholdKeys',fullType='Base.CarKey',owner='pz-vanilla'}},base.entries)
+ local overlay=Q.Catalog.build({{name='Test Sedan Key',category='B47_Native_4B6579',fullType='Base.CarKey',owner='pz-vanilla'}},base.entries)
  local p={selectedCats={},selectedItems={['Vehicle Key']=true},selectedPresets={}}
- local m=Q.Model.new(p,overlay,'Other');local group=m.byId['c:B47_HouseholdKeys']
+ local m=Q.Model.new(p,overlay,'Other');local group=m.byId['c:B47_Native_4B6579']
  assert(#group.children==1 and group.children[1]=='Vehicle Key' and m:covered(group,'Vehicle Key'),'renamed item gained a false unchecked alias')
  assert(m.selectedCount==1,'renamed alias inflated the item count')
 end
