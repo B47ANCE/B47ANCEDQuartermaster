@@ -22,7 +22,7 @@ do
  local get=ISContextMenu.get;local menu
  ISContextMenu.get=function(...) local value=get(...);menu=menu or value;return value end
  p.containerUI.buttons.containers.onclick(p)
- menu.options[2].sub.options[1].callback(p)
+ menu.options[2].sub.options[1].sub.options[1].callback(p)
  assert(not s.selected and not p.btnSave.enable and p.qmss.model.readOnly and #p.listbox.items==0,'hidden target remained editable in the actual picker')
  assert(staged.working.items.keep,'scope change discarded staged configuration')
  ISContextMenu.get=get;Q.Authority.request=request;p:closePicker()

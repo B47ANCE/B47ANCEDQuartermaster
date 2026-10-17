@@ -61,6 +61,12 @@ local function valid(player,op)
     if not eligible(player,op.item) then return false,'itemProtected' end
     if M.carrier(player,op.carrierID)~=op.carrier then return false,'carrierChanged' end
     if op.withdrawal then return true end
+    if op.customRoom and not B47ANCEDQuartermaster.Rooms.resolve(player,op.customRoom,op.roomRevision) then return false,'roomScopeChanged' end
+    if op.areaSourceConfig then
+        local current=B47ANCEDQuartermaster.Store.load(op.source,player)
+        if not current or not B47ANCEDQuartermaster.Schema.equal(current,op.areaSourceConfig)
+            or not B47ANCEDQuartermaster.Schema.equal(B47ANCEDQuartermaster.Presets.resolve(current),op.areaSourceEffective) then return false,'sourceConfigurationChanged' end
+    end
     if op.destinationRecord.revoked or not T.valid(op.destination,player) then return false,'destinationInvalidated' end
     if op.destination.obj:getModData().B47MovementInstance~=op.marker then return false,'destinationMarkerChanged' end
     if not B47ANCEDQuartermaster.Schema.equal(op.config,B47ANCEDQuartermaster.Store.load(op.destination,player)) then return false,'configurationChanged' end
@@ -119,6 +125,8 @@ function M.planOne(player,args,context)
             carrier=carrier,carrierID=carrierID,
             destinationRecord=B.sessions[player].records[choice.key],
             destination=choice.target,config=choice.config,effective=choice.effective,marker=dest.instance,trace=context and context.trace,phase=source and 'planned' or 'carried'}
+        local bound=B.sessions[player];op.customRoom=bound.customRoom;op.roomRevision=bound.roomRevision
+        if context and context.area then op.areaSourceConfig=context.sourceConfig;op.areaSourceEffective=context.sourceEffective end
         return {status='ok',operation=op.id,itemID=item:getID(),destination=dest,
             carrierID=carrierID,source=source and (source.ground and G.descriptor(source) or identity(source)) or false,carried=not source},op
 end

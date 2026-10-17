@@ -6,12 +6,14 @@ require 'B47ANCEDQuartermaster/Catalog'
 require 'B47ANCEDQuartermaster/WorldHighlight'
 require 'B47ANCEDUI/RowTooltip'
 require 'B47ANCEDQuartermaster/ContainerSprite'
+require 'B47ANCEDQuartermaster/RoomEditor'
 local Q=B47ANCEDQuartermaster
 local T,C=Q.Targets,Q.Configuration
 local M={}; Q.MultiContainer=M
 local active={}
 local observed=false
 function Q.onConfigurationChanged() for picker,session in pairs(active) do if not picker.removed and not session.closed then picker.discoveryDirty=true end end end
+Q.onRoomsChanged=Q.onConfigurationChanged
 local function observeWorld()
     if observed or not Events or not Events.LoadGridsquare then return end
     observed=true
@@ -190,7 +192,18 @@ function M.attach(p)
         if s.selected.configMode=='inherit' then s:customize() end
         s.selected.working=config; s.selected.introduced={}; bind(); capture(); status('Staged')
     end)
+    local function clearSelection()
+        local empty=Q.Schema.empty()
+        p.selectedCats,p.selectedItems,p.selectedPresets=empty.cats,empty.items,empty.presets
+        p.selection=p.mode=='presets' and p.selectedPresets or p.selectedCats;p:setPriority(0)
+        p.qmss.catalog=Catalog.build({},{});p.qmss.model=Q.Model.new(p,p.qmss.catalog,tr('Other'),p.qmss.catalog.owner)
+        p.qmss.model.readOnly=true;p.qmss.rangeAnchor=nil
+        s.siblings={};buttons.whole:setVisible(false);buttons.apply:setVisible(false)
+        for _,control in ipairs({p.btnSave,p.btnPriorityDown,p.btnPriorityUp,p.priorityEntry,p.btnModePreset}) do control:setEnable(false) end
+        p:rebuild();p:configJoypad()
+    end
     local function refreshDiscovery()
+        if Q.RoomSort and Q.RoomSort.active[p.playerNum] then status('busy');return end
         capture();status('DiscoveringContainers')
         local refresh=s.id and s.refresh or s.open;refresh(s,function(result)
         if p.removed then return end
@@ -202,6 +215,7 @@ function M.attach(p)
         local present=false
         for _,r in ipairs(s.targets) do if r==s.selected then present=true;break end end
         if result~='ok' or not present then highlight:clear() end
+        if not s.selected then clearSelection() end
         refreshRail(); status(result=='ok' and (#s.targets==0 and 'NoContainers' or 'LoadedOnly')
             or result=='TaxonomyPeerMismatch' and result or 'ContainersFailed')
     end)
@@ -213,27 +227,41 @@ function M.attach(p)
             if s.selected then bind()
             elseif result=='ok' then
                 -- Retain staged records, but never keep a hidden target editable.
-                local empty=Q.Schema.empty()
-                p.selectedCats,p.selectedItems,p.selectedPresets=empty.cats,empty.items,empty.presets
-                p.selection=p.mode=='presets' and p.selectedPresets or p.selectedCats;p:setPriority(0)
-                p.qmss.catalog=Catalog.build({},{});p.qmss.model=Q.Model.new(p,p.qmss.catalog,tr('Other'),p.qmss.catalog.owner)
-                p.qmss.model.readOnly=true;p.qmss.rangeAnchor=nil
-                s.siblings={};buttons.whole:setVisible(false);buttons.apply:setVisible(false)
-                for _,control in ipairs({p.btnSave,p.btnPriorityDown,p.btnPriorityUp,p.priorityEntry,p.btnModePreset}) do control:setEnable(false) end
-                p:rebuild();p:configJoypad()
+                clearSelection()
             end
             status(result=='ok' and (s.selected and 'Ready' or 'ChooseTarget') or result)
         end)
     end
-    buttons.containers=button('Containers',function()
+    local function scopeMenu()
         if not s.viewInfo then return end
         local x=getMouseX and getMouseX() or p.x;local y=getMouseY and getMouseY() or p.y
         local menu=ISContextMenu.get(p.playerNum,x,y)
         local building=menu:addOption(tr('ScopeBuilding'),p,function() selectView({kind='building'}) end);building.notAvailable=not s.viewInfo.buildingAvailable
         B47ANCEDUI.Tooltip.context(building,tr(s.viewInfo.buildingAvailable and 'ScopeTip' or 'BuildingDisabledTip'),p.playerNum,menu)
         local rooms=menu:addOption(tr('RoomScope'));local roomMenu=ISContextMenu:getNew(menu);menu:addSubMenu(rooms,roomMenu)
-        for _,room in ipairs(s.viewInfo.rooms) do roomMenu:addOption(room.label,p,function() selectView({kind='room',room=room.token}) end) end
-        rooms.notAvailable=#s.viewInfo.rooms==0
+        local native=roomMenu:addOption(tr('RoomNativeRooms'));local nativeMenu=ISContextMenu:getNew(roomMenu);roomMenu:addSubMenu(native,nativeMenu)
+        for _,room in ipairs(s.viewInfo.rooms) do nativeMenu:addOption(room.label,p,function() selectView({kind='room',room=room.token}) end) end
+        native.notAvailable=#s.viewInfo.rooms==0
+        local custom=roomMenu:addOption(tr('RoomCustomRooms'));local customMenu=ISContextMenu:getNew(roomMenu);roomMenu:addSubMenu(custom,customMenu)
+        for _,room in ipairs(s.viewInfo.customRooms or {}) do customMenu:addOption(room.label,p,function() selectView({kind='customRoom',room=room.id,revision=room.revision}) end) end
+        custom.notAvailable=#(s.viewInfo.customRooms or {})==0
+        roomMenu:addOption(tr('RoomManage'),p,function() capture();highlight:clear();Q.RoomEditor.open(p,function() if not p.removed then p.discoveryDirty=true end end) end)
+        local sorting=Q.RoomSort and Q.RoomSort.active[p.playerNum]
+        local sort=roomMenu:addOption(tr(sorting and 'RoomStopSorting' or 'RoomSort'),p,function()
+            local engine=require 'B47ANCEDQuartermaster/RoomSort'
+            if engine.active[p.playerNum] then engine.cancel(p.playerNum);return end
+            if s.busy then status('busy');return end
+            capture()
+            for _,r in pairs(s.records) do if s:dirty(r) then status('RoomSaveSortingFirst');return end end
+            local ok=engine.start(p.playerNum,s.view,function(result,moved,skipped)
+                if player.setHaloNote then player:setHaloNote(tr('RoomSortSummary',tr(result=='ok' and 'RoomSortComplete' or result=='cancelled' and 'RoomSortCancelled' or result),moved,skipped)) end
+                if not p.removed then
+                    s.id=nil;s.records={};s.targets={};s.selected=nil;s.preferredAttempt=false;s.discoveryState='uninitialized';p.discoveryDirty=true
+                end
+            end)
+            if not ok then status('busy') else s.selected=nil;clearSelection();highlight:clear();status('RoomSorting') end
+        end)
+        sort.notAvailable=s.busy or not sorting and (not s.view or s.view.kind~='customRoom')
         local proximity=menu:addOption(tr('ProximityScope'));local radiusMenu=ISContextMenu:getNew(menu);menu:addSubMenu(proximity,radiusMenu)
         for radius=1,s.viewInfo.maxRadius do local n=radius;radiusMenu:addOption(tr('ScopeProximity',n),p,function() selectView({kind='proximity',radius=n}) end) end
         local copy=menu:addOption(tr('CopyWhole'),p,function()
@@ -244,6 +272,17 @@ function M.attach(p)
         B47ANCEDUI.Tooltip.context(copy,tr(copy.notAvailable and 'PartialGroupTip' or 'CopyWholeTip'),p.playerNum,menu)
         menu:addOption(tr('Containers'),p,function() setJoypadFocus(p.playerNum,rail) end)
         if p.joyfocus then setJoypadFocus(p.playerNum,menu) end
+    end
+    buttons.containers=button('Containers',function()
+        if Q.RoomSort and Q.RoomSort.active[p.playerNum] then
+            local menu=ISContextMenu.get(p.playerNum,getMouseX(),getMouseY())
+            menu:addOption(tr('RoomStopSorting'),p,function() Q.RoomSort.cancel(p.playerNum) end);return
+        end
+        s:request('roomList',{},function(result)
+            if p.removed then return end
+            if result.status=='ok' then s.viewInfo.customRooms=result.rooms end
+            scopeMenu()
+        end)
     end)
     buttons.cancel=button('Cancel',function() p:closePicker() end)
     local oldClose=p.closePicker
@@ -330,7 +369,7 @@ function M.attach(p)
             nextCheck=getTimestampMs()+500
             highlight:tick(s.selected and s.selected.target)
         end
-        if not self.removed and self.discoveryDirty and not s.busy and s.discoveryState~='discovering' then
+        if not self.removed and self.discoveryDirty and not s.busy and s.discoveryState~='discovering' and not (Q.RoomSort and Q.RoomSort.active[self.playerNum]) then
             self.discoveryDirty=false
             refreshDiscovery()
         end
@@ -343,7 +382,7 @@ function M.attach(p)
         if result=='ok' then bind()
         elseif result=='ChooseTarget' and #s.targets==0 then status('NoContainers')
         elseif result=='ChooseTarget' then status(result)
-        else status(result=='TaxonomyPeerMismatch' and result or 'ContainersFailed') end
+        else clearSelection();status((result=='TaxonomyPeerMismatch' or result=='RoomUnavailable') and result or 'ContainersFailed') end
     end)
 end
 return M

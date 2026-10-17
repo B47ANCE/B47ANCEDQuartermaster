@@ -63,3 +63,12 @@ The owner subsequently authorized a read-only review agent. That agent inspected
 - Source review: Native category lookup and bounded queue/planning work preserve server grants, native transfer groups, carry capacity and cancellation.
 - Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
 - [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.
+
+## PR #7 — Add server-owned custom rooms and room sorting (0.7.0-dev.1)
+
+- Observed version: `0.7.0-dev.1`; original tested feature head `de6101c45f6d09f6c926cb8afe09105c4c0dec30`. Reconciled default predecessor `7fe8a56ce0dc9309b3c8faa7c08844ca43345699` using a non-rewriting merge.
+- Runtime files: 133. Source SHA-256: `cc29182b46d0c08de06487bcc5ee19a1e2eb94e2d88ba0ed495f8cfba9c26e6c`. Production, tests and validation scripts remain byte/blob-equivalent to the original tested head; reconciliation changes only documentation/evidence.
+- [TESTED OFFLINE] Full `python -B tests/run_tests.py` passed on the exact original head; this evidence applies unchanged to the identical runtime/test/tool tree. Re-ran `python -B scripts/check_versions.py`, `python -B scripts/check_deployment.py`, and `git -c core.safecrlf=false diff --cached --check` after reconciliation. Public secret/private-diagnostic, runtime Lua-only and case-uniqueness checks passed. No package was created; absent development artifacts are deferred, not a packaging PASS.
+- Source review: Custom room registry, revisions and safehouse/creator permissions remain server-owned; scope selection does not grant container access.
+- Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
+- [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.

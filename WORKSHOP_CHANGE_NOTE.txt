@@ -1,5 +1,9 @@
-[b]Version 0.6.0-dev.3[/b]
+[b]Version 0.7.0-dev.1[/b]
 MP testing build - dedicated multiplayer NOT TESTED
-Fix repeated category lookup errors by checking native getter availability before calling methods on script definitions. Reduce B47 transfer overhead with one bounded movement request per phase and prompt ready-state queue dispatch. Preserve all per-item server validation, native grouping and native transfer timing. Offline 100-item probe: 300 movement queries reduced to 15; live catalog/transfer speed remains untested.
+Source development only; no upload authorized for this iteration.
 
-Update and restart client/server together: movement capability 6 rejects older movement peers. This build includes obsolete owned sorting-data cleanup: native category rules, explicit item selections, priorities and valid owned presets are preserved; removed obsolete rules do not return on downgrade. Back up saves first. The separate batch-validation stop is under investigation and now reports its precise reason. Native single-player, optional-mod and dedicated multiplayer acceptance remain NOT TESTED.
+Add server-owned custom room designations with an in-world preview editor: structural/native candidates, rectangles, paint/erase, explicit floors, undo/redo, duplicate, merge, split, rename and delete. Creators and current associated safehouse members may edit. Revisions, native access and bounded cooperative validation protect shared state.
+
+Custom rooms integrate into the existing discovery selector and physical-container sorting. Native transfers, capacity, priorities and individual furniture compartments remain intact. Room Sort excludes player/ground/bag/virtual inventories and deduplicates exact instances.
+
+Update both peers together: configuration capability 4, movement 7 and rooms 1. Existing sorting schema 2/world root 1 are unchanged. Full offline source suite and native metadata checks pass; real UI/controller, structural detection, save/load and dedicated reconnect/restart acceptance remain NOT TESTED. G7 and stable G8 BLOCKED. Existing native transfer authority limitations remain; a room designation cannot make an unreachable container reachable.

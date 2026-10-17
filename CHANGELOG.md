@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0-dev.1]
+- Compatible MINOR custom-room development: server-owned logical geometry, safehouse-member editing, native physical discovery and movement retained.
+- In-world structural/native candidate detection and preview editor: rectangles, paint/erase, explicit floors, undo/redo, names, duplicate, exact merge/split and delete. Overlap/disconnected warnings and cancellation cleanup preserve world/container data.
+- Existing discovery selector gains exact custom-room scopes and configured-physical-container room sorting, retaining native access, capacity, priorities, grouping and transfer authorization. Excludes player/ground/bag/virtual sources and deduplicates exact items.
+- Add server sandbox controls, room schema 1 and capability versions configuration 4/movement 7/rooms 1; existing sorting config schema 2/world root 1 remain unchanged. Update both peers together.
+- Full offline regression, native metadata (5,105 declarations/5,092 types/zero differences), 133-file source inventory and version checks PASS. Three-source native-Lua fixture: 20 exact moves, 28 correct/seen skips, no duplication.
+- Native UI/save/load/dedicated acceptance NOT TESTED; G7 and stable G8 BLOCKED. No packaging, deployment or publication authorized. Preserve the previous published ZIP unchanged in history.
+
 ## [0.6.0-dev.3]
 - Compatible PATCH fix: check native getter availability before invocation, avoiding missing-method category lookup exceptions on script definitions without changing category results.
 - Includes dev.2 bounded movement-phase queries and prompt queue scheduling; retain native timing and all per-item server checks. Movement capability 6 requires updating both peers.

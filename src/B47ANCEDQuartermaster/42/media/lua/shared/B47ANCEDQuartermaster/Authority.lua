@@ -9,6 +9,7 @@ require 'B47ANCEDQuartermaster/Presets'
 require 'B47ANCEDQuartermaster/Dibs'
 require 'B47ANCEDQuartermaster/Shopping'
 require 'B47ANCEDQuartermaster/ShoppingAdds'
+require 'B47ANCEDQuartermaster/Rooms'
 local S,B,Store=B47ANCEDQuartermaster.Schema,B47ANCEDQuartermaster.Bindings,B47ANCEDQuartermaster.Store
 local A={pending={}}
 B47ANCEDQuartermaster.Authority=A
@@ -17,13 +18,13 @@ local SortTrace=require 'B47ANCEDQuartermaster/SortTrace'
 local Protocol=require 'B47ANCEDQuartermaster/Protocol'
 local peers=setmetatable({},{__mode='k'})
 local negotiations=setmetatable({},{__mode='k'})
-local readOnly={hello=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true}
+local readOnly={hello=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true,roomList=true,roomGet=true,roomPoll=true}
 local tracked={discover=true,load=true,commit=true}
 local lastTick
 -- Technical admission limits bound expensive read work, not discovery gameplay
 -- range. Only the authenticated server player is used as the bucket owner.
 local budgets=setmetatable({},{__mode='k'})
-local limits={discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5}}
+local limits={discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5},roomList={2,1},roomGet={4,4},roomChange={2,0.5},roomPoll={4,4},roomDiscover={4,4}}
 function A.admit(player,command)
     local limit=limits[command];if not limit then return true end
     local time=getTimestampMs();local owner=budgets[player] or {};budgets[player]=owner
@@ -47,6 +48,7 @@ function A.cleanup(player)
     end
     B.sessions[player]=nil;M.operations[player]=nil;M.runs[player]=nil
     B47ANCEDQuartermaster.Dibs.inspections[player]=nil;budgets[player]=nil
+    B47ANCEDQuartermaster.Rooms.cleanup(player)
 end
 local function trace(message) print('[B47ANCEDQuartermaster] transport '..message) end
 local function now() return getTimestampMs() end
@@ -69,6 +71,7 @@ function A.handle(player,command,args)
         local capabilities={};for family,version in pairs(Protocol.versions) do capabilities[family]=version end
         return {status='ok',capabilities=capabilities}
     end
+    if Protocol.family(command)=='rooms' then return B47ANCEDQuartermaster.Rooms.handle(player,command,args) end
     if isServer() and (command=='commit' or command=='groupChange' or command=='presetChange') and args.taxonomyVersion~=B47ANCEDQuartermaster.Categorizer.version then return {status='TaxonomyPeerMismatch'} end
     if command=='personalList' then return B47ANCEDQuartermaster.Personal.snapshot(player) end
     if command=='shoppingAdd' or command=='shoppingSourceRemove' or command=='shoppingPreference' then
@@ -239,6 +242,10 @@ if Events and not select(2,Compatibility.allowed()) then
             end
             if command=='presetsChanged' then
                 if B47ANCEDQuartermaster.onPresetsChanged then B47ANCEDQuartermaster.onPresetsChanged() end
+                return
+            end
+            if command=='roomsChanged' then
+                if B47ANCEDQuartermaster.onRoomsChanged then B47ANCEDQuartermaster.onRoomsChanged() end
                 return
             end
             if command~='result' then return end
