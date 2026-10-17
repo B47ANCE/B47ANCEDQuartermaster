@@ -62,7 +62,7 @@ function V.shoppingRows(p)
      for _,extra in ipairs(u.lists.extras or {}) do if extra.key==source.key then row.fullType=extra.fullType;row.quantity=extra.quantity end end
     else
      key='dibs:'..row.fullType
-     local g=(source.kind=='needed' and u.lists.neededGoals or u.lists.wishGoals) or {};local goal=g[row.fullType]
+     local g=u.lists.linkedGoals and u.lists.linkedGoals[source.kind] or (source.kind=='needed' and u.lists.neededGoals or u.lists.wishGoals) or {};local goal=g[row.fullType]
      row.quantity=goal and goal.target or 0
     end
    else key='manual:'..row.fullType;label=tr('ManualSource');row.sourceLabel=label end
@@ -71,7 +71,7 @@ function V.shoppingRows(p)
     row.name=script and script:getDisplayName() or row.fullType or entry.text;row.texture=Q.Picker.itemTexture(row.fullType)
     local requirement=requirements[key];row.remaining=requirement and requirement.outstanding or nil;row.credit=requirement and requirement.carried or nil
     if row.source and row.source.kind~='extra' then
-     local g=row.source.kind=='needed' and u.lists.neededGoals or u.lists.wishGoals;local goal=g and g[row.fullType]
+     local g=u.lists.linkedGoals and u.lists.linkedGoals[row.source.kind] or (row.source.kind=='needed' and u.lists.neededGoals or u.lists.wishGoals);local goal=g and g[row.fullType]
      row.remaining=goal and goal.remaining or nil;row.credit=goal and goal.current or nil
     end
     row.cells={row.name,tostring(row.quantity or 0),row.credit and tostring(row.credit) or '—',row.remaining and tostring(row.remaining) or '—'}
@@ -209,7 +209,17 @@ function V.attach(p)
    local tabs={u.shoppingTab,u.wantedTab,u.neededTab,u.preferences};local tw=(width-3*gap)/4
    for i,b in ipairs(tabs) do at(b,left+(i-1)*(tw+gap),body,tw,t.tab);visible(b,true) end
    U.TabBar.select(u.shoppingTab,not goal);U.TabBar.select(u.wantedTab,u.view=='wanted');U.TabBar.select(u.neededTab,u.view=='needed')
-   local heading=body+t.tab+gap;local search=heading+2*t.font+gap+8
+   local paper=u.lists.paper and u.lists.paper.enabled
+   local heading=body+t.tab+gap
+   if paper then
+    local by=heading;local narrow=width<760
+    at(u.paperPicker,left,by,width*(narrow and .42 or .48)-gap,t.button);visible(u.paperPicker,true)
+    local x=left+width*(narrow and .42 or .48);local bw=(left+width-x-2*gap)/3
+    for i,b in ipairs({u.paperNew,u.paperRename,u.paperImport}) do at(b,x+(i-1)*(bw+gap),by,bw,t.button);visible(b,b~=u.paperImport or u.lists.paper.legacy==true) end
+    heading=heading+t.button+gap
+   end
+   -- The paper picker is the heading in physical-list mode.
+   local search=paper and heading or heading+2*t.font+gap+8
    at(u.search,left,search,width*.48,t.button);visible(u.search,true);u.shoppingSearch:layout()
    at(u.stateFilter,left+width*.49,search,width*.23,t.button);visible(u.stateFilter,goal)
    local add=goal and (u.view=='needed' and u.addNeeded or u.addWish) or u.pickerShopping
@@ -266,10 +276,11 @@ function V.attach(p)
    local goal=u.view=='wanted' or u.view=='needed'
    local heading=y+T.metrics().tab+(v.gap or T.metrics().gap)
    local label=goal and tr(u.view=='needed' and 'NeededList' or 'WishList') or tr('ShoppingList')
-   U.SectionHeader.draw(self,(u.view=='needed' and '! ' or '')..label,left,heading)
+   local physical=u.lists.paper and u.lists.paper.enabled
+   if not physical then U.SectionHeader.draw(self,(u.view=='needed' and '! ' or '')..label,left,heading) end
    local summary=goal and u.lists.summaries and u.lists.summaries[u.goalKind]
    local subtitle=summary and getText('UI_QMSS_ListSummary',tr(u.goalKind=='needed' and 'Needed' or 'Wanted'),summary.fulfilled,summary.total,summary.remaining) or tr('PersonalScope')
-   R.text(self,R.fit(subtitle,self:getWidth()-left-16),left,heading+T.metrics().font+8,T.colors.muted)
+   if not physical then R.text(self,R.fit(subtitle,self:getWidth()-left-16),left,heading+T.metrics().font+8,T.colors.muted) end
    local list=goal and u.wish or u.shopping
    for _,c in ipairs(list.b47Columns or {}) do R.text(self,c.headerText or c.label,list.x+c.x,list.y-T.metrics().font-6,T.colors.muted) end
   elseif self.containerUI then
@@ -281,7 +292,7 @@ function V.attach(p)
  p.configJoypad=function(self)
   U.Focus.visibleRows(self,function(owner)
    joy(owner);owner:insertNewLineOfButtons(v.sorting,u and v.shopping or nil,v.help,self.b47LayoutButton)
-   if u and u.mode=='shopping' then owner:insertNewLineOfButtons(u.shoppingTab,u.wantedTab,u.neededTab,u.preferences,u.stateFilter,u.shoppingSearch.clear) else owner:insertNewLineOfButtons(v.sortSearch.clear,v.cancel) end
+   if u and u.mode=='shopping' then owner:insertNewLineOfButtons(u.shoppingTab,u.wantedTab,u.neededTab,u.preferences,u.stateFilter,u.shoppingSearch.clear);owner:insertNewLineOfButtons(u.paperPicker,u.paperNew,u.paperRename,u.paperImport) else owner:insertNewLineOfButtons(v.sortSearch.clear,v.cancel) end
   end)
  end
  Q.WindowLayout.attach(p)

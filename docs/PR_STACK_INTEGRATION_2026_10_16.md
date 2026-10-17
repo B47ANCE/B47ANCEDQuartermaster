@@ -126,3 +126,12 @@ The owner subsequently authorized a read-only review agent. That agent inspected
 - Source review: Location knowledge requires server-verified carried ledger or actual CD membership in accessible adjacent computer storage. Configuration/grant validation is server-owned; completed native observations, cancellation and safe returns remain possible.
 - Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
 - [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.
+
+## PR #16 — Add physical shopping lists and keep container setup open after Save
+
+- Observed version: `0.16.0-dev.2`; original tested feature head `2cac3ae5497bdbf793e119d12f3ef61ceb457457`. Reconciled default predecessor `61715f313083320ff03671766a94c9c29f66d183` using a non-rewriting merge.
+- Runtime files: 209. Source SHA-256: `6f24f3bf0c1b352896802bea7c36949520e4932b9a910d30100f012ce6d9a1fb`. Production, tests and validation scripts remain byte/blob-equivalent to the original tested head; reconciliation changes only documentation/evidence.
+- [TESTED OFFLINE] Full `python -B tests/run_tests.py --require-rooms --rooms <verified B47ANCEDRooms repository>` passed on the exact original head; this evidence applies unchanged to the identical runtime/test/tool tree. Re-ran `python -B scripts/check_versions.py`, `python -B scripts/check_deployment.py`, and `git -c core.safecrlf=false diff --cached --check` after reconciliation. Public secret/private-diagnostic, runtime Lua-only and case-uniqueness checks passed. No package was created; absent development artifacts are deferred, not a packaging PASS.
+- Source review: Physical shopping lists use server-held exact item identity, native-action completion proof, one-sheet consumption and retained notebook/tool checks. Trading revokes prior-holder edit rights; HUD reads are bounded and local.
+- Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
+- [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.

@@ -33,5 +33,9 @@
   "Sandbox_B47ANCEDQuartermaster_RequireLedgerForCollecting": "Require a ledger for Shopping collection",
   "Sandbox_B47ANCEDQuartermaster_RequireLedgerForCollecting_tooltip": "Enabled by default, including existing saves. Collect requires a completed paper ledger covering the location, or a working computer with a matching stored ledger CD. Shopping planning, editing and recipe additions remain available without a ledger. Disable to restore unrestricted collection.",
   "Sandbox_B47ANCEDQuartermaster_LedgerComputerRange": "Nearby ledger computer range",
-  "Sandbox_B47ANCEDQuartermaster_LedgerComputerRange_tooltip": "Maximum horizontal distance in tiles for an out-of-building computer, on the same floor. Computers in the same native building may be used at any distance. The loaded CD must still cover the work location. Server controlled; 1-30 tiles, default 10."
+  "Sandbox_B47ANCEDQuartermaster_LedgerComputerRange_tooltip": "Maximum horizontal distance in tiles for an out-of-building computer, on the same floor. Computers in the same native building may be used at any distance. The loaded CD must still cover the work location. Server controlled; 1-30 tiles, default 10.",
+  "Sandbox_B47ANCEDQuartermaster_PhysicalShoppingLists": "Physical shopping lists",
+  "Sandbox_B47ANCEDQuartermaster_PhysicalShoppingLists_tooltip": "Store shopping plans on separate carried paper lists that can be handed to other players. Enabled by default, including existing saves. Previous personal plans remain available for explicit one-time import. Disabling restores the previous personal plan; paper records are retained.",
+  "Sandbox_B47ANCEDQuartermaster_ShoppingWritingSupplies": "Require shopping writing supplies",
+  "Sandbox_B47ANCEDQuartermaster_ShoppingWritingSupplies_tooltip": "Require a carried notebook and a pen or pencil to create or edit physical shopping lists. Retain both supplies; consume one blank sheet for each new list. Reading an existing list and collecting from it need no writing supplies. Applies when physical shopping lists are enabled."
 }

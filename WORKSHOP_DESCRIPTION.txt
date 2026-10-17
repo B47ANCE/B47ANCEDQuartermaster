@@ -2,19 +2,22 @@ B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep t
 
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
+[b]MP testing build - dedicated multiplayer NOT TESTED[/b]
+Version 0.16.0-dev.2. New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
+
 [h2]Sorting made simple[/h2]
 • Choose whole categories or individual items in a searchable tree with native item icons.
-• Configure several containers in one window. Give sections their own rules or share settings across a Whole Container.
+• Configure several containers in one window. Save keeps the editor open so you can select the next container. Give sections their own rules or share settings across a Whole Container.
 • Save and reuse sorting presets, copy settings between containers and set destination priorities.
 • Sort your carried inventory, a selected container, the current room or the entire building. Room and building sorting include your carried bags.
-• Sort supported floor and Proximity Inventory items into configured storage.
+• Sort supported floor, Proximity Inventory, selected vehicle/trailer cargo and nested carried-bag sources into configured storage. Native access and capacity checks still apply.
 • Find what you need with category/item search, Only Checked, Only Contents and optional grouping by mod.
 • Make quick changes with Shift-click ranges, Ctrl-click, Select All Visible, Clear All Visible and Invert Visible.
 
 Open Quartermaster from your player inventory. Select categories to include them, expand them to choose individual items, then save your container's rules.
 
 [h2]Shopping lists[/h2]
-Plan a supply run without keeping a separate checklist.
+Create a named shopping paper from one blank sheet using a retained notebook and pen or pencil. Choose among the lists you carry, give them to friends before a loot run, or hold one in either hand for a small paper checklist HUD. Writing supplies are needed for creating/editing; reading and collecting do not need them. Previous personal plans are preserved for explicit one-time import.
 • Add items manually or from supported crafting, building and cooking recipes.
 • Set quantities and see what you carry and what is still missing.
 • Collect remaining items from eligible nearby storage.
@@ -27,7 +30,7 @@ Give supplies a purpose and keep your goals together.
 • Track the supplies you carry, add missing amounts to Shopping and collect what remains.
 
 [h2]Building Supply Ledger[/h2]
-Shopping collection uses the same ledger requirement; planning and editing lists remain available without one.
+Sorting and Shopping collection require location knowledge by default: carry a completed paper supply ledger covering the location, or use a matching ledger CD loaded at an authorized powered computer in the building or nearby. A shopping paper does not replace the supply ledger. Shopping planning/reading and container configuration do not require a supply ledger; physical-list edits still need writing supplies. Server settings can disable either ledger requirement.
 Computers open a Windows '93 desktop. Use CD Writer to create a ledger CD; place it in storage beside the computer, load it through CD-ROM (D:) and run QUARTERMASTER.EXE to open the application.
 Craft a Supply Sheet, then walk through building or safehouse storage to record what is there, including unconfigured containers. Paper pages show rooms, containers, quantities, locations and recording times. Interrupted inspections keep completed entries.
 
@@ -41,7 +44,7 @@ Quartermaster checks container and room access when sorting. Room policies apply
 For automated cleaning, add the separate [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820151540]B47ANCE'd Auto Clean[/url] mod.
 
 [h2]Make it yours[/h2]
-Resize the window, adjust the container divider and set background transparency. Mouse, keyboard and controller controls are included. Server sandbox settings control discovery range and area sorting.
+Resize the window, adjust the container divider and set background transparency. Mouse, keyboard and controller controls are included. Server sandbox settings control discovery range, area sorting, ledger requirements, physical lists, writing supplies and carrying allowance. Dangerous Load is optional and disabled by default; native capacity limits and encumbrance still apply.
 
 [h2]Compatibility[/h2]
 • Project Zomboid Build 42.21.
@@ -53,4 +56,7 @@ Resize the window, adjust the container divider and set background transparency.
 
 [b]Mod ID:[/b] B47ANCEDQuartermaster
 Created by B47ANCE. Original Lua-only implementation.
-[url=https://github.com/B47ANCE/B47ANCEDQuartermaster]GitHub - Source Code & Issues[/url]
+[url=https://github.com/B47ANCE/B47ANCEDQuartermaster]GitHub — Source Code & Issues[/url]
+
+[h2]Current limits[/h2]
+Native client and dedicated multiplayer acceptance for this candidate are pending. The initial computer is the stock desktop; its CD remains a real item in accessible adjacent storage. Ledger pages are historical snapshots, not live stock. Selected vehicle/trailer sources are supported; automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks and unverified virtual storage are not. Supported cooking plans use full portions; partial portions, fluids and unsupported recipes are not handled. Room policies do not lock unrelated vanilla transfers.

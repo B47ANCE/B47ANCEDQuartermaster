@@ -1,5 +1,13 @@
 module B47ANCEDQuartermaster
 {
+    item ShoppingPaper
+    {
+        DisplayCategory = Literature,
+        ItemType = base:normal,
+        Weight = 0.1,
+        Icon = Paper,
+        WorldStaticModel = SheetOfPaper,
+    }
     item SupplySheet
     {
         DisplayCategory = Literature,

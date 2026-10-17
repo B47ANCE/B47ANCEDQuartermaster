@@ -88,10 +88,25 @@ assert(p.priority==11 and p.qmsSession:dirty(destination) and f.sent()==before)
 button('Cancel').onclick(p)
 assert(f.sent()==before and not f.unrelated.obj.md.LSBoxPriority)
 Q.openPicker(f.a,0,0);p=Q.picker
+local savedSession=p.qmsSession;local savedTarget=savedSession.selected
 p.priority=9;p:rebuild();p.btnSave.onclick(p)
-assert(p.qmsSession.closed and Q.Configuration.read(f.origin).priority==9)
+assert(not p.removed and not savedSession.closed and p.qmsSession==savedSession,'Save closed the editor/session')
+assert(savedSession.selected==savedTarget and Q.Configuration.read(f.origin).priority==9)
+assert(not savedSession:dirty(savedTarget) and not savedTarget.dirty and savedSession.status=='ok')
 assert(f.sent()==before+1,'new Save must use one server adapter transmission')
-print('PASS multi-container Picker integration: attach, layout, dirty edits, X cancel and Save binding')
+-- Save another container in the same window, then verify a clean Save is a no-op.
+local nextTarget
+for _,entry in ipairs(p.containerUI.rail.items) do if entry.item.target.container==f.unrelated.container then nextTarget=entry.item end end
+assert(nextTarget);p.containerUI.rail.onmousedown(p,nextTarget)
+assert(savedSession.selected==nextTarget and not p.removed)
+p.priority=12;p:rebuild();p.btnSave.onclick(p)
+assert(not p.removed and not savedSession.closed and savedSession.selected==nextTarget)
+assert(Q.Configuration.read(f.unrelated).priority==12 and Q.Configuration.read(f.origin).priority==9)
+assert(f.sent()==before+2 and not savedSession:dirty(nextTarget),'second save repeated or lost configuration')
+p.btnSave.onclick(p);assert(f.sent()==before+2 and not p.removed,'clean Save closed or rewrote configuration')
+p.priority=13;p:rebuild();button('Cancel').onclick(p)
+assert(savedSession.closed and p.removed and Q.Configuration.read(f.unrelated).priority==12,'Cancel changed committed rules')
+print('PASS multi-container Picker integration: Save stays open, next-container and repeat saves, clean records, explicit cancel and server acknowledgements')
 
 Q.openPicker(f.a,0,0);p=Q.picker
 p.selectedCats={};p.selectedItems={RoundA=true};p.selectedPresets={};p:rebuild()
@@ -168,3 +183,15 @@ assert(f.sent()==sent,'staged controls wrote authoritative state')
 p.containerUI.rail.onmousedown(p,parent);assert(p.qmsSession.selected.target.whole)
 p:closePicker();assert(f.sent()==sent,'cancel persisted nested edits')
 print('PASS OFFLINE dev26 nested UI: inherited read-only, explicit customization, confirmed staged reset, parent/child navigation and cancel')
+
+-- Saving a staged Whole Container while viewing a clean inherited child must
+-- reload that child, since Session intentionally invalidates its old snapshot.
+Q.openPicker(f.a,0,0);p=Q.picker
+for _,entry in ipairs(p.containerUI.rail.items) do if entry.item.target.whole then parent=entry.item elseif entry.item.target.obj==f.a then child=entry.item end end
+p.containerUI.rail.onmousedown(p,parent);p.priority=23;p:rebuild()
+p.containerUI.rail.onmousedown(p,child);assert(p.priority~=23)
+p.btnSave.onclick(p)
+assert(not p.removed and not p.qmsSession.closed and p.qmsSession.selected==child)
+assert(child.working and p.priority==23 and p.qmss.model.readOnly,'saved inherited section kept a stale configuration')
+p:closePicker()
+print('PASS OFFLINE stay-open Save refreshes inherited sections after Whole Container commits')

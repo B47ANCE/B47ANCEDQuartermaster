@@ -85,6 +85,10 @@
     {
       "path": "docs/LEDGER_REQUIREMENT.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/PHYSICAL_SHOPPING_LISTS.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {
@@ -236,6 +240,14 @@
     {
       "reference": "docs/LEDGER_NATIVE_EVIDENCE_2026-10-16.json; docs/LEDGER_ARTIFACT_2026-10-16.json",
       "reason": "Dated 0.14 development native evidence/package receipt preserve exact audited version and source; not SP/dedicated runtime proof."
+    },
+    {
+      "reference": "docs/SHOPPING_PAPER_NATIVE_EVIDENCE_2026-10-16.json",
+      "reason": "Dated 0.16.0-dev.1 API fingerprints and read-only native observations; unchanged and not relabeled as dev.2 or native runtime acceptance."
+    },
+    {
+      "reference": "docs/WORKSHOP_TEST_0_16_0.md; dist/workshop-publish/0.16.0-dev.2",
+      "reason": "Version-bound 0.16.0-dev.2 Workshop test preparation/publication evidence and immutable package identity; retain exact observed version and runtime gates."
     },
     {
       "reference": "docs/historical/README_BEFORE_2026-10-15_GITHUB_DEFAULT.md",

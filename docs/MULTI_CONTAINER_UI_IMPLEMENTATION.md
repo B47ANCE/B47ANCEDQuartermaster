@@ -1,12 +1,45 @@
 # Multi-container editor implementation
 
-Project Version: 0.15.0-dev.1
+Project Version: 0.16.0-dev.2
 
 Current iteration: [Dangerous Load, ledger boundaries and validation](LEDGER_AND_LOAD.md). Existing SupplyAPI, Rooms permissions and container configuration contracts are unchanged.
 
 ## Current development iteration
 
-The configuration tree is unchanged. Overall Sort/Shopping progress is a separate local HUD. Vehicle support selects cargo sources; it does not add vehicle destination designations to this editor. Original implementation/evidence below is historical. See [implementation and evidence](PROGRESS_CARRY_AND_CONTAINERS.md).
+Successful Save keeps the main Quartermaster editor/session open and retains the selected container. Acknowledged originals/revisions are updated and the rail's dirty badges refresh. Select another rail entry to continue; a clean repeat Save makes no new configuration write. Close/Cancel still closes explicitly and discards only unsaved edits. Preset save dialogs retain their existing close behavior. If a Whole Container save invalidates the currently displayed inherited child, reload that child before rebinding; failed reloads disable the stale selection and show the server error. Partial-save errors and dirty failed records remain available.
+
+[VERIFIED SOURCE] The previous successful-save callback explicitly called `closePicker`; removing that close is the behavioral fix. Server `Session.save`, commits, permissions, schemas, protocols and shared gameplay configuration remain unchanged. This is local UI workflow, so no server sandbox option was added.
+
+[TESTED OFFLINE] The modified integration test failed before the fix with `Save closed the editor/session`, then passed. Cases include saving two different containers in one window, selected-record/session continuity, clean repeat Save, explicit Cancel after a successful save, existing conflict/partial-save tests, preset dialogs, and reloading an inherited section after a Whole Container commit. Lua 5.1 syntax and the related UI/Whole Container/physical Shopping fixtures pass. The preceding physical-shopping full regression evidence remains tied to 0.16.0-dev.1; this checkpoint ran the focused suites below.
+
+Exact host check (from the repository root):
+
+```powershell
+$env:PYTHONUTF8='1'
+@'
+from pathlib import Path
+from lupa.lua51 import LuaRuntime
+r=Path.cwd()
+def runtime():
+    lua=LuaRuntime(unpack_returned_tuples=True); g=lua.globals()
+    base=r/'src/B47ANCEDQuartermaster/42/media/lua'
+    g.package.path=(base/'client').as_posix()+'/?.lua;'+(base/'shared').as_posix()+'/?.lua;'+g.package.path
+    g.TEST_ROOT=(r/'tests').as_posix()
+    g.GAME_ROOT='E:/Program Files (x86)/Steam/steamapps/common/ProjectZomboid'
+    g.ROOMS_SOURCE='C:/Users/willi/Desktop/Work/Project Zomboid/Mod Repositories/B47ANCEDRooms/src/B47ANCEDRooms/42/media/lua'
+    lua.execute("package.loaded['B47ANCEDQuartermaster/Progress']={start=function() end,clear=function() end};getActivatedMods=function() return {size=function() return 1 end,get=function() return 'B47ANCEDQuartermaster' end} end")
+    return lua
+for p in (r/'src/B47ANCEDQuartermaster/42/media/lua').rglob('*.lua'):
+    runtime().execute('assert(loadstring(...))',p.read_text(encoding='utf-8'))
+for name in ('test_container_ui.lua','test_ui_framework.lua','test_dev26_furniture.lua','test_shopping_paper_ui.lua'):
+    runtime().execute((r/'tests'/name).read_text(encoding='utf-8'))
+'@ | & 'C:/Users/willi/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' -
+& 'C:/Users/willi/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' -B scripts/check_versions.py
+& 'C:/Users/willi/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' -B scripts/check_deployment.py
+git -c core.safecrlf=false diff --check
+```
+
+[RUNTIME GATE] Native client input/visual acceptance NOT TESTED: Save a container, switch to a second container in the rail, save it, then close manually. Also check inherited sections and partial/conflict messages on the server. This UI-only change does not satisfy or reset the branch's pending gameplay G7/stable G8 gates. The later authorized 0.16.0-dev.2 Workshop MP test publication is [recorded separately](WORKSHOP_TEST_0_16_0.md); no local deployment or server changes.
 
 Implementation date: 2026-09-28. [TESTED: offline] Lua 5.1 host fixtures and installed Quartermaster 0.24.0 Picker integration. [RUNTIME GATE] SP, hosted, remote client and dedicated server are NOT TESTED. This is a development candidate, not a release-readiness claim.
 

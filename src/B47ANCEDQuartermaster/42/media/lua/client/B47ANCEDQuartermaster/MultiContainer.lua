@@ -311,11 +311,18 @@ function M.attach(p)
         if not s.selected or s.busy then return end
         capture(); status('Saving')
         s:save(function(result)
-            for _,r in pairs(s.records) do r.dirty=s:dirty(r) end
-            if s.selected and s.selected.working then bind() end
-            status(result)
-            local dirty=false; for _,r in pairs(s.records) do if r.dirty then dirty=true end end
-            if result=='ok' and not dirty then p:closePicker() end
+            local function showSaved()
+                for _,r in pairs(s.records) do r.dirty=s:dirty(r) end
+                if s.selected and s.selected.working then bind() end
+                refreshRail();status(result)
+            end
+            if s.selected and not s.selected.working then
+                -- A saved Whole Container may invalidate this inherited child.
+                s:select(s.selected.target,function(loaded)
+                    if loaded=='ok' then showSaved()
+                    else s.selected=nil;clearSelection();refreshRail();status(loaded) end
+                end)
+            else showSaved() end
         end)
     end
     p.btnSave.onclick=p.onSave

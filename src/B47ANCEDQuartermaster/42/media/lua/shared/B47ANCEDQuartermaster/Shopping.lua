@@ -3,6 +3,7 @@ require 'B47ANCEDQuartermaster/Trips'
 local Q=B47ANCEDQuartermaster
 local M,B,T=Q.Movement,Q.Bindings,Q.Targets
 local H={};Q.Shopping=H
+local Papers=require 'B47ANCEDQuartermaster/ShoppingLists'
 local Carry=require 'B47ANCEDQuartermaster/CarryBudget'
 local function progress(run,remaining)
     local total=run.progressTotal or 0
@@ -14,12 +15,18 @@ function H.confirm(player,op)
     local run=op.shoppingRun
     local fullType=op.item:getFullType()
     run.collected=run.collected+1
-    Q.Personal.collected(player,fullType)
+    if Papers.enabled() then
+        if Papers.runValid(player,run) then Papers.withPaper(player,run.paper,function()
+            Q.Personal.collected(player,fullType)
+            local unused,d=Papers.binding(player,run.paper);run.paperRevision=d and d.revision
+        end) end
+    else Q.Personal.collected(player,fullType) end
 end
 function H.handle(player,command,args)
     if isClient() then return {status='invalid'} end
     local run=M.runs[player]
     if command=='shoppingBegin' then
+        local valid,why=Papers.guard(player,args,false,true);if not valid then return {status=why} end
         local known,why=require('B47ANCEDQuartermaster/LedgerRequirement').check(player,player:getCurrentSquare(),'shopping');if not known then return {status=why} end
         if run or M.operations[player] then return {status='busy'} end
         local snapshot=Q.Personal.snapshot(player);if snapshot.status~='ok' then return snapshot end
@@ -45,7 +52,7 @@ function H.handle(player,command,args)
             for _,k in ipairs({'x','y','z','index','ci'}) do if x[k]~=y[k] then return x[k]<y[k] end end
             return a.token<b.token
         end)
-        run={id=M.fresh(),kind='shopping',scope=args.wish and {wish=args.wish,list=args.list} or nil,time=getTimestampMs(),records=records,
+        run={id=M.fresh(),kind='shopping',paper=snapshot.paper and snapshot.paper.selected,paperRevision=snapshot.revision,scope=args.wish and {wish=args.wish,list=args.list} or nil,time=getTimestampMs(),records=records,
             operations={},considered=setmetatable({},{__mode='k'}),collected=0,
             progressTotal=args.wish and (args.list=='needed' and snapshot.neededGoals or snapshot.wishGoals)[args.wish].remaining or snapshot.outstanding}
         M.runs[player]=run
@@ -62,6 +69,7 @@ function H.handle(player,command,args)
     if command~='shoppingNext' or run.cancelled then return {status='invalid'} end
     local known,why=require('B47ANCEDQuartermaster/LedgerRequirement').check(player,player:getCurrentSquare(),'shopping');if not known then return {status=why} end
     for _ in pairs(run.operations) do return {status='busy'} end
+    local valid,why=Papers.runValid(player,run);if not valid then M.runs[player]=nil;return {status=why} end
     local _,data=Q.Personal.identity(player)
     local ledger,err=Q.ShoppingRequirements.ledger(player,data,run.scope)
     if not ledger then M.runs[player]=nil;return {status=err} end

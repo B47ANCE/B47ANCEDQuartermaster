@@ -27,10 +27,11 @@ local function finish(op,status)
  if op.closed then return end
  op.closed=true;V.work[op.num]=nil
  if op.token then L.clientOffers[op.token]=nil end
- if status~='ok' and status~='done' then Q.Authority.request(op.num,'ledgerCancel',{},function() end) end
+ if status~='ok' and status~='done' and status~='ShoppingPaperCreated' and status~='ShoppingPaperSyncPending' then Q.Authority.request(op.num,'ledgerCancel',{},function() end) end
  local key=status=='ok' and 'LedgerSaved' or status=='done' and (op.summary or 'LedgerComplete') or status
  local screen=Computer.active[op.num];if op.burn and screen then screen:message(key) end
  note(op.actor,key)
+ if op.callback then op.callback(status) end
 end
 local function response(op,result)
  if op.closed or getSpecificPlayer(op.num)~=op.actor then return end
@@ -65,7 +66,7 @@ local function nativeResult(actor,result)
  if not op or op.token~=result.token then return end
  L.clientOffers[result.token]=nil;op.token=nil;op.actionPending=false;op.target=nil;op.at=getTimestampMs()+250
  if result.status=='LedgerChanged' then op.changed=(op.changed or 0)+1;if op.changed<=3 then return end end
- if result.status~='ok' then finish(op,result.status) elseif op.burn then finish(op,'ok') end
+ if result.status=='ShoppingPaperCreated' then finish(op,result.status) elseif result.status~='ok' then finish(op,result.status) elseif op.burn then finish(op,'ok') end
 end
 L.clientResult=nativeResult
 function V.record(num,item,scope)
@@ -73,6 +74,12 @@ function V.record(num,item,scope)
  local actor=getSpecificPlayer(num);if not actor or #queue(actor)>0 then return end
  local op={actor=actor,num=num,pending=true,at=getTimestampMs()};V.work[num]=op
  Q.Authority.request(num,'ledgerBegin',{item=item:getID(),scopeKind=scope},function(r) response(op,r) end)
+end
+function V.shoppingPaper(num,args,callback)
+ if V.work[num] then if callback then callback('busy') end;return end
+ local actor=getSpecificPlayer(num);if not actor or #queue(actor)>0 then if callback then callback('busy') end;return end
+ local op={actor=actor,num=num,pending=true,single=true,callback=callback};V.work[num]=op
+ Q.Authority.request(num,'shoppingPaperCreate',args,function(r) response(op,r) end)
 end
 function V.burn(num,paper,cd,computer)
  if V.work[num] then return end

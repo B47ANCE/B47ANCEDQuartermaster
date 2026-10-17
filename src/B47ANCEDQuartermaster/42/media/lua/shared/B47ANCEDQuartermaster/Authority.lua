@@ -14,18 +14,20 @@ require 'B47ANCEDQuartermaster/RoomScopes'
 local S,B,Store=B47ANCEDQuartermaster.Schema,B47ANCEDQuartermaster.Bindings,B47ANCEDQuartermaster.Store
 local A={pending={}}
 B47ANCEDQuartermaster.Authority=A
+local Papers=require 'B47ANCEDQuartermaster/ShoppingLists'
+A.paperSelection={}
 local requestID=0
 local SortTrace=require 'B47ANCEDQuartermaster/SortTrace'
 local Protocol=require 'B47ANCEDQuartermaster/Protocol'
 local peers=setmetatable({},{__mode='k'})
 local negotiations=setmetatable({},{__mode='k'})
-local readOnly={ledgerDriveList=true,hello=true,ledgerRead=true,loadGet=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true,roomList=true,roomGet=true,roomDiscover=true,areaOptions=true,areaDiscover=true}
+local readOnly={shoppingPaperRead=true,ledgerDriveList=true,hello=true,ledgerRead=true,loadGet=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true,roomList=true,roomGet=true,roomDiscover=true,areaOptions=true,areaDiscover=true}
 local tracked={discover=true,load=true,commit=true}
 local lastTick
 -- Technical admission limits bound expensive read work, not discovery gameplay
 -- range. Only the authenticated server player is used as the bucket owner.
 local budgets=setmetatable({},{__mode='k'})
-local limits={ledgerDriveList={3,1},ledgerDriveMount={2,1},ledgerDriveEject={2,1},ledgerBegin={2,0.5},ledgerNext={4,5},ledgerRead={4,5},ledgerBurn={2,0.5},ledgerConfirm={4,4},ledgerCancel={4,4},loadGet={4,2},loadChange={2,2},discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5},roomList={2,1},roomGet={4,4},roomDiscover={4,4},areaOptions={2,1},areaDiscover={2,2}}
+local limits={shoppingPaperRead={3,2},shoppingPaperCreate={2,0.5},shoppingPaperSelect={3,2},shoppingPaperRename={2,1},ledgerDriveList={3,1},ledgerDriveMount={2,1},ledgerDriveEject={2,1},ledgerBegin={2,0.5},ledgerNext={4,5},ledgerRead={4,5},ledgerBurn={2,0.5},ledgerConfirm={4,4},ledgerCancel={4,4},loadGet={4,2},loadChange={2,2},discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5},roomList={2,1},roomGet={4,4},roomDiscover={4,4},areaOptions={2,1},areaDiscover={2,2}}
 function A.admit(player,command)
     local limit=limits[command];if not limit then return true end
     local time=getTimestampMs();local owner=budgets[player] or {};budgets[player]=owner
@@ -70,6 +72,12 @@ function A.handle(player,command,args)
     local allowed,_,_,compatibilityStatus=Compatibility.allowed()
     if not allowed then return {status=compatibilityStatus} end
     if isClient() or not player or type(args)~='table' then return {status='invalid'} end
+    if command=='shoppingPaperRead' or command=='shoppingPaperCreate' or command=='shoppingPaperSelect' or command=='shoppingPaperRename' then return Papers.handle(player,command,args) end
+    local edits=command=='shoppingAdd' or command=='shoppingSourceRemove' or command=='shoppingPreference' or command=='wishToShopping' or command=='personalProject' or command=='personalChange'
+    if edits then
+        local needsPaper=command~='personalChange' or args.kind=='shopping'
+        local valid,why=Papers.guard(player,args,needsPaper,needsPaper);if not valid then return {status=why} end
+    end
     if Protocol.family(command)=='ledger' then return require('B47ANCEDQuartermaster/Ledger').handle(player,command,args) end
     local ledger=B47ANCEDQuartermaster.Ledger
     if ledger and (ledger.jobs[player] or ledger.actors[player]) and (command=='tripBegin' or command=='movePlan' or command=='moveCarried' or command=='shoppingBegin') then return {status='busy'} end
@@ -178,6 +186,13 @@ function A.request(playerNum,command,args,callback)
     local allowed,_,_,compatibilityStatus=Compatibility.allowed()
     if not allowed then callback({status=compatibilityStatus});return end
     local player=getSpecificPlayer(playerNum)
+    args=args or {}
+    local originalCallback=callback
+    callback=function(result)
+        if command~='shoppingPaperRead' and result.status=='ok' and result.paper then A.paperSelection[playerNum]=result.paper.selected end
+        originalCallback(result)
+    end
+    if args.paper==nil and (command=='shoppingAdd' or command=='shoppingSourceRemove' or command=='shoppingPreference' or command=='wishToShopping' or command=='personalProject' or command=='personalChange' or command=='shoppingBegin') then args.paper=A.paperSelection[playerNum] end
     if isClient() and command~='hello' then
         if not player then callback({status='invalid'});return end
         if not peers[player] then

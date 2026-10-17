@@ -1,6 +1,7 @@
 require 'B47ANCEDQuartermaster/Schema'
 require 'B47ANCEDQuartermaster/ShoppingRequirements'
 require 'B47ANCEDQuartermaster/ShoppingPreferences'
+local Papers=require 'B47ANCEDQuartermaster/ShoppingLists'
 local P={}
 B47ANCEDQuartermaster.Personal=P
 local function root()
@@ -12,7 +13,7 @@ local function root()
         or md.personal.serial~=math.floor(md.personal.serial) or md.personal.serial<0 or md.personal.serial>=9007199254740990 then return end
     return md.personal
 end
-function P.identity(player)
+function P.account(player)
     local r=root();if not r then return end
     local id
     if isServer() then
@@ -43,6 +44,15 @@ function P.identity(player)
     if data.preferences==nil then data.preferences=preferences end
     return id,r.players[id]
 end
+function P.identity(player)
+    local id,data,err=P.account(player);if not id then return nil,nil,err end
+    return id,Papers.data(player,data)
+end
+function P.legacySnapshot(player)
+    local previous=Papers.contexts[player];Papers.contexts[player]={legacy=true}
+    local ok,result=pcall(P.snapshot,player);Papers.contexts[player]=previous
+    if not ok then error(result) end;return result
+end
 function P.establishWish(player,fullType,kind)
     local _,data=P.identity(player);if not data then return false end
     local targets=kind=='needed' and data.needed or data.wish
@@ -53,6 +63,7 @@ function P.establishWish(player,fullType,kind)
     return true
 end
 function P.snapshot(player)
+    local meta=Papers.metadata(player);if meta.error then return {status=meta.error} end
     local id,data,error=P.identity(player);if not id then return {status=error or 'identity'} end
     if data.shoppingSchema~=nil and data.shoppingSchema~=2 then return {status='unsupported'} end
     if not data.shoppingSchema then
@@ -67,7 +78,7 @@ function P.snapshot(player)
     local items=R.carried(player);local counts={};local accepts=B47ANCEDQuartermaster.ShoppingPreferences.compile(data.preferences)
     for _,item in ipairs(items) do if accepts(item) then local t=item:getFullType();counts[t]=(counts[t] or 0)+1 end end
     local ledger,err=R.ledger(player,data,nil,items)
-    local result={status='ok',identity=id,revision=data.revision,shopping={},manual={},projects={},wish={},wishActive=true,wishDemand={},
+    local result={status='ok',paper=meta,identity=id,revision=data.revision,shopping={},manual={},projects={},wish={},wishActive=true,wishDemand={},
         requirements=ledger and ledger.rows or {},gross=ledger and ledger.gross or 0,
         carried=ledger and ledger.carried or 0,outstanding=ledger and ledger.outstanding or 0,shoppingBlocked=err,
         collected=data.collectedSinceEdit or 0}
@@ -87,6 +98,21 @@ function P.snapshot(player)
         result.needed[t]=n;local current=counts[t] or 0
         result.neededGoals[t]={target=n,current=current,remaining=math.max(0,n-current),fulfilled=current>=n}
         if data.neededDemand[t] then result.neededDemand[t]=math.max(0,n-current) end
+    end
+    -- Portable provenance rows use the targets written on this paper, not the
+    -- recipient's unrelated personal goals. Keep personal goal tabs separate.
+    if data.paperTargets then
+        result.linkedGoals={wanted={},needed={}};result.wishDemand={};result.neededDemand={}
+        for _,kind in ipairs({'wish','needed'}) do
+            local public=kind=='wish' and 'wanted' or 'needed'
+            local links=kind=='wish' and data.wishDemand or data.neededDemand
+            local demand=kind=='wish' and result.wishDemand or result.neededDemand
+            for t,n in pairs(data.paperTargets[kind]) do if links[t] then
+                local current=counts[t] or 0;local remaining=math.max(0,n-current)
+                result.linkedGoals[public][t]={target=n,current=current,remaining=remaining,fulfilled=remaining==0}
+                demand[t]=remaining
+            end end
+        end
     end
     for _,kind in ipairs({'wanted','needed'}) do
         local summary=result.summaries[kind]
@@ -167,8 +193,11 @@ function P.wishToShopping(player,args)
     -- A linked gross target yields the deficit after ONE aggregate carried
     -- allocation. Storing the deficit as gross would subtract carried twice.
     local old=demand[t];demand[t]=true
+    local targetsKind=needed and 'needed' or 'wish'
+    local oldTarget=data.paperTargets and data.paperTargets[targetsKind][t]
+    if data.paperTargets then data.paperTargets[needed and 'needed' or 'wish'][t]=targets[t] end
     local ledger,err=B47ANCEDQuartermaster.ShoppingRequirements.ledger(player,data)
-    if not ledger then demand[t]=old;return {status=err} end
+    if not ledger then demand[t]=old;if data.paperTargets then data.paperTargets[targetsKind][t]=oldTarget end;return {status=err} end
     if not old then data.revision=data.revision+1;data.collectedSinceEdit=0 end
     return P.snapshot(player)
 end

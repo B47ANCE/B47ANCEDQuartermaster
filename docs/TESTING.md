@@ -1,10 +1,14 @@
 # Testing
 
-Project Version: 0.15.0-dev.1
+Project Version: 0.16.0-dev.2
 
 ## Current development iteration
 
-Current requirement/drive, UI and full host regression suites pass offline, including real production-ledger bindings and actual Rooms source. Legacy movement fixtures explicitly use the supported server opt-outs; requirement fixtures test the default-on paths. Source-only iteration: 206 runtime files, no package/deployment/publication. Native G6/G7 and stable G8 remain blocked. See [exact commands, cases and limits](LEDGER_REQUIREMENT.md).
+Authorized Workshop MP test preparation now has a 209-file package/source/staging parity PASS, full offline build/regression PASS and a separate paired test against the actual Rooms checkout PASS. The default build runner reports its sibling Rooms path unavailable in this isolated worktree; the explicit paired invocation supplies the real checkout and passes. Native SP/dedicated acceptance remains NOT TESTED. See [publication preparation and artifact identity](WORKSHOP_TEST_0_16_0.md).
+
+Save now keeps the container-rule editor open, refreshes acknowledged records/rail state and reloads an invalidated inherited section when necessary. Existing server save/permission behavior and manual close/Cancel are preserved. Current focused UI regression and syntax checks pass offline; native acceptance remains NOT TESTED. See [exact checks and workflow](MULTI_CONTAINER_UI_IMPLEMENTATION.md). Physical-shopping implementation/full-suite evidence remains from 0.16.0-dev.1 and is unchanged by this local UI fix.
+
+Physical paper, native-action-shaped, collection, UI/HUD and full host regression checks are recorded in [the current report](PHYSICAL_SHOPPING_LISTS.md). Legacy movement fixtures explicitly use the supported physical-list/server-ledger opt-outs; new paper fixtures exercise the enabled paths and production handlers. Source manifest: 209 runtime files. The source-only implementation evidence predates the now-confirmed Workshop MP test publication; no local deployment occurred. Native G6/G7 NOT TESTED; stable G8 BLOCKED.
 
 ## Approved artwork follow-up — 2026-10-15
 
@@ -67,7 +71,7 @@ User confirms dev.20 loaded but visible Category labels remained vanilla with Ne
 
 Compatible PATCH correction on dev.19: Category cells use the canonical resolver cache and current localized labels. Compatibility is checked during rendering rather than permanently skipping registration during early Lua loading. Native row.cat, sorting, grouping and item definitions stay unchanged. Full offline regression and frozen 5,092-item comparison passed; actual B42.21 inventory/loot/controller/scaling and second-language client acceptance remain UNTESTED. Dev.19 Stage A instrumentation is retained; its dedicated timing gate remains BLOCKED. See `dist/handoffs/dev20-inventory-category.md`. No deployment or publication.
 
-Current source version: 0.15.0-dev.1. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
+Current source version: 0.16.0-dev.2. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
 
 Historical note: Recorded source snapshot: 0.4.0-dev.50. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
 

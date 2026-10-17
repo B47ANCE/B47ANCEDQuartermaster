@@ -8,7 +8,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.15.0-dev.1 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
+The Workshop feature guide is below. This branch also contains **0.16.0-dev.2 development work**, published for Workshop MP test distribution. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/physical-shopping-lists).
 
 ## Development work in this branch
 
@@ -21,12 +21,12 @@ The Workshop feature guide is below. This branch also contains **0.15.0-dev.1 de
 - Selected native vehicle/trailer cargo and nested storage bags, with native access checks and cargo-area walking.
 - Pre-authorization full-crate fallback and permitted source returns; safe retention when a return or native outcome is unavailable.
 
-Movement protocol 9 requires matching server/client builds and reconnect. Saved category rules, selections, presets and priorities are unchanged. No automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks or unverified virtual storage. Actual PZ SP and dedicated testing for this iteration are pending. See [behavior, clean-room audit, validation and limitations](docs/PROGRESS_CARRY_AND_CONTAINERS.md).
+Movement protocol 10 requires matching server/client builds and reconnect. Saved category rules, selections, presets and priorities are unchanged. No automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks or unverified virtual storage. Actual PZ SP and dedicated testing for this iteration are pending. See [behavior, clean-room audit, validation and limitations](docs/PROGRESS_CARRY_AND_CONTAINERS.md).
 
 ## Sorting
 
 - Choose whole categories or individual items in a searchable tree with native item icons.
-- Configure multiple containers in one window, with presets, copy/paste and destination priorities.
+- Configure multiple containers in one window, with presets, copy/paste and destination priorities. Save keeps the window open so you can select the next container.
 - Share Whole Container settings across furniture sections, or customize individual sections.
 - Sort carried inventory, a selected container, the current room or an entire building. Room and building operations include carried bags.
 - Sort supported floor and Proximity Inventory items into configured storage.
@@ -35,7 +35,11 @@ Movement protocol 9 requires matching server/client builds and reconnect. Saved 
 
 ## Shopping and Dibs!
 
-Keep a Shopping List with target quantities, carried counts and remaining demand. Add items manually or from supported crafting, building and cooking recipes, then collect what is missing from eligible nearby storage.
+Create separate **physical Shopping Lists** with one blank sheet of paper, a notebook and a pen or pencil. Keep the notebook and writing tool; one sheet becomes a named shopping paper. Choose among the lists you carry, rename them, and hand the papers to friends before a loot run. Reading and collecting from an existing list need no writing supplies; editing does. Hold a list in either hand for a small notebook-paper HUD showing what you carry and still need. Longer lists turn pages automatically.
+
+Existing personal shopping plans are preserved. **Import Old List** copies the previous plan onto one new paper once, using the same materials. Server options can restore personal-list mode or remove the writing-supply requirement. See [physical lists, sharing, import and validation](docs/PHYSICAL_SHOPPING_LISTS.md).
+
+Each selected list tracks target quantities, qualifying carried counts and remaining demand. Add items manually or from supported crafting, building and cooking recipes, then collect what is missing from eligible nearby storage.
 
 Shopping Preferences let you choose acceptable condition, food state and remaining uses, including individual item preferences.
 
@@ -43,7 +47,7 @@ Dibs! provides personal item labels and separate Wanted and Needed lists. Set su
 
 ## Building Supply Ledger
 
-**Sorting and Shopping collection now require a completed ledger by default.** Carry a paper ledger covering the work location, or load a matching ledger CD at a powered computer in the same building or nearby. Shopping planning/editing and container configuration remain available first. Server options can disable either requirement. See [requirements, computer range and controls](docs/LEDGER_REQUIREMENT.md).
+**Sorting and Shopping collection now require a completed ledger by default.** Carry a paper ledger covering the work location, or load a matching ledger CD at a powered computer in the same building or nearby. Shopping planning and container configuration do not require a supply ledger. Creating/editing physical shopping lists requires their writing supplies. Server options can disable either requirement. See [requirements, computer range and controls](docs/LEDGER_REQUIREMENT.md).
 
 Craft a **Quartermaster Building Supply Sheet** from a sheet of paper or notebook and a retained pen/pencil. Right-click the carried sheet to record or resume a building or safehouse. Your character walks to storage and spends time documenting each physical compartment, including unconfigured storage. Floor loot, dropped bags and carried inventories are excluded.
 
@@ -90,7 +94,7 @@ For automated cleaning, install the separate [B47ANCE'd Auto Clean](https://stea
 
 ## Development and documentation
 
-Use the [current Workshop source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction) for current source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
+Use the [current Workshop source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/physical-shopping-lists) for current source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
 
 From that source checkout, with Python and the host-only Lupa dependency available:
 

@@ -120,6 +120,7 @@ function U.attach(p)
         local enabled=goal and goal.remaining>0 and not (Q.Collector and Q.Collector.active[p.playerNum]) or false
         u.remaining:setEnable(enabled);u.collectRemaining:setEnable(enabled)
         u.bulk:setEnable(summary and summary.remaining>0 and not (Q.Collector and Q.Collector.active[p.playerNum]) or false)
+        if u.refreshPaperControls then u:refreshPaperControls() end
         if u.onRebuild then u.onRebuild() end
     end
     local function refresh()
@@ -131,7 +132,7 @@ function U.attach(p)
             if serial<(u.appliedRefresh or 0) then return end
             u.appliedRefresh=serial
             if result.status=='ok' then
-                if result.revision>=u.lists.revision then u.lists=result;rebuild() end
+                if result.revision>=u.lists.revision or result.paper and (not u.lists.paper or result.paper.selected~=u.lists.paper.selected) then u.lists=result;rebuild() end
             else u.status:setName(tr(result.status)) end
         end)
     end
@@ -270,8 +271,11 @@ function U.attach(p)
         toggle:setX(w-64);toggle:setY(3)
         local function at(c,x,y,width,height) c:setX(x);c:setY(y);c:setWidth(width);c:setHeight(height or 24) end
         local half=math.floor((w-36)/2)
-        at(u.search,10,34,half);at(u.quantity,10,h-110,80)
-        at(u.catalogList,10,64,half,h-240)
+        if u.paperPicker and u.lists.paper and u.lists.paper.enabled then
+            at(u.paperPicker,10,34,half);at(u.paperNew,half+22,34,half/3-4);at(u.paperRename,half+26+half/3,34,half/3-4);at(u.paperImport,half+30+2*half/3,34,half/3-4)
+        end
+        at(u.search,10,64,half);at(u.quantity,10,h-110,80)
+        at(u.catalogList,10,94,half,h-270)
         local listHeight=math.floor((h-282)/2)
         at(u.shopTitle,half+22,34,half-80);at(u.pickerShopping,w-88,34,78);at(u.shopping,half+22,64,half,listHeight)
         local wishY=78+listHeight
@@ -315,6 +319,7 @@ function U.attach(p)
     local consumed=p.isKeyConsumed
     p.isKeyConsumed=function(self,...) if u.mode=='shopping' then return false end;if consumed then return consumed(self,...) end end
     u.refresh=refresh;u.rebuild=rebuild
+    require('B47ANCEDQuartermaster/ShoppingPaperUI').attach(p,u,add,button)
     p:layout()
 end
 function U.switch(p,mode)

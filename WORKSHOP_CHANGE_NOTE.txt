@@ -1,8 +1,10 @@
-[b]Version 0.15.0-dev.1[/b]
-MP testing build - dedicated multiplayer NOT TESTED
+[b]Version 0.16.0-dev.2[/b]
+[b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Sorting and Shopping collection now require knowledge of the work location by default: carry a completed matching paper ledger, or use a powered computer with a matching ledger CD loaded from accessible storage beside it. Shopping planning/editing, recipes and container configuration remain available without a ledger. Server sandbox options control the two requirements and nearby-computer range (default 10 tiles). Same-building computers are not distance limited; records must still cover the work location.
+Save keeps Quartermaster open, ready to configure the next container. Selected rules and inherited sections refresh; close or Cancel explicitly when finished.
 
-In Windows '93, load a real ledger CD from an adjacent desk/container, then run QUARTERMASTER.EXE. Loading/ejecting changes a server-owned binding, never the item. Logging off leaves the computer binding available for work around the building. Computer power, item presence and current access are rechecked for new grants. Carrying a CD alone does not qualify. Known paper/mounted media are protected from automatic movement, while manual native actions remain possible.
+Includes physical Shopping Lists: create named papers using one blank sheet and a retained notebook/pen, select carried lists, share them with friends, and hold a paper in either hand for its checklist HUD. Reading and collecting need no writing supplies; editing does. The old personal plan is preserved for explicit one-time import.
 
-Completed native transfers stay completed after proof loss. Safe return/observation commands remain available, and new TAKE/PUT grants stop. Existing sorting/presets/priorities/physical ledger snapshots remain; no inventory data is deleted. Movement capability 10, Shopping 2 and Ledger 2 require matching server/client builds. Vanilla smaller native transfer groups and timing are unchanged. Native SP/dedicated validation pending; no package, deployment or upload is claimed by this note.
+Also includes the physical Building Supply Ledger and Windows '93 computer workflow. Sort and Shopping collection require a matching completed carried ledger or an authorized powered computer with a matching ledger CD in adjacent storage by default. Planning/configuration remains available without a supply ledger. Server options control these requirements, physical lists and writing supplies.
+
+Offline regression, version and package checks are required for this upload. Native client and dedicated acceptance remain pending. Stock desktop support only; no automatic vehicle-area sweeps or unsupported fluid/partial cooking plans. Back up saves. Update the server and every client, then reconnect (movement 10, Shopping 3, Personal 2, Ledger 2). Native transfer grouping remains unchanged.
