@@ -8,13 +8,13 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.13.0-dev.1 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
+The Workshop feature guide is below. This branch also contains **0.14.0-dev.1 development work**, which has not been deployed or published. [Current Workshop source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/rooms-extraction).
 
 ## Development work in this branch
 
 - Optional Extended Categories support, including client/server detail differences through explicit category-member selections.
 - Dangerous Load: disabled by default, with a server-validated personal 50–100% native-capacity limit for Sort and Collect. Native restrictions and penalties still apply.
-- Building Supply Ledger is an offline domain prototype only, inactive and outside the runtime package. The shelf appearance experiment was removed from scope at the owner's request. See the [implementation, blockers and acceptance report](docs/LEDGER_AND_LOAD.md).
+- Craft paper Supply Sheets, physically inspect building/safehouse storage, and copy completed snapshots to a selected CD at a powered desktop. Paper pages are read-only history; the computer reader adds literal search, room browsing and locations. See the [workflow, authority and acceptance report](docs/LEDGER_AND_LOAD.md). The shelf experiment remains out of scope.
 - Overall Sort/Shopping progress beside vanilla's current-action bar, including room/building job progress.
 - Fill a carry before walking, then unload it before the next carry. Vanilla's smaller transfer groups and timing stay unchanged.
 - Server-controlled extra carry allowance (0-40 kg, default 0), subject to native capacity and encumbrance.
@@ -40,6 +40,14 @@ Keep a Shopping List with target quantities, carried counts and remaining demand
 Shopping Preferences let you choose acceptable condition, food state and remaining uses, including individual item preferences.
 
 Dibs! provides personal item labels and separate Wanted and Needed lists. Set supply targets, track what you carry, send missing amounts to Shopping and collect the remainder. Shopping plans do not automatically craft, build or cook.
+
+## Building Supply Ledger
+
+Craft a **Quartermaster Building Supply Sheet** from a sheet of paper or notebook and a retained pen/pencil. Right-click the carried sheet to record or resume a building or safehouse. Your character walks to storage and spends time documenting each physical compartment, including unconfigured storage. Floor loot, dropped bags and carried inventories are excluded.
+
+Read the paper anywhere without electricity. It is a room-by-room historical snapshot with per-container recording times, quantities and locations. Completed entries survive cancellation; storage with uncertain identity after a restart needs reinspection.
+
+Right-click a supported powered desktop computer to copy a completed sheet onto a chosen vanilla CD, retaining the paper. The new **Quartermaster Supply Ledger CD** can be read at another supported powered desktop, with item/FullType search, room browsing and pagination. Copying overwrites that CD's original music identity. Historical pages enforce current safehouse/Rooms privacy; they do not provide live or remote inventory access. The initial supported terminal is the stock desktop using `appliances_com_01_72`.
 
 ## Getting started
 
@@ -97,7 +105,7 @@ python -B tests/run_tests.py --require-rooms
 - [Artwork sources and exports](assets/branding/README.md)
 - [Issues and feedback](https://github.com/B47ANCE/B47ANCEDQuartermaster/issues)
 
-Dedicated multiplayer tests passed for the earlier Quartermaster build according to the owner's report on 2026-10-15; this does not validate the 0.12 or 0.13 development changes. Historical implementation and validation notes retain their original context in the repository and Git history.
+Dedicated multiplayer tests passed for the earlier Quartermaster build according to the owner's report on 2026-10-15; this does not validate the 0.12–0.14 development changes. Historical implementation and validation notes retain their original context in the repository and Git history.
 
 **Mod ID:** `B47ANCEDQuartermaster`
 

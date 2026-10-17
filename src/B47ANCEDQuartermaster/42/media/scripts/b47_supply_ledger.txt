@@ -1,0 +1,35 @@
+module B47ANCEDQuartermaster
+{
+    item SupplySheet
+    {
+        DisplayCategory = Literature,
+        ItemType = base:normal,
+        Weight = 0.1,
+        Icon = Notebook,
+        WorldStaticModel = EmptyNotebook,
+    }
+    item SupplyDisc
+    {
+        DisplayCategory = Literature,
+        ItemType = base:normal,
+        Weight = 0.01,
+        Icon = Disc,
+        WorldStaticModel = Disk,
+    }
+    craftRecipe MakeSupplySheet
+    {
+        timedAction = Making,
+        time = 20,
+        category = Miscellaneous,
+        Tags = InHandCraft,
+        inputs
+        {
+            item 1 [Base.SheetPaper2;Base.Notebook],
+            item 1 [Base.Pen;Base.Pencil] mode:keep,
+        }
+        outputs
+        {
+            item 1 B47ANCEDQuartermaster.SupplySheet,
+        }
+    }
+}

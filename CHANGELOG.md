@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.14.0-dev.1] - 2026-10-16
+
+Compatible MINOR: physical Building Supply Ledger, with separate ledger protocol/schema 1. Sorting configuration, movement protocol 9, native transfer grouping, Dangerous Load and existing item rules remain unchanged.
+
+- Add craftable Supply Sheets using verified paper/notebook and a retained pen/pencil, plus dedicated Supply Ledger CDs using stock native icon/model references.
+- Add bounded building/safehouse discovery, native walking and server-granted timed inspections. Record actual quantities with conservative native stack equivalence, physical locations and per-container times; preserve partial progress and re-inspect uncertain identities after restart.
+- Add server-completed, power/access-checked CD conversion with per-input journals, definite rollback and conservative unknown-outcome locks. One compatible CD becomes one ledger CD; original paper remains.
+- Add paged paper reading and a powered computer reader with literal search, room browsing, opaque cursors and current privacy checks. Portable history uses Rooms' validated registry/policy exports when the original square is unloaded, with stricter safehouse membership.
+- Add four server sandbox timing settings and 29-folder English fallback names, recipes and UI strings. Include production service/action/UI/Rooms regressions and package evidence. The shelf experiment remains removed.
+- Offline validation passes; native crafting/UI/SP and dedicated multiplayer acceptance remain NOT TESTED. G7 and stable G8 BLOCKED; no deployment or Workshop publication.
+
 ## [0.13.0-dev.1] - 2026-10-15
 
 - Add optional Extended Categories (CAExtendedCategories) support using native metadata and existing explicit category-member selections, preserving dedicated authority across client/server detail differences. No external classifier/code/assets imported; independent clean-room review and native acceptance pending.

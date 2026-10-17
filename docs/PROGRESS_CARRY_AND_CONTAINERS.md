@@ -1,8 +1,8 @@
 # Overall progress, full carries and native container sources
 
-Project Version: 0.13.0-dev.1
+Project Version: 0.14.0-dev.1
 
-Current-source note: the carry/source behavior below was introduced in 0.12.0-dev.1. The current iteration adds [Dangerous Load and gated ledger research](LEDGER_AND_LOAD.md); the normal comfort allowance remains unchanged. Dated 0.12 evidence retains its original version and does not prove native 0.13 behavior.
+Current-source note: the carry/source behavior below was introduced in 0.12.0-dev.1. The current iteration adds [Dangerous Load and the physical Supply Ledger](LEDGER_AND_LOAD.md); the normal comfort allowance remains unchanged. Dated 0.12 evidence retains its original version and does not prove native 0.13/0.14 behavior.
 
 Compatible MINOR feature iteration from 0.11.0-dev.1. Storage schemas, native category resolution, presets, priorities, SupplyAPI 1 and required Rooms identity are unchanged. Movement capability increases from 8 to 9: update server and every client together, then reconnect. Older movement peers are rejected. This is development source, not a new Workshop publication.
 

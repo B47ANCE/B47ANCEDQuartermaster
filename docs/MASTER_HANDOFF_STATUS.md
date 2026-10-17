@@ -1,10 +1,10 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.13.0-dev.1
+Project Version: 0.14.0-dev.1
 
 ## Current development iteration
 
-Current work is on feature/supply-ledger-and-load, based on feature/progress-and-containers. Dangerous Load is implemented for native testing. Ledger remains an offline domain prototype without a live service. The shelf appearance experiment is removed from scope. No deployment/publication. G6/G7 NOT TESTED; stable G8 BLOCKED. See the [current implementation and gates](LEDGER_AND_LOAD.md).
+The Building Supply Ledger workflow is implemented on feature/building-supply-ledger, based on feature/supply-ledger-and-load: media definitions/recipe, physical inspections, native completion, CD conversion, persistence/recovery and reader UI. Shelf work remains removed. Native SP/G6 and dedicated G7 NOT TESTED; stable G8 BLOCKED. No deployment/publication. See [implementation, settings and validation](LEDGER_AND_LOAD.md).
 
 ## Separate Auto Clean and supply API — historical 0.11.0-dev.1
 

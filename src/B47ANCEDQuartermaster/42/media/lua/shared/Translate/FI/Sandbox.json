@@ -19,5 +19,13 @@
   "Sandbox_B47ANCEDQuartermaster_RoomDoorways": "Doorless doorway detection boundary",
   "Sandbox_B47ANCEDQuartermaster_RoomDoorways_tooltip": "Treat verified doorless doorway edges as automatic-detection boundaries. Actual doors and windows remain boundaries regardless of this setting. Detection is a preview only; manual geometry can cross walls and doors. Default enabled.",
   "Sandbox_B47ANCEDQuartermaster_CarryAllowance": "Extra carrying allowance (kg)",
-  "Sandbox_B47ANCEDQuartermaster_CarryAllowance_tooltip": "Extra weight above the normal carry limit allowed while fetching items for Sort or Shopping. Server controlled, 0 to 40 kg in 1 kg steps; default 0 preserves existing saves. Native container capacity and access restrictions still apply. Higher values may cause encumbrance and injury."
+  "Sandbox_B47ANCEDQuartermaster_CarryAllowance_tooltip": "Extra weight above the normal carry limit allowed while fetching items for Sort or Shopping. Server controlled, 0 to 40 kg in 1 kg steps; default 0 preserves existing saves. Native container capacity and access restrictions still apply. Higher values may cause encumbrance and injury.",
+  "Sandbox_B47ANCEDQuartermaster_LedgerBaseSeconds": "Ledger preparation time",
+  "Sandbox_B47ANCEDQuartermaster_LedgerBaseSeconds_tooltip": "Seconds charged once at the first confirmed inspection. Server controlled; 0-120, default 10. Native timed-action modifiers and walking time remain additional.",
+  "Sandbox_B47ANCEDQuartermaster_LedgerContainerSeconds": "Ledger time per container",
+  "Sandbox_B47ANCEDQuartermaster_LedgerContainerSeconds_tooltip": "Seconds for each physically inspected compartment. Server controlled; 1-15, default 5. Only confirmed completed inspections are recorded.",
+  "Sandbox_B47ANCEDQuartermaster_LedgerEntrySeconds": "Ledger time per item entry",
+  "Sandbox_B47ANCEDQuartermaster_LedgerEntrySeconds_tooltip": "Seconds per distinct recorded entry, using conservative native stack equivalence. Server controlled; 1-5, default 1.",
+  "Sandbox_B47ANCEDQuartermaster_LedgerBurnSeconds": "Ledger CD copying time",
+  "Sandbox_B47ANCEDQuartermaster_LedgerBurnSeconds_tooltip": "Seconds required to copy a completed paper ledger at a powered desktop computer. Server controlled; 10-120, default 30. One compatible vanilla CD is converted; paper is retained."
 }

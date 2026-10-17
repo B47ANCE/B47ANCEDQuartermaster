@@ -13,13 +13,14 @@ function A.begin(container,actor,valid)
    if job.phase=='verify' then
     if job.index>=size then
      local used=container:getCapacityWeight();local capacity=container:getEffectiveCapacity(actor)
-     if not number(used) or not number(capacity) or capacity<=0 then return nil,'capacityUnknown' end
+     if not number(used) or not number(capacity) then return nil,'capacityUnknown' end
      return {items=job.items,categories=job.categories,instances=size,quantity=job.quantity,used=used,capacity=capacity},'done'
     end
     local item=items:get(job.index);local row=job.items[job.index+1]
     if item~=job.refs[job.index+1] or item:getContainer()~=container or item:getID()~=row.id
      or item:getFullType()~=row.fullType or item:getCount()~=row.quantity or item:getDisplayName()~=row.name
      or item:getActualWeight()~=row.actualWeight or item:getUnequippedWeight()~=row.weight
+     or item:getCondition()~=row.condition
      or Categories.resolve(item)~=row.category then return nil,'changed' end
    else
     if job.index>=size then job.index=0;job.phase='verify';return nil,'waiting' end
@@ -28,7 +29,7 @@ function A.begin(container,actor,valid)
     local count=item:getCount();local weight=item:getUnequippedWeight();local actual=item:getActualWeight()
     if not number(count) or count<1 or count%1~=0 or count>1000000 or not number(weight) or not number(actual) then return nil,'invalidItem' end
     local category=Categories.resolve(item)
-    local row={id=item:getID(),fullType=item:getFullType(),name=item:getDisplayName(),quantity=count,category=category,weight=weight,actualWeight=actual}
+    local row={id=item:getID(),fullType=item:getFullType(),name=item:getDisplayName(),quantity=count,category=category,weight=weight,actualWeight=actual,condition=item:getCondition()}
     if type(row.fullType)~='string' or #row.fullType>256 or type(row.name)~='string' or #row.name>512 then return nil,'invalidItem' end
     job.items[#job.items+1]=row;job.refs[#job.refs+1]=item;job.quantity=job.quantity+count;job.weight=job.weight+weight
     local group=job.categories[category] or {weight=0,quantity=0};job.categories[category]=group
