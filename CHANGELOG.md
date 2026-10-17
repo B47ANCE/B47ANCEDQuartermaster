@@ -142,6 +142,8 @@ Compatible PATCH correction pass: category clearing/ranges, renamed-item present
 
 ## [0.4.0-dev.46]
 
+- Documentation-only README refresh: describe the current Workshop features, required Rooms and optional integrations; link current published source, preserve the previous README as dated history and retire obsolete README version selectors. No gameplay or project-version changes.
+
 Compatible diagnostic PATCH iteration. Distinguish operation-state, pending-item guard, native validation, transaction rejection and native cancellation before/after perform. Transfer execution and authority unchanged. Dev.45 live dedicated attempts still stop after one item; root cause remains unproven. No deployment/publication.
 
 ## [0.4.0-dev.45]
