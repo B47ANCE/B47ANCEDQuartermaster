@@ -2,11 +2,11 @@
 dofile(TEST_ROOT..'/test_shopping_ui.lua')
 local Q=B47ANCEDQuartermaster;local f=CONTAINER_FIXTURE
 do
- local original={token='one',target={room='room-a',x=0,y=0,z=0,ci=0,index=0},working=Q.Schema.empty()}
+ local original={token='one',target={x=20,y=20,z=0,ci=0,index=0},working=Q.Schema.empty()}
  original.working.items.keep=true
- local s=Q.Session.new(nil,0);s.targets={original};s.selected=original;s.viewInfo={}
+ local s=Q.Session.new(nil,0);s.targets={original};s.selected=original;s.viewInfo={maxRadius=1}
  function s:request(command,args,done) assert(command=='viewSelect');done({status='ok',view=args.view}) end
- local status;s:setView({kind='room',room='room-b'},function(value) status=value end)
+ local status;s:setView({kind='proximity',radius=1},function(value) status=value end)
  assert(status=='ok' and not s.selected and original.working.items.keep,'hidden selection stayed active or staged edits were erased')
 end
 do
@@ -15,16 +15,18 @@ do
  if staged.configMode=='inherit' then p.containerUI.buttons.whole.onclick(p) end
  assert(not p.qmss.model.readOnly,'fixture requires an editable section')
  p.selectedItems.keep=true
- s.viewInfo={buildingAvailable=false,maxRadius=1,rooms={{label='Other room',token='absent'}}}
+ s.viewInfo={buildingAvailable=false,maxRadius=1,rooms={},customRooms={}}
  local request=Q.Authority.request;Q.Authority.request=function(player,command,args,done)
   if command=='viewSelect' then done({status='ok',view=args.view}) else request(player,command,args,done) end
  end
  local get=ISContextMenu.get;local menu
  ISContextMenu.get=function(...) local value=get(...);menu=menu or value;return value end
  p.containerUI.buttons.containers.onclick(p)
- menu.options[2].sub.options[1].sub.options[1].callback(p)
+ local oldX=f.player.getX;f.player.getX=function() return 100 end
+ menu.options[3].sub.options[1].callback(p)
  assert(not s.selected and not p.btnSave.enable and p.qmss.model.readOnly and #p.listbox.items==0,'hidden target remained editable in the actual picker')
  assert(staged.working.items.keep,'scope change discarded staged configuration')
+ f.player.getX=oldX
  ISContextMenu.get=get;Q.Authority.request=request;p:closePicker()
 end
 do

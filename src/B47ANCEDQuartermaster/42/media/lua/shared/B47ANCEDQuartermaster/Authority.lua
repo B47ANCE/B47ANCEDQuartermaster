@@ -32,8 +32,7 @@ local lastTick
 local budgets=setmetatable({},{__mode='k'})
 local limits={shoppingPaperRead={3,2},shoppingPaperCreate={2,0.5},shoppingPaperSelect={3,2},shoppingPaperRename={2,1},ledgerDriveList={3,1},ledgerDriveMount={2,1},ledgerDriveEject={2,1},ledgerBegin={2,0.5},ledgerNext={4,5},ledgerRead={4,5},ledgerBurn={2,0.5},ledgerConfirm={4,4},ledgerCancel={4,4},loadGet={4,2},loadChange={2,2},discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5},roomList={2,1},roomGet={4,4},roomDiscover={4,4},areaOptions={2,1},areaDiscover={2,2}}
 for _,command in ipairs({'allocationInfo','allocationRoomList','allocationRoomGet','allocationPreset','allocationPreview','allocationDiagnostics'}) do limits[command]={2,2} end
-limits.allocationRoomCommit={2,1}
-limits.allocationInspect={2,1};readOnly.allocationInspect=true
+limits.allocationRoomCommit={2,1};limits.allocationInspect={2,1}
 function A.admit(player,command)
     local limit=limits[command];if not limit then return true end
     local time=getTimestampMs();local owner=budgets[player] or {};budgets[player]=owner
@@ -158,10 +157,10 @@ function A.handle(player,command,args)
     if command=='viewSelect' then
         local session=B.session(player,args.session);local view=args.view
         if not session or type(view)~='table' then return {status='invalid'} end
-        local valid=view.kind=='room' and session.rooms[view.room]~=nil or view.kind=='building' and session.viewInfo.buildingAvailable
+        local valid=view.kind=='building' and session.viewInfo.buildingAvailable
             or view.kind=='proximity' and type(view.radius)=='number' and view.radius==math.floor(view.radius) and view.radius>=1 and view.radius<=session.viewInfo.maxRadius
         if not valid then return {status='invalid'} end
-        session.appliedView={kind=view.kind,room=view.kind=='room' and view.room or nil,radius=view.kind=='proximity' and view.radius or nil}
+        session.appliedView={kind=view.kind,radius=view.kind=='proximity' and view.radius or nil}
         return {status='ok',view=session.appliedView}
     end
     local record=B.target(player,args.session,args.token)

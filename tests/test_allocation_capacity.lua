@@ -4,6 +4,10 @@ local scope=assert(C.measure({{container=storage,capacity=50,used=5,items={exist
 assert(scope.capacity==50 and scope.used==5 and scope.categories.Food==5 and scope.categories.Meat==5)
 local p=A.empty();p.cats.Food=60;p.cats.Meat=60;p.items['Base.Steak']=25
 local function incoming(weight,kind) return {destination=storage,ref={},fullType=kind or 'Base.Steak',path={'Food','Meat'},weight=weight} end
+assert(C.check(nil,scope,{},incoming(45)),'legacy profile introduced a quota')
+local allowed,reason=C.check(nil,scope,{},incoming(45.01))
+assert(allowed==false and reason=='AllocationPhysicalCapacity','legacy profile bypassed physical capacity')
+assert(C.check(false,scope,{},incoming(1))==nil,'malformed profile became legacy/no-quota')
 assert(C.check(p,scope,{},incoming(7.5)))
 assert(not C.check(p,scope,{},incoming(7.50001)),'item ceiling rounded upwards')
 assert(C.check(p,scope,{},incoming(25,'Base.Chicken')))

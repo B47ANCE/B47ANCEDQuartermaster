@@ -418,7 +418,7 @@ do
  routeOptimized=true;SandboxVars.B47ANCEDQuartermaster.RouteOptimization=true
  status,moved=scenario(201,20);assert(status=='ok' and moved==201 and #routeOrder==1 and routeOrder[1]==200 and not routeBookAfterFar,'optimized bookshelf workload/revisit failed')
  routeCase=false
- print('PASS OFFLINE carry routing: one crate with optimization off / one room with optimization on; both finish 200 nearby items before distant destination; all 201 native transfers conserved')
+ print('PASS OFFLINE carry routing: one crate with optimization off / one building/nearby cluster with optimization on; both finish 200 nearby items before distant destination; all 201 native transfers conserved')
 end
 assert(N.checkQueueList==nativeQueueList and N.perform==nativePerform,'global native methods replaced')
 -- Distinguish native rejection from a stop after the first completed group.
@@ -662,10 +662,21 @@ do
   assert(Q.Store.rawCommit({target=record.target,original=original,revision=revision},cfg))
  end
  local def={getName=function() return 'Storage Room' end}
- for _,sq in pairs(f.squares) do sq.getRoomDef=function() return def end end
+ local service=Q.RoomAccess.service
+ local room={id='fixture-designated-storage',revision=1,name='Storage Room',label='Storage Room'}
+ local api={listRooms=function() return {status='ok',rooms={room},nativeRooms={}} end,
+  resolveRoom=function(_,id,revision) return id==room.id and (revision==nil or revision==room.revision) and {status='ok',room=room} or {status='conflict'} end,
+  containsTile=function(_,id,revision,x,y,z) return id==room.id and revision==room.revision and f.squares[x..','..y..','..z]~=nil end,
+  canAccessAt=function() return {state='allow',revision=1} end,
+  roomsAt=function() return {status='ok',rooms={room}} end,
+  tiles=function() local out={};for _,sq in pairs(f.squares) do out[#out+1]={x=sq:getX(),y=sq:getY(),z=sq:getZ()} end
+   table.sort(out,function(a,b) for _,key in ipairs({'z','y','x'}) do if a[key]~=b[key] then return a[key]<b[key] end end;return false end)
+   return {status='ok',tiles=out} end}
+ Q.RoomAccess.service=function() return api,'ready' end
  local result,moved,skipped
  f.network(true,false)
- assert(RoomSort.start(0,{kind='nativeRoom'},function(s,n,k) result,moved,skipped=s,n,k end))
+ assert(not RoomSort.start(0,{kind='nativeRoom'},function() end))
+ assert(RoomSort.start(0,{kind='customRoom',room=room.id,revision=room.revision},function(s,n,k) result,moved,skipped=s,n,k end))
  for _=1,3000 do
   f.network(false,true);Q.RoomScopes.tick();f.network(true,false)
   RoomSort.tick();S.tick();E.tick();flush();pump();f.advance(16)
@@ -686,7 +697,8 @@ do
  local changed=Q.Trips.handle(f.player,'tripNext',{run=begun.run})
  assert(changed.status=='invalid' and changed.reason=='sourceConfigurationChanged' and #src.items==1)
  assert(Q.Trips.handle(f.player,'tripCancel',{run=begun.run}).status=='ok')
- -- Whole Building uses the same operation, including carried stock, without Rooms.
+ Q.RoomAccess.service=service
+ -- Native Building uses the same operation, including carried stock, without native-room identity.
  local bd={getRooms=function() return f.list({def}) end}
  local building={getDef=function() return bd end}
  def.getID=function() return 1 end;def.getX=function() return 0 end;def.getY=function() return 0 end

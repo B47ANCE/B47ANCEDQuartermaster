@@ -26,6 +26,25 @@ local unknown,reason=Storage.atomic(f.player,{tb},getTimestampMs()+100)
 assert(not unknown and reason=='AllocationOccupancyUnavailable','incomplete native contents authorized quota')
 b.getCapacityWeight=used
 assert(not Storage.atomic(f.player,{ta},getTimestampMs()),'snapshot deadline granted a truncated scope')
+-- Ordinary saved rules must produce a useful unchanged-baseline Shadow result.
+local legacy=Q.Schema.empty();legacy.cats[category]=true
+local original,_,revision=Q.Store.load(tb,f.player)
+assert(Q.Store.commit({target=tb,original=original,revision=revision},legacy,f.player))
+local incomingLegacy=item({},5)
+local candidate={key='legacy',target=tb,container=b,config=legacy,effective=Q.Schema.effective(legacy,{}),distance=1}
+local R=Q.AllocationRuntime;local beforeStats=R.diagnostics();local originalStock=b.items[1]
+local eligible=R.evaluate(f.player,incomingLegacy,candidate,R.context(f.player,{}))
+assert(eligible==true,'missing profile made a normal configured destination unavailable')
+R.observe(f.player,{candidates={candidate}},incomingLegacy,candidate,{})
+R.tick();R.tick()
+local afterStats=R.diagnostics()
+assert(afterStats.newEligible==beforeStats.newEligible+1 and afterStats.unknown==beforeStats.unknown
+ and afterStats.unexpectedDifferences==beforeStats.unexpectedDifferences,'legacy shadow route changed or became unknown')
+assert(#b.items==1 and b.items[1]==originalStock and incomingLegacy:getContainer()~=b,'shadow evaluation mutated inventory')
+local hasRoom=b.hasRoomFor;b.hasRoomFor=function() return false end
+local allowed,reason=R.evaluate(f.player,incomingLegacy,candidate,R.context(f.player,{}))
+assert(allowed==false and reason=='AllocationPhysicalCapacity','no-profile evaluation bypassed native capacity')
+b.hasRoomFor=hasRoom
 local config=Q.Schema.empty();config.cats[category]=true;config.allocation=P.empty();config.allocation.cats[category]=25
 for _,target in ipairs({ta,tb}) do
  local current,_,revision=Q.Store.load(target,f.player)

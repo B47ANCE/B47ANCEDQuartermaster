@@ -16,22 +16,12 @@ function Trips.batchSize()
 end
 local EXAM_CAP=250
 local HAUL_CAP=400
-local function roomToken(sq)
-    if not sq then return nil end
-    local def=sq.getRoomDef and sq:getRoomDef() or nil
-    if not def and sq.getRoom then
-        local area=sq:getRoom()
-        def=area and area.getRoomDef and area:getRoomDef() or nil
-    end
-    if not def then return nil end
-    local id=def.getID and def:getID() or nil
-    if id==nil and def.getX and def.getY then id=tostring(def:getX())..':'..tostring(def:getY()) end
-    if id==nil then return nil end
-    return tostring(id)..':'..tostring(sq.getZ and sq:getZ() or 0)
-end
 local function placeKey(sq)
-    local token=roomToken(sq)
-    if token then return 'room:'..token end
+    -- Planning hint only: native building identity, never native room identity.
+    -- Current target/permission/capacity checks remain independent of clusters.
+    local building=sq and sq.getBuilding and sq:getBuilding() or nil
+    local def=building and building:getDef()
+    if def then return 'building:'..tostring(def)..':'..tostring(sq:getZ()) end
     if not sq or not sq.getX or not sq.getY then return nil end
     return 'near:'..math.floor(sq:getX()/8)..':'..math.floor(sq:getY()/8)..':'..tostring(sq:getZ())
 end

@@ -67,7 +67,7 @@ local function perform(playerNum,container)
         end
         if result.building then menu:addOption(getText('UI_QMSS_SortEntireBuilding'),nil,function() start({kind='building'}) end) end
         local rooms=result.rooms or {}
-        local function selectRoom(room) start(room.nativeFallback and {kind='nativeRoom'} or {kind='customRoom',room=room.id,revision=room.revision}) end
+        local function selectRoom(room) start({kind='customRoom',room=room.id,revision=room.revision}) end
         if #rooms==1 then menu:addOption(getText('UI_QMSS_SortRoom'),nil,function() selectRoom(rooms[1]) end)
         elseif #rooms>1 then
             local option=menu:addOption(getText('UI_QMSS_SortRoom'));local sub=ISContextMenu:getNew(menu);menu:addSubMenu(option,sub)

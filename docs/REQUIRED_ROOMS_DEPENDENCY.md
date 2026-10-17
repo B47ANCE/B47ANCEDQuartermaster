@@ -1,13 +1,13 @@
 # Required Rooms dependency
 
-Project Version: 0.18.0-dev.1
+Project Version: 0.18.0-dev.2
 
 ## Current development iteration
 
 Rooms remains required. Vehicle/nested sources repeat existing safehouse/Rooms
 access checks. Current allocation metadata uses designated-only Rooms capabilities
 and the paired 0.2.0-dev.6 provider tests. Update all Quartermaster peers together:
-movement 11, personal 2, shopping 3, ledger 3, Rooms 3, load-policy 1,
+movement 11, personal 2, shopping 3, ledger 3, Rooms 4, load-policy 1,
 configuration 6, presets 3 and allocation 1. Auto Clean remains separate.
 Enforcement/live allocation routing remain disabled. See
 [integration and evidence](ALLOCATION_INTEGRATION.md).
