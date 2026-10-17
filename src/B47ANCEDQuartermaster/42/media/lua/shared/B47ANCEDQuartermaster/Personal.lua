@@ -36,8 +36,11 @@ function P.identity(player)
         data.needed={};data.neededDemand={};data.extras={};data.addReceipts={};data.dibsListSchema=1
     elseif data.dibsListSchema~=1 or type(data.needed)~='table' or type(data.neededDemand)~='table'
         or type(data.extras)~='table' or type(data.addReceipts)~='table' then return end
-    if not B47ANCEDQuartermaster.ShoppingPreferences.normalize(data.preferences) then data.preferences=nil end
-    data.preferences=data.preferences or B47ANCEDQuartermaster.ShoppingPreferences.normalize(nil)
+    -- A read must not erase corrupt or future-schema preferences and silently
+    -- relax collection constraints. Only absent preferences receive defaults.
+    local preferences=B47ANCEDQuartermaster.ShoppingPreferences.normalize(data.preferences)
+    if not preferences then return nil,nil,'schema' end
+    if data.preferences==nil then data.preferences=preferences end
     return id,r.players[id]
 end
 function P.establishWish(player,fullType,kind)
@@ -50,7 +53,7 @@ function P.establishWish(player,fullType,kind)
     return true
 end
 function P.snapshot(player)
-    local id,data=P.identity(player);if not id then return {status='identity'} end
+    local id,data,error=P.identity(player);if not id then return {status=error or 'identity'} end
     if data.shoppingSchema~=nil and data.shoppingSchema~=2 then return {status='unsupported'} end
     if not data.shoppingSchema then
         -- dev.1 stored outstanding only. Preserve that outstanding at migration;

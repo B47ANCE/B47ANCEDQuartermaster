@@ -13,20 +13,40 @@ ISBaseTimedAction=Base;ISInventoryPage={};package.loaded['TimedActions/ISBaseTim
 dofile(GAME_ROOT..'/media/lua/client/TimedActions/ISInventoryTransferAction.lua')
 local N=ISInventoryTransferAction
 local nativeQueueList,nativePerform,nativeValid=N.checkQueueList,N.perform,N.isValid
+local nativeNew,nativeStart,nativeUpdate,nativeStop=N.new,N.start,N.update,N.stop
+local lifecycle=DEV47_NATIVE_TRANSACTIONS==true
 round=function(n,d) return math.floor(n*10^d+.5)/10^d end
 table.wipe=function(t) for k in pairs(t) do t[k]=nil end end
 local opens,groups,maxGroup=0,0,0
-local actionLeaves={setTime=function() end,reset=function() end,stopTimedActionAnim=function() end,setLoopedAction=function() end,setWaitForFinished=function() end}
+local actionLeaves={setTime=function() end,reset=function(self) self.completed=false end,stopTimedActionAnim=function() end,setLoopedAction=function() end,setWaitForFinished=function() end,
+ getJobDelta=function() return 0 end,forceComplete=function(self) self.completed=true end}
 function N:new(player,item,src,dst)
+ if lifecycle and isClient() then local a=nativeNew(self,player,item,src,dst);a.action=setmetatable({},{__index=actionLeaves});return a end
  return setmetatable({character=player,item=item,srcContainer=src,destContainer=dst,maxTime=50,queueList={{items={item},time=50,type=item:getFullType()}},action=actionLeaves},self)
 end
-function N:isValid() return self.item and (self.item:getContainer()==self.srcContainer or self.item:getContainer()==self.destContainer) end
-function N:start() opens=opens+1;self:checkQueueList();self.started=true end
-function N:stop() Base.stop(self) end
+function N:isValid() if lifecycle and isClient() then return nativeValid(self) end;return self.item and (self.item:getContainer()==self.srcContainer or self.item:getContainer()==self.destContainer) end
+function N:start() opens=opens+1;if lifecycle and isClient() then return nativeStart(self) end;self:checkQueueList();self.started=true end
+function N:stop() if lifecycle and isClient() then return nativeStop(self) end;Base.stop(self) end
 function N:playTransferCompleteSound() end;function N:playSourceContainerCloseSound() end;function N:playDestContainerCloseSound() end
 function N:stopLoopingSound() end;function N:resetJobDelta() end;function N:startActionAnim() end
 function N:isAlreadyTransferred(it) return it:getContainer()==self.destContainer end
 removeItemTransaction=function() end;createItemTransaction=function() return 1 end
+local transactions,transactionSerial={},0
+if lifecycle then
+ N.playSourceContainerOpenSound=function() end;N.playDestContainerOpenSound=function() end;N.getTransferStartSoundName=function() end
+ createItemTransaction=function(player,items,src,dst)
+  transactionSerial=transactionSerial+1;local copy={};for _,it in ipairs(items) do copy[#copy+1]=it end
+  transactions[transactionSerial]={items=copy,src=src,dst=dst,status='pending'};return transactionSerial
+ end
+ removeItemTransaction=function(id,cancel) local t=transactions[id];if t then t.removed=true;t.cancelled=cancel end end
+ isItemTransactionConsistent=function() return true end
+ isItemTransactionDone=function(id) return transactions[id] and transactions[id].status=='done' or false end
+ isItemTransactionRejected=function(id) return transactions[id] and transactions[id].status=='rejected' or false end
+ getItemTransactionDuration=function() return 10 end
+ ISTradingUI={GetUIForPlayer=function() end};getServerOptions=function() return {getInteger=function() return 0 end} end
+ CharacterTrait={DESENSITIZED='desensitized',COWARDLY='cowardly',BRAVE='brave',HEMOPHOBIC='blood',DEXTROUS='dextrous',ALL_THUMBS='thumbs'}
+ Metabolics={LightWork='light'};getCore=function() return {getGameMode=function() return 'Sandbox' end} end
+end
 local W=Base:derive('ISWalkToTimedAction');ISWalkToTimedAction=W
 function W:new(player,square) return setmetatable({character=player,square=square},self) end
 function W:start() self.started=true end
@@ -47,6 +67,9 @@ local function storage(c)
  function c:hasRoomFor(_,it) return self:getCapacityWeight()+it:getActualWeight()<=self.capacity end
  function c:isItemAllowed() return true end;function c:isRemoveItemAllowed() return true end
  function c:getType() return 'crate' end;function c:getContainingItem() end
+ function c:contains(it) return self:getItemWithID(it:getID())==it end
+ function c:isInCharacterInventory(player) return self==player:getInventory() end
+ function c:isVehicleSeat() return false end
  return c
 end
 local routeCase=false;local routeFar;local routeOrder={};local routeOptimized=true;local routeBookAfterFar=false
@@ -63,6 +86,12 @@ f.player.getInventory=function() return carried end;f.player.getMaxWeight=functi
 f.player.getWornItems=function() return f.list({}) end;f.player.getPrimaryHandItem=function() end;f.player.getSecondaryHandItem=function() end
 f.player.getX=function() return f.player.square:getX() end;f.player.getY=function() return f.player.square:getY() end
 f.player.getZ=function() return f.player.square:getZ() end
+if lifecycle then
+ f.player.hasTrait=function() return false end;f.player.isWearingAwkwardGloves=function() return false end
+ f.player.isTimedActionInstant=function() return false end;f.player.isPlayerMoving=function() return false end
+ f.player.setMetabolicTarget=function() end
+ f.player.getEmitter=function() return {playSound=function() return 1 end,isPlaying=function() return false end} end
+end
 local A=require 'B47ANCEDQuartermaster/Authority';local Q=B47ANCEDQuartermaster
 local E=require 'B47ANCEDQuartermaster/Executor';local S=require 'B47ANCEDQuartermaster/Sorter'
 local singlePlayer=false
@@ -89,12 +118,21 @@ local function nativeMove(item,source,dest)
 end
 N.transferItem=function(self,it) nativeMove(it,self.srcContainer,self.destContainer) end
 local cancelQueued=false
+local rejectNextTransaction=false
 local replicationGapChecks=0
+local aliasItem=false
+local aliasMeta={__eq=function(a,b) return a.id==b.id end}
+aliasMeta.__index=function(t,k) local original=rawget(t,'original');return original and original[k] end
 local function pump()
  local a=q.queue[1];if not a then return end
  if cancelQueued and a.leg=='take' then cancelQueued=false;S.cancel(0);return end
  if not a.started then a:start() end
  if q.queue[1]~=a then return end
+ if aliasItem and a.leg then
+  local original=a.item;setmetatable(original,aliasMeta)
+  a.item=setmetatable({original=original},aliasMeta)
+  assert(a:isValid(),'equivalent native item wrapper lost its authorized operation')
+ end
  if getmetatable(a)==W then a:perform();return end
  if not singlePlayer and a.dispatched then
   -- Native MP source removal may precede the destination containment update.
@@ -110,7 +148,16 @@ local function pump()
  assert(getmetatable(a)==N and rawget(getmetatable(a),'new')==N.new,'native metatable changed')
  local group=a.queueList[1];assert(group and #group.items<=20,'vanilla grouping cap lost')
  maxGroup=math.max(maxGroup,#group.items);groups=groups+1
- if not singlePlayer then for _,it in ipairs(group.items) do nativeMove(it,a.srcContainer,a.destContainer) end end
+ if not singlePlayer then
+  if lifecycle then
+   local transaction=assert(transactions[a.transactionId],'native start/reset did not submit a transaction')
+   assert(not transaction.removed and transaction.status=='pending','native transaction replay')
+   if rejectNextTransaction then rejectNextTransaction=false;transaction.status='rejected';nativeUpdate(a);return end
+   assert(#transaction.items==#group.items,'queue group changed after native submission')
+   for _,it in ipairs(transaction.items) do nativeMove(it,transaction.src,transaction.dst) end
+   transaction.status='done';nativeUpdate(a);assert(a.action.completed,'native update did not complete acknowledged transaction')
+  else for _,it in ipairs(group.items) do nativeMove(it,a.srcContainer,a.destContainer) end end
+ end
  a:perform()
 end
 local function item(id,weight)
@@ -119,6 +166,7 @@ local function item(id,weight)
  function it:getID() return self.id end;function it:getContainer() return self.container end
  function it:getActualWeight() return self.weight end;it.getWeight=it.getActualWeight
  function it:getFullType() return 'Fixture.RoundA' end;function it:getDisplayName() return 'RoundA' end
+ function it:getType() return 'RoundA' end
  function it:getScriptItem() return CATALOG_FIXTURE.items[1] end
  function it:isFavorite() return self.favorite==true end;function it:isEquipped() return false end
  function it:getAttachedSlot() return -1 end;function it:getIsCraftingConsumed() return false end
@@ -174,6 +222,11 @@ for _,case in ipairs({{0,1},{1,1},{2,1},{3,1},{5,2},{6,3},{7,3},{20,20},{21,20},
  if case[1]>1 and case[2]>1 then assert(opened<case[1]*2,'container reopened per item') end
  if case[1]>case[2] and case[2]>1 then assert(prefetch,'next batch not prefetched during execution') end
 end
+inventoryMode=true;aliasItem=true
+local aliasStatus,aliasMoved=scenario(41,20)
+assert(aliasStatus=='ok' and aliasMoved==41,'equivalent item wrappers stopped PUT')
+aliasItem=false
+print('PASS OFFLINE dev48 stable item ID lookup across equivalent wrappers')
 inventoryMode=true
 local normalMaxWeight=f.player.getMaxWeight
 f.player.getMaxWeight=function() return 1 end -- Already-carried items can be deposited while overweight.
@@ -335,9 +388,23 @@ for _,reject in ipairs({false,true}) do
 end
 inventoryMode=false
 print('PASS OFFLINE dev46 native rejection versus stop-after-first-group diagnostics')
+if lifecycle then
+ inventoryMode=true;singlePlayer=false
+ local triggered=false;local summary;local originalPrint=print
+ print=function(message,...) if type(message)=='string' and message:find('sort summary',1,true) then summary=message end;originalPrint(message,...) end
+ local status=scenario(3,3,function(_,_,batch)
+  local action=q.queue[1]
+  if not triggered and batch and batch.phase=='putting' and action and (action.b47PerformCount or 0)>0 then triggered=true;rejectNextTransaction=true end
+ end,.2)
+ print=originalPrint;inventoryMode=false
+ assert(triggered and status=='cancelled' and #dst.items==1,'native rejection after first transaction did not stop safely')
+ assert(summary and summary:find('nativeTransactionRejected',1,true),'actual native update rejection was misclassified')
+ print('PASS OFFLINE dev47 actual native update/stop rejection after first submitted transaction, with exact diagnostic classification')
+end
 local P=require 'B47ANCEDQuartermaster/Protocol'
 assert(P.version('tripNext')==4 and not P.accepts('tripNext',{protocol=1}) and not P.accepts('movePut',{protocol=3}))
 assert(replicationGapChecks>0,'replication-gap guard regression was not exercised')
 print('PASS OFFLINE dev45 native in-flight replication gap validation')
 print('PASS OFFLINE dev24: 29 production pipeline scenarios, native donor merge/perform, bounded overlap, capacity, cancellation and mixed-peer rejection')
+if lifecycle then print('PASS OFFLINE dev47 installed native constructor/start/update/validation/perform with simulated transaction acknowledgements; engine/network unverified') end
 

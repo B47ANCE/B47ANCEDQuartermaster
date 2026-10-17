@@ -48,6 +48,12 @@ for _,obj in ipairs({script('Fixture.Camera','Memento',nil,{'base:camera'}),
  assert(R.resolve(obj)~='B47_ElectricalSupplies' and R.semantic(obj)~='B47_ElectricalPower')
 end
 local api=C.build({},entries)
+do
+ local p={selectedCats={B47_Electrical=true},selectedItems={},selectedPresets={}}
+ local m=Model.new(p,api,'Other');local leaf=m.byId['c:B47_ElectricalSupplies']
+ m:setGroup(leaf,false)
+ for _,name in ipairs(leaf.children) do assert(not m:covered(leaf,name),'child category remained selected through its parent') end
+end
 local picker={selectedCats={},selectedItems={},selectedPresets={}}
 local model=Model.new(picker,api,'other')
 for _,case in ipairs(cases) do assert(not model.byId['c:B47_'..case[1]],'obsolete unselected row visible') end

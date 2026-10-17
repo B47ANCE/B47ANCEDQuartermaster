@@ -140,7 +140,10 @@ function M.handle(player,command,args)
     end
     if not op or args.operation~=op.id then return {status='invalid',reason='operationNotFound'} end
     if command=='moveCancel' then
-        if op.withdrawal and op.phase=='take' then op.cancelRequested=true
+        if args.outcome~=nil and args.outcome~='notSubmitted' and args.outcome~='rejected' and args.outcome~='unknown' then return {status='invalid'} end
+        -- Cancellation only relinquishes this player's grant; it never moves,
+        -- credits or rolls back an item. Keep unknown native outcomes observed.
+        if op.withdrawal and op.phase=='take' and args.outcome~='notSubmitted' and args.outcome~='rejected' then op.cancelRequested=true
         else forget(player,op) end
         return {status='ok'}
     end

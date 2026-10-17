@@ -61,7 +61,11 @@ assert(preference({action='override',fullType='Base.Nails',rule={}}).status=='in
 assert(preference({action='remove',fullType='Base.Knife'}).status=='ok' and not F.compile(d.preferences)(knife))
 assert(preference({action='override',fullType='Base.Knife',rule={}}).status=='ok' and not d.preferences.overrides['Base.Knife'],'inherit-only override persisted redundant defaults')
 assert(preference({action='resetAll'}).status=='ok' and F.compile(d.preferences)(knife) and d.preferences.confirm)
-d.preferences={schema=123};assert(P.snapshot(player).preferences.confirm and F.compile(d.preferences)(food),'corrupt preferences failed safe reset')
+d.preferences={schema=123};local preserved=d.preferences
+assert(P.snapshot(player).status=='schema' and d.preferences==preserved,'future preferences were erased by a read')
+d.preferences={schema=1,global={condition='invalid'},overrides={},confirm=true};preserved=d.preferences
+assert(P.snapshot(player).status=='schema' and d.preferences==preserved,'corrupt preferences silently relaxed filters')
+d.preferences=nil;assert(P.snapshot(player).preferences.confirm,'absent preferences did not initialize defaults')
 -- Both goal lists share actual qualifying carried stock, without adding overlap.
 reset();d.wishSchema=1;d.wish['Base.Nails']=4;d.wishProgress={['Base.Nails']=3};d.dibsListSchema=nil
 local s=P.snapshot(player);assert(s.wanted['Base.Nails']==4 and s.wantedGoals['Base.Nails'].current==0 and not s.needed['Base.Nails'] and not d.wishProgress)

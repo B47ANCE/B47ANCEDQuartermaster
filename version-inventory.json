@@ -11,6 +11,10 @@
       "pattern": "^modversion=(?P<version>\\S+)$"
     },
     {
+      "path": "README.md",
+      "pattern": "Development candidate \\*\\*(?P<version>[^*]+)\\*\\*"
+    },
+    {
       "path": "WORKSHOP_DESCRIPTION.txt",
       "pattern": "Version (?P<version>\\S+)\\. Tested"
     },
@@ -43,6 +47,10 @@
       "pattern": "version='(?P<version>[0-9][^']*)'"
     },
     {
+      "path": "README.md",
+      "pattern": "Current source version: (?P<version>0\\.4\\.0-dev\\.\\d+)\\."
+    },
+    {
       "path": "docs/ARCHITECTURE.md",
       "pattern": "Current source version: (?P<version>0\\.4\\.0-dev\\.\\d+)\\."
     },
@@ -53,6 +61,14 @@
     {
       "path": "docs/ROADMAP.md",
       "pattern": "Current source version: (?P<version>0\\.4\\.0-dev\\.\\d+)\\."
+    },
+    {
+      "path": "README.md",
+      "pattern": "Current source is (?P<version>0\\.4\\.0-dev\\.\\d+);"
+    },
+    {
+      "path": "docs/DEV47_AUDIT_REMEDIATION.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {
@@ -136,6 +152,10 @@
     {
       "reference": "docs/historical/README_BEFORE_2026-10-15_GITHUB_DEFAULT.md",
       "reason": "Exact prior README preserved as dated source/history evidence. The root README now describes the current Workshop product and links its current source; it intentionally contains no source version mirror. Canonical VERSION and all runtime/version-bearing mirrors are unchanged."
+    },
+    {
+      "reference": "docs/PR_STACK_INTEGRATION_2026_10_16.md",
+      "reason": "Dated per-PR integration evidence retains exact observed source version, commits, source hashes and offline/native gate distinctions; not a current version mirror."
     }
   ]
 }

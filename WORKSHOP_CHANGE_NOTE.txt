@@ -1,2 +1,2 @@
-[b]Version 0.4.0-dev.46[/b]
-Diagnostic testing candidate: distinguishes native validation and cancellation before/after transfer completion. The dedicated one-item sorting failure remains unresolved. No claim of a gameplay fix. Update both peers for correlated diagnostics.
+[b]Version 0.4.0-dev.48[/b]
+Development correction candidate: native batch lookup by stable item ID, plus selection visibility, category clearing, item and container presentation, preference preservation, shopping cancellation and build reproducibility. Dedicated multiplayer and native UI validation remain pending. The one-item transfer failure is not certified resolved.

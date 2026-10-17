@@ -33,7 +33,9 @@ local function finish(op,status)
     if op.closed then return end
     Trace.emit(op.trace or op.id,'TRANSFER_COMPLETED',status)
     op.closed=true;E.active[op.playerNum]=nil
-    if op.id then A.request(op.playerNum,'moveCancel',{operation=op.id},function() end) end
+    local pendingNative=op.nativeAttempted and (isClient() or op.nativePerformed)
+    if op.id then A.request(op.playerNum,'moveCancel',{operation=op.id,
+        outcome=not pendingNative and 'notSubmitted' or op.nativeRejected and 'rejected' or 'unknown'},function() end) end
     if op.callback then op.callback(status) end
 end
 local function request(op,command,done)
@@ -82,9 +84,11 @@ local function guardedTransfer(op,leg,source,dest)
         if not self:isValid() then finish(op,'invalid');self:forceStop();return end
         Trace.emit(op.trace or op.id,'ACTION_STARTED',leg,nil,op.id,self.traceQueuedAt)
         self.finalCheck=true
+        op.nativeAttempted=true
         local ok,err=pcall(ISInventoryTransferAction.start,self)
         self.finalCheck=false
         if not ok then
+            if self.rejectedBeforeDispatch then op.nativeAttempted=false end
             if self.rejectedBeforeDispatch then Trace.emit(op.trace or op.id,'DISPATCH_REJECTED','invalid');finish(op,'invalid')
             else Trace.failure(op.trace or op.id,'ACTION_DISPATCH_FAILED',err);finish(op,'uncertain') end
             self:forceStop();return
@@ -96,11 +100,15 @@ local function guardedTransfer(op,leg,source,dest)
         -- SP mutation occurs in vanilla perform, so its final boundary is here.
         if not isClient() and not self:isValid() then finish(op,'invalid');self:forceStop();return end
         self.finalCheck=not isClient()
+        op.nativePerformed=true
         local ok,err=pcall(ISInventoryTransferAction.perform,self)
         self.finalCheck=false
         if not ok then Trace.failure(op.trace or op.id,'NATIVE_PERFORM_FAILED',err);finish(op,'uncertain');self:forceStop() end
     end
-    function action:stop() finish(op,'cancelled');ISInventoryTransferAction.stop(self) end
+    function action:stop()
+        op.nativeRejected=isClient() and self.transactionId and isItemTransactionRejected and isItemTransactionRejected(self.transactionId)==true or false
+        finish(op,'cancelled');ISInventoryTransferAction.stop(self)
+    end
     function action:forceCancel() finish(op,'cancelled') end
     return action
 end

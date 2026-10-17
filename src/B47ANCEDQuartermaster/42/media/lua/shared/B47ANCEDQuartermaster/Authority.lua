@@ -53,7 +53,12 @@ local function now() return getTimestampMs() end
 local function contents(record)
     local set={}
     local items=record.target.container:getItems()
-    for i=0,items:size()-1 do local item=items:get(i);set[item:getDisplayName()]=true end
+    for i=0,items:size()-1 do
+        local item=items:get(i);set[item:getDisplayName()]=true
+        local script=item.getScriptItem and item:getScriptItem()
+        local name=script and script:getDisplayName()
+        if type(name)=='string' and name~='' then set[name]=true end
+    end
     return set
 end
 function A.handle(player,command,args)

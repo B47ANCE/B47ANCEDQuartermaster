@@ -131,7 +131,8 @@ function Q.rangeAction(p, row, preserveAnchor, range)
     if not current then return end
     local anchor, first = rowById(p, a.rangeAnchor)
     local rows = {current}
-    if range and anchor and anchor.kind == current.kind then
+    local useRange=range and anchor and anchor.kind==current.kind
+    if useRange then
         rows = {}
         for i = math.min(first,index), math.max(first,index) do
             local candidate = p.listbox.items[i].item
@@ -139,6 +140,22 @@ function Q.rangeAction(p, row, preserveAnchor, range)
         end
     elseif not preserveAnchor then a.rangeAnchor = current.id end
     local action = rowState(p, current) == 'none' and 'select' or 'clear'
+    if useRange then
+        -- Category/mod ranges affect only descendants actually rendered now.
+        -- Direct checkbox clicks retain the existing whole-category transition.
+        local selected,items={},{}
+        for _,target in ipairs(rows) do selected[target.id]=true end
+        for _,entry in ipairs(p.listbox.items) do
+            local item=entry.item
+            if item.kind=='item' then
+                local include=selected[item.id] or (item.mod and selected[item.mod.id])
+                local group=item.group
+                while group and not include do include=selected[group.id];group=group.displayParent end
+                if include then items[#items+1]=item end
+            end
+        end
+        rows=items
+    end
     a.model:applyRows(rows, action)
     p:rebuild()
 end

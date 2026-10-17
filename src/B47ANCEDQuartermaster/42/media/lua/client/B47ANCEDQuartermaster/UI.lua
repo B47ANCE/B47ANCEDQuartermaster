@@ -52,7 +52,7 @@ function V.shoppingRows(p)
     row.name=row.project.recipe;row.sourceLabel=label;row.cells={row.name,tostring(row.project.quantity)..' '..tr('Executions'),'', ''}
     -- Pooled native allocations cannot safely be attributed to an individual
     -- project execution. Expose the actual server allocation rows separately.
-    row.cells[3]='â€”';row.cells[4]='â€”';row.detail=label..': '..row.project.recipe..' â€” '..tr('SharedCreditExplanation')
+    row.cells[3]='—';row.cells[4]='—';row.detail=label..': '..row.project.recipe..' — '..tr('SharedCreditExplanation')
    elseif row.source then
     local source=row.source;row.fullType=source.fullType
     label=tr(source.kind=='needed' and 'Needed' or source.kind=='wanted' and 'Wanted' or 'ExtraDemand')
@@ -74,7 +74,7 @@ function V.shoppingRows(p)
      local g=row.source.kind=='needed' and u.lists.neededGoals or u.lists.wishGoals;local goal=g and g[row.fullType]
      row.remaining=goal and goal.remaining or nil;row.credit=goal and goal.current or nil
     end
-    row.cells={row.name,tostring(row.quantity or 0),row.credit and tostring(row.credit) or 'â€”',row.remaining and tostring(row.remaining) or 'â€”'}
+    row.cells={row.name,tostring(row.quantity or 0),row.credit and tostring(row.credit) or '—',row.remaining and tostring(row.remaining) or '—'}
     row.detail=(label or '')..'\n'..tr('SharedCreditExplanation')
    end
    row.role=row.remaining==0 and 'success' or row.remaining and 'warning' or 'muted'
@@ -137,7 +137,7 @@ function V.attach(p)
    if row.target then
     R.text(self,getText('UI_QMSS_GoalDetails',row.current,row.target,row.remaining),72,84,T.colors.text)
     U.Progress.draw(self,72,112,self:getWidth()-90,row.current,row.target,row.role)
-   else R.text(self,R.fit(string.gsub(row.detail or row.sourceLabel or '', '\n', ' â€” '),self:getWidth()-90),72,84,T.colors.muted) end
+   else R.text(self,R.fit(string.gsub(row.detail or row.sourceLabel or '', '\n', ' — '),self:getWidth()-90),72,84,T.colors.muted) end
   end
   u.bulk:setTooltip(tr('BulkAllExplanation'));u.onRebuild=function() V.shoppingRows(p) end
  end
@@ -299,6 +299,7 @@ function V.popup(p,label)
  U.bounds(p,p.playerNum)
 end
 function V.itemPicker(p)
+ p.b47PickerShell=true
  V.popup(p,tr(p.kind=='needed' and 'AddNeededItem' or (p.kind=='wanted' or p.kind=='wish') and 'AddWantedItem' or p.kind=='override' and 'AddOverride' or 'ShoppingAdd'))
  local search=U.SearchField.attach(p,p.search,tr('SearchItems'));search.clear:setTooltip(tr('ClearSearch'))
  p:insertNewLineOfButtons(search.clear)
