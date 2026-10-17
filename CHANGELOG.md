@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.17.0-dev.1] - 2026-10-16
+
+- Inventory and selected-container Sort no longer require a supply ledger. Room/Building Sort still require current location knowledge when enabled.
+- Add server Ledger Mode (periodic live, disabled, live without expiry, historical snapshots), Update Interval (1–365 in-game days, default 7) and Computer Manual Updates (default on).
+- Renew paper records through native inspection without changing older CDs. Live readers refresh confirmed contents of recorded physical compartments through bounded, permission-checked server analysis; historical pages remain immutable.
+- Disabled mode hides ledger/computer actions and rejects ledger work without disabling physical shopping papers. Existing data is preserved for re-enabling.
+- Development source only; native client and dedicated multiplayer acceptance NOT TESTED (G7/stable G8 blocked).
+
 ## [0.16.0-dev.2] — Keep sorting setup open after Save
 
 - Authorized Workshop MP test distribution preparation; description/changenote disclose native/dedicated acceptance pending and the default-on ledger/physical-list requirements. No stable-release claim.

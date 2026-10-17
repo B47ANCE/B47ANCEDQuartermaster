@@ -34,6 +34,31 @@ option B47ANCEDQuartermaster.RouteOptimization
     translation = B47ANCEDQuartermaster_RouteOptimization,
 }
 
+option B47ANCEDQuartermaster.LedgerMode
+{
+    type = enum,
+    numValues = 4,
+    default = 1,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_LedgerMode,
+}
+option B47ANCEDQuartermaster.LedgerUpdateDays
+{
+    type = integer,
+    min = 1,
+    max = 365,
+    default = 7,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_LedgerUpdateDays,
+}
+option B47ANCEDQuartermaster.LedgerComputerManualUpdates
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_LedgerComputerManualUpdates,
+}
+
 option B47ANCEDQuartermaster.LedgerBaseSeconds
 {
     type = integer,

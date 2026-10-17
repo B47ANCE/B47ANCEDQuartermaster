@@ -79,6 +79,7 @@ local function options(combo,items,empty)
  end
 end
 function C.open(num,computer,hooks)
+ if not require('B47ANCEDQuartermaster/LedgerPolicy').enabled() then return end
  local actor=getSpecificPlayer(num);if not actor or not Media.computer(actor,computer,true) then return end
  local current=C.active[num];if current and not current.closed then if current.computer==computer then setJoypadFocus(num,current);return current end;current:close() end
  local m=U.Theme.metrics();local minW=math.max(700,m.font*28);local minH=math.max(180+8*m.button,160+5*m.font+5*m.button)
@@ -246,6 +247,7 @@ function C.open(num,computer,hooks)
  end
  menu.prerender=function(self) rect(self,0,0,self:getWidth(),self:getHeight(),P.grey);bevel(self,0,0,self:getWidth(),self:getHeight()) end
  screen.prerender=function(self)
+  if not require('B47ANCEDQuartermaster/LedgerPolicy').enabled() then self:close();return end
   if getSpecificPlayer(num)~=actor or actor:isDead() or not Media.computer(actor,computer,true) then self:close();return end
   if driveReady then self:refreshDrive() end
   self:layoutComputer();local w,h=self:getWidth(),self:getHeight()

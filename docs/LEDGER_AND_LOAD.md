@@ -1,6 +1,8 @@
 # Physical Supply Ledger and Dangerous Load
 
-Project Version: 0.16.0-dev.2
+Project Version: 0.17.0-dev.1
+
+Current policy is [0.17 ledger modes/freshness](LEDGER_FRESHNESS.md): manual inventory/container Sort is free; scoped Sort requires fresh knowledge. The physical inspection/conversion implementation below remains the baseline. Historical snapshots stay immutable; live statistics are separate ephemeral server projections. Prior dated artifacts/tests retain their actual versions.
 
 ## Implemented workflow
 
@@ -50,7 +52,7 @@ Resource guards: 256 native room bounds, 262,144 scope cells, 512 objects per ti
 
 Access, scope, exact target/position, reachability, paper possession and writing implement are rechecked. CD completion also rechecks the actual selected CD, its protection/removal flags, exact computer, power, current access and completed paper. User cancellation, native stop, death, disconnect, object removal, ownership or permission changes invalidate affected grants. Existing sorting/shopping and ledger mutation jobs do not start over each other. A stale UI/confirmation callback cannot cancel a newer job or another local actor.
 
-Gameplay intent uses a separate ledger capability family 2 on the existing Quartermaster request transport, with bounded per-player rates. No changes are made to movement protocol 10 or native inventory transfer grouping. Require this new build on server and clients to use the new definitions and class. Native hooks are source-verified and exercised in host fixtures; actual dedicated execution is a separate gate.
+Gameplay intent uses a separate ledger capability family 3 on the existing Quartermaster request transport, with bounded per-player rates. Movement capability 11 and Rooms 3 distinguish the new scoped requirements; native inventory transfer grouping is unchanged. Require this new build on server and clients to use the new definitions and class. Native hooks are source-verified and exercised in host fixtures; actual dedicated execution is a separate gate.
 
 ## Persistence, resume and CD conservation
 

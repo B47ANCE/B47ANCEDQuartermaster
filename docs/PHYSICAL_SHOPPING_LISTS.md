@@ -1,10 +1,12 @@
 # Physical Shopping Lists
 
-Project Version: 0.16.0-dev.2
+Project Version: 0.17.0-dev.1
 
 Checkpoint dev.2 changes only the container-save window workflow. Physical-shopping code and its dev.1 full-suite/native-source evidence are unchanged; see [the focused current checks](MULTI_CONTAINER_UI_IMPLEMENTATION.md).
 
 Compatible feature iteration from 0.15.0-dev.1, with an explicit default-on workflow change. Old personal data is preserved. This implementation is now distributed in the 0.16.0-dev.2 Workshop MP testing build; see [the exact publication receipt](WORKSHOP_TEST_0_16_0.md). Native and dedicated acceptance remain pending.
+
+Ledger mode Disabled bypasses collection knowledge and hides supply-ledger/CD/computer controls, while physical Shopping Lists and their writing-supply settings remain independent. [Current policy](LEDGER_FRESHNESS.md).
 
 ## Player workflow
 
@@ -16,7 +18,7 @@ Compatible feature iteration from 0.15.0-dev.1, with an explicit default-on work
 
 The server accepts the verified native Notebook and Pen/Pencil families (including the inspected colored/fancy/Spiffo variants). Arbitrary modded writing tools/notepads are not assumed compatible. A separate blank sheet is required; this feature does not silently remove notebook pages or consume a notebook.
 
-Reading/collecting needs no notebook or writing tool. **Collect still requires the previously implemented completed supply ledger covering the location, or an authorized powered stored-CD computer**, unless the server disables that separate requirement. A shopping paper is not a building inventory ledger. Dibs! Wanted/Needed personal goal editing remains separate; adding their demand to a shopping paper requires supplies and the selected paper.
+Reading/collecting needs no notebook or writing tool. **Collect still requires a fresh completed supply ledger covering the location, or an authorized powered stored-CD computer**, unless the server disables that separate requirement. A shopping paper is not a building inventory ledger. Dibs! Wanted/Needed personal goal editing remains separate; adding their demand to a shopping paper requires supplies and the selected paper.
 
 ## List semantics and old data
 
@@ -37,7 +39,7 @@ Switching back to personal mode exposes the retained account plan, not an automa
 - Native add/remove notifications synchronize the physical exchange. Native item-field synchronization supplies renamed paper fields. The new registry is not broadcast to all players: only an authenticated current holder receives a requested list snapshot.
 - A collection run captures paper identity and revision. New planning/TAKE grants recheck actual possession and revision. Losing/trading/editing the paper stops new grants. Completed native observations, cancellation and safe-return paths remain possible. The actor must still satisfy existing container/safehouse/Rooms permissions and the separate ledger gate.
 - Paper items are excluded from automatic sorting/collection in physical mode, preserving the carried list. Manual vanilla transfers/trading remain available.
-- Personal protocol **2**, Shopping **3**; matching peers/reconnect required. Ledger **2**, movement **10**, existing ledger schema **1**, drive schema **1** and sorting rules remain unchanged. No Java, external mod code or assets were added.
+- Personal protocol **2**, Shopping **3**; matching peers/reconnect required. Ledger **3**, movement **11**, Rooms **3**, existing ledger schema **1**, drive schema **1** and sorting rules remain unchanged. No Java, external mod code or assets were added.
 
 Vanilla native transfer execution remains the final movement authority. Lua cannot retract an already dispatched native transfer or lock unrelated manual vanilla actions; no such protection is claimed. A completed transfer is never undone solely because the paper was handed off afterward.
 

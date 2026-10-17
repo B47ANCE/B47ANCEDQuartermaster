@@ -104,6 +104,10 @@ function R.handle(player,command,args)
  if command=='roomGet' then local api=Access.service();return api and api.geometry(player,args.id,args.roomRevision) or {status='RoomPermissionUnavailable'} end
  if command~='roomDiscover' and command~='areaDiscover' then return {status='invalid'} end
  if Q.Movement.runs[player] then return {status='busy'} end
+ if args.sources==true or command=='areaDiscover' then
+  local ok,why=require('B47ANCEDQuartermaster/LedgerRequirement').check(player,player:getCurrentSquare(),'area')
+  if not ok then return {status=why} end
+ end
  local sq=player:getCurrentSquare();if not sq then return {status='invalid'} end
  local view=args.areaView
  if view and (type(view)~='table' or (view.kind~='building' and view.kind~='nativeRoom' and view.kind~='customRoom')) then return {status='invalid'} end

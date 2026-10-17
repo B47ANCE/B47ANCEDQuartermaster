@@ -114,7 +114,7 @@ function Trips.handle(player,command,args)
     local run=M.runs[player]
     if run and run.kind=='shopping' then return {status='busy'} end
     if command=='tripBegin' then
-        local known,why=require('B47ANCEDQuartermaster/LedgerRequirement').check(player,player:getCurrentSquare(),'sort');if not known then return {status=why} end
+        local known,why=require('B47ANCEDQuartermaster/LedgerRequirement').check(player,player:getCurrentSquare(),args.area==true and 'area' or 'sort');if not known then return {status=why} end
         Trace.emit(args.trace,'REQUEST_RECEIVED',command)
         if run or M.operations[player] then return {status='busy'} end
         local session=B.session(player,args.session)
@@ -127,7 +127,7 @@ function Trips.handle(player,command,args)
         elseif args.source=='ground' then source=G.snapshot(player,args.sourceItems,args.session);target={ground=true}
         else source,target=sourceOf(player,args.session,args.source) end
         if not source then return {status='invalid'} end
-        local known,why=require('B47ANCEDQuartermaster/LedgerRequirement').operation(player,{source=target});if not known then return {status=why} end
+        local known,why=require('B47ANCEDQuartermaster/LedgerRequirement').operation(player,{source=target,area=args.area==true});if not known then return {status=why} end
         if target and not target.ground and (not B47ANCEDQuartermaster.RoomAccess.can(player,target,'inspect')
             or not B47ANCEDQuartermaster.RoomAccess.can(player,target,'withdraw')) then return {status='RoomAccessDenied'} end
         if args.area==true and target then
@@ -157,13 +157,13 @@ function Trips.handle(player,command,args)
     if not run or args.run~=run.id then return {status='invalid'} end
     if command=='tripCancel' then M.runs[player]=nil;return {status='ok'} end
     if command~='tripNext' then return {status='busy'} end
-    local known,why=require('B47ANCEDQuartermaster/LedgerRequirement').check(player,player:getCurrentSquare(),'sort');if not known then return {status=why} end
+    local known,why=require('B47ANCEDQuartermaster/LedgerRequirement').check(player,player:getCurrentSquare(),run.area and 'area' or 'sort');if not known then return {status=why} end
     run.routeFocus=nil
     local outstanding=0
     for _ in pairs(run.operations) do outstanding=outstanding+1 end
     local source,target=sourceOf(player,run.session,run.source)
     if source~=run.container or (run.target and (not target or target.obj~=run.target.obj)) then return {status='invalid'} end
-    local covered,why=require('B47ANCEDQuartermaster/LedgerRequirement').operation(player,{source=target});if not covered then return {status=why} end
+    local covered,why=require('B47ANCEDQuartermaster/LedgerRequirement').operation(player,{source=target,area=run.area});if not covered then return {status=why} end
     if target and not target.ground and (not B47ANCEDQuartermaster.RoomAccess.can(player,target,'inspect') or not B47ANCEDQuartermaster.RoomAccess.can(player,target,'withdraw')) then return {status='RoomAccessChanged'} end
     local sourceConfig=run.area and target and B47ANCEDQuartermaster.Store.load(target,player)
     local sourceEffective=sourceConfig and B47ANCEDQuartermaster.Presets.resolve(sourceConfig)
@@ -208,7 +208,7 @@ function Trips.handle(player,command,args)
         local knowledgeBlocked=false
         local choice,reason=B47ANCEDQuartermaster.Planner.choose(player,run.session,item,library and library.definitions or {},function(t,it,candidate)
             if not candidate or not candidate.rulesReady or not t or not t.container then return false end
-            if not require('B47ANCEDQuartermaster/LedgerRequirement').check(player,t.obj:getSquare(),'sort') then knowledgeBlocked=true;return false end
+            if not require('B47ANCEDQuartermaster/LedgerRequirement').check(player,t.obj:getSquare(),run.area and 'area' or 'sort') then knowledgeBlocked=true;return false end
             if not t.container:isItemAllowed(it) or not t.container:hasRoomFor(player,it) then return false end
             return Carry.weight(it)<=(room(player,t.container)-(reserved[t.container] or 0))
         end,run.trace,planning)

@@ -101,6 +101,7 @@ local failedBlank=added('Base.SheetPaper2');local count=#inv.items;inv.failRemov
 offer=A.handle(actor,'shoppingPaperCreate',{name='Fails safely',operation='failure'});assert(not complete(offer));assert(#inv.items==count and inv:getItemWithID(failedBlank:getID())==failedBlank)
 inv.failRemove=nil
 -- Dedicated-shaped native action requires the authenticated challenge AND native clock.
+SandboxVars.B47ANCEDQuartermaster.LedgerMode=2 -- Supply ledgers off must not disable native Shopping Paper confirmation.
 f.network(false,true);local challenge
 function sendServerCommand(_,_,command,data) if command=='challenge' then challenge=data.challenge end end
 offer=A.handle(actor,'shoppingPaperCreate',{name='Server paper',operation='server-create'});assert(offer.status=='action')
@@ -109,6 +110,7 @@ action.netAction={getProgress=function() return progress end};assert(action:serv
 assert(L.handle(actor,'ledgerConfirm',{token=offer.token,challenge='forged'}).status=='denied')
 assert(L.handle(actor,'ledgerConfirm',{token=offer.token,challenge=challenge}).status=='ok');progress=1
 assert(action:complete() and not action:complete());f.network(false,false)
+SandboxVars.B47ANCEDQuartermaster.LedgerMode=4
 -- Server option restores the untouched legacy personal plan; paper root remains.
 SandboxVars.B47ANCEDQuartermaster.PhysicalShoppingLists=false
 local legacy=A.handle(actor,'personalList',{});assert(not legacy.paper.enabled and legacy.manual['Base.Nails']==40 and root.schema==1)

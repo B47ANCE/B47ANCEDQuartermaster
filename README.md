@@ -8,20 +8,20 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.16.0-dev.2 development work**, published for Workshop MP test distribution. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/physical-shopping-lists).
+The Workshop feature guide is below. This branch also contains **0.17.0-dev.1 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/ledger-freshness).
 
 ## Development work in this branch
 
 - Optional Extended Categories support, including client/server detail differences through explicit category-member selections.
 - Dangerous Load: disabled by default, with a server-validated personal 50–100% native-capacity limit for Sort and Collect. Native restrictions and penalties still apply.
-- Craft paper Supply Sheets, physically inspect building/safehouse storage, and copy completed snapshots to a selected CD at a powered desktop. Paper pages are read-only history. Computers open a Windows ’93 desktop: insert a CD and run QUARTERMASTER.EXE to search and browse its ledger. See the [workflow, authority and acceptance report](docs/LEDGER_AND_LOAD.md). The shelf experiment remains out of scope.
+- Craft paper Supply Sheets, physically inspect building/safehouse storage, and copy completed snapshots to a selected CD at a powered desktop. Ledger modes provide periodic live statistics, no-expiry live statistics, or historical snapshots; Disabled turns off ledgers/CDs/computers. Computers open a Windows ’93 desktop: insert a CD and run QUARTERMASTER.EXE to search and browse its ledger. See the [workflow, authority and acceptance report](docs/LEDGER_AND_LOAD.md). The shelf experiment remains out of scope.
 - Overall Sort/Shopping progress beside vanilla's current-action bar, including room/building job progress.
 - Fill a carry before walking, then unload it before the next carry. Vanilla's smaller transfer groups and timing stay unchanged.
 - Server-controlled extra carry allowance (0-40 kg, default 0), subject to native capacity and encumbrance.
 - Selected native vehicle/trailer cargo and nested storage bags, with native access checks and cargo-area walking.
 - Pre-authorization full-crate fallback and permitted source returns; safe retention when a return or native outcome is unavailable.
 
-Movement protocol 10 requires matching server/client builds and reconnect. Saved category rules, selections, presets and priorities are unchanged. No automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks or unverified virtual storage. Actual PZ SP and dedicated testing for this iteration are pending. See [behavior, clean-room audit, validation and limitations](docs/PROGRESS_CARRY_AND_CONTAINERS.md).
+Movement protocol 11, Ledger 3 and Rooms 3 require matching server/client builds and reconnect. Saved category rules, selections, presets and priorities are unchanged. No automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks or unverified virtual storage. Actual PZ SP and dedicated testing for this iteration are pending. See [behavior, clean-room audit, validation and limitations](docs/PROGRESS_CARRY_AND_CONTAINERS.md).
 
 ## Sorting
 
@@ -47,13 +47,13 @@ Dibs! provides personal item labels and separate Wanted and Needed lists. Set su
 
 ## Building Supply Ledger
 
-**Sorting and Shopping collection now require a completed ledger by default.** Carry a paper ledger covering the work location, or load a matching ledger CD at a powered computer in the same building or nearby. Shopping planning and container configuration do not require a supply ledger. Creating/editing physical shopping lists requires their writing supplies. Server options can disable either requirement. See [requirements, computer range and controls](docs/LEDGER_REQUIREMENT.md).
+**Inventory and selected-container Sort always work without a ledger. Room/Building Sort and Shopping collection require a fresh completed ledger by default.** Carry a paper ledger covering the work location, or load a matching ledger CD at a powered computer in the same building or nearby. Shopping planning and container configuration do not require a supply ledger. Creating/editing physical shopping lists requires their writing supplies. Server options choose ledger mode and an update interval (default 7 in-game days), or disable the requirements. Computers can require manual inspection/CD updates or refresh automatically while powered. See [requirements, computer range and controls](docs/LEDGER_REQUIREMENT.md).
 
 Craft a **Quartermaster Building Supply Sheet** from a sheet of paper or notebook and a retained pen/pencil. Right-click the carried sheet to record or resume a building or safehouse. Your character walks to storage and spends time documenting each physical compartment, including unconfigured storage. Floor loot, dropped bags and carried inventories are excluded.
 
-Read the paper anywhere without electricity. It is a room-by-room historical snapshot with per-container recording times, quantities and locations. Completed entries survive cancellation; storage with uncertain identity after a restart needs reinspection.
+Read the paper anywhere without electricity. It retains a room-by-room historical snapshot with per-container recording times, quantities and locations. In live modes the reader projects current server-confirmed contents of recorded compartments until expiry (or indefinitely in No updates mode). Renew a paper through another physical inspection; older CDs keep their original snapshots. Completed entries survive cancellation; storage with uncertain identity after a restart needs reinspection.
 
-Choose **Use computer (Windows '93)** at a supported powered desktop. Open **CD Writer** from the desktop or Start menu, choose a completed sheet and a vanilla CD, then explicitly write it; the paper is retained. Place the **Quartermaster Supply Ledger CD** in an accessible desk/container beside a powered desktop. Open **CD-ROM (D:)**, load that storage CD, then double-click **QUARTERMASTER.EXE** or choose **Run application**. The application opens inside the computer screen with item/FullType search, room browsing and pagination. Opening the desktop or loading a CD does not launch it automatically. Loading/ejecting binds/unbinds the real storage CD without moving it; the computer can remain available for sorting after you leave its screen. See the [computer controls](docs/WINDOWS93_COMPUTER.md). Copying overwrites that CD's original music identity. Historical pages enforce current safehouse/Rooms privacy; they do not provide live or remote inventory access. The initial supported terminal is the stock desktop using `appliances_com_01_72`.
+Choose **Use computer (Windows '93)** at a supported powered desktop. Open **CD Writer** from the desktop or Start menu, choose a completed sheet and a vanilla CD, then explicitly write it; the paper is retained. Place the **Quartermaster Supply Ledger CD** in an accessible desk/container beside a powered desktop. Open **CD-ROM (D:)**, load that storage CD, then double-click **QUARTERMASTER.EXE** or choose **Run application**. The application opens inside the computer screen with item/FullType search, room browsing and pagination. Opening the desktop or loading a CD does not launch it automatically. Loading/ejecting binds/unbinds the real storage CD without moving it; the computer can remain available for sorting after you leave its screen. See the [computer controls](docs/WINDOWS93_COMPUTER.md). Copying overwrites that CD's original music identity. All pages enforce current safehouse/Rooms privacy. Live statistics are read-only and limited to recorded, loaded physical compartments; newly added storage needs another inspection. Historical mode shows the recorded quantities even after they become inaccurate. See [modes, expiry and computer updates](docs/LEDGER_FRESHNESS.md). The initial supported terminal is the stock desktop using `appliances_com_01_72`.
 
 ## Getting started
 
@@ -94,7 +94,7 @@ For automated cleaning, install the separate [B47ANCE'd Auto Clean](https://stea
 
 ## Development and documentation
 
-Use the [current Workshop source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/physical-shopping-lists) for current source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
+Use the [current Workshop source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/ledger-freshness) for current source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
 
 From that source checkout, with Python and the host-only Lupa dependency available:
 

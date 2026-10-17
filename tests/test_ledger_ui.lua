@@ -98,3 +98,12 @@ screen=assert(V.computer(0,computer));screen:openWriter();screen:onKeyRelease(Ke
 assert(not screen.content and C.active[0]==screen,'Escape did not return to desktop')
 screen:onKeyRelease(Keyboard.KEY_ESCAPE);assert(not C.active[0],'desktop Escape did not shut down')
 print('PASS OFFLINE Windows 93 ledger UI: desktop has no automatic reads, explicit CD insert/run and EXE double-click, embedded literal search/rooms, resize/footer/taskbar at 14/24/32/42 font heights, minimize/eject, exact media-loss cleanup, explicit writer choices, shutdown cancellation, Escape/controller and power-loss close; paper navigation preserved; native visual acceptance NOT TESTED')
+
+-- Server-disabled mode removes ledger/computer entry points and closes screens.
+screen=assert(V.computer(0,computer));SandboxVars.B47ANCEDQuartermaster.LedgerMode=2
+screen:prerender();assert(not C.active[0] and not V.readers[0])
+assert(not V.computer(0,computer))
+local entries={addOption=function() error('disabled ledger action was offered') end}
+V.inventoryMenu(0,entries,{paper});V.worldMenu(0,entries,{computer},false)
+SandboxVars.B47ANCEDQuartermaster.LedgerMode=1
+print('PASS OFFLINE disabled ledger UI: menus suppressed, computer open refused, active screen closed')

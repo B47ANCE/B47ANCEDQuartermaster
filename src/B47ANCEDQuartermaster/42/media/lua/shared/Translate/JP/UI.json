@@ -406,8 +406,8 @@
   "UI_QMSS_LedgerLoading": "Reading ledger...",
   "UI_QMSS_LedgerReadPaper": "Read supply sheet",
   "UI_QMSS_LedgerCancel": "Cancel ledger inspection",
-  "UI_QMSS_LedgerRecordBuilding": "Record / resume building supply sheet",
-  "UI_QMSS_LedgerRecordSafehouse": "Record / resume safehouse supply sheet",
+  "UI_QMSS_LedgerRecordBuilding": "Record / update building supply ledger",
+  "UI_QMSS_LedgerRecordSafehouse": "Record / update safehouse supply ledger",
   "UI_QMSS_LedgerReadDisc": "Read supply ledger CD (%1)",
   "UI_QMSS_LedgerBurnDisc": "Copy supply sheet to CD (%1)",
   "UI_QMSS_LedgerSearch": "Search item name or FullType (literal, case insensitive)",
@@ -443,7 +443,7 @@
   "UI_QMSS_ComputerWriting": "Writing CD...",
   "UI_QMSS_ComputerEjectFirst": "Eject the mounted CD before writing another disc.",
   "UI_QMSS_ComputerMediaLost": "The storage CD, computer or access is no longer available. Application closed.",
-  "UI_QMSS_LedgerRequired": "Ledger required for this location. Carry a completed paper ledger or load a matching CD at a powered local computer.",
+  "UI_QMSS_LedgerRequired": "Fresh ledger required for this location. Carry a current completed ledger, or load a matching CD at an accessible powered computer. Inventory/selected-container Sort does not require a ledger.",
   "UI_QMSS_LedgerDriveChanged": "The computer or storage CD changed. Refresh the drive and load the CD again.",
   "UI_QMSS_LedgerDriveOccupied": "Eject the currently loaded storage CD before loading or writing another.",
   "UI_QMSS_ShoppingPaperSelectTip": "Choose a shopping list carried in your inventory. Give the paper to another player to share its list.",
@@ -465,5 +465,11 @@
   "UI_QMSS_ShoppingPaperHUDTotal": "Have %1 / %2  |  Need %3",
   "UI_QMSS_ShoppingPaperHUDPage": "Page %1 / %2 (turns automatically)",
   "UI_QMSS_ShoppingPaperSyncPending": "Shopping list created on the server, but the native inventory update could not be confirmed. Refresh/reconnect before retrying; no replacement paper will be created for this request.",
-  "UI_QMSS_ShoppingPaperChoose": "Select a carried shopping list..."
+  "UI_QMSS_ShoppingPaperChoose": "Select a carried shopping list...",
+  "UI_QMSS_LedgerDisabled": "Supply ledgers, CDs and computers are disabled by the server.",
+  "UI_QMSS_LedgerLive": "Live statistics for recorded storage; checked on the server",
+  "UI_QMSS_LedgerLiveLoading": "Updating recorded storage statistics...",
+  "UI_QMSS_LedgerLiveUnavailable": "Current storage unavailable. Its identity, loading or inspection permission changed. Record the location again or use Historical mode.",
+  "UI_QMSS_LedgerExpired": "Outdated historical record; update it for Room/Building Sort",
+  "UI_QMSS_LedgerExpires": "Update due at %1 world hours"
 }

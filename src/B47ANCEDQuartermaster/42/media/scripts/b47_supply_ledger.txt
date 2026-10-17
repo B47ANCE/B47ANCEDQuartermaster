@@ -26,6 +26,7 @@ module B47ANCEDQuartermaster
     }
     craftRecipe MakeSupplySheet
     {
+        OnTest = B47SupplyLedgerEnabled,
         timedAction = Making,
         time = 20,
         category = Miscellaneous,

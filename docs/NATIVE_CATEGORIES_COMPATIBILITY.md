@@ -1,6 +1,6 @@
 # Native categories and sorting-data retirement
 
-Project Version: 0.16.0-dev.2
+Project Version: 0.17.0-dev.1
 
 ## Current development iteration
 

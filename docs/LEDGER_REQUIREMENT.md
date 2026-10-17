@@ -1,12 +1,14 @@
 # Ledger requirement for sorting and collection
 
-Project Version: 0.16.0-dev.2
+Project Version: 0.17.0-dev.1
 
 Physical Shopping now has separate writing supplies and carried shopping papers; those do not replace the completed supply ledger required for collection. Planning/reading do not require a supply ledger. See [physical Shopping](PHYSICAL_SHOPPING_LISTS.md).
 
+See [ledger modes, freshness, renewal and the current acceptance report](LEDGER_FRESHNESS.md).
+
 ## Behavior
 
-By default, Sort (inventory, container, room or building) and Shopping **collection** require a completed ledger covering each work location. Shopping list planning/editing, recipe additions, Wanted/Needed planning, container configuration and recording a new ledger remain available without one. This avoids a circular prerequisite.
+Inventory and selected-container Sort never require a ledger. By default, Room/Building Sort and Shopping **collection** require a fresh completed ledger covering each work location; Disabled Ledger mode bypasses both requirements. Shopping list planning/editing, recipe additions, Wanted/Needed planning, container configuration and recording a new ledger remain available without one. This avoids a circular prerequisite.
 
 A qualifying source is either:
 
@@ -15,7 +17,7 @@ A qualifying source is either:
 
 Coverage uses the existing server-recorded native building/safehouse scope signature, not display names or client coordinates. Safehouse records cover their verified native safehouse; building records cover their native building. Outdoor work needs a record actually covering that location (such as the safehouse), rather than treating an adjacent building's record as a global pass. Multiple carried papers or loaded computers may cover different source/destination locations.
 
-This is knowledge eligibility, **not live stock accounting**. A completed snapshot remains historical; moving ordinary stock does not invalidate it or require another inspection after each item. Native geometry/signature changes can make the recorded scope no longer match. Nothing changes native capacity, carrying penalties, destinations, priorities, presets or vanilla smaller transfer groups/timing.
+Knowledge expires according to the server mode and update interval (default 7 in-game days), not after every item movement. Periodic/No updates modes show live read-only projections of recorded compartments; Historical mode preserves recorded quantities. Automatic computers provide current knowledge only while their real CD, power and permissions remain valid. Native geometry/signature changes can make the recorded scope no longer match. Nothing changes native capacity, carrying penalties, destinations, priorities, presets or vanilla smaller transfer groups/timing.
 
 ## Computer storage workflow
 
@@ -35,13 +37,16 @@ The stock desktop sprite remains `appliances_com_01_72`; the CD must be the exis
 
 | Sandbox identifier | Default | Bounds | Effect |
 | --- | --- | --- | --- |
-| RequireLedgerForSorting | true | boolean | Require matching paper/computer knowledge for Sort |
+| LedgerMode | 1 | enum 1–4 | Periodic live / Disabled / No updates live / Historical |
+| LedgerUpdateDays | 7 | integer, 1–365 days | Expiry for Periodic and Historical modes |
+| LedgerComputerManualUpdates | true | boolean | Require inspection and new CD; false provides live automatic computer statistics |
+| RequireLedgerForSorting | true | boolean | Require fresh paper/computer knowledge only for Room/Building Sort |
 | RequireLedgerForCollecting | true | boolean | Require it for Shopping collection; planning stays free |
 | LedgerComputerRange | 10 | integer, 1–30 tiles | Nearby computer distance outside the same native building, same floor |
 
-These are server-owned sandbox settings, localized with names/tooltips in all 29 supported locale folders using the established English fallback policy. Missing settings in existing saves take the new enabled defaults. Disabling either requirement restores that action's previous unrestricted behavior. No old sorting/category/item/preset data or physical ledger record is deleted/migrated/reset.
+These are server-owned sandbox settings, localized with names/tooltips in all 29 supported locale folders using the established English fallback policy. Existing requirement booleans are preserved; RequireLedgerForSorting now applies only to scoped Room/Building operations. Missing new settings use Periodic live, 7 days and manual computer updates. Old completed records use their existing finished world-hour timestamp; invalid/future timestamps do not qualify. No expiry is written into old records. Disabling either requirement restores that action's previous unrestricted behavior. No old sorting/category/item/preset data or physical ledger record is deleted/migrated/reset.
 
-This is a MINOR feature iteration with a deliberate default gameplay change. Peer capabilities change to **movement 10, Shopping 2 and Ledger 2** so mixed older ungated peers do not silently run a different workflow. Physical ledger schema stays 1. Server and clients must update/reconnect together. Protocol identifiers are internal compatibility controls, not sandbox options.
+This is a MINOR feature iteration with a deliberate default gameplay change. Peer capabilities change to **movement 11, Shopping 3, Ledger 3 and Rooms 3** so mixed older ungated peers do not silently run a different workflow. Physical ledger schema stays 1. Server and clients must update/reconnect together. Protocol identifiers are internal compatibility controls, not sandbox options.
 
 ## Persistence, synchronization and failure handling
 
@@ -49,7 +54,7 @@ This is a MINOR feature iteration with a deliberate default gameplay change. Pee
 - Object ModData exposes only incarnation markers. A marker or UI-mounted proxy alone never authorizes anything. Each provider resolves the current native objects/compartment, actual CD membership and server snapshot binding, then checks live permissions and power. A stale `getContainer()` pointer is insufficient.
 - Existing loaded objects/storage are re-resolved after module/reconnect/server state reconstruction. Missing/unloaded/replaced/moved objects, reordered compartment/object identity, removed CDs and corrupt/future registries fail closed without resetting data. An explicit unload/reload can repair a stale binding when a valid physical CD remains. Actual native save/restart ordering and item-ID persistence still require dedicated acceptance.
 - Mount choices are authenticated, actor-bound opaque offers expiring after 30 seconds. Competing mount operations cannot replace an occupied drive. Read/list responses contain only currently authorized media. Eject changes no inventory and checks the current drive ID. Mutation commands use the existing sender-bound transport with server request-rate limits.
-- Sort/Collect admission is checked before collection/planning. Source and destination candidates, and each new `moveTake`/`movePut` grant, recheck relevant coverage. Losing a ledger, power, CD or access blocks new grants. Already completed native transfers remain completed; observation/cancel/return commands do not acquire a new ledger prerequisite. Native return permissions/capacity still apply. Items may remain safely carried if new work stops; no forced drop/deletion/rollback is introduced.
+- Room/Building Sort and Collect admission is checked before collection/planning. Source and destination candidates, and each new `moveTake`/`movePut` grant, recheck relevant coverage. Losing a ledger, power, CD or access blocks new grants. Already completed native transfers remain completed; observation/cancel/return commands do not acquire a new ledger prerequisite. Native return permissions/capacity still apply. Items may remain safely carried if new work stops; no forced drop/deletion/rollback is introduced.
 - Carried completed papers and bound storage CDs are excluded from automatic movement while a requirement is enabled, so the sorter does not remove its own prerequisite. This is not a permanent item lock: unrelated native/manual transfers can still move them, and then the requirement is rechecked.
 - The client periodically refreshes its drive UI (at most once per two seconds) and closes cached pages on reported loss. Server grant decisions do not depend on waiting for that poll. Logging off is client-session dismissal, not a new shared hardware power toggle.
 
@@ -67,7 +72,7 @@ Only loaded native storage/power can be proven. A same-building computer whose n
 
 [VERIFIED SOURCE] Existing Build 42.21.0 / Steam build 25485521 Lua-exposed item/container, object ModData, safehouse, native UI/transfer and electrical APIs are reused. No new Java/JAR, unsupported inventory-slot API, copied third-party assets/code or upstream Rooms edits are introduced. Existing dated native evidence retains its original version and status; no prior SP/MP evidence is relabeled.
 
-[TESTED OFFLINE] Production Ledger inspection/conversion first generates real fixture server bindings; requirement tests then verify default-on behavior, forged/partial/wrong-building refusal, free planning/list access, paper loss despite candidate caching, automatic proof protection, actor-bound load choices, configure-vs-inspect separation, real stored-CD load/eject without item mutation, stale eject rejection, re-resolution from persisted records, power/private-storage/CD loss, same-building distance, nearby range boundaries, native classification-cache expiry, per-action opt-outs, future-schema preservation, positive production Sort TAKE and collection withdrawal, loss before PUT with an authorized native return, new PUT denial and completed native PUT observation. UI tests exercise server-derived storage descriptors and loss reporting. Existing transfer/return/conservation/grouping regressions explicitly exercise the supported opt-outs.
+[TESTED OFFLINE] Production Ledger inspection/conversion first generates real fixture server bindings; requirement tests then verify default-on scoped behavior, manual Sort without proof, forged/partial/wrong-building refusal, free planning/list access, paper loss despite candidate caching, automatic proof protection, actor-bound load choices, configure-vs-inspect separation, real stored-CD load/eject without item mutation, stale eject rejection, re-resolution from persisted records, power/private-storage/CD loss, same-building distance, nearby range boundaries, native classification-cache expiry, per-action opt-outs, future-schema preservation, positive production Sort TAKE and collection withdrawal, loss before PUT with an authorized native return, new PUT denial and completed native PUT observation. UI tests exercise server-derived storage descriptors and loss reporting. Existing transfer/return/conservation/grouping regressions explicitly exercise the supported opt-outs.
 
 Commands from this source worktree, using the host Python with Lupa:
 
@@ -78,6 +83,6 @@ python -B scripts/check_versions.py
 git -c core.safecrlf=false diff --check
 ```
 
-Source manifest: **206 runtime files**. No package, deployment, Workshop publication or game/server launch is part of this iteration. Historical packages remain in their original worktrees with their original versions. The new branch is `feature/ledger-required`, based on 4a9be2bf7ae664e49880158d996268ee56c61097 (Windows '93 UI / PR #14); earlier stacked branches are not merged by this work.
+Source manifest: **211 runtime files**. No package, deployment, Workshop publication or game/server launch is part of this iteration. Historical packages remain in their original worktrees with their original versions. The new branch is `feature/ledger-freshness`, based on 2cac3ae5497bdbf793e119d12f3ef61ceb457457 (physical Shopping Lists / PR #16); earlier stacked branches are not merged by this work.
 
 [RUNTIME GATE] Native G6 NOT TESTED; dedicated G7 NOT TESTED/BLOCKED; stable G8 BLOCKED. Test two remote clients with completed/wrong/partial/forged records; inventory/container/ground/vehicle/room/building Sort; Collect versus list editing; all defaults/opt-outs; loaded computers across floors/nearby range; private computer/storage configure/inspect permissions; competing load/eject/write; power loss and CD removal during walking, dispatch and transfer; cancel/return/unknown outcomes; exact item conservation; reconnect; real server save/restart; unloaded objects and changed object indices; Linux path case; and actual native UI/input/performance. Offline passes do not replace those results.

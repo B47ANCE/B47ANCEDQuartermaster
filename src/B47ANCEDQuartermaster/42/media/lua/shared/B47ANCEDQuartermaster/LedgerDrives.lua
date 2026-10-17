@@ -3,6 +3,7 @@
 local D={offers=setmetatable({},{__mode='k'})};B47ANCEDQuartermaster.LedgerDrives=D
 local Q=B47ANCEDQuartermaster;local Media=require 'B47ANCEDQuartermaster/LedgerMedia'
 local Scope=require 'B47ANCEDQuartermaster/LedgerScope'
+local Policy=require 'B47ANCEDQuartermaster/LedgerPolicy'
 local function uuid() local s=getRandomUUID();return type(s)=='string' and #s<=80 and s or nil end
 local function pos(obj,ci) local s=obj:getSquare();return {x=s:getX(),y=s:getY(),z=s:getZ(),index=obj:getObjectIndex(),ci=ci} end
 local function same(a,b) return a.x==b.x and a.y==b.y and a.z==b.z and a.index==b.index end
@@ -37,6 +38,7 @@ local function accessible(actor,t)
  return t and Q.Targets.valid(t,actor) and Q.RoomAccess.can(actor,t,'inspect')
 end
 local function lookup(actor,id,computer,near)
+ if not Policy.enabled() then return end
  local r=root();local v=r and type(id)=='string' and #id<=80 and r.records[id]
  if not v then return end
  computer=computer or Media.object(v.computer)
@@ -85,6 +87,7 @@ local function description(item,id)
 end
 function D.handle(actor,command,args)
  if isClient() or not actor or actor:isDead() then return {status='invalid'} end
+ if not Policy.enabled() then return {status='LedgerDisabled'} end
  local computer=Media.object(args.computer)
  if not Media.computer(actor,computer,true) then return {status='LedgerPower'} end
  if (command=='ledgerDriveMount' or command=='ledgerDriveEject') and not Q.RoomAccess.can(actor,{obj=computer},'configure') then return {status='RoomAccessDenied'} end
