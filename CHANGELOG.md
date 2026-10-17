@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.15.0-dev.1] - 2026-10-16
+
+MINOR gameplay feature with an explicit default-behavior change: sorting and Shopping collection now require a completed, location-matching ledger by default. Server sandbox switches can restore unrestricted use; planning/editing remain available. New peer capabilities prevent silently mixing older ungated clients/servers. Existing sorting and ledger records are preserved.
+
+- Add server-owned computer drive bindings to actual ledger CDs kept in accessible adjacent physical storage, without inventing a computer inventory or moving items.
+- Add paper/computer knowledge checks at job admission and each new transfer grant, with safe observation/return paths retained after requirement loss.
+- Native/dedicated acceptance NOT TESTED; no package, deployment or publication.
+
 ## [0.14.0-dev.2] - 2026-10-16
 
 Compatible UI expansion of the 0.14 Ledger feature: a client-local Windows ’93 computer desktop with explicit CD insertion and application launching. Ledger protocol/schema, native media identity, saved records, permissions and transfers remain unchanged.

@@ -57,6 +57,7 @@ runtime().execute((ROOT / 'tests/test_carry_authority.lua').read_text(encoding='
 runtime().execute((ROOT / 'tests/test_load_policy.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_content_analysis.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_ledger.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_ledger_requirement.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_ledger_ui.lua').read_text(encoding='utf-8'))
 for path in (SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Movement.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Trips.lua', CLIENT / 'B47ANCEDQuartermaster/Executor.lua', CLIENT / 'B47ANCEDQuartermaster/Sorter.lua', CLIENT / 'B47ANCEDQuartermaster/SortControls.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/GroundSources.lua'):
     owned = path.read_text(encoding='utf-8')

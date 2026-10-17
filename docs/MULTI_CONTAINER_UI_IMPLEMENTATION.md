@@ -1,6 +1,6 @@
 # Multi-container editor implementation
 
-Project Version: 0.14.0-dev.2
+Project Version: 0.15.0-dev.1
 
 Current iteration: [Dangerous Load, ledger boundaries and validation](LEDGER_AND_LOAD.md). Existing SupplyAPI, Rooms permissions and container configuration contracts are unchanged.
 

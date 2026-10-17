@@ -9,6 +9,7 @@ local G=require 'B47ANCEDQuartermaster/GroundSources'
 local Trace=require 'B47ANCEDQuartermaster/SortTrace'
 local Carry=require 'B47ANCEDQuartermaster/CarryBudget'
 local External=require 'B47ANCEDQuartermaster/ContainerSources'
+local Knowledge=require 'B47ANCEDQuartermaster/LedgerRequirement'
 local function sourceValid(t,player) return t and t.external and External.valid(t,player,false) or t and not t.external and T.valid(t,player) end
 local function fresh()
     sequence=sequence+1
@@ -34,7 +35,7 @@ local function arrival(player,op,target,leg)
 end
 local function eligible(player,item)
     return item and not item:isEquipped() and not item:isFavorite() and item:getAttachedSlot()==-1
-        and not item:getIsCraftingConsumed()
+        and not item:getIsCraftingConsumed() and not Knowledge.protected(player,item)
 end
 local function present(container,item)
     return item:getContainer()==container and container:getItemWithID(item:getID())==item
@@ -85,6 +86,7 @@ function M.withdraw(player,record,carrierID,run)
     local position=T.descriptor(record.target)
     for _,key in ipairs({'x','y','z','ci'}) do if position[key]~=record.position[key] then return {status='invalid'} end end
     local container=record.target.container
+    local known,why=Knowledge.operation(player,{withdrawal=true,source=record.target});if not known then return {status=why} end
     local item=run.item
     local carrier=M.carrier(player,carrierID)
     if not eligible(player,item) or not present(container,item) or not container:isRemoveItemAllowed(item) then return {status='invalid'} end
@@ -113,6 +115,7 @@ function M.planOne(player,args,context)
             sourceRecord=r
         end
         if source and not source.ground and not B47ANCEDQuartermaster.RoomAccess.can(player,source,'withdraw') then return {status='RoomAccessDenied'} end
+        local known,why=Knowledge.operation(player,{source=source});if not known then return {status=why} end
         local container=source and source.container or M.carrier(player,tonumber(carriedSource))
         if not container then return {status='invalid'} end
         local item=context and context.ground and context.ground.item or container:getItemWithID(args.itemID)
@@ -121,7 +124,9 @@ function M.planOne(player,args,context)
         local carrier=M.carrier(player,carrierID)
         if not carrier or (source and (not accepts(player,carrier,item) or not Carry.accepts(player,carrier,item))) then return {status='capacity'} end
         local library=context and context.library or B47ANCEDQuartermaster.Presets.snapshot()
+        local knowledgeRejected=false
         local choice,rejection=P.choose(player,args.session,item,library and library.definitions or {},function(t,it,candidate)
+            if not Knowledge.check(player,t.obj:getSquare(),'sort') then knowledgeRejected=true;return false end
             if context and context.planning then
                 return candidate.rulesReady and accepts(player,t.container,it) and (not context.accepts or context.accepts(t,it))
             end
@@ -129,7 +134,7 @@ function M.planOne(player,args,context)
             return config and B47ANCEDQuartermaster.Presets.resolve(config) and accepts(player,t.container,it)
                 and (not context or context.accepts(t,it))
         end,context and context.trace,context and context.planning)
-        if not choice then Trace.emit(context and context.trace,'DESTINATION_REJECTED','noDestination');return {status='noDestination',reason=rejection} end
+        if not choice then Trace.emit(context and context.trace,'DESTINATION_REJECTED','noDestination');return {status=knowledgeRejected and 'LedgerRequired' or 'noDestination',reason=rejection} end
         Trace.emit(context and context.trace,'RULE_MATCHED','ok',nil,choice.key)
         local dest=identity(choice.target)
         local sourceMeta=source and (source.ground and G.descriptor(source) or identity(source)) or false
@@ -162,7 +167,7 @@ function M.spill(player,op)
         return total
     end
     local choice=P.choose(player,run.session,op.item,library and library.definitions or {},function(t,it,candidate)
-        if not candidate or not candidate.rulesReady or not t or not t.container or op.spillTried[t.container] or t.container==op.container then return false end
+        if not candidate or not candidate.rulesReady or not t or not t.container or not Knowledge.check(player,t.obj:getSquare(),'sort') or op.spillTried[t.container] or t.container==op.container then return false end
         return accepts(player,t.container,it) and it:getActualWeight()<=math.max(0,t.container:getEffectiveCapacity(player)-t.container:getCapacityWeight()-reserved(t.container))
     end,op.trace)
     if not choice or not choice.target or not choice.key then return nil end
@@ -241,6 +246,11 @@ function M.handle(player,command,args)
         if not present(op.carrier,op.item) then return {status='waiting'} end
         B47ANCEDQuartermaster.Shopping.confirm(player,op)
         forget(player,op);return {status='ok',collected=true}
+    end
+    -- Observations above and safe return below do not require new knowledge.
+    -- Only new TAKE/PUT grants are gated; never undo a completed native move.
+    if command=='moveTake' or command=='movePut' then
+        local known,why=Knowledge.operation(player,op);if not known then return {status=why,reason=why} end
     end
     local operationValid,operationReason=valid(player,op)
     if not operationValid then forget(player,op);return {status='invalid',reason=operationReason} end

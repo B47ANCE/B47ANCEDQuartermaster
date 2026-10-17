@@ -12,7 +12,9 @@ end
 ArrayList={new=function() return list() end}
 local player={getX=function() return 0 end,getY=function() return 0 end,getZ=function() return 0 end,getJoypadBind=function() return -1 end}
 function getSpecificPlayer() return player end
-SandboxVars={B47ANCEDQuartermaster={ContainerRange=10,WholeBuilding=false}}
+-- Legacy transfer fixtures explicitly exercise the supported server opt-out.
+-- Dedicated requirement tests enable the new default and provide real records.
+SandboxVars={B47ANCEDQuartermaster={ContainerRange=10,WholeBuilding=false,RequireLedgerForSorting=false,RequireLedgerForCollecting=false}}
 local squares={}
 local function square(x,y,z,building)
     local s={objects=list(),building=building,getX=function() return x end,getY=function() return y end,getZ=function() return z end}

@@ -48,6 +48,13 @@ local function snapshot(r,item)
  end
  return s
 end
+-- Server binding only; an item ModData snapshot label never proves ownership.
+function L.snapshotFor(item)
+ local r=root();if not r or not item then return end
+ local input=r.outputs[tostring(item:getID())];local j=input and r.burns[input]
+ if j and (not journalValid(j) or j.phase~='committed' or j.output~=item:getID()) then return end
+ return snapshot(r,item)
+end
 local function allowed(actor,t)
  return Q.Targets.valid(t,actor) and Q.RoomAccess.can(actor,t,'inspect')
 end
@@ -155,6 +162,7 @@ function L.valid(actor,token,action)
  if g.kind=='inspect' then return liveJob(actor,g.job) and allowed(actor,g.target) and stationary(g.record) and Scope.includes(g.job.scope,g.target.obj:getSquare()) and Media.reachable(actor,g.target.obj) and writer(actor) end
  return Media.owned(actor,g.paper:getID(),Media.sheet)==g.paper and Media.owned(actor,g.cd:getID())==g.cd
   and Media.usable(g.cd) and Media.computer(actor,g.computer,true) and g.snapshot.complete==true
+  and not require('B47ANCEDQuartermaster/LedgerDrives').occupied(g.computer)
 end
 function L.start(actor,token,action)
  local g=L.grants[token]
@@ -308,7 +316,10 @@ local function nextWork(actor,j,args)
  L.jobs[actor]=nil;return {status='done',summary=s.status}
 end
 local function read(actor,args)
- local item,s,_,error=binding(actor,args.item)
+ local item,s,unused,error
+ if args.drive~=nil then
+  item,s=require('B47ANCEDQuartermaster/LedgerDrives').read(actor,args.drive,Media.object(args.computer))
+ else item,s,unused,error=binding(actor,args.item) end
  if not item then return {status='invalid'} end
  if not s then return {status=error or 'LedgerBlank'} end
  local digital=item:getFullType()==Media.disc
@@ -372,6 +383,7 @@ local function read(actor,args)
 end
 function L.handle(actor,command,args)
  if isClient() or not actor or actor:isDead() or type(args)~='table' then return {status='invalid'} end
+ if command=='ledgerDriveList' or command=='ledgerDriveMount' or command=='ledgerDriveEject' then return require('B47ANCEDQuartermaster/LedgerDrives').handle(actor,command,args) end
  if command=='ledgerBegin' then if L.actors[actor] or Q.Movement.runs[actor] or Q.Movement.operations[actor] then return {status='busy'} end;return begin(actor,args) end
  if command=='ledgerNext' then local j=L.jobs[actor];return j and nextWork(actor,j,args) or {status='invalid'} end
  if command=='ledgerCancel' then if args.token and L.actors[actor]~=args.token then return {status='invalid'} end;L.cleanup(actor);return {status='ok'} end
@@ -388,6 +400,9 @@ function L.handle(actor,command,args)
   local paper,s,r=binding(actor,args.item);local cd=Media.owned(actor,args.cd);local computer=Media.object(args.computer)
   if not paper or paper:getFullType()~=Media.sheet or not s or not s.complete or not Media.cd(cd) or not Media.usable(cd) then return {status='invalid'} end
   if not Media.computer(actor,computer,true) then return {status='LedgerPower'} end
+  local drives=require 'B47ANCEDQuartermaster/LedgerDrives'
+  if drives.occupied(computer) then return {status='LedgerDriveOccupied'} end
+  if drives.busy(computer) then return {status='busy'} end
   local journal=r.burns[tostring(cd:getID())]
   if journal and not journalValid(journal) then return {status='schema'} end
   if journal and journal.phase~='rolledBack' then

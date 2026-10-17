@@ -154,7 +154,7 @@ function V.read(num,item,computer,host)
   requestSerial=requestSerial+1;local serial=requestSerial;pending=true;lastRead=getTimestampMs()
   local d
   if digital then local sq=computer and computer:getSquare();if not sq then panel:close();return end;d={x=sq:getX(),y=sq:getY(),z=sq:getZ(),index=computer:getObjectIndex()} end
-  Q.Authority.request(num,'ledgerRead',{item=item:getID(),computer=d,query=query,room=selectedRoom,cursor=page.cursor},function(r)
+  Q.Authority.request(num,'ledgerRead',{item=item:getID(),drive=item.drive,computer=d,query=query,room=selectedRoom,cursor=page.cursor},function(r)
    if closed or serial~=requestSerial or getSpecificPlayer(num)~=actor then return end
    pending=false;U.RowTooltip.hide(list);list:clear();cursor=nil
    if r.status=='LedgerPageChanged' then page={};history={};due=getTimestampMs()+250;return end
@@ -177,7 +177,7 @@ function V.read(num,item,computer,host)
  end
  local pre=panel.prerender
  panel.prerender=function(self,...)
-  if getSpecificPlayer(num)~=actor or actor:isDead() or Media.owned(actor,item:getID())~=item or digital and not Media.computer(actor,computer,true) then self:close();return end
+  if getSpecificPlayer(num)~=actor or actor:isDead() or (not digital and Media.owned(actor,item:getID())~=item) or digital and not Media.computer(actor,computer,true) then self:close();return end
   if host then U.Renderer.rect(self,0,0,self:getWidth(),self:getHeight(),colors.white) else pre(self,...) end
   local w,h=self:getWidth(),self:getHeight();local top=header+(digital and m.button+16 or 8)
   list:setX(12);list:setY(top+2*m.button);list:setWidth(w-24);list:setHeight(math.max(m.button,h-top-3*m.button-24))
@@ -235,6 +235,11 @@ end
 function V.computer(num,computer)
  if not computer then return end
  return Computer.open(num,computer,{inventory=inventory,
+  drive=function(command,args,reply)
+   local sq=computer:getSquare();if not sq then reply({status='LedgerPower'});return end
+   args.computer={x=sq:getX(),y=sq:getY(),z=sq:getZ(),index=computer:getObjectIndex()}
+   Q.Authority.request(num,command,args,reply)
+  end,
   read=function(item,host) return V.read(num,item,computer,host) end,
   burn=function(paper,cd) V.burn(num,paper,cd,computer) end,
   busy=function() return V.work[num]~=nil end,

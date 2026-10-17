@@ -27,5 +27,5 @@ f.network(true,false);local before=leaves
 assert(batch('movePut',{'owned'}).status=='invalid' and leaves==before,'client ran authority')
 f.network(false,false);M.handle=original
 local P=require 'B47ANCEDQuartermaster/Protocol'
-assert(P.version('moveBatch')==9 and not P.accepts('moveBatch',{protocol=5}) and not P.accepts('moveBatch',{protocol=8}) and P.accepts('moveBatch',{protocol=9}) and P.version('moveRevert')==9 and P.version('moveReverted')==9)
+assert(P.version('moveBatch')==10 and not P.accepts('moveBatch',{protocol=5}) and not P.accepts('moveBatch',{protocol=8}) and not P.accepts('moveBatch',{protocol=9}) and P.accepts('moveBatch',{protocol=10}) and P.version('moveRevert')==10 and P.version('moveReverted')==10)
 print('PASS OFFLINE moveBatch: bounded atomic shape validation, duplicate/sparse/forged rejection, same owner checks, per-operation correlation and mixed-peer rejection')

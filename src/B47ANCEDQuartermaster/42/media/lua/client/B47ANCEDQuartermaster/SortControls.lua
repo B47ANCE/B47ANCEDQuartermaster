@@ -26,6 +26,7 @@ local function supported(player,container)
     return obj and obj.getContainerIndex and B47ANCEDQuartermaster.Targets.make(obj,obj:getContainerIndex(container),player)~=nil
 end
 local function nothing(reasons)
+    if reasons and type(reasons.LedgerRequired)=='number' and reasons.LedgerRequired>0 then return getText('UI_QMSS_LedgerRequired') end
     local parts={}
     for _,key in ipairs({'carryCapacity','destinationRejected','noMatchingRule','alreadySorted','sourceChanged','itemProtected'}) do
         local count=reasons and reasons[key]

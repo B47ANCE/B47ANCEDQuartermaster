@@ -73,3 +73,27 @@ option B47ANCEDQuartermaster.LedgerBurnSeconds
     page = B47ANCEDQuartermaster,
     translation = B47ANCEDQuartermaster_LedgerBurnSeconds,
 }
+
+option B47ANCEDQuartermaster.RequireLedgerForSorting
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_RequireLedgerForSorting,
+}
+option B47ANCEDQuartermaster.RequireLedgerForCollecting
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_RequireLedgerForCollecting,
+}
+option B47ANCEDQuartermaster.LedgerComputerRange
+{
+    type = integer,
+    min = 1,
+    max = 30,
+    default = 10,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_LedgerComputerRange,
+}

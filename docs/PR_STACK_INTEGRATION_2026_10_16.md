@@ -117,3 +117,12 @@ The owner subsequently authorized a read-only review agent. That agent inspected
 - Source review: Windows '93 is a local desktop presentation requiring explicit CD load/run; it adds no arbitrary execution, copied OS assets or new shared-state authority.
 - Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
 - [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.
+
+## PR #15 — Require matching ledger knowledge for Sort and Shopping collection
+
+- Observed version: `0.15.0-dev.1`; original tested feature head `91426ac2ea49930476a9bee73d67975fb4739ec0`. Reconciled default predecessor `11f0d0ef7a44cb25d0f4af047f9247bc6816b882` using a non-rewriting merge.
+- Runtime files: 206. Source SHA-256: `76d4c9d3c74c0175aa60615cef4222e0b6216237ea773ff8823a5daffcb74348`. Production, tests and validation scripts remain byte/blob-equivalent to the original tested head; reconciliation changes only documentation/evidence.
+- [TESTED OFFLINE] Full `python -B tests/run_tests.py --require-rooms --rooms <verified B47ANCEDRooms repository>` passed on the exact original head; this evidence applies unchanged to the identical runtime/test/tool tree. Re-ran `python -B scripts/check_versions.py`, `python -B scripts/check_deployment.py`, and `git -c core.safecrlf=false diff --cached --check` after reconciliation. Public secret/private-diagnostic, runtime Lua-only and case-uniqueness checks passed. No package was created; absent development artifacts are deferred, not a packaging PASS.
+- Source review: Location knowledge requires server-verified carried ledger or actual CD membership in accessible adjacent computer storage. Configuration/grant validation is server-owned; completed native observations, cancellation and safe returns remain possible.
+- Codex source review completed under the owner’s explicit merge request. No required CI checks are configured/reported for this candidate; owner self-merge uses the existing authorized rule without changing protections.
+- [RUNTIME GATE] Native SP/optional-mod execution/dedicated acceptance for this exact head remain NOT TESTED. G7/stable G8 BLOCKED; development merge does not certify a stable release.

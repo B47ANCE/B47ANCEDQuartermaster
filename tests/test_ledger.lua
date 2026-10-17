@@ -151,3 +151,5 @@ local beforeCount=#inv.items;journal={input=-99999,output=-99998,phase='uncertai
 local data=ModData.getOrCreate('B47ANCEDQuartermasterLedger');data.schema=99
 assert(L.handle(actor,'ledgerBegin',{item=paper:getID(),scopeKind='building'}).status~='ok' and data.schema==99)
 print('PASS OFFLINE production ledger: 200 native-stack-equivalent rounds, timed physical inspections, static/private paper pages, power/cancellation, conservative CD rollback/conservation, digital literal search and native sender/challenge/replay guards; no PZ runtime claim')
+
+LEDGER_FIXTURE={paper=paper,disc=disc,inv=inv,computer=computer,position=pos,building=building,definition=def,item=item,container=container,run=run,setPower=function(v) power=v end}
