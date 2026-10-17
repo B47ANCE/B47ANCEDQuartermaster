@@ -192,7 +192,7 @@ function Trips.handle(player,command,args)
         return false
     end
     local function classify(item,id,reserved)
-        local weight=math.max(0,item:getActualWeight())
+        local weight=Carry.weight(item)
         if target then
             local fits=false
             for _,c in ipairs(candidates) do
@@ -204,7 +204,7 @@ function Trips.handle(player,command,args)
         local choice,reason=B47ANCEDQuartermaster.Planner.choose(player,run.session,item,library and library.definitions or {},function(t,it,candidate)
             if not candidate or not candidate.rulesReady or not t or not t.container then return false end
             if not t.container:isItemAllowed(it) or not t.container:hasRoomFor(player,it) then return false end
-            return math.max(0,it:getActualWeight())<=(room(player,t.container)-(reserved[t.container] or 0))
+            return Carry.weight(it)<=(room(player,t.container)-(reserved[t.container] or 0))
         end,run.trace,planning)
         if not choice or not choice.target or not choice.target.container then skip(run,id,reason or 'planningRejected');return end
         local descriptor=T.descriptor(choice.target)
@@ -284,7 +284,7 @@ function Trips.handle(player,command,args)
                 run.pool[entry.id]=nil
                 if entry.container then loadReserved[entry.container]=math.max(0,(loadReserved[entry.container] or 0)-entry.weight) end
             else
-                local weight=math.max(0,item:getActualWeight())
+                local weight=Carry.weight(item)
                 local carrier=carrierFor(item,weight,carryBudget,carryReserved)
                 if carrier then
                     if entry.container then loadReserved[entry.container]=math.max(0,(loadReserved[entry.container] or 0)-weight) end
@@ -292,7 +292,7 @@ function Trips.handle(player,command,args)
                         return function(t,it)
                             if not t or not t.container then return false end
                             if limit and clusterFor(t,T.descriptor(t))~=cluster.key then return false end
-                            return math.max(0,it:getActualWeight())<=(room(player,t.container)-(loadReserved[t.container] or 0))
+                            return Carry.weight(it)<=(room(player,t.container)-(loadReserved[t.container] or 0))
                         end
                     end
                     local args={session=run.session,source=run.source,itemID=entry.id}
@@ -340,7 +340,7 @@ function Trips.handle(player,command,args)
             for _,entry in ipairs(list) do
                 if run.pool[entry.id] then
                     local item=source:getItemWithID(entry.id)
-                    local weight=item and math.max(0,item:getActualWeight()) or entry.weight
+                    local weight=item and Carry.weight(item) or entry.weight
                     if not item or not carrierFor(item,weight,budget,{}) then
                         skip(run,entry.id,'carryCapacity')
                         run.pool[entry.id]=nil

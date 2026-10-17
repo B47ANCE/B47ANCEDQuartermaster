@@ -1,10 +1,10 @@
 # Standalone extraction — authoritative status
 
-Project Version: 0.12.0-dev.1
+Project Version: 0.13.0-dev.1
 
 ## Current development iteration
 
-Implementation is isolated on feature/progress-and-containers. Full carries preserve vanilla grouping; overall HUD, selected vehicle/nested sources, carry allowance and recipe lookup fixes are implemented. No package/deploy/publish is part of this pass. Native/dedicated G7 and stable G8 remain BLOCKED. See [implementation and evidence](PROGRESS_CARRY_AND_CONTAINERS.md).
+Current work is on feature/supply-ledger-and-load, based on feature/progress-and-containers. Dangerous Load is implemented for native testing. Ledger remains an offline domain prototype without a live service. The shelf appearance experiment is removed from scope. No deployment/publication. G6/G7 NOT TESTED; stable G8 BLOCKED. See the [current implementation and gates](LEDGER_AND_LOAD.md).
 
 ## Separate Auto Clean and supply API — historical 0.11.0-dev.1
 

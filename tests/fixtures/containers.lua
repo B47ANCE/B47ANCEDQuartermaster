@@ -52,6 +52,8 @@ a.members={a,b,decor}; b.members=a.members
 LootSorter=nil
 local globalData={}
 ModData={getOrCreate=function(key) globalData[key]=globalData[key] or {};return globalData[key] end}
+local playerData={}
+function player:getModData() return playerData end
 function player:getUsername() return 'fixture-player' end
 function player:getAccessLevel() return 'None' end
 function player:getPlayerNum() return 0 end

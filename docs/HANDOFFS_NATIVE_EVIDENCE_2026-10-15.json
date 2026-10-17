@@ -1,0 +1,235 @@
+{
+  "date": "2026-10-15",
+  "project_version": "0.13.0-dev.1",
+  "game_version": "42.21.0",
+  "steam_build": "25485521",
+  "runtime": "NOT TESTED",
+  "sha256": {
+    "projectzomboid.jar": "e1a69eb743ede60b213a0fe7f8b83d4fcab773036d256cc4543a336f3b058a33",
+    "media/lua/client/ISUI/ISInventoryPage.lua": "65ebb1668583cb7f6f346f367e68e8f045fc926db0bf9d167ca4574c2282fd3b",
+    "media/lua/client/TimedActions/ISInventoryTransferAction.lua": "96ee554609f9ae029809643d50e4f31dbc5a7d21a558934be0804fd909c345b4",
+    "media/lua/server/Items/WorldFiller.lua": "05b9b5c9c04cd706b67ed6f392d44f6407d186c58d19814ce5c63b09ecc087a3",
+    "media/lua/shared/BuildingObjects/TimedActions/ISPaintSignAction.lua": "adbedc3b512de2989332b8210f34623c8f8e5f221796525b9df57cbbc4b2734f",
+    "media/lua/shared/TimedActions/ISBaseTimedAction.lua": "ad72e57f976bd1564d59d08d98d06f8c8d4acea6386aace48e0d99ce9d02a1f0",
+    "media/scripts/generated/items/literature.txt": "01f9950ecfa984eb1c874de0eeaee283b8ba265cd249cf34111df9f30268e293",
+    "media/scripts/generated/items/weapon.txt": "742414e701d360a9076099f9842bd9cc65c2d9ba9497af8b0ce470ee147467c5",
+    "media/scripts/generated/items/normal.txt": "b76cf5f91dce33567ca2bda305c4e450be297aae6b1fc11b5b34dcb280d74567",
+    "media/scripts/generated/items/moveable.txt": "b3bef2403422715dde85772bfdc913d72703baca233038c0e1373c41d323b90a"
+  },
+  "native_methods": {
+    "zombie/inventory/ItemContainer.class": [
+      {
+        "name": "getEffectiveCapacity",
+        "descriptor": "(Lzombie/characters/IsoGameCharacter;)I",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "hasRoomFor",
+        "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/inventory/InventoryItem;)Z",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "hasRoomFor",
+        "descriptor": "(Lzombie/characters/IsoGameCharacter;F)Z",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "hasRoomFor",
+        "descriptor": "(Lzombie/characters/IsoGameCharacter;FF)Z",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "getMaxWeight",
+        "descriptor": "()F",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "getCapacityWeight",
+        "descriptor": "()F",
+        "public": true,
+        "static": false
+      }
+    ],
+    "zombie/inventory/InventoryItem.class": [
+      {
+        "name": "CanStack",
+        "descriptor": "(Lzombie/inventory/InventoryItem;)Z",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "setType",
+        "descriptor": "(Ljava/lang/String;)V",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "getCount",
+        "descriptor": "()I",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "getUnequippedWeight",
+        "descriptor": "()F",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "setScriptItem",
+        "descriptor": "(Lzombie/scripting/objects/Item;)V",
+        "public": true,
+        "static": false
+      }
+    ],
+    "zombie/iso/IsoObject.class": [
+      {
+        "name": "getOverlaySprite",
+        "descriptor": "()Lzombie/iso/sprite/IsoSprite;",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "setOverlaySprite",
+        "descriptor": "(Ljava/lang/String;)V",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "setOverlaySprite",
+        "descriptor": "(Ljava/lang/String;Z)V",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "getOverlaySpriteColor",
+        "descriptor": "()Lzombie/core/textures/ColorInfo;",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "setOverlaySprite",
+        "descriptor": "(Ljava/lang/String;FFFF)V",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "setOverlaySprite",
+        "descriptor": "(Ljava/lang/String;FFFFZ)Z",
+        "public": true,
+        "static": false
+      }
+    ],
+    "zombie/iso/IsoGridSquare.class": [
+      {
+        "name": "haveElectricity",
+        "descriptor": "()Z",
+        "public": true,
+        "static": false
+      }
+    ],
+    "zombie/iso/ContainerOverlays.class": [
+      {
+        "name": "addOverlays",
+        "descriptor": "(Lse/krka/kahlua/j2se/KahluaTableImpl;)V",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "updateContainerOverlaySprite",
+        "descriptor": "(Lzombie/iso/IsoObject;)V",
+        "public": true,
+        "static": false
+      }
+    ],
+    "zombie/core/skinnedmodel/model/WorldItemModelDrawer.class": [
+      {
+        "name": "renderMain",
+        "descriptor": "(Lzombie/inventory/InventoryItem;Lzombie/iso/IsoGridSquare;Lzombie/iso/IsoGridSquare;FFFF)Lzombie/core/skinnedmodel/model/ItemModelRenderer$RenderStatus;",
+        "public": true,
+        "static": true
+      },
+      {
+        "name": "renderMain",
+        "descriptor": "(Lzombie/inventory/InventoryItem;Lzombie/iso/IsoGridSquare;Lzombie/iso/IsoGridSquare;FFFFFZ)Lzombie/core/skinnedmodel/model/ItemModelRenderer$RenderStatus;",
+        "public": true,
+        "static": true
+      }
+    ],
+    "zombie/entity/components/crafting/recipe/CraftRecipeData.class": [
+      {
+        "name": "luaCallOnCreate",
+        "descriptor": "()V",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "luaCallOnCreate",
+        "descriptor": "(Lzombie/characters/IsoGameCharacter;)V",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "consumeInputsInternal",
+        "descriptor": "(Lzombie/characters/IsoGameCharacter;ZLjava/util/List;Ljava/util/List;)Z",
+        "public": false,
+        "static": false
+      },
+      {
+        "name": "consumeInputsInternal",
+        "descriptor": "(Lzombie/characters/IsoGameCharacter;ZLjava/util/List;Ljava/util/List;ZZ)Z",
+        "public": false,
+        "static": false
+      },
+      {
+        "name": "getAllKeepInputItems",
+        "descriptor": "()Ljava/util/ArrayList;",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "getAllKeepInputItems",
+        "descriptor": "(Ljava/util/ArrayList;)Ljava/util/ArrayList;",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "getAllCreatedItems",
+        "descriptor": "()Ljava/util/ArrayList;",
+        "public": true,
+        "static": false
+      },
+      {
+        "name": "getAllCreatedItems",
+        "descriptor": "(Ljava/util/ArrayList;)Ljava/util/ArrayList;",
+        "public": true,
+        "static": false
+      }
+    ],
+    "zombie/scripting/entity/components/crafting/CraftRecipe.class": [
+      {
+        "name": "OnTestItem",
+        "descriptor": "(Lzombie/inventory/InventoryItem;Lzombie/characters/IsoGameCharacter;)Z",
+        "public": true,
+        "static": false
+      }
+    ]
+  },
+  "findings": [
+    "Inventory root getEffectiveCapacity(actor) delegates to native capacity; getMaxWeight on a character-owned container delegates to character comfortable weight. Normal mode preserves the existing allowance policy.",
+    "ItemContainer.hasRoomFor(actor,item) retains vehicle/heavy-item, item restriction, bag maximum-item, parent/nested and native effective-capacity checks. Unequipped item weight participates in native admission. Special 50-unit checks for vehicle seats/floor are not a universal hard-cap API.",
+    "Native getEffectiveCapacity ignores Organized/Disorganized modification for a character-owned root; other storage may receive native capacity modifiers. Actual native capacity is queried rather than hardcoding 50.",
+    "IsoObject.setOverlaySprite(String,FFFF,Z) includes server/client packet dispatch when its boolean permits it. The isolated remote-client candidate supplies false and is not installed as a global update hook.",
+    "WorldFiller.lua lines 26-27 define native overlays for furniture_shelving_01_0/1. Candidate assets are original; their atlas/geometry/renderer alignment remains unverified.",
+    "WorldItemModelDrawer.renderMain requires an InventoryItem and native render context. No WorldItemModelDrawer class reference was found in LuaManager$Exposer.class; this is a negative research finding, not proof that every possible binding is absent. Safe Lua visual-only attachment lifecycle UNKNOWN.",
+    "OnContainerUpdate in ISInventoryPage.lua lines 2152-2155 is documented for objects added/removed; it is not proof that every contents mutation or chunk unload emits a complete authoritative revision event.",
+    "Base.Notebook, Base.SheetPaper2, Base.Pen and Base.Pencil are verified native types. Disc_Retail uses MediaCategory CDs, Icon Disc and WorldStaticModel Disk. Mov_DesktopComputer references appliances_com_01_72; this does not prove a functional native terminal interface.",
+    "CraftRecipeData.luaCallOnCreate(actor) calls a Lua callback with (data, actor) via protectedCallVoid; CraftRecipe.OnTestItem calls (item, actor). An OnCreate return cannot veto a completed mutation. Native input consumption/output/snapshot commit and recovery need a separate verified adapter before activating ledger burning.",
+    "NetTimedAction.getDuration uses adjusted duration with a 20ms conversion; the prototype stores proposed seconds only and does not activate native writing time or claim measured timing."
+  ]
+}

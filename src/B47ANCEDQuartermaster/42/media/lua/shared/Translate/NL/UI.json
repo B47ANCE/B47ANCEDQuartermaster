@@ -367,5 +367,16 @@
   "UI_B47_Skip_noMatchingRule": "no matching destination rule (%1)",
   "UI_B47_Skip_alreadySorted": "already sorted (%1)",
   "UI_B47_Skip_sourceChanged": "source items changed (%1)",
-  "UI_B47_Skip_itemProtected": "protected items (%1)"
+  "UI_B47_Skip_itemProtected": "protected items (%1)",
+  "UI_QMSS_DangerousLoadTitle": "Sorting load settings",
+  "UI_QMSS_DangerousLoadOn": "Dangerous Load: Enabled",
+  "UI_QMSS_DangerousLoadOff": "Dangerous Load: Disabled",
+  "UI_QMSS_DangerousLoadHelp": "Use the native maximum inventory allowance instead of the normal comfortable limit. Native admission, movement penalties and health effects still apply. Default disabled.",
+  "UI_QMSS_LoadUtilization": "Maximum Load Utilization: %1%",
+  "UI_QMSS_LoadUtilizationHelp": "Upper bound as a percentage of the current native inventory capacity. Default 100%; supported range 50-100%.",
+  "UI_QMSS_LoadNativeSnapshot": "Last server reading: %1 / %2 native capacity",
+  "UI_QMSS_LoadPenalties": "Heavy loads retain vanilla encumbrance and injury risks.",
+  "UI_QMSS_SaveLoadPolicy": "Save load settings",
+  "UI_QMSS_CancelLoadPolicy": "Cancel",
+  "UI_QMSS_LoadScreenTooSmall": "Load settings need more screen space. Increase the game resolution or reduce the UI font size."
 }

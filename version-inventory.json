@@ -73,6 +73,10 @@
     {
       "path": "README.md",
       "pattern": "contains \\*\\*(?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+) development work\\*\\*"
+    },
+    {
+      "path": "docs/LEDGER_AND_LOAD.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {
@@ -204,6 +208,18 @@
     {
       "reference": "assets/branding/validation.json; docs/CONTAINER_SOURCE_AUDIT_2026-10-15.json; docs/PROGRESS_CARRY_NATIVE_EVIDENCE.json; docs/PROGRESS_CARRY_VALIDATION.json",
       "reason": "Dated artwork/metadata/API observations preserve their audited versions and environments, not current package/runtime validation."
+    },
+    {
+      "reference": "docs/HANDOFFS_NATIVE_EVIDENCE_2026-10-15.json",
+      "reason": "Dated native signatures/source fingerprints at 0.13.0-dev.1; no runtime proof and never mechanically relabeled."
+    },
+    {
+      "reference": "docs/EXTENDED_CATEGORIES_EVIDENCE_2026-10-15.json",
+      "reason": "Dated third-party metadata/interface fingerprints for compatibility research; external version is not current project version and no external implementation is imported."
+    },
+    {
+      "reference": "docs/HANDOFFS_DEVELOPMENT_ARTIFACT_2026-10-15.json",
+      "reason": "Immutable dated 0.13.0-dev.1 development-package receipt with exact source commit and hashes; not native/dedicated verification or current version mirror."
     },
     {
       "reference": "docs/historical/README_BEFORE_2026-10-15_GITHUB_DEFAULT.md",

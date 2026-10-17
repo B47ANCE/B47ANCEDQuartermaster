@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-15",
+  "workshop_id": "3650035249",
+  "mod_id": "CAExtendedCategories",
+  "installed_version": "1.9.0",
+  "author": "Kechna",
+  "source": "https://steamcommunity.com/sharedfiles/filedetails/?id=3650035249",
+  "files": {
+    "42/mod.info": "65d29a0db6aaad5951cb90cb8a1b63f639a5faf32b3f68ed221d94b1c1f61b2e",
+    "LICENSE.txt": "ddab0a9bd653d43402fdd6b993d7e68508a72410910f5b78f711994de29ae84e",
+    "common/media/lua/shared/CAExtendedCategories/CAEC_Core.lua": "604e867d694cda00cabcc11f8c45800cfb503318b10ddd541e19acd2f7095008",
+    "common/media/lua/client/CAExtendedCategories/CAEC_ClientOptions.lua": "789b2c448bd5b3eefce40ad79160b2d9bd22edbbcf4f987fdba91bb25fa89897"
+  },
+  "code_assets_imported": [],
+  "runtime": "NOT TESTED"
+}

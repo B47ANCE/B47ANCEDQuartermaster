@@ -62,7 +62,8 @@ assert(not R.known('B47_Stationery') and not R.validRules({B47_Stationery=true},
 local Model=require 'B47ANCEDQuartermaster/Model'
 local envelope=assert(S.envelope({cats={[R.nativeID('ExampleCustom')]=true},items={},presets={},priority=0},0,false))
 local restored=assert(S.decode(envelope));assert(restored.cats[R.nativeID('ExampleCustom')])
-for _,ids in ipairs({{'BetterSortCC'},{'EURY_CONTAINERS'},{'REORDER_CONTAINERS'},{'BetterSortCC','EURY_CONTAINERS'}}) do
+for _,ids in ipairs({{'BetterSortCC'},{'EURY_CONTAINERS'},{'REORDER_CONTAINERS'},{'BetterSortCC','EURY_CONTAINERS'},
+ {'CAExtendedCategories'},{'CAExtendedCategories','EURY_CONTAINERS'}}) do
  active(ids);assert(Compatibility.allowed())
  local native=R.nativeID('ExampleCustom')
  local api=C.build({},{{name='One',category=native,fullType='Fixture.One',owner='pz-vanilla'},{name='Two',category=native,fullType='Fixture.Two',owner='pz-vanilla'}})
@@ -76,6 +77,26 @@ for _,ids in ipairs({{'BetterSortCC'},{'EURY_CONTAINERS'},{'REORDER_CONTAINERS'}
  model:setItem(group,'One',false)
  assert(not model:covered(group,'One') and model:covered(group,'Two'))
 end
+-- A client-local category detail choice must never authorize a server category.
+-- These are independent interface fixtures, not imported category mappings.
+active({'CAExtendedCategories'})
+for _,detail in ipairs({'FixtureDetailedGroup','FixtureBalancedGroup','FixtureLiteGroup'}) do
+ local id=R.nativeID(detail)
+ local api=C.build({},{{name='Fixture Supply',category=id,fullType='Fixture.Supply',owner='fixture'}})
+ local picker={selectedCats={},selectedItems={}}
+ local model=Model.new(picker,api,'Other');model:setGroup(model.byId['c:'..id],true)
+ assert(picker.selectedItems['Fixture Supply'] and not picker.selectedCats[id])
+ local serverItem={getScriptItem=function() return script('Fixture Supply','normal','FixtureServerGroup') end,
+  getDisplayName=function() return 'Fixture Supply' end,getContainer=function() return 'source' end}
+ local destination={key='fixture',container='destination',distance=0,config={cats=picker.selectedCats,items=picker.selectedItems,presets={},priority=0}}
+ assert(C.destination(serverItem,{destination},{},function() return true end)==destination,'different peer categories broke explicit intent')
+ model:setGroup(model.byId['c:'..id],false)
+ assert(not picker.selectedItems['Fixture Supply'] and model.selectedCount==0)
+end
+active({'SimilarCAExtendedCategories'})
+assert(not Compatibility.explicitCategorySelections(),'similar Mod ID enabled a compatibility path')
+active({})
+assert(not Compatibility.explicitCategorySelections(),'installed-but-disabled category mod changed vanilla selections')
 -- Inventory labels, pinned ordering, filters and refresh/render chains are untouched.
 ISInventoryPane={refreshContainer=function() return 'external-refresh' end,renderdetails=function() return 'external-render' end,itemSortByCatInc=function() return true end}
 local refresh,render,sort=ISInventoryPane.refreshContainer,ISInventoryPane.renderdetails,ISInventoryPane.itemSortByCatInc

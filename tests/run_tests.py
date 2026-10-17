@@ -54,6 +54,9 @@ else:
     print('NOT TESTED paired Rooms integration: no standalone checkout; Quartermaster-only regressions continue')
 runtime().execute((ROOT / 'tests/test_move_batch.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_carry_authority.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_load_policy.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_content_analysis.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_ledger_prototype.lua').read_text(encoding='utf-8'))
 for path in (SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Movement.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Trips.lua', CLIENT / 'B47ANCEDQuartermaster/Executor.lua', CLIENT / 'B47ANCEDQuartermaster/Sorter.lua', CLIENT / 'B47ANCEDQuartermaster/SortControls.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/GroundSources.lua'):
     owned = path.read_text(encoding='utf-8')
     assert 'LootSorter' not in owned and 'require "LootSorter' not in owned
@@ -71,6 +74,7 @@ runtime().execute((ROOT / 'tests/test_shopping_ui.lua').read_text(encoding='utf-
 runtime().execute((ROOT / 'tests/test_ui_framework.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev28_layout.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_dev29_appearance.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_load_settings_ui.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_row_tooltip.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_container_sprite.lua').read_text(encoding='utf-8'))
 print('PASS dev23 container sprite: 30 physical identity/frame/sibling cases plus invalidation/fallback/diagnostic bounds (offline)')
