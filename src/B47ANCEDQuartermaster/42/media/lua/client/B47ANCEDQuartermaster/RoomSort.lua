@@ -28,7 +28,7 @@ function R.start(playerNum,view,callback)
  local player=getSpecificPlayer(playerNum)
  if Q.Collector and Q.Collector.active[playerNum] then return false end
  if not player or R.active[playerNum] or Q.Sorter.active[playerNum] or Q.Executor.active[playerNum] or Q.Executor.batches[playerNum]
-  or #ISTimedActionQueue.getTimedActionQueue(player).queue>0 or not view or (view.kind~='customRoom' and view.kind~='nativeRoom' and view.kind~='building') or isGamePaused and isGamePaused() then return false end
+  or #ISTimedActionQueue.getTimedActionQueue(player).queue>0 or not view or (view.kind~='customRoom' and view.kind~='building') or isGamePaused and isGamePaused() then return false end
  serial=serial+1
  R.active[playerNum]={playerNum=playerNum,player=player,view=view,nonce=tostring(getTimestampMs())..':'..serial,
   callback=callback,time=getTimestampMs(),completed=0,skipped=0,index=1,nextAt=0}

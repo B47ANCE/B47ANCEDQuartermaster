@@ -56,7 +56,9 @@ function C.combine(parts,expired)
  return scope
 end
 function C.check(profile,scope,pending,incoming)
- if not A.valid(profile) or not incoming or not number(incoming.weight) or not A.fullType(incoming.fullType) then return nil,'AllocationCapacityUnavailable' end
+ -- Legacy/no-profile destinations have no extra quota. They still pass the
+ -- same physical-capacity projection and the caller's native access checks.
+ if profile~=nil and not A.valid(profile) or not incoming or not number(incoming.weight) or not A.fullType(incoming.fullType) then return nil,'AllocationCapacityUnavailable' end
  local projected,e=C.project(scope,pending,incoming);if not projected then return nil,e end
  if projected.capacity<=0 or projected.used>projected.capacity and projected.used>scope.used then return false,'AllocationPhysicalCapacity',projected end
  for _,ceiling in ipairs(A.ceilings(profile,incoming.fullType,incoming.path)) do

@@ -1,6 +1,6 @@
 # Overall progress, full carries and native container sources
 
-Project Version: 0.18.0-dev.1
+Project Version: 0.18.0-dev.2
 
 Current-source note: the carry/source behavior below was introduced in 0.12.0-dev.1. The current iteration adds [Dangerous Load and the physical Supply Ledger](LEDGER_AND_LOAD.md); the normal comfort allowance remains unchanged. Dated 0.12 evidence retains its original version and does not prove native 0.13/0.14 behavior.
 
@@ -23,7 +23,7 @@ Ground items have no verified original return container after native pickup. Pla
 | Setting | Meaning | Existing-save default |
 | --- | --- | --- |
 | Extra carry allowance (CarryAllowance) | Additional comfort-weight budget for Sort and Collect; integer 0–40 kg. Native hard limits and restrictions still win. Encumbrance penalties/injury remain possible. | 0 kg |
-| Optimize sorting visits (RouteOptimization) | One destination room per carry when enabled; one destination crate when disabled. | Enabled |
+| Optimize sorting visits (RouteOptimization) | One building/floor destination group per carry when enabled (nearby cells outdoors); one destination crate when disabled. | Enabled |
 | SortBatchSize | Retired UI setting: saved values remain readable for compatibility but no longer slice a carry. | Ignored by the carry planner |
 
 The server interprets shared settings and rechecks carry admission at TAKE grants. The allowance is not a personal client override. Root inventory weight and equipped-bag reduction are used; vanilla validates actual carrier acceptance independently.

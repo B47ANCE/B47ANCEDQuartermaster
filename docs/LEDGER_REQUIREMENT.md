@@ -1,6 +1,6 @@
 # Ledger requirement for sorting and collection
 
-Project Version: 0.18.0-dev.1
+Project Version: 0.18.0-dev.2
 
 Physical Shopping now has separate writing supplies and carried shopping papers; those do not replace the completed supply ledger required for collection. Planning/reading do not require a supply ledger. See [physical Shopping](PHYSICAL_SHOPPING_LISTS.md).
 
@@ -46,7 +46,7 @@ The stock desktop sprite remains `appliances_com_01_72`; the CD must be the exis
 
 These are server-owned sandbox settings, localized with names/tooltips in all 29 supported locale folders using the established English fallback policy. Existing requirement booleans are preserved; RequireLedgerForSorting now applies only to scoped Room/Building operations. Missing new settings use Periodic live, 7 days and manual computer updates. Old completed records use their existing finished world-hour timestamp; invalid/future timestamps do not qualify. No expiry is written into old records. Disabling either requirement restores that action's previous unrestricted behavior. No old sorting/category/item/preset data or physical ledger record is deleted/migrated/reset.
 
-This is a MINOR feature iteration with a deliberate default gameplay change. Peer capabilities change to **movement 11, Shopping 3, Ledger 3 and Rooms 3** so mixed older ungated peers do not silently run a different workflow. Physical ledger schema stays 1. Server and clients must update/reconnect together. Protocol identifiers are internal compatibility controls, not sandbox options.
+This is a MINOR feature iteration with a deliberate default gameplay change. Peer capabilities change to **movement 11, Shopping 3, Ledger 3 and Rooms 4** so mixed older ungated peers do not silently run a different workflow. Physical ledger schema stays 1. Server and clients must update/reconnect together. Protocol identifiers are internal compatibility controls, not sandbox options.
 
 ## Persistence, synchronization and failure handling
 

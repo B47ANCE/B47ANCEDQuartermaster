@@ -54,7 +54,39 @@ for _=1,100 do if changed.status~='pending' then break end;B47ANCEDRooms.Registr
 assert(changed.status=='ok')
 local target={obj=f.b,container=f.b.containers[1],ci=0}
 local scopes=API.storageScopes(f.player,target);assert(scopes.status=='ok' and #scopes.rooms==1)
-local storage=scopes.rooms[1];local oldX=f.player.getX
+local storage=scopes.rooms[1];local oldX=f.player.getX;local oldSquareGetter=f.player.getCurrentSquare
+f.player.square=f.b:getSquare()
+local meta={token='scope-test',x=1,y=0,z=0}
+local info=Q.DiscoveryView.metadata({id='scope-test',records={['scope-test']={target=target}}},{meta},f.player,false)
+assert(#info.rooms==0 and info.currentCustomRoom.id==storage.id and Q.DiscoveryView.default(info).room==storage.id,'default used native rooms or lost the actual designated room')
+local dormant=Q.Configuration.clone(saved.profiles[id]);saved.profiles['native:retired']=dormant
+assert(Alloc.handle(f.player,'allocationRoomGet',{room='native:retired',roomRevision=1}).status=='invalid' and saved.profiles['native:retired']==dormant,'retired native profile was revived or deleted')
+-- An older/future API alias must not reactivate a dormant native profile.
+local resolveRoom,listRooms,storageScopes=API.resolveRoom,API.listRooms,API.storageScopes
+local function aliased(room)
+ local copy=Q.Configuration.clone(room);copy.aliases={'native:retired'};return copy
+end
+API.resolveRoom=function(...)
+ local reply=resolveRoom(...);if reply.status=='ok' then reply=Q.Configuration.clone(reply);reply.room=aliased(reply.room) end;return reply
+end
+API.listRooms=function(...)
+ local reply=Q.Configuration.clone(listRooms(...));for n,room in ipairs(reply.rooms or {}) do reply.rooms[n]=aliased(room) end;return reply
+end
+API.storageScopes=function(...)
+ local reply=Q.Configuration.clone(storageScopes(...));for n,room in ipairs(reply.rooms or {}) do reply.rooms[n]=aliased(room) end;return reply
+end
+local canonical=Alloc.handle(f.player,'allocationRoomGet',{room=storage.id,roomRevision=storage.revision})
+assert(canonical.status=='ok' and canonical.profileKey==storage.id and canonical.record.active==false,'native alias became the designated profile')
+for _,entry in ipairs(Alloc.handle(f.player,'allocationRoomList',{}).rooms) do
+ for _,key in ipairs(entry.profileKeys) do assert(key~='native:retired','native alias exposed in allocation editor') end
+end
+for _,entry in ipairs(assert(Alloc.forTarget(f.player,target))) do assert(entry.key~='native:retired','native alias activated a routing profile') end
+assert(Alloc.handle(f.player,'allocationRoomGet',{room=storage.id,roomRevision=storage.revision,profileKey='native:retired'}).status=='invalid')
+assert(Alloc.handle(f.player,'allocationRoomCommit',{room=storage.id,roomRevision=storage.revision,profileKey='native:retired'}).status=='invalid')
+assert(saved.profiles['native:retired']==dormant,'dormant native data was deleted')
+API.resolveRoom,API.listRooms,API.storageScopes=resolveRoom,listRooms,storageScopes
+assert(API.capabilities().nativeOverrides==false)
+f.player.square=f.a:getSquare()
 f.player.getX=function() return 1000 end
 f.player.getCurrentSquare=function() return {getX=function() return 1000 end,getY=function() return 1000 end} end
 assert(API.resolveRoom(f.player,storage.id).status=='RoomOutOfRange')
@@ -63,3 +95,12 @@ local tiles=API.storageTiles(f.player,storage.id,storage.revision,target)
 assert(tiles.status=='ok' and #tiles.tiles==2)
 assert(API.storageTiles(f.player,storage.id,storage.revision+1,target).status=='conflict')
 print('PASS OFFLINE actual Rooms profiles: configure-only zero inventory reads, CAS, exact replay, nonce substitution, persisted reload, actual-category defaults, no gameplay grants and far-target authoritative membership')
+
+f.player.getX=oldX;f.player.getCurrentSquare=oldSquareGetter
+local denied=SafeHouse.isSafehouseAllowInteract;SafeHouse.isSafehouseAllowInteract=function() return false end
+assert(Alloc.handle(f.player,'allocationRoomGet',{room=id,roomRevision=room.revision}).status=='RoomAccessDenied','revoked safehouse configuration permission was cached')
+SafeHouse.isSafehouseAllowInteract=denied
+local oldAPI=B47ANCEDRooms.API;B47ANCEDRooms.API={version=99,ready=true}
+assert(Alloc.handle(f.player,'allocationRoomGet',{room=id,roomRevision=room.revision}).status=='RoomPermissionUnavailable','unready Rooms bypassed allocation authorization')
+B47ANCEDRooms.API=oldAPI
+print('PASS OFFLINE designated-only allocation: actual default membership, dormant native profiles, permission revocation and unready service refusal')

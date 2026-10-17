@@ -1,5 +1,5 @@
 -- Payload capabilities are independent from project SemVer and taxonomy IDs.
-local P={versions={handshake=1,loadPolicy=1,ledger=3,configuration=6,presets=3,personal=2,shopping=3,dibs=1,movement=11,rooms=3,allocation=1}}
+local P={versions={handshake=1,loadPolicy=1,ledger=3,configuration=6,presets=3,personal=2,shopping=3,dibs=1,movement=11,rooms=4,allocation=1}}
 local commands={shoppingPaperRead='shopping',shoppingPaperCreate='shopping',shoppingPaperSelect='shopping',shoppingPaperRename='shopping',hello='handshake',ledgerDriveList='ledger',ledgerDriveMount='ledger',ledgerDriveEject='ledger',ledgerBegin='ledger',ledgerNext='ledger',ledgerRead='ledger',ledgerBurn='ledger',ledgerConfirm='ledger',ledgerCancel='ledger',loadGet='loadPolicy',loadChange='loadPolicy',discover='configuration',load='configuration',groupChange='configuration',viewSelect='configuration',commit='configuration',close='configuration',
  presetsList='presets',presetChange='presets',personalList='personal',personalChange='personal',
  personalProject='shopping',wishToShopping='shopping',shoppingAdd='shopping',shoppingSourceRemove='shopping',

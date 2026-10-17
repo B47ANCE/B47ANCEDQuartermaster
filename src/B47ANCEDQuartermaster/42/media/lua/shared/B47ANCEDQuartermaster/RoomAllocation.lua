@@ -40,9 +40,10 @@ end
 R.service=service
 function R.definition(player,id,revision)
  local api,e=service();if not api then return nil,e end
- if type(id)~='string' or #id<1 or #id>180 or id:find('%c') then return nil,'invalid' end
+ if type(id)~='string' or #id<1 or #id>180 or id:find('%c') or not Access.designated({id=id}) then return nil,'invalid' end
  local result=api.resolveRoom(player,id,revision)
  if result.status~='ok' then return nil,result.status end
+ if not Access.designated(result.room) then return nil,'RoomUnavailable' end
  local permission=api.canAccess(player,result.room.id,'configureRoom')
  if permission.state~='allow' then return nil,permission.reason or 'RoomAccessDenied' end
  return result.room
@@ -58,12 +59,10 @@ function R.forTarget(player,target)
  local api,status=service();if not api then if status=='RoomServiceAbsent' then return {},nil,lib.revision end;return nil,status end
  local result=api.storageScopes(player,target);if result.status~='ok' then return nil,result.status end
  local out={}
- for _,room in ipairs(result.rooms) do
-  local ids={room.id};for _,alias in ipairs(room.aliases or {}) do ids[#ids+1]=alias end
-  for _,id in ipairs(ids) do local row=lib.profiles[id]
-   if row and row.active then out[#out+1]={key=id,record=row,room=room} end
-  end
- end
+ for _,room in ipairs(result.rooms) do if Access.designated(room) then
+  local row=lib.profiles[room.id]
+  if row and row.active then out[#out+1]={key=room.id,record=row,room=room} end
+ end end
  if #out>16 then return nil,'AllocationScopeLimit' end
  return out,nil,lib.revision
 end
@@ -85,13 +84,13 @@ function R.handle(player,command,args)
  if command=='allocationRoomList' then
   local result=api.listRooms(player);if result.status~='ok' then return result end
   local lib,e=R.library();if not lib then return {status=e} end
-  local out={};local pending=false;for _,rows in ipairs({result.rooms,result.nativeRooms}) do for _,room in ipairs(rows or {}) do
+  local out={};local pending=false;for _,room in ipairs(result.rooms or {}) do if Access.designated(room) then
    local permission=api.canAccess(player,room.id,'configureRoom')
    if permission.reason=='waiting' or permission.reason=='busy' then pending=true end
    if permission.state=='allow' then
     local entry={};for key,value in pairs(room) do entry[key]=value end;entry.profileKeys={}
-    local ids={room.id};for _,alias in ipairs(room.aliases or {}) do ids[#ids+1]=alias end
-    for _,id in ipairs(ids) do if lib.profiles[id] then entry.profileKeys[#entry.profileKeys+1]=id end end
+    entry.aliases=nil
+    if lib.profiles[room.id] then entry.profileKeys[1]=room.id end
     out[#out+1]=entry
    end
   end end
@@ -99,14 +98,9 @@ function R.handle(player,command,args)
  end
  local room,reason=R.definition(player,args.room,args.roomRevision);if not room then return {status=reason} end
  local lib,data=R.library();if not lib then return {status=data} end
- local profileKey=room.id;local allowedKeys={[room.id]=true}
- for _,id in ipairs(room.aliases or {}) do allowedKeys[id]=true end
+ local profileKey=room.id
  if args.profileKey~=nil then
-  if not allowedKeys[args.profileKey] then return {status='invalid'} end
-  profileKey=args.profileKey
- elseif not lib.profiles[profileKey] then
-  local aliases={};for id in pairs(allowedKeys) do if lib.profiles[id] then aliases[#aliases+1]=id end end;table.sort(aliases)
-  if #aliases>0 then profileKey=aliases[1] end
+  if args.profileKey~=room.id then return {status='invalid'} end
  end
  local old=lib.profiles[profileKey]
  if command=='allocationRoomGet' then

@@ -3,7 +3,7 @@ B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep t
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.18.0-dev.1 (development source; not yet uploaded). New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
+Version 0.18.0-dev.2 (development source; not yet uploaded). New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
 
 [h2]Sorting made simple[/h2]
 • Choose whole categories or individual items in a searchable tree with native item icons.
@@ -60,3 +60,5 @@ Created by B47ANCE. Original Lua-only implementation.
 
 [h2]Current limits[/h2]
 Native client and dedicated multiplayer acceptance for this candidate are pending. The initial computer is the stock desktop; its CD remains a real item in accessible adjacent storage. Ledger modes offer periodic live statistics, Disabled, no-expiry live statistics, or historical snapshots. Update interval and manual/automatic computer updates are server settings. Live statistics cover recorded, loaded compartments; new storage requires inspection. Expired pages remain readable history. Selected vehicle/trailer sources are supported; automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks and unverified virtual storage are not. Supported cooking plans use full portions; partial portions, fluids and unsupported recipes are not handled. Room policies do not lock unrelated vanilla transfers.
+
+Room organization uses designated B47ANCEDRooms rooms only; native buildings define building scope. Retired native-room scope requests are rejected (Quartermaster Rooms capability 4). Existing building-ledger coverage and historical data are preserved. Allocation limits and live role routing remain disabled.

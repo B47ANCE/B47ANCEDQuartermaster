@@ -1,19 +1,17 @@
 local Access=require 'B47ANCEDQuartermaster/RoomAccess'
 local Q=B47ANCEDQuartermaster
 local R={scans=setmetatable({},{__mode='k'})};Q.RoomScopes=R
-local function nativeRoom(sq) return sq and (sq.getRoomDef and sq:getRoomDef() or sq.getRoom and sq:getRoom() and sq:getRoom():getRoomDef()) end
 function R.playerWithinArea(player,session)
  local sq=player:getCurrentSquare();if not sq then return false end
- if nativeRoom(sq)==session.areaRoom then return true end
+ if session.customRoom and Access.contains(player,session.customRoom,session.roomRevision,sq:getX(),sq:getY(),sq:getZ()) then return true end
  local building=sq:getBuilding()
- return session.areaBuildingDef and building and building:getDef()==session.areaBuildingDef or false
+ return session.areaBuildingDef~=nil and building~=nil and building:getDef()==session.areaBuildingDef
 end
 function R.includes(player,session,target)
  local view=session.areaView;if not view then return true end
- local sq=target.obj:getSquare()
- if view.kind=='building' then local b=sq:getBuilding();return b and b:getDef()==session.buildingDef or false end
- if view.kind=='nativeRoom' then return nativeRoom(sq)==session.areaRoom end
- return true -- External geometry is separately enforced by Bindings.target.
+ local sq=target.obj:getSquare();if not sq then return false end
+ if view.kind=='building' then local b=sq:getBuilding();return session.buildingDef~=nil and b~=nil and b:getDef()==session.buildingDef end
+ return view.kind=='customRoom' and session.customRoom~=nil -- Exact external membership is enforced by Bindings.target.
 end
 function R.discover(player,id,revision,nonce)
  if type(nonce)~='string' or #nonce<1 or #nonce>96 then return nil,'invalid' end
@@ -90,8 +88,9 @@ function R.options(player)
  local _,whole=Q.Targets.options();local rooms={};local api,state=Access.service()
  if state=='unknown' then return {status='RoomPermissionUnavailable'} end
  if api then
-  local result=api.roomsAt(player,sq:getX(),sq:getY(),sq:getZ());if result.status=='ok' then rooms=result.rooms end
- elseif state=='absent' and nativeRoom(sq) then rooms={{nativeFallback=true,label=nativeRoom(sq):getName(),revision=0}} end
+  local result=api.roomsAt(player,sq:getX(),sq:getY(),sq:getZ());if result.status~='ok' then return {status=result.status} end
+  for _,room in ipairs(result.rooms) do if Access.designated(room) then rooms[#rooms+1]=room end end
+ end
  return {status='ok',building=whole and sq:getBuilding()~=nil or false,rooms=rooms,roomsAvailable=state=='ready'}
 end
 function R.handle(player,command,args)
@@ -110,15 +109,15 @@ function R.handle(player,command,args)
  end
  local sq=player:getCurrentSquare();if not sq then return {status='invalid'} end
  local view=args.areaView
- if view and (type(view)~='table' or (view.kind~='building' and view.kind~='nativeRoom' and view.kind~='customRoom')) then return {status='invalid'} end
+ if view and (type(view)~='table' or (view.kind~='building' and view.kind~='customRoom')) then return {status='invalid'} end
  if view and view.kind=='building' and not R.options(player).building then return {status='RoomBuildingUnavailable'} end
- if view and view.kind=='nativeRoom' and (select(2,Access.service())~='absent' or not nativeRoom(sq)) then return {status='RoomUnavailable'} end
+ if view and view.kind=='customRoom' and (not Access.designated({id=view.room}) or type(view.revision)~='number' or view.revision<0 or view.revision~=math.floor(view.revision)) then return {status='invalid'} end
  local request={session=args.session,scope=args.scope,customRoom=args.customRoom or view and view.kind=='customRoom' and view.room,
   roomRevision=args.roomRevision or view and view.revision,roomScan=args.roomScan}
  local result,e=Q.Bindings.discover(player,request);if not result then return {status=e} end
  local session=Q.Bindings.session(player,result.session)
  if view then
-  session.areaView={kind=view.kind};session.areaRoom=view.kind=='nativeRoom' and nativeRoom(sq) or nil
+  session.areaView={kind=view.kind}
   local building=sq:getBuilding();session.areaBuildingDef=building and building:getDef() or nil
  end
  if args.sources==true or command=='areaDiscover' then

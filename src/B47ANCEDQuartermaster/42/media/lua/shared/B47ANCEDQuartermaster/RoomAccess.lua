@@ -53,23 +53,27 @@ function A.can(player,target,action)
  if not ok or type(result)~='table' or result.state~='allow' then return false,type(result)=='table' and result.reason or 'RoomPermissionUnavailable' end
  return true,nil,result.revision
 end
+function A.designated(room)
+ return type(room)=='table' and type(room.id)=='string' and room.id:sub(1,7)~='native:' and not room.native and not room.nativeId
+end
 function A.metadata(player)
  local api,status=A.service();if not api then return {},0,nil,status end
  local ok,result=invoke(api,'listRooms',player)
  if not ok or type(result)~='table' or result.status~='ok' then return {},0,nil,type(result)=='table' and result.status or 'RoomPermissionUnavailable' end
- -- Current designated-only Rooms omits the retired native-room collection.
- -- A present malformed collection is still a provider failure, never empty.
  if type(result.rooms)~='table' or result.nativeRooms~=nil and type(result.nativeRooms)~='table' or #result.rooms>128 or result.nativeRooms and #result.nativeRooms>128 then return {},0,nil,'RoomPermissionUnavailable' end
- local all={};for _,r in ipairs(result.rooms or {}) do all[#all+1]=r end;for _,r in ipairs(result.nativeRooms or {}) do all[#all+1]=r end
+ local all={};for _,r in ipairs(result.rooms) do if A.designated(r) then all[#all+1]=r end end
  return all,result.revision,result.world,'ready'
 end
 function A.resolve(player,id,revision)
+ if not A.designated({id=id}) then return nil,'RoomUnavailable' end
  local api=A.service();if not api then return nil,'RoomPermissionUnavailable' end
  local ok,result=invoke(api,'resolveRoom',player,id,revision)
  if not ok or type(result)~='table' then return nil,'RoomPermissionUnavailable' end
+ if result.status=='ok' and not A.designated(result.room) then return nil,'RoomUnavailable' end
  return result.status=='ok' and result.room or nil,result.status
 end
 function A.contains(player,id,revision,x,y,z)
+ if not A.designated({id=id}) then return false end
  local api=A.service();if not api then return false end
  local ok,value=invoke(api,'containsTile',player,id,revision,x,y,z);return ok and value==true
 end

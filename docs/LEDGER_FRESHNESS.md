@@ -1,6 +1,6 @@
 # Ledger modes and scoped sorting
 
-Project Version: 0.18.0-dev.1
+Project Version: 0.18.0-dev.2
 
 Inventory and selected-container Sort do not need a ledger, including supported ground/proximity/vehicle sources. Room/Building Sort includes carried inventory and requires fresh location knowledge by default. Shopping planning/physical papers remain independent; collection retains its separate server requirement. Native capacity, access, routing, smaller transfer groups and timing are preserved.
 
@@ -42,7 +42,7 @@ The server checks knowledge before area discovery and Trip Begin/Next, at source
 
 Expiry, paper loss, power/CD loss or permission changes stop new scoped grants. Already completed native transfers, confirmation, cancellation and permitted source-return paths remain valid. Lua cannot retract a native transfer already dispatched or impose a ledger requirement on unrelated vanilla transfers; this accepted native boundary is unchanged.
 
-Capabilities are now movement 11, Ledger 3 and Rooms 3; Shopping remains 3 and Personal 2. Server and clients must use the same build and reconnect. Storage/profile schemas remain unchanged. No Java, upstream edits, external mod implementation/assets, deployment or publication are part of this iteration.
+Capabilities are now movement 11, Ledger 3 and Rooms 4; Shopping remains 3 and Personal 2. Server and clients must use the same build and reconnect. Storage/profile schemas remain unchanged. No Java, upstream edits, external mod implementation/assets, deployment or publication are part of this iteration.
 
 ## Validation
 

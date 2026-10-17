@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.18.0-dev.2] - 2026-10-17
+
+- Retire native-room selectors, fallback requests, allocation aliases and active grouping. Use B47ANCEDRooms designated rooms for room organization and native PZ buildings for building scope, with proximity fallback where no designation applies.
+- Preserve existing native-building ledger signatures, historical labels and dormant native-room profiles. Existing native configuration-footprint and provider-capability checks remain intact.
+- Fix no-profile Shadow comparisons without adding quotas or bypassing native capacity. Keep enforcement/live role routing disabled, carry-first sorting, vanilla smaller groups and current ledger/shopping behavior.
+- Quartermaster Rooms capability is 4; movement remains 11. Matching peers required. No save schema change from dev.1.
+- Full final offline and native acceptance evidence is recorded in docs/DESIGNATED_ROOM_SCOPES.md; native G6 and dedicated G7 remain NOT TESTED, stable G8 BLOCKED. No deployment/publication.
+
+
 ## [0.18.0-dev.1]
 
 Port the advisory allocation foundation onto the current ledger/physical-shopping/carry stack; retain movement 11, personal 2, shopping 3, ledger 3, Rooms 3 and load-policy 1. Add sparse profiles, Whole/preset migrations with recovery snapshots, percentage editors, bounded server shadow diagnostics and paired designated-room permissions. Configuration/preset wire capabilities become 6/3; saved configuration/preset schemas become 3/2. Fix current Rooms metadata discovery when retired nativeRooms is omitted; reject malformed metadata and obsolete allocation providers. Enforcement and live routing remain disabled. Native/dedicated NOT TESTED; G7/stable G8 BLOCKED.

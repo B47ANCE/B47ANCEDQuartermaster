@@ -452,13 +452,13 @@ local areaStart,singleStart,request=area.start,Sorter.start,A.request
 local chosen,selectedSource
 area.start=function(_,view) chosen=view;return true end
 Sorter.start=function(_,source) selectedSource=source;return true end
-A.request=function(_,command,args,done) assert(command=='areaOptions');done({status='ok',building=true,rooms={{nativeFallback=true,label='Storage'}}}) end
+A.request=function(_,command,args,done) assert(command=='areaOptions');done({status='ok',building=true,rooms={{id='designated-storage',revision=3,label='Storage'}}}) end
 local handler=controls[1]:new();handler.playerNum=0;handler.container=carried
 carried.getParent=function() end;carried.getContainingItem=function() end
 f.player.getJoypadBind=function() return -1 end
 handler:perform();assert(openedMenu and #openedMenu.options==4 and not chosen and not selectedSource)
 openedMenu.options[1].callback();assert(chosen.kind=='building' and not selectedSource)
-openedMenu.options[2].callback();assert(chosen.kind=='nativeRoom' and not selectedSource)
+openedMenu.options[2].callback();assert(chosen.kind=='customRoom' and chosen.room=='designated-storage' and chosen.revision==3 and not selectedSource)
 openedMenu.options[3].callback();assert(selectedSource==carried)
 area.start,Sorter.start,A.request=areaStart,singleStart,request
 print('PASS OFFLINE inventory scope control: menu opens without sorting; building, room and exact current-source choices dispatch independently')

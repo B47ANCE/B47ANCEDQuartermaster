@@ -9,7 +9,7 @@
   "Sandbox_B47ANCEDQuartermaster_SortBatchSize": "Sort planning batch size",
   "Sandbox_B47ANCEDQuartermaster_SortBatchSize_tooltip": "Legacy saved setting; no longer used. Sorting carries are sized by available carry weight. Vanilla transfer groups and timing are unchanged.",
   "Sandbox_B47ANCEDQuartermaster_RouteOptimization": "Optimize sorting visits",
-  "Sandbox_B47ANCEDQuartermaster_RouteOptimization_tooltip": "Load one carry before walking. Enabled: keep destinations in one room per carry. Disabled: one destination container per carry. Carry size follows available weight and native capacity. Vanilla transfer groups and timing stay unchanged. Server controlled; existing saves default to enabled.",
+  "Sandbox_B47ANCEDQuartermaster_RouteOptimization_tooltip": "Load one carry before walking. Enabled: group destinations in the same building and floor, or a nearby area outdoors, per carry. Disabled: one destination container per carry. Carry size follows available weight and native capacity. Vanilla transfer groups and timing stay unchanged. Server controlled; existing saves default to enabled.",
   "Sandbox_B47ANCEDQuartermaster_CustomRooms": "Custom room designations",
   "Sandbox_B47ANCEDQuartermaster_CustomRooms_tooltip": "Allow server-owned custom room geometry and room-scoped physical-container sorting. Existing saves default to enabled; no rooms are created automatically.",
   "Sandbox_B47ANCEDQuartermaster_RoomTileLimit": "Maximum tiles per custom room",

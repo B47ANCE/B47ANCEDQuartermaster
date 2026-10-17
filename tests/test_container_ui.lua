@@ -23,21 +23,21 @@ p.containerUI.buttons.containers.onclick(p)
 do
  local originalGet=ISContextMenu.get;local menus={}
  ISContextMenu.get=function(...) local m=originalGet(...);menus[#menus+1]=m;return m end
- local session=p.qmsSession;local originalViewInfo,originalSetView=session.viewInfo,session.setView
+ local session=p.qmsSession;local originalViewInfo,originalSetView,originalRequest=session.viewInfo,session.setView,session.request
  local intent
- session.viewInfo={buildingAvailable=true,maxRadius=3,rooms={{label='Kitchen',token='room-a'},{label='Bedroom',token='room-b'}}}
+ session.viewInfo={buildingAvailable=true,maxRadius=3,rooms={{label='Retired native room',token='room-old'}},customRooms={{label='Kitchen',id='designated-a',revision=1},{label='Bedroom',id='designated-b',revision=2}}}
  session.setView=function(_,view,done) intent=view;done('ok') end
+ session.request=function(self,command,args,done) if command=='roomList' then done({status='ok',rooms=self.viewInfo.customRooms}) else return originalRequest(self,command,args,done) end end
  p.containerUI.buttons.containers.onclick(p)
- local root=menus[1];assert(root and #menus==5)
+ local root=menus[1];assert(root and #menus==3)
  root.options[1].callback(p);assert(intent.kind=='building')
  local rooms=root.options[2].sub
- assert(rooms.parent==root and #rooms.options==3 and rooms.player==root.player)
- local nativeRooms=rooms.options[1].sub
- assert(#nativeRooms.options==2 and rooms.options[2].notAvailable,'empty custom submenu is not state-aware')
- nativeRooms.options[2].callback(p);assert(intent.kind=='room' and intent.room=='room-b')
- nativeRooms.options[1].callback(p);assert(intent.room=='room-a')
+ assert(rooms.parent==root and #rooms.options==3 and rooms.player==root.player,'room menu: '..tostring(#rooms.options)..' parent='..tostring(rooms.parent==root)..' player='..tostring(rooms.player==root.player))
+ assert(rooms.options[1].name=='Kitchen' and rooms.options[2].name=='Bedroom','retired native room appeared in designated menu')
+ rooms.options[2].callback(p);assert(intent.kind=='customRoom' and intent.room=='designated-b' and intent.revision==2)
+ rooms.options[1].callback(p);assert(intent.room=='designated-a' and intent.revision==1)
  root.options[3].sub.options[2].callback(p);assert(intent.kind=='proximity' and intent.radius==2)
- session.viewInfo,session.setView=originalViewInfo,originalSetView;ISContextMenu.get=originalGet
+ session.viewInfo,session.setView,session.request=originalViewInfo,originalSetView,originalRequest;ISContextMenu.get=originalGet
 end
 setJoypadFocus(p.playerNum,p.containerUI.rail)
 assert(focused and focused~=p and focused.itemheight==48,'controller must reach rail')

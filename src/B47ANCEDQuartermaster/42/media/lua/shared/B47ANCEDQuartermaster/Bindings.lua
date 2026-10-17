@@ -27,8 +27,6 @@ function B.session(player,session)
     local playerSquare=player.getCurrentSquare and player:getCurrentSquare()
     if s.customRoom then
         if not B47ANCEDQuartermaster.Rooms.resolve(player,s.customRoom,s.roomRevision) then return end
-    elseif s.areaRoom then
-        if not B47ANCEDQuartermaster.RoomScopes.playerWithinArea(player,s) then return end
     elseif s.buildingDef then
         local current=playerSquare and playerSquare:getBuilding()
         if not current or current:getDef()~=s.buildingDef then return end
@@ -151,12 +149,17 @@ function B.discover(player,args)
             end
         end
     end
+    s.areaRoom=nil;s.areaView=nil;s.areaBuildingDef=nil
     local viewInfo=V.metadata(s,metadata,player,building)
     s.viewTargets=metadata;s.viewInfo=viewInfo
-    if args.invalidateView==true then s.appliedView={kind='room',room=false} end
-    s.appliedView=s.appliedView or (viewInfo.currentRoom and {kind='room',room=viewInfo.currentRoom} or {kind='proximity',radius=viewInfo.maxRadius})
+    if args.invalidateView==true then s.appliedView={kind='invalid'} end
+    s.appliedView=s.appliedView or V.default(viewInfo)
+    if s.appliedView.kind=='room' or s.appliedView.kind=='nativeRoom' then s.appliedView={kind='invalid'} end
     if s.customRoom then s.appliedView={kind='customRoom',room=s.customRoom,revision=s.roomRevision} end
-    if not s.customRoom and s.appliedView.kind=='customRoom' then s.appliedView={kind='proximity',radius=viewInfo.maxRadius} end
+    if s.appliedView.kind=='customRoom' then
+        local found=false;for _,room in ipairs(viewInfo.customRooms) do if room.id==s.appliedView.room and room.revision==s.appliedView.revision then found=true;break end end
+        if not found then s.appliedView={kind='invalid'} end
+    end
     if select(2,B47ANCEDQuartermaster.RoomAccess.service())=='ready' then stats={candidateObjects=#metadata,eligibleContainers=#metadata,loadedSquares=0} end
     B.sessions[player]=s
     Trace.emit(args.trace,'HANDLE_GENERATION','complete',nil,nil,handlesAt,#metadata)

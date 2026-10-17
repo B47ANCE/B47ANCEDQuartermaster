@@ -4,6 +4,10 @@ local Q=B47ANCEDQuartermaster;local F,f=LEDGER_FIXTURE,CONTAINER_FIXTURE
 local L=Q.Ledger;local G=require 'B47ANCEDQuartermaster/LedgerRequirement'
 local P=require 'B47ANCEDQuartermaster/LedgerPolicy';local D=require 'B47ANCEDQuartermaster/LedgerDrives'
 local opts=SandboxVars.B47ANCEDQuartermaster;local actor=f.player
+local Scope=require 'B47ANCEDQuartermaster/LedgerScope'
+assert(Scope.signature(Scope.capture(actor,'building'))=='building:77|0:0:2:2:0:0','scope policy invalidated existing building ledger coverage')
+local unassigned=Scope.room(actor,{getX=function() return 0 end,getY=function() return 0 end,getZ=function() return 0 end,getRoom=function() error('native room used as organization') end})
+assert(unassigned=='unassigned:0','native room became a current ledger grouping')
 local root=ModData.getOrCreate('B47ANCEDQuartermasterLedger');root.schema=1
 local age=42.5;getGameTime=function() return {getWorldAgeHours=function() return age end} end
 opts.LedgerMode=nil;opts.LedgerUpdateDays=nil;opts.RequireLedgerForSorting=true;opts.RequireLedgerForCollecting=true
@@ -100,5 +104,5 @@ currentPaper.finished=finished
 -- Independent compatibility families prevent silently mixing old scope semantics.
 local Protocol=require 'B47ANCEDQuartermaster/Protocol'
 assert(Protocol.version('ledgerRead')==3 and not Protocol.accepts('ledgerRead',{protocol=2}))
-assert(Protocol.version('areaDiscover')==3 and Protocol.version('movePut')==11)
+assert(Protocol.version('areaDiscover')==4 and not Protocol.accepts('areaDiscover',{protocol=3}) and Protocol.version('movePut')==11)
 print('PASS OFFLINE ledger modes: manual Sort without knowledge, area gate, default/expiry boundary/world time, live/historical statistics, privacy revocation, native renewal/CD immutability, powered automatic computer and real CD/power loss, disabled/re-enable preservation and mixed-peer refusal; native/dedicated NOT TESTED')

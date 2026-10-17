@@ -1,6 +1,8 @@
 # Advisory allocation system
 
-Project Version: 0.18.0-dev.1
+Project Version: 0.18.0-dev.2
+
+Current designated-only scope correction: native room selectors/requests are retired; B47ANCEDRooms designations provide room identity and native buildings provide building scope. Quartermaster Rooms capability is 4; movement remains 11. Existing ledger signatures, upstream complete-footprint configuration permission and provider-capability checks remain. Enforcement/live role routing stay disabled. [Exact validation and limitations](DESIGNATED_ROOM_SCOPES.md).
 
 This is a development foundation. AllocationRuntime.enforcing() returns false;
 live role routing is closed. Legacy/native sorting, carry filling and completed
@@ -18,7 +20,7 @@ percentage controls, reset, exact input, Whole/child edits and cancellation do n
 write until Save. They do not change physical storage or move inventory.
 
 Configuration protocol 6 and preset protocol 3 require matching peers. Other
-families retain movement 11, personal 2, shopping 3, ledger 3, Rooms 3 and
+families retain movement 11, personal 2, shopping 3, ledger 3, Rooms 4 and
 load-policy 1. Saved container schema 2 is read without schema-only rewriting;
 explicit saves write schema 3 with the original envelope retained in owned
 allocationBackups. Preset schema 1 similarly upgrades on writes to schema 2 with

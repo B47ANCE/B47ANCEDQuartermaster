@@ -63,10 +63,12 @@ function S.room(actor,sq)
  if api then
   local result=api.roomsAt(actor,sq:getX(),sq:getY(),sq:getZ())
   if result.status~='ok' then return end
-  table.sort(result.rooms,function(a,b) return a.id<b.id end)
-  if result.rooms[1] then return result.rooms[1].id,result.rooms[1].name or result.rooms[1].label end
+  local rooms={};for _,room in ipairs(result.rooms) do if B47ANCEDQuartermaster.RoomAccess.designated(room) then rooms[#rooms+1]=room end end
+  table.sort(rooms,function(a,b) return a.id<b.id end)
+  if rooms[1] then return rooms[1].id,rooms[1].name or rooms[1].label end
  end
- local r=sq:getRoom();local d=r and r:getRoomDef()
- return d and 'native:'..tostring(d:getID()) or 'outside:'..sq:getZ(),d and d:getName() or getText('UI_QMSS_LedgerOutside')
+ -- Building capture/signatures retain internal native geometry for existing ledgers.
+ -- These row labels are presentation only and never establish access or scope.
+ return 'unassigned:'..sq:getZ(),getText('UI_QMSS_LedgerUnassigned')
 end
 return S

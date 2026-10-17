@@ -241,19 +241,11 @@ function M.attach(p)
         local building=menu:addOption(tr('ScopeBuilding'),p,function() selectView({kind='building'}) end);building.notAvailable=not s.viewInfo.buildingAvailable
         B47ANCEDUI.Tooltip.context(building,tr(s.viewInfo.buildingAvailable and 'ScopeTip' or 'BuildingDisabledTip'),p.playerNum,menu)
         local rooms=menu:addOption(tr('RoomScope'));local roomMenu=ISContextMenu:getNew(menu);menu:addSubMenu(rooms,roomMenu)
-        local native=roomMenu:addOption(tr('RoomNativeRooms'));local nativeMenu=ISContextMenu:getNew(roomMenu);roomMenu:addSubMenu(native,nativeMenu)
-        local external=select(2,Q.RoomAccess.service())=='ready'
-        local nativeCount=0
-        if external then
-            for _,room in ipairs(s.viewInfo.customRooms or {}) do if room.native or room.nativeId then local selected=room;nativeCount=nativeCount+1;nativeMenu:addOption(room.label,p,function() selectView({kind='customRoom',room=selected.id,revision=selected.revision}) end) end end
-        else
-            for _,room in ipairs(s.viewInfo.rooms) do nativeCount=nativeCount+1;nativeMenu:addOption(room.label,p,function() selectView({kind='room',room=room.token}) end) end
-        end
-        native.notAvailable=nativeCount==0
-        local custom=roomMenu:addOption(tr('RoomCustomRooms'));local customMenu=ISContextMenu:getNew(roomMenu);roomMenu:addSubMenu(custom,customMenu)
         local customCount=0
-        for _,room in ipairs(s.viewInfo.customRooms or {}) do if not room.native and not room.nativeId then local selected=room;customCount=customCount+1;customMenu:addOption(room.label,p,function() selectView({kind='customRoom',room=selected.id,revision=selected.revision}) end) end end
-        custom.notAvailable=customCount==0
+        for _,room in ipairs(s.viewInfo.customRooms or {}) do if Q.RoomAccess.designated(room) then
+            local selected=room;customCount=customCount+1;roomMenu:addOption(room.label or room.name,p,function() selectView({kind='customRoom',room=selected.id,revision=selected.revision}) end)
+        end end
+        if customCount==0 then local empty=roomMenu:addOption(tr('AllocationNoRooms'));empty.notAvailable=true end
         if select(2,Q.RoomAccess.service())=='ready' then
         menu:addOption(tr('DesignateRoom'),p,function() capture();highlight:clear();Q.RoomAccess.openEditor(p.playerNum,p,function() if not p.removed then p.discoveryDirty=true end end) end)
         if p.allocationInfo and p.allocationInfo.roomProfiles then
