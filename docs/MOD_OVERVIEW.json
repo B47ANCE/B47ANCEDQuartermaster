@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.20.0-dev.1",
+  "version": "0.20.0-dev.2",
   "reviewed": true,
-  "source_digest": "4db62ded7fcfc4d0988e36b7f6063618ec9b22470a2d8873741777a70c57e489",
+  "source_digest": "eefc13b5904f4de863c468625c6ce5f3e21f5e7763e62751ca45c507b6565b52",
   "features": [
     {
       "status": "Source",
@@ -43,7 +43,7 @@
       "text": "Approved Windows93 PC ledger table with selected-record details; retained ledger/writer tasks on PC Framework's unified CRT desktop and owner-bound writer completion. Source/offline only."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.20.0-dev.1; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.20.0-dev.2; G7/stable G8 BLOCKED. Requires PC Framework Workshop item 3822042011; matching peers required. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",

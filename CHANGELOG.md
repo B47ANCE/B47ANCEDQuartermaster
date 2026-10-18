@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.20.0-dev.2] - 2026-10-17
+
+- PATCH-level publication metadata/tooling checkpoint within pending 0.20.0: link required PC Framework Workshop item 3822042011 and prepare accurate MP testing prose. Pass explicit dependency checkouts through Workshop staging.
+- Gameplay, sandbox settings, public APIs, saves, existing item 3807217050 and visibility are unchanged. Full offline package/paired regressions are required before upload. Native SP/dedicated NOT TESTED; G7/stable G8 BLOCKED.
+
 ## [0.20.0-dev.1] - 2026-10-17
 
 - Compatible MINOR UI expansion: restore the approved Windows 93 ledger table and selected-record details within PC Framework's unified CRT desktop. Paper presentation and authoritative ledger/media formats remain unchanged.

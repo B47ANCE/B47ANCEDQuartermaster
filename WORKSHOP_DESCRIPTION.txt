@@ -3,7 +3,7 @@ B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep t
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.20.0-dev.1 (development source; not yet uploaded). New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
+Version 0.20.0-dev.2 (MP testing build). Offline regressions pass; native client/dedicated acceptance is pending. Back up saves and update the server and all clients together.
 
 [h2]Sorting made simple[/h2]
 • Choose whole categories or individual items in a searchable tree with native item icons.
@@ -34,7 +34,7 @@ Inventory and selected-container Sort work without a ledger. Room/Building Sort 
 Computers open a Windows '93 desktop. Use CD Writer to create a ledger CD; place it in storage beside the computer, load it through CD-ROM (D:) and run QUARTERMASTER.EXE to open the application.
 Craft a Supply Sheet, then walk through building or safehouse storage to record what is there, including unconfigured containers. Paper pages show rooms, containers, quantities, locations and recording times. Interrupted inspections keep completed entries.
 
-At a supported powered desktop computer, copy a completed sheet onto a chosen vanilla CD. The paper stays intact; the CD's original music is overwritten. Read the portable ledger CD at a supported powered desktop to search item names/IDs and browse rooms. Choose periodic live statistics, Disabled, no-expiry live statistics, or historical snapshots. The update interval defaults to 7 in-game days; computers can require manual inspection/CD updates or refresh automatically while powered. Live readers show confirmed contents of recorded storage; older snapshots and CDs are retained. The initial terminal is the stock desktop computer.
+At a powered accessible PC, copy a completed sheet onto a selected vanilla CD. The paper is kept; the CD's music is overwritten. Load the CD and run QUARTERMASTER.EXE to search names/IDs and browse rooms in the Item/Quantity/Location table with selected details. Choose periodic live statistics, Disabled, no-expiry live statistics or historical snapshots. Updates default to 7 in-game days; manual CD updates or automatic powered refresh are server settings. All powered vanilla PC orientations and placed Computer-tagged tiles qualify. The shared CRT desktop/Start menu keeps ledger, CD Writer, Minesweeper and other installed apps available. A seat directly in front supports access while resting; native acceptance remains pending.
 
 [h2]Rooms and your base[/h2]
 Use [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url] to designate rooms and organize storage around your base. Open Designate Room from Quartermaster, then choose room or building sorting when putting supplies away.
@@ -48,7 +48,7 @@ Resize the window, adjust the container divider and set background transparency.
 
 [h2]Compatibility[/h2]
 • Project Zomboid Build 42.21.
-• Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url]. Enable it alongside Quartermaster.
+• Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011]B47ANCED PC Framework[/url]. Enable both with Quartermaster on the server and every client.
 • Supports Better Sorting, Better Containers or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3650035249]Extended Categories[/url]. Client-local category selections save explicit item choices. Reselect after changing category membership; follow each category mod's compatibility rules. Without category mods, Quartermaster uses vanilla categories.
 • Optional shopping-list controls for Project Cook, Neat Crafting and Neat Building. Supported recipes only; shopping does not automatically craft, build or cook.
 • Disable original Quartermaster and older B47 sorting copies.
@@ -59,11 +59,11 @@ Created by B47ANCE. Original Lua-only implementation.
 [url=https://github.com/B47ANCE/B47ANCEDQuartermaster]GitHub — Source Code & Issues[/url]
 
 [h2]Current limits[/h2]
-Native client and dedicated multiplayer acceptance for this candidate are pending. The initial computer is the stock desktop; its CD remains a real item in accessible adjacent storage. Ledger modes offer periodic live statistics, Disabled, no-expiry live statistics, or historical snapshots. Update interval and manual/automatic computer updates are server settings. Live statistics cover recorded, loaded compartments; new storage requires inspection. Expired pages remain readable history. Selected vehicle/trailer sources are supported; automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks and unverified virtual storage are not. Supported cooking plans use full portions; partial portions, fluids and unsupported recipes are not handled. Room policies do not lock unrelated vanilla transfers.
+Native client/dedicated acceptance is pending. CDs remain real items in accessible adjacent storage. Live statistics cover recorded, loaded storage; new storage needs inspection. Expired pages remain readable history. Selected vehicle/trailer sources are supported; automatic vehicle sweeps, vehicle destinations, fluid tanks and unverified virtual storage are not. Cooking plans use full portions; partial portions, fluids and unsupported recipes are not handled. Room policies do not lock unrelated vanilla transfers.
 
 Room organization uses designated B47ANCEDRooms rooms only; native buildings define building scope. Retired native-room scope requests are rejected (Quartermaster Rooms capability 4). Existing building-ledger coverage and historical data are preserved. Allocation limits and live role routing remain disabled.
 
 
-Development source 0.20.0-dev.1: requires B47ANCED PC Framework (no Workshop item assigned yet). Desktop and reusable drives are extracted; Quartermaster registers its ledger/CD Writer apps. MP testing build - dedicated multiplayer NOT TESTED. G7/stable G8 BLOCKED. This text is source preparation only; no upload is authorized or performed.
+Development source 0.20.0-dev.2: PC Framework Workshop item 3822042011 is available separately. Quartermaster registers its ledger/CD Writer apps. MP testing build - dedicated multiplayer NOT TESTED; G7/stable G8 BLOCKED.
 
-Unified computer UI: shared PC Framework desktop/Start menu, approved B47 / CRT 93 styling, table/detail ledger reader and retained writer/ledger taskbar windows. Source-only development; native SP/dedicated NOT TESTED. G7/stable G8 BLOCKED.
+Unified computer UI: approved B47 / CRT 93 styling and independent ledger/writer taskbar windows. Native SP/dedicated NOT TESTED; G7/stable G8 BLOCKED.

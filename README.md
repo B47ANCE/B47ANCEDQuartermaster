@@ -8,7 +8,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.20.0-dev.1 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/fix/designated-room-scopes).
+The Workshop feature guide is below. This branch contains **0.20.0-dev.2 development work**, prepared for the authorized MP testing update to existing item 3807217050. The previous 0.16.0-dev.2 package remains historical. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/workshop-publication).
 
 ## Development work in this branch
 
@@ -61,7 +61,7 @@ Choose **Use computer (Windows '93)** at a supported powered desktop. Open **CD 
 
 ## Getting started
 
-1. For this development source, enable Quartermaster, B47ANCE'd Rooms and B47ANCED PC Framework on all peers. PC Framework is not yet on Workshop.
+1. For this development source, enable Quartermaster, B47ANCE'd Rooms and B47ANCED PC Framework on all peers. [PC Framework is Workshop item 3822042011](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011).
 2. Open **Quartermaster** from your player inventory.
 3. Select a container and choose its categories, individual items or sorting presets.
 4. Save the configuration. Repeat for other storage, or reuse settings with copy/paste and presets.
@@ -86,7 +86,7 @@ Visible-list operations affect displayed item rows. Category and mod-group actio
 ## Compatibility
 
 - **Project Zomboid Build 42.21.**
-- **B47ANCE'd Rooms and B47ANCED PC Framework are required by this development source.** Enable `B47ANCEDRooms`, `B47ANCEDPCFramework` and `B47ANCEDQuartermaster` on every peer. [Framework setup and preserved saves](docs/PC_FRAMEWORK_INTEGRATION.md). The framework has no assigned Workshop item yet.
+- **B47ANCE'd Rooms and B47ANCED PC Framework are required by this development source.** Enable `B47ANCEDRooms`, `B47ANCEDPCFramework` and `B47ANCEDQuartermaster` on every peer. [Framework setup and preserved saves](docs/PC_FRAMEWORK_INTEGRATION.md). The framework is [Workshop item 3822042011](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011).
 - **Better Sorting, Better Containers and [Extended Categories](https://steamcommunity.com/sharedfiles/filedetails/?id=3650035249) are optional alternatives.** Quartermaster reads native category metadata. Better Containers and Extended Categories category clicks save explicit item selections so client-local categories do not control server classification. Reselect after changing category membership. Extended Categories declares Better Sorting incompatible; follow their load rules. Inventory presentation stays with the installed UI mods.
 - **Project Cook, Neat Crafting and Neat Building are optional.** Shopping controls support compatible recipes; partial portions, fluids and other unsupported cooking demands are not handled.
 - Disable original Quartermaster and older B47 sorting copies.
@@ -129,3 +129,5 @@ Current integration 0.18.0-dev.1: see [allocation integration and evidence](docs
 Allocation profiles and percentage controls are now an advisory foundation. Off/Shadow defaults to Shadow; quota enforcement and Primary/Secondary routing remain disabled. Use matching peers after the configuration/preset wire upgrade. Original configurations and preset libraries are backed up on explicit migration writes. [Behavior, permissions and rollback](docs/ALLOCATION_SYSTEM.md).
 
 Computer UI development 0.20.0-dev.1 pairs with PC Framework 0.9.0-dev.1: Quartermaster, Minesweeper and other authorized apps share one approved beige CRT desktop/Start menu. The PC ledger now uses the designed Item/Quantity/Location table with selected-record details; writer and ledger remain separate taskbar windows. Server ledger/media protocols and saves are unchanged. Native SP/dedicated remain NOT TESTED; G7/stable G8 BLOCKED. See [computer UI](docs/WINDOWS93_COMPUTER.md).
+
+Publication checkpoint 0.20.0-dev.2 pairs with PC Framework 0.9.0-dev.3 / Workshop 3822042011. Existing Quartermaster item 3807217050 and visibility are preserved. Canonical Workshop prose remains WORKSHOP_DESCRIPTION.txt and WORKSHOP_CHANGE_NOTE.txt. Build-Workshop.ps1 accepts explicit RoomsPath/PCFrameworkPath for isolated worktrees; staging and uploading do not restart Steam. Native SP/dedicated NOT TESTED; G7/stable G8 BLOCKED.
