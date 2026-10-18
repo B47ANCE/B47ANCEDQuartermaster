@@ -1,6 +1,6 @@
 # Ledger requirement for sorting and collection
 
-Project Version: 0.19.0-dev.1
+Project Version: 0.20.0-dev.1
 
 Current computer hosting is supplied by the required **B47ANCED PC Framework**; Quartermaster registers its ledger reader and CD Writer as apps. Existing ledger/drive data and server permissions are preserved. See [extraction, setup and current evidence](PC_FRAMEWORK_INTEGRATION.md).
 

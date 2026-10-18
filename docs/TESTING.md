@@ -1,6 +1,6 @@
 # Testing
 
-Project Version: 0.19.0-dev.1
+Project Version: 0.20.0-dev.1
 
 Current computer hosting is supplied by the required **B47ANCED PC Framework**; Quartermaster registers its ledger reader and CD Writer as apps. Existing ledger/drive data and server permissions are preserved. See [extraction, setup and current evidence](PC_FRAMEWORK_INTEGRATION.md).
 
@@ -81,7 +81,7 @@ User confirms dev.20 loaded but visible Category labels remained vanilla with Ne
 
 Compatible PATCH correction on dev.19: Category cells use the canonical resolver cache and current localized labels. Compatibility is checked during rendering rather than permanently skipping registration during early Lua loading. Native row.cat, sorting, grouping and item definitions stay unchanged. Full offline regression and frozen 5,092-item comparison passed; actual B42.21 inventory/loot/controller/scaling and second-language client acceptance remain UNTESTED. Dev.19 Stage A instrumentation is retained; its dedicated timing gate remains BLOCKED. See `dist/handoffs/dev20-inventory-category.md`. No deployment or publication.
 
-Current source version: 0.19.0-dev.1. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
+Current source version: 0.20.0-dev.1. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
 
 Historical note: Recorded source snapshot: 0.4.0-dev.50. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
 
@@ -151,3 +151,5 @@ Current dev.29 independent tracks: [category audit/blocker and adjustable appear
 
 
 Current integration: see [ALLOCATION_INTEGRATION.md](ALLOCATION_INTEGRATION.md).
+
+Computer presentation 0.20.0-dev.1: run `python -B scripts/check_versions.py`; `python -B tests/run_tests.py --require-rooms --rooms <B47ANCEDRooms checkout> --pc-framework <B47ANCEDPCFramework 0.9.0-dev.1 checkout>`. Updated test_ledger_ui.lua checks unchanged paper presentation, table/header/detail/footer bounds, literal search/room filters, explicit media load/Run, retained ledger/writer tasks, owner-bound writer completion while Minesweeper is focused, and app-only disable behavior. Full paired source/native-shaped fixture regressions pass; source-rendered reference previews use sample rows and approximate fonts. Native SP/dedicated NOT TESTED; G7/stable G8 BLOCKED. Validate actual native table selection/scrolling, Start/taskbar/dropdown/controller/tooltip layering, split-screen/font sizes, late replies, power/privacy/seat loss, simultaneous apps, writer completion, two-client media changes and reconnect/restart before claiming native acceptance. No package/deploy/Workshop upload.

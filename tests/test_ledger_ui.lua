@@ -37,6 +37,7 @@ function ISTextEntryBox:setTextRGBA(r,g,b,a) self.nativeTextColor={r,g,b,a} end
 local V=require 'B47ANCEDQuartermaster/LedgerUI'
 require 'B47ANCEDPCFramework/Startup'
 local panel=assert(V.read(0,paper));assert(not panel.ledgerControls.search and not panel.ledgerControls.rooms,'paper exposes digital controls')
+assert(not panel.ledgerControls.tableHeader and not panel.ledgerControls.details,'PC table changed paper presentation')
 panel:prerender();assert(#panel.ledgerControls.list.items==1)
 panel:setWidth(800);panel:setHeight(620);panel:prerender()
 assert(panel.ledgerControls.list.y+panel.ledgerControls.list.height<=panel.ledgerControls.close.y,'paper list overlaps footer')
@@ -54,9 +55,13 @@ panel=assert(V.readers[0]);assert(screen.content==panel and panel.parent and not
 assert(readCount()==before+1 and panel.ledgerControls.search and panel.ledgerControls.rooms)
 assert(panel.ledgerControls.search.nativeTextColor[1]<.1,'native text-entry glyphs stayed white on white')
 assert(#panel.ledgerControls.rooms.options==2,'digital room browser missing')
+assert(panel.ledgerControls.tableHeader and panel.ledgerControls.details and panel.ledgerControls.pageLabel,'approved computer table/detail controls missing')
 for _,size in ipairs({{700,404},{1100,700}}) do
  screen:setWidth(size[1]);screen:setHeight(size[2]);screen:prerender();panel:prerender()
  assert(panel.ledgerControls.list.y+panel.ledgerControls.list.height<=panel.ledgerControls.close.y,'computer reader overlaps footer')
+ assert(panel.ledgerControls.tableHeader.y+panel.ledgerControls.tableHeader.height<=panel.ledgerControls.list.y,'table header overlaps rows')
+ assert(panel.ledgerControls.list.y+panel.ledgerControls.list.height<=panel.ledgerControls.details.y,'table overlaps selected record details')
+ assert(panel.ledgerControls.details.y+panel.ledgerControls.details.height<=panel.ledgerControls.close.y,'record details overlap footer')
  assert(screen.start.x+screen.start.width<screen.task.x and screen.task.x+screen.task.width<screen.off.x,'taskbar overlap')
 end
 panel.ledgerControls.search:setText('5.56');panel.ledgerControls.search.onTextChangeFunction();f.advance(400);panel:prerender()
@@ -87,6 +92,9 @@ getPlayerScreenWidth=function() return 3840 end;getPlayerScreenHeight=function()
 for _,font in ipairs({24,32,42}) do
  getTextManager=function() return {getFontHeight=function() return font end,MeasureStringX=function(_,_,s) return #s*font/2 end} end
  screen=assert(V.computer(0,computer));screen:setWidth(screen.minimumWidth);screen:setHeight(screen.minimumHeight);screen:prerender()
+ drive=screen:openDrive();if not screen.mounted then drive.insert.onclick() end;screen:runDisc();panel=assert(V.readers[0]);panel:prerender()
+ assert(panel.ledgerControls.list.y+panel.ledgerControls.list.height<=panel.ledgerControls.details.y,'large-font table overlaps details')
+ assert(panel.ledgerControls.details.y+panel.ledgerControls.details.height<=panel.ledgerControls.close.y,'large-font details overlap footer')
  writer=screen:openWriter();writer:prerender();local metrics=U.Theme.metrics()
  assert(writer.write.y>=48+3*metrics.font+2*metrics.button,'large-font writer warning overlaps action')
  assert(writer.write.y+writer.write.height<=writer:getHeight()-8)
@@ -102,9 +110,25 @@ print('PASS OFFLINE Windows 93 ledger UI: desktop has no automatic reads, explic
 
 -- Server-disabled mode removes ledger/computer entry points and closes screens.
 screen=assert(V.computer(0,computer));SandboxVars.B47ANCEDQuartermaster.LedgerMode=2
-screen:prerender();assert(not C.active[0] and not V.readers[0])
+screen:prerender();assert(not C.isLive(screen) and not V.readers[0] and C.desktops[0],'disabling Quartermaster logged off the independent desktop')
 assert(not V.computer(0,computer))
 local entries={addOption=function() error('disabled ledger action was offered') end}
 V.inventoryMenu(0,entries,{paper});V.worldMenu(0,entries,{computer},false)
 SandboxVars.B47ANCEDQuartermaster.LedgerMode=1
 print('PASS OFFLINE disabled ledger UI: menus suppressed, computer open refused, active screen closed')
+
+-- Writer and ledger use separate taskbar windows; completion stays with its owner.
+local PC=require 'B47ANCEDPCFramework/API'
+screen=assert(V.computer(0,computer));drive=screen:openDrive();drive.insert.onclick();screen:runDisc();panel=assert(V.readers[0])
+local d=C.desktops[0];local tool
+for _,entry in ipairs(d.entries) do if entry.id=='quartermaster' and entry.kind=='tool' then tool=entry end end
+assert(tool,'writer missing from the shared launcher');d:launch(tool)
+local writerHost=C.active[0];assert(writerHost~=screen and writerHost.root==screen.root and screen.content==panel,'writer replaced the ledger window')
+local oldMessage=writerHost.message;local messages=0
+writerHost.message=function(self,key) messages=messages+1;return oldMessage(self,key) end
+V.burn(0,paper,cd,computer,writerHost);V.work[0].token='writer-result'
+local mines=assert(PC.open(0,computer,'b47pc.minesweeper'));mines.message=function() error('writer status crossed into another app') end
+require('B47ANCEDQuartermaster/Ledger').clientResult(actor,{token='writer-result',status='ok'})
+assert(messages==1 and not V.work[0] and V.readers[0]==panel,'background writer completion lost its window/ledger')
+screen:close();assert(not C.active[0] and not C.desktops[0])
+print('PASS OFFLINE approved ledger table: independent writer/ledger tasks, selected details and owner-bound writer completion while another app is active')

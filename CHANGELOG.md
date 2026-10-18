@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.20.0-dev.1] - 2026-10-17
+
+- Compatible MINOR UI expansion: restore the approved Windows 93 ledger table and selected-record details within PC Framework's unified CRT desktop. Paper presentation and authoritative ledger/media formats remain unchanged.
+- Keep writer completion messages bound to the writer window when other apps are active. Native SP/dedicated NOT TESTED; G7/stable G8 BLOCKED.
+
+
 ## [0.19.0-dev.1] - 2026-10-17
 
 - Extract the Windows '93 desktop, computer validation and reusable server drive engine into the required B47ANCED PC Framework mod.

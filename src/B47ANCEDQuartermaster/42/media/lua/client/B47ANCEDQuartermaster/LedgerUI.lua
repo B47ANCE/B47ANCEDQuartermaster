@@ -30,7 +30,8 @@ local function finish(op,status)
  if op.token then L.clientOffers[op.token]=nil end
  if status~='ok' and status~='done' and status~='ShoppingPaperCreated' and status~='ShoppingPaperSyncPending' then Q.Authority.request(op.num,'ledgerCancel',{},function() end) end
  local key=status=='ok' and 'LedgerSaved' or status=='done' and (op.summary or 'LedgerComplete') or status
- local screen=Computer.active[op.num];if op.burn and screen then screen:message(key) end
+ local screen=op.host or Computer.active[op.num]
+ if op.burn and screen and not screen.closed and screen.application=='quartermaster' then screen:message(key) end
  note(op.actor,key)
  if op.callback then op.callback(status) end
 end
@@ -82,10 +83,10 @@ function V.shoppingPaper(num,args,callback)
  local op={actor=actor,num=num,pending=true,single=true,callback=callback};V.work[num]=op
  Q.Authority.request(num,'shoppingPaperCreate',args,function(r) response(op,r) end)
 end
-function V.burn(num,paper,cd,computer)
+function V.burn(num,paper,cd,computer,host)
  if V.work[num] then return end
  local actor=getSpecificPlayer(num);if not actor or #queue(actor)>0 then return end
- local op={actor=actor,num=num,pending=true,burn=true};V.work[num]=op
+ local op={actor=actor,num=num,pending=true,burn=true,host=host};V.work[num]=op
  local sq=computer:getSquare();local d={x=sq:getX(),y=sq:getY(),z=sq:getZ(),index=computer:getObjectIndex()}
  Q.Authority.request(num,'ledgerBurn',{item=paper:getID(),cd=cd:getID(),computer=d},function(r) response(op,r) end)
 end
@@ -129,6 +130,43 @@ function V.read(num,item,computer,host)
   U.Renderer.text(self,row.ledgerLines[3],8,y+2*(m.font+4),(host and colors.muted or U.Theme.colors.muted))
   return y+self.itemheight
  end
+ local tableHeader,details,searchLabel,roomLabel,pageLabel
+ if host then
+  local function block()
+   local p=ISPanelJoypad:new(0,0,1,1);p.playerNum=num;p:initialise();p:instantiate();panel:addChild(p);return p
+  end
+  tableHeader=block();details=block();searchLabel=block();roomLabel=block();pageLabel=block()
+  local function line(w,s,x,y,width,c) U.Renderer.text(w,U.Renderer.fit(s,width),x,y,c or colors.black) end
+  tableHeader.prerender=function(self)
+   local w,h=self:getWidth(),self:getHeight();U.Renderer.rect(self,0,0,w,h,colors.grey)
+   U.Renderer.border(self,0,0,w,h,colors.shadow)
+   local x1,x2=math.floor(w*.38),math.floor(w*.51)
+   U.Renderer.rect(self,x1,0,1,h,colors.light);U.Renderer.rect(self,x2,0,1,h,colors.light)
+   line(self,tr('LedgerColumnItem'),6,4,x1-12);line(self,tr('LedgerColumnQuantity'),x1+6,4,x2-x1-12);line(self,tr('LedgerColumnLocation'),x2+6,4,w-x2-12)
+  end
+  list.itemheight=m.font+10
+  list.doDrawItem=function(self,y,row)
+   local data=row.item;local selected=self.selected==(row.index or row.itemindex)
+   local w=self:getWidth()-m.scrollbar;local x1,x2=math.floor(w*.38),math.floor(w*.51)
+   U.Renderer.rect(self,0,y,w,self.itemheight,selected and colors.blue or (row.index or row.itemindex or 1)%2==0 and colors.light or colors.white)
+   local c=selected and colors.white or colors.black
+   line(self,data.empty and tr('LedgerEmpty') or data.name,6,y+4,x1-12,c)
+   local quantity=tostring(data.quantity);local qw=getTextManager():MeasureStringX(U.Theme.fonts.body,quantity)
+   line(self,quantity,math.max(x1+4,x2-qw-8),y+4,x2-x1-12,c)
+   line(self,data.room..' / '..data.container,x2+6,y+4,w-x2-12,c)
+   return y+self.itemheight
+  end
+  details.prerender=function(self)
+   local w,h=self:getWidth(),self:getHeight();U.Renderer.rect(self,0,0,w,h,colors.white);U.Renderer.border(self,0,0,w,h,colors.shadow)
+   local row=list.items[list.selected] or list.items[1];if not row then return end
+   local data=row.item
+   line(self,tr('LedgerRecordedLine',data.recorded,data.fullType,data.condition),6,4,w-12)
+   line(self,tr('LedgerLocationLine',data.room,data.container,data.position.x,data.position.y,data.position.z,data.position.ci+1),6,m.font+8,w-12)
+  end
+  searchLabel.prerender=function(self) line(self,tr('LedgerFindLabel'),0,0,self:getWidth()) end
+  roomLabel.prerender=function(self) line(self,tr('LedgerRoomLabel'),0,0,self:getWidth()) end
+  pageLabel.prerender=function(self) line(self,tr('LedgerPageLabel',#history+1,#list.items),0,0,self:getWidth(),colors.muted) end
+ end
  local search,rooms
  local fetch
  if digital then
@@ -148,7 +186,7 @@ function V.read(num,item,computer,host)
  end)
  local close=U.Button:new(0,0,120,m.button,tr('LedgerClose'),panel,function() panel:close() end)
  for _,b in ipairs({previous,more,close}) do b:initialise();b:instantiate();panel:addChild(b) end
- panel.ledgerControls={list=list,search=search,rooms=rooms,previous=previous,more=more,close=close}
+ panel.ledgerControls={list=list,search=search,rooms=rooms,previous=previous,more=more,close=close,tableHeader=tableHeader,details=details,searchLabel=searchLabel,roomLabel=roomLabel,pageLabel=pageLabel}
  if host then
   for _,entry in ipairs({{list,'list'},{search,'input'},{rooms,'input'},{previous,'button'},{more,'button'},{close,'button'}}) do if entry[1] then Computer.decorate(entry[1],entry[2]) end end
  end
@@ -173,6 +211,7 @@ function V.read(num,item,computer,host)
    if revision and revision~=r.revision and page.cursor~=nil then revision=r.revision;page={};history={};due=getTimestampMs()+250;return end
    revision=r.revision
    summary=tr(r.summary)..' - '..r.scope..' - '..tr(r.live and 'LedgerLive' or r.fresh==false and r.summary=='LedgerComplete' and 'LedgerExpired' or 'LedgerStatic')
+   if host then summary=r.scope..' | '..tr(r.live and 'LedgerLiveShort' or r.fresh==false and r.summary=='LedgerComplete' and 'LedgerExpiredShort' or 'LedgerHistoryShort') end
    if r.expires and r.fresh then summary=summary..' - '..tr('LedgerExpires',r.expires) end
    for _,row in ipairs(r.rows) do list:addItem(row.name,row) end
    cursor=r.cursor
@@ -189,13 +228,24 @@ function V.read(num,item,computer,host)
  local pre=panel.prerender
  panel.prerender=function(self,...)
   if not Policy.enabled() or getSpecificPlayer(num)~=actor or actor:isDead() or (not digital and Media.owned(actor,item:getID())~=item) or digital and not Media.computer(actor,computer,true) then self:close();return end
-  if host then U.Renderer.rect(self,0,0,self:getWidth(),self:getHeight(),colors.white) else pre(self,...) end
+  if host then U.Renderer.rect(self,0,0,self:getWidth(),self:getHeight(),colors.grey) else pre(self,...) end
   local w,h=self:getWidth(),self:getHeight();local top=header+(digital and m.button+16 or 8)
   list:setX(12);list:setY(top+2*m.button);list:setWidth(w-24);list:setHeight(math.max(m.button,h-top-3*m.button-24))
   if search then search:setWidth(math.max(140,w*.60-20));rooms:setX(12+w*.60);rooms:setWidth(w*.40-24) end
+  if host then
+   top=2*m.font+m.button+24
+   local tableY=top+m.font+12;local detailH=2*(m.font+4)+10
+   local detailY=h-m.button-12-detailH-8
+   U.Layout.place(searchLabel,12,8,w*.60-20,m.font+4);U.Layout.place(roomLabel,12+w*.60,8,w*.40-24,m.font+4)
+   U.Layout.place(search,12,m.font+12,w*.60-20,m.button);U.Layout.place(rooms,12+w*.60,m.font+12,w*.40-24,m.button)
+   U.Layout.place(tableHeader,12,tableY,w-24-m.scrollbar,m.font+10)
+   U.Layout.place(list,12,tableY+m.font+10,w-24,math.max(m.font+10,detailY-tableY-m.font-18))
+   U.Layout.place(details,12,detailY,w-24,detailH)
+   U.Layout.place(pageLabel,w*.67,top,w*.33-12,m.font+4)
+  end
   previous:setY(h-m.button-12);more:setY(h-m.button-12);close:setY(h-m.button-12);close:setX(w-132)
   previous:setEnable(not pending and #history>0);more:setEnable(not pending and cursor~=nil)
-  U.Renderer.text(self,U.Renderer.fit(summary,w-24),12,top,host and colors.black or U.Theme.colors.text)
+  U.Renderer.text(self,U.Renderer.fit(summary,host and w*.65-24 or w-24),12,top,host and colors.black or U.Theme.colors.text)
   if pending then U.Renderer.text(self,tr('LedgerLoading'),12,top+m.button,(host and colors.muted or U.Theme.colors.muted)) end
   local now=getTimestampMs()
   if not pending and (due and now>=due or now-lastRead>=2000) then due=nil;fetch() end
@@ -247,7 +297,7 @@ end
 local PC=require 'B47ANCEDPCFramework/API'
 PC.registerApplication('quartermaster',function(num,computer)
  if not Policy.enabled() or not computer then return end
- return {inventory=inventory,enabled=Policy.enabled,canUse=Media.computer,
+ return {inventory=inventory,enabled=Policy.enabled,canUse=Media.computer,launcherTitle=tr('ComputerAppTitle'),
   text=tr,file='QUARTERMASTER.EXE',toolTitle=tr('ComputerWriter'),
   canRun=function(item) return item and item:getFullType()==Media.disc end,
   writer=require 'B47ANCEDQuartermaster/ComputerWriter',
@@ -257,7 +307,7 @@ PC.registerApplication('quartermaster',function(num,computer)
    Q.Authority.request(num,({list='ledgerDriveList',mount='ledgerDriveMount',eject='ledgerDriveEject'})[command],args,reply)
   end,
   read=function(item,host) return V.read(num,item,computer,host) end,
-  burn=function(paper,cd) V.burn(num,paper,cd,computer) end,
+  burn=function(paper,cd,host) V.burn(num,paper,cd,computer,host) end,
   busy=function() return V.work[num]~=nil end,
   close=function() local op=V.work[num];if op and op.burn then V.cancel(num) end end}
 end,tr('LedgerDigitalTitle'))

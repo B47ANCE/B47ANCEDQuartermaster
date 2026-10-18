@@ -534,5 +534,15 @@
   "UI_QMSS_AllocationNoOverLimit": "No captured stock exceeds this local profile.",
   "UI_QMSS_AllocationTruncated": "Only the first 32 over-limit rules are shown.",
   "UI_QMSS_AllocationDefaultPreview": "Inherited default: %1% → %2%",
-  "UI_QMSS_LedgerUnassigned": "No designated room"
+  "UI_QMSS_LedgerUnassigned": "No designated room",
+  "UI_QMSS_LedgerColumnItem": "Item",
+  "UI_QMSS_LedgerColumnQuantity": "Quantity",
+  "UI_QMSS_LedgerColumnLocation": "Location",
+  "UI_QMSS_LedgerFindLabel": "Find item:",
+  "UI_QMSS_LedgerRoomLabel": "Room:",
+  "UI_QMSS_LedgerPageLabel": "Page %1 | %2 entries",
+  "UI_QMSS_ComputerAppTitle": "Quartermaster",
+  "UI_QMSS_LedgerLiveShort": "Live",
+  "UI_QMSS_LedgerHistoryShort": "Historical",
+  "UI_QMSS_LedgerExpiredShort": "Update required"
 }

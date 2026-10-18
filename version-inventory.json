@@ -117,6 +117,14 @@
     {
       "path": "docs/MOD_OVERVIEW.json",
       "pattern": "^  \"version\": \"(?P<version>[^\\\"]+)\""
+    },
+    {
+      "path": "WORKSHOP_CHANGE_NOTE.txt",
+      "pattern": "Development source (?P<version>[0-9][^: ]+):"
+    },
+    {
+      "path": "WORKSHOP_DESCRIPTION.txt",
+      "pattern": "Development source (?P<version>[0-9][^: ]+):"
     }
   ],
   "changelog": {
