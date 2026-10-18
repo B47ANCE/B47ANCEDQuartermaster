@@ -16,6 +16,7 @@ from lupa.lua51 import LuaRuntime
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument('--quartermaster', type=Path, default=Path(r'E:\Program Files (x86)\Steam\steamapps\workshop\content\108600\3761216758\mods\Quartermaster\42'))
 PARSER.add_argument('--package', action='store_true')
+PARSER.add_argument('--only-polish', action='store_true', help='Focused ledger, installation, Shopping and completion-feedback regressions')
 PARSER.add_argument('--only-program', action='store_true', help='Focused Application CD server/UI and metadata fixtures')
 PARSER.add_argument('--only-sort-ledger', action='store_true', help='Focused server sorting-ledger workflow')
 PARSER.add_argument('--pc-framework', type=Path, default=ROOT.parent / 'B47ANCEDPCFramework', help='Required standalone PC Framework checkout')
@@ -42,6 +43,11 @@ def runtime():
     lua.execute("package.loaded['B47ANCEDQuartermaster/Progress']={start=function() end,clear=function() end}")
     lua.execute("getActivatedMods=function() return {size=function() return 1 end,get=function() return 'B47ANCEDQuartermaster' end} end")
     return lua
+
+if ARGS.only_polish:
+    for name in ('test_sort_ledger.lua', 'test_sort_ledger_ui.lua', 'test_program_installation.lua', 'test_shopping_paper_ui.lua', 'test_movement.lua'):
+        runtime().execute((ROOT/'tests'/name).read_text(encoding='utf-8'))
+    raise SystemExit(0)
 
 if ARGS.only_sort_ledger:
     runtime().execute((ROOT/'tests/test_sort_ledger.lua').read_text(encoding='utf-8'))

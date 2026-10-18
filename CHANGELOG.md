@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.21.0-dev.3] - 2026-10-17
+
+- Revalidate ledgers after bounded discovery; lost carried sheets fail safely.
+- Resume sorting at its original source after picking up a stored ledger.
+- Clear interrupted native writing work instead of leaving the UI busy.
+- Keep movement results distinct from the subsequent ledger-writing outcome.
+- Release the reusable Application CD after installation so the data drive is available.
+- Repair Shopping paper controls, visibility, focus and feedback across view changes.
+- Offline regressions cover these transitions; native client and dedicated MP remain NOT TESTED.
+
 ## [0.21.0-dev.2] - 2026-10-17
 
 - Creating a new paper Supply Ledger consumes one whole vanilla Notebook via native mode:destroy; remove the loose-sheet alternative. Keep the clipboard and pen/pencil. Existing ledgers are reused for recording and post-sort updates, with no new notebook charge.

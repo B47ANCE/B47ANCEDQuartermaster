@@ -63,8 +63,8 @@ function V.attach(p,u,add,button)
    self.collect:setEnable(false);self.collectRemaining:setEnable(false)
    self.status:setName(tr('ShoppingPaperNone'))
   elseif physical and not meta.writable then self.status:setTooltip(tr(meta.writingStatus or 'ShoppingWritingRequired')) end
-  if not physical or self.mode~='shopping' then
-   for _,b in ipairs({self.paperPicker,self.paperNew,self.paperRename,self.paperImport}) do b:setVisible(false) end
+  for _,b in ipairs({self.paperPicker,self.paperNew,self.paperRename,self.paperImport}) do
+   b:setVisible(physical and self.mode=='shopping' and (b~=self.paperImport or meta.legacy==true))
   end
  end
 end

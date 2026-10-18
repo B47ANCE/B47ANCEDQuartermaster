@@ -1,5 +1,5 @@
 {
-  "project_version": "0.21.0-dev.2",
+  "project_version": "0.21.0-dev.3",
   "game_version": "42.21.0",
   "steam_build": "25485521",
   "status": "VERIFIED SOURCE / TESTED OFFLINE",
@@ -38,5 +38,11 @@
   "limits": [
     "Source inspection and native-shaped tests do not prove native execution, loot generation, synchronization, save restart or dedicated multiplayer.",
     "Native object metadata transport and inherited ledger native-action boundary remain subject to documented vanilla authority limitations."
-  ]
+  ],
+  "polish": {
+    "baseline_commit": "40056727420dad3530c3371db0386756a4fc88ae",
+    "framework_commit": "633ff570da7bf5b97d359a87d4f81f322afc3e66",
+    "change": "Successful server install releases only its verified setup binding through the existing eject service. No physical media change or framework edit.",
+    "evidence": "TESTED OFFLINE automatic setup release, media retained then moved away, installed read/new burn grant, existing cancellation/security regressions; native/dedicated NOT TESTED."
+  }
 }

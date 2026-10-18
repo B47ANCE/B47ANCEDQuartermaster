@@ -179,7 +179,9 @@ function S.prepare(actor,args)
    c.scope=scope;c.signature=c.base.signature;c.scopeCheckedAt=nil
   end
   if Media.owned(actor,c.paper:getID(),Media.sheet)~=c.paper then
-   local t=c.best.target;c.pickup={kind='ledgerPickup',item=c.paper,target=t,snapshot=c.base};c.paper=nil
+   local t=c.best and c.best.target
+   if not t then c.paper=nil;return {status='SortLedgerRequired'} end
+   c.pickup={kind='ledgerPickup',item=c.paper,target=t,snapshot=c.base};c.paper=nil
   end
  end
  if c.pickup then

@@ -1,15 +1,15 @@
 # Physical Supply Ledger and Dangerous Load
 
-Project Version: 0.21.0-dev.2
+Project Version: 0.21.0-dev.3
 
 Current Sort workflow: default-on `SortUpdatesLedger` requires carried paper and pen/pencil, searches accessible loaded building storage for a completed covering ledger first, uses native pickup, accepts carried blank/unfinished fallback and writes confirmed touched storage once after the full successful job. It overrides the older Sort-only freshness/computer exception below while enabled. Shopping collection and computer application installation are unchanged. Movement 12 / Ledger 5 require matching peers. [Current implementation, boundaries and validation](SORT_LEDGER.md). Earlier checkpoint evidence remains historical.
 
-Current application prerequisite: find and run the Quartermaster Application CD installer on each PC before computer ledger reads/writes or automatic knowledge provision (server opt-out supported). Paper ledgers and ordinary Sort remain independent. Ledger capability is now 4. [Exact implementation, settings, validation and migration limits](APPLICATION_CD.md). Earlier checkpoint sections retain their original evidence.
+Current application prerequisite: find and run the Quartermaster Application CD installer on each PC before computer ledger reads/writes or automatic knowledge provision (server opt-out supported). The Application CD is released after successful setup and is not required nearby afterward. Paper inspection does not need the app; Sort follows the default paper/writer policy above. Current capabilities are Ledger 5 / Movement 12. [Exact implementation, settings, validation and migration limits](APPLICATION_CD.md). Earlier checkpoint sections retain their original evidence.
 
 Current reader: paper ledgers use a ruled clipboard with three columns and page-turn controls. Computers can show live stock and waive expiry only in the exact native building recorded by their CD. Off-site/outdoor computers and safehouse-wide CDs fall back to recorded history and ordinary freshness. Existing privacy, inspection, CD binding and native transfer boundaries remain. See [current policy and validation](CLIPBOARD_AND_LOCAL_COMPUTER.md).
 
 
-Current policy is [0.17 ledger modes/freshness](LEDGER_FRESHNESS.md): manual inventory/container Sort is free; scoped Sort requires fresh knowledge. The physical inspection/conversion implementation below remains the baseline. Historical snapshots stay immutable; live statistics are separate ephemeral server projections. Prior dated artifacts/tests retain their actual versions.
+Historical [0.17 ledger modes/freshness](LEDGER_FRESHNESS.md), retained when SortUpdatesLedger=false: manual inventory/container Sort is free; scoped Sort requires fresh knowledge. The physical inspection/conversion implementation below remains the baseline. Historical snapshots stay immutable; live statistics are separate ephemeral server projections. Prior dated artifacts/tests retain their actual versions.
 
 ## Implemented workflow
 

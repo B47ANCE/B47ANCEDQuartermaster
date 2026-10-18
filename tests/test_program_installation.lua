@@ -43,6 +43,12 @@ challenge=messages[#messages].data.challenge
 assert(L.handle(actor,'ledgerConfirm',{token=offer.token,challenge=challenge}).status=='ok')
 progress=1;assert(action:complete() and P.has(actor,computer,true));assert(not action:complete(),'duplicate install completion accepted')
 assert(#container.items==count and container:getItemWithID(cd:getID())==cd,'installation moved/consumed the application CD')
+assert(not P.occupied(computer),'finished installer retained the setup drive lock')
+-- Moving the reusable setup disc away must not block the installed application.
+container:Remove(cd);F.inv:AddItem(cd)
+assert(P.has(actor,computer,true) and L.handle(actor,'ledgerRead',{item=F.disc:getID(),computer=pos}).status=='ok')
+local burnAfter=L.handle(actor,'ledgerBurn',{item=F.paper:getID(),cd=blank:getID(),computer=pos})
+assert(burnAfter.status=='action',burnAfter.status);L.stop(actor,burnAfter.token)
 local receipt=computer:getModData().B47QMProgram
 local saved=ModData.getOrCreate('B47ANCEDQuartermasterPrograms');assert(saved.count==1)
 assert(P.install(actor,computer,args)=='ProgramInstalled' and saved.count==1,'repeat install created another receipt')

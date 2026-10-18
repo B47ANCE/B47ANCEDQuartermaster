@@ -142,6 +142,15 @@ local access=Q.RoomAccess.can
 Q.RoomAccess.can=function(a,t,kind) if t.obj==f.b and (kind=='inspect' or kind=='withdraw') then return false end;return access(a,t,kind) end
 L.cleanup(actor);assert(prepare().status=='ready' and S.contexts[actor].paper==blank,'private completed ledger was selected')
 Q.RoomAccess.can=access
+-- Discovery can span requests while a carried fallback is removed.
+L.cleanup(actor);clearPapers();F.inv:AddItem(blank)
+Q.RoomAccess.can=function(a,t,kind) if t.obj==f.b then return false end;return access(a,t,kind) end
+local clock=getTimestampMs;local time=clock()
+getTimestampMs=function() time=time+2;return time end
+assert(S.prepare(actor,{}).status=='waiting' and S.contexts[actor].fallback==blank)
+getTimestampMs=clock;F.inv:Remove(blank)
+local lost=prepare();assert(lost.status=='SortLedgerRequired','lost carried fallback became a pickup')
+Q.RoomAccess.can=access;F.inv:AddItem(blank)
 L.cleanup(actor);opts.SortUpdatesLedger=false;assert(not S.enabled() and G.check(actor,actor.square,'sort'))
 opts.SortUpdatesLedger=nil;opts.LedgerMode=2;assert(not S.enabled() and G.check(actor,actor.square,'sort'))
 print('PASS OFFLINE sort ledger: building-first real pickup, blank/partial fallback, required/protected writing supplies, actual native confirmation, whole-trip gate, one timed write, copy-on-write, old freshness, unchanged inventory, replay/tool/concurrent-change refusal and opt-outs; native/dedicated NOT TESTED')

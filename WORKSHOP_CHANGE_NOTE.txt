@@ -1,10 +1,8 @@
-[b]Version 0.21.0-dev.2[/b]
+[b]Version 0.21.0-dev.3[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Creating a paper ledger now consumes one whole notebook. No loose pages are needed. The clipboard and pen/pencil are kept; later recording and Sort updates reuse the same ledger. Shopping List materials are unchanged.
+Polish: safely handle a ledger removed during discovery, return to the original Sort source after collecting a stored ledger, and clear interrupted ledger writing. Final Sort feedback preserves completed movement counts and separately reports ledger writing or synchronization warnings.
 
-Sort uses carried paper and a pen/pencil by default. It first searches accessible loaded building storage for a completed ledger covering the location and picks it up through normal transfer. If none is found, it uses a carried blank or unfinished Supply Sheet.
+Successful Quartermaster installation automatically releases the reusable Application CD from the setup drive. The disc remains in storage and can be moved away. Shopping paper controls restore correctly, and the fallback layout/controller navigation has a dedicated paper-list row.
 
-One timed writing action follows the entire successful Sort. Only confirmed touched storage is updated; blank sheets remain partial, old inspection deadlines and existing CDs are preserved. Nothing changes native transfer grouping or timing. Server SortUpdatesLedger opt-out restores the previous workflow; Disabled Ledger mode bypasses the feature.
-
-Movement capability 12 and Ledger 5 require matching clients/server and reconnect. Source only; no package, deploy or Workshop upload. Offline checks are separate from pending native/dedicated acceptance.
+Whole-notebook ledger creation, native transfer groups/timing, saved data and existing sandbox defaults are unchanged. Movement 12 / Ledger 5 require matching peers and reconnect. Offline regressions pass; native/dedicated acceptance is pending. Source text only: no package, deployment or Workshop upload performed.

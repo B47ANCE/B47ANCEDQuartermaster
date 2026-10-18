@@ -35,7 +35,16 @@ local function finish(op,status)
  local key=status=='ok' and 'LedgerSaved' or status=='done' and (op.summary or 'LedgerComplete') or status
  local screen=Computer.active[op.num];if (op.burn or op.install) and screen then screen:message(key) end
  note(op.actor,key)
- if op.callback then op.callback(status) end
+ if op.callback then op.callback(status,key) end
+end
+local function atOrigin(op)
+ local sq=op.actor:getCurrentSquare();local p=op.origin
+ return sq and sq:getX()==p.x and sq:getY()==p.y and sq:getZ()==p.z
+end
+local function resumeSort(op)
+ op.returning=nil;op.sortPreparing=false;op.sorting=true
+ local ok,status=op.continueSort()
+ if not ok then finish(op,status or 'busy') end
 end
 local function response(op,result)
  if op.closed or getSpecificPlayer(op.num)~=op.actor then
@@ -45,8 +54,19 @@ local function response(op,result)
  end
  op.pending=false;op.at=getTimestampMs()+250
  if op.sort and result.status=='ready' then
-  op.sortPreparing=false;op.sorting=true
-  if not op.continueSort() then finish(op,'busy') end
+  if atOrigin(op) then resumeSort(op)
+  elseif not op.pickedUp then finish(op,'LedgerChanged')
+  else
+   local p=op.origin;local sq=getCell():getGridSquare(p.x,p.y,p.z)
+   if not sq or #queue(op.actor)>0 then finish(op,'LedgerUnreachable');return end
+   op.returning=true;op.returnStarted=getTimestampMs()
+   local walk=ISWalkToTimedAction:new(op.actor,sq);walk.b47LedgerWork=op
+   function walk:isValid() return not op.closed and ISWalkToTimedAction.isValid(self) end
+   walk:setOnComplete(function() if not op.closed then op.returned=true end end)
+   function walk:stop() finish(op,'cancelled');ISWalkToTimedAction.stop(self) end
+   function walk:forceCancel() finish(op,'cancelled') end
+   ISTimedActionQueue.add(walk)
+  end
   return
  end
  if op.sort and result.status=='pickup' then
@@ -54,7 +74,7 @@ local function response(op,result)
   if not Q.Executor.acceptOffer(op.num,result.offer,function(status)
    if op.closed then return end
    op.actionPending=false;op.at=getTimestampMs()+250
-   if status~='ok' then finish(op,status) end
+   if status~='ok' then finish(op,status) else op.pickedUp=true end
   end) then op.actionPending=false;finish(op,'busy') end
   return
  end
@@ -95,14 +115,17 @@ L.clientResult=nativeResult
 function V.prepareSort(num,continueSort,failed)
  if V.work[num] then return false,'busy' end
  local actor=getSpecificPlayer(num);if not actor or #queue(actor)>0 then return false,'busy' end
- V.work[num]={actor=actor,num=num,sort=true,sortPreparing=true,continueSort=continueSort,callback=failed,at=0}
+ local sq=actor:getCurrentSquare();if not sq then return false,'LedgerScopeUnavailable' end
+ V.work[num]={actor=actor,num=num,origin={x=sq:getX(),y=sq:getY(),z=sq:getZ()},sort=true,sortPreparing=true,continueSort=continueSort,callback=failed,at=0}
  note(actor,'SortLedgerSearching');return true
 end
 function V.sortFinished(num,status,callback)
  local op=V.work[num]
  if not op or not op.sort then callback(status);return end
- op.callback=function(result)
-  callback((result=='SortLedgerSaved' or result=='SortLedgerSyncPending' or result=='done') and 'ok' or result)
+ op.callback=function(result,key)
+  -- Native item moves have already completed. Report the later writing outcome
+  -- separately; a canceled/failed note does not undo successful transfers.
+  callback(op.sortWriting and 'ok' or result,op.sortWriting and (key or result) or nil)
  end
  if status~='ok' then finish(op,status);return end
  op.sorting=false;op.sortWriting=true;op.at=0;note(op.actor,'SortLedgerWriting')
@@ -351,6 +374,10 @@ end
 function V.tick()
  for num,op in pairs(V.work) do
   if getSpecificPlayer(num)~=op.actor or op.actor:isDead() then V.cancel(num)
+  elseif op.returning then
+   if #queue(op.actor)==0 then
+    if op.returned and atOrigin(op) then resumeSort(op) else finish(op,'LedgerUnreachable') end
+   elseif getTimestampMs()-op.returnStarted>=120000 then V.cancelSort(num) end
   elseif op.navigation and #queue(op.actor)==0 then
    V.work[num]=nil;op.closed=true
    if Media.computer(op.actor,op.computer,true) and getTimestampMs()-op.started<120000 then op.done() else note(op.actor,'LedgerUnreachable') end

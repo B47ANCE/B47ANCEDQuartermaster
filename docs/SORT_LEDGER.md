@@ -1,6 +1,6 @@
 # Sort with a physical paper ledger
 
-Project Version: 0.21.0-dev.2
+Project Version: 0.21.0-dev.3
 
 ## Player workflow
 
@@ -14,7 +14,7 @@ If no accessible completed ledger is found, use a carried **blank or unfinished 
 
 The selected paper and writing supplies remain required during Sort and are protected from this mod's automatic transfers, including carried bags containing them. This is not a lock against manual/vanilla transfers. Paper loss, tool loss, access changes or scope changes stop new grants; already completed native moves remain completed. No item is dropped/deleted or forcibly rolled back by bookkeeping.
 
-After the **entire successful job**, including all carried and physical sources of a room/building sweep, one native timed **writing action** records confirmed touched storage. It uses the vanilla book/paper pose used by ISWriteSomething and existing LedgerBaseSeconds plus LedgerEntrySeconds per prepared row. Transfer groups and timing are unchanged. A no-movement job needs no write, except that a confirmed ledger pickup itself can change its source storage. Canceled, failed or uncertain jobs do not write a success snapshot. Canceling the writing action leaves physical moves complete and the previous ledger unchanged; inspect again if needed.
+After the **entire successful job**, including all carried and physical sources of a room/building sweep, one native timed **writing action** records confirmed touched storage. It uses the vanilla book/paper pose used by ISWriteSomething and existing LedgerBaseSeconds plus LedgerEntrySeconds per prepared row. Transfer groups and timing are unchanged. A no-movement job needs no write, except that a confirmed ledger pickup itself can change its source storage. Canceled, failed or uncertain jobs do not write a success snapshot. Stopping writing leaves physical moves complete. A canceled/late dedicated result can be unconfirmed, so check the paper before repeating inspection; cancellation feedback alone is not proof that a server commit did not occur.
 
 Only touched physical compartments are refreshed. Bag-source changes refresh their stationary physical parent; quantities retain the ledger's existing top-level native item/stack semantics, without inventing a flattened nested-inventory ledger. Ground/vehicle sources have no building storage entry, but their confirmed physical destinations are updated.
 
@@ -81,3 +81,35 @@ Compatible recipe correction: MakeSupplySheet now has one `Base.Notebook` input 
 [TESTED OFFLINE] `python -B tests/test_ledger_metadata.py`; `python -B scripts/check_versions.py`; `python -B scripts/check_deployment.py`; staged diff/source-receipt checks. The dev.1 full workflow suite above is historical, still applicable to unchanged sorting code but not relabeled as dev.2 execution. Native crafting/material consumption and dedicated G7 remain NOT TESTED; G8 BLOCKED. No package, deploy or publication.
 
 0.21.0-dev.2 source receipt: **229 runtime files**, SHA-256 `faa25c504bfc88acb0bc7c2adbdb2a68cf7e2a67e8d841b426d1b9df9108db6b` (same algorithm; source only).
+
+## 0.21.0-dev.3 polish checkpoint
+
+Compatible fixes within the 0.21 prerelease; Ledger 5 / Movement 12 and saved schemas are unchanged. No new gameplay option is necessary: geometry, cancellation cleanup, invalid-candidate checks and distinct completion feedback repair existing behavior.
+
+| Finding | Resolution | Offline evidence |
+| --- | --- | --- |
+| Carried fallback removed during incremental building discovery dereferenced a missing best target | Revalidate native ownership; a lost carried candidate cannot become an invented storage pickup | Reproduced nil lookup before fix; production bounded-scan fixture now returns SortLedgerRequired |
+| A stored-ledger pickup moved the actor away before original-source discovery | Capture original square, return through native ISWalkToTimedAction, require completion at that square before continuation | Pickup/return ordering, unreachable return, cancellation, late callback and specific source-failure checks |
+| Interrupted client writing could retire its server grant without a result, leaving actionPending busy | Notify the local coordinator on native cancellation; server still owns receipts and persistence | Reproduced failed cancellation completion; actual client LedgerAction.forceCancel now releases work exactly once |
+| Writing warnings/errors were overwritten by generic Sort completion | Keep completed movement counts/status and pass a separate optional ledger outcome to final controls | Sync-pending, canceled writing and denied area-writing feedback tests; completed moves never relabeled failed |
+| Setup drive remained occupied after installation and later CD removal | Release only the verified setup binding during successful server completion | Read and new burn grant work after the reusable Application CD moves away |
+| Fallback Shopping paper row overlapped title/Add Item; mode changes could hide/resurrect controls | Separate paper row, explicit visibility, controller row and refreshed tooltip state | Active/fallback UI transitions, unique active focus rows, Import visibility and font geometry |
+
+`LedgerUI.lua`, `Sorter.lua`, `RoomSort.lua`, `SortControls.lua`, `ShoppingUI.lua`, `ShoppingPaperUI.lua`, `SortLedger.lua`, `LedgerAction.lua`, `LedgerProgram.lua` and 29 UI fallback files are the production delta, plus version mirrors. Native groups/timing, inventory mutation, sorting rules, ledger recipes and peer/save schemas are preserved. PC Framework, Rooms, installed mods and game files were read-only.
+
+[VERIFIED SOURCE] PZ 42.21.0 / Steam build 25485521 `media/lua/client/TimedActions/WalkToTimedAction.lua`: constructor accepts character/square, native pathfinding uses that square, setOnComplete is called only by perform, stop/forceCancel do not imply arrival. The return wrapper additionally refuses canceled work and validates the actor's actual square. This is not evidence of pathfinding success in-game.
+
+[TESTED OFFLINE] Full paired regression suite and then the focused polish suite including final travel, feedback and data-drive assertions. Full suite covers Lua 5.1 syntax, sorting/conservation, native-shaped SP/MP actions, ground/vehicle/container sources, Rooms integration, PC app/clipboard UI, localization and source/package fixture checks. Commands:
+
+```powershell
+python -B tests/run_tests.py --require-rooms --rooms <Rooms-0.2.0-dev.6> --pc-framework <paired-PC-0.5.0-dev.2>
+python -B tests/run_tests.py --only-polish --pc-framework <paired-PC-0.5.0-dev.2>
+python -B tests/test_ledger_metadata.py
+python -B scripts/check_versions.py
+python -B scripts/check_deployment.py
+python -B tests/test_deployment.py
+```
+
+[RUNTIME GATE] Native pixels/focus, pickup/return pathfinding, interruption/network result ordering, real installation/data-CD transition, reconnect/restart and dedicated peers remain NOT TESTED. G6/G7 NOT TESTED; stable G8 BLOCKED. Existing allocation enforcement/live role routing remains intentionally disabled and the shelf/3D experiment remains out of scope. No package, deployment, publication or game/server launch performed.
+
+Current dev.3 source receipt: **229 runtime files**, SHA-256 `18cfee8629566d1b428eab31654ac4940409da678b45ecbb9f0ba10329daae3f` (algorithm above; source only).

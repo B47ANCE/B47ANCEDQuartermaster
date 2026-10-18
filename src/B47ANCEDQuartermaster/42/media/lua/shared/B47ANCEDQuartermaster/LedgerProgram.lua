@@ -61,12 +61,14 @@ function P.drive(actor,command,args)
  return D.handle(actor,command,args)
 end
 function P.install(actor,c,args)
+ if P.has(actor,c,true,true) and c:getModData().B47QMProgramVersion==P.version then return 'ProgramInstalled' end
  local ctx,status=CD.resolve(actor,c,args);if not ctx then return status end
  local r=root();if not r then return 'schema' end
- if P.has(actor,c,true,true) and c:getModData().B47QMProgramVersion==P.version then return 'ProgramInstalled' end
  if r.count>=4096 then return 'tooLarge' end -- internal persistent-record safety bound
  local id=getRandomUUID()
  if type(id)~='string' or #id==0 or #id>80 or r.records[id] then return 'failed' end
+ local released=D.handle(actor,'ledgerSetupEject',{computer=position(c),drive=args.drive})
+ if released.status~='ok' then return released.status end
  r.records[id]={version=P.version,position=position(c)};r.count=r.count+1
  local md=c:getModData();md.B47QMProgram=id;md.B47QMProgramVersion=P.version;c:transmitModData()
  return 'ProgramInstalled'

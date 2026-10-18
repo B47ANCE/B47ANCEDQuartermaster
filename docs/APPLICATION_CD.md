@@ -1,12 +1,12 @@
 # Quartermaster Application CD and PC installation
 
-Project Version: 0.21.0-dev.2
+Project Version: 0.21.0-dev.3
 
-Current Sort policy is the separate default-on [paper search/pickup and deferred writing workflow](SORT_LEDGER.md), Movement 12 / Ledger 5. Application installation and computer/CD behavior below remain otherwise unchanged; older capability/evidence checkpoints retain their original identity.
+Current Sort policy is the separate default-on [paper search/pickup and deferred writing workflow](SORT_LEDGER.md), Movement 12 / Ledger 5. Successful installation now automatically releases the setup-drive binding without moving or consuming the CD; older capability/evidence checkpoints retain their original identity.
 
 ## Workflow
 
-Find **Quartermaster Application CD** in new commercial office-desk/counter, office supply shelf/crate or computer retail/stock loot. Put it in accessible existing storage within one square of a powered computer, on the same floor. Select **Quartermaster Setup** from the computer context menu (Quartermaster's opener routes an uninstalled PC there). Open **CD-ROM (D:)**, load the Application CD, explicitly run **SETUP.EXE**, then click **Install Quartermaster**. Complete the native action (default 20 seconds). The disc remains a real, reusable item in storage. Eject it, reopen Quartermaster, then use CD Writer or load a separate Supply Ledger CD. Loading media or opening Setup never installs automatically.
+Find **Quartermaster Application CD** in new commercial office-desk/counter, office supply shelf/crate or computer retail/stock loot. Put it in accessible existing storage within one square of a powered computer, on the same floor. Select **Quartermaster Setup** from the computer context menu (Quartermaster's opener routes an uninstalled PC there). Open **CD-ROM (D:)**, load the Application CD, explicitly run **SETUP.EXE**, then click **Install Quartermaster**. Complete the native action (default 20 seconds). The disc remains a real, reusable item in storage. Successful installation releases the setup-drive binding automatically. Reopen Quartermaster, then use CD Writer or load a separate Supply Ledger CD. The actual Application CD may be carried away; it is not needed after installation. Loading media or opening Setup never installs automatically.
 
 The Application CD is executable-program identity; the Supply Ledger CD is recorded inventory data. Neither is interchangeable. Installation belongs to the physical PC, not the player, carried CD, building or entire server. An installed PC needs no Application CD present for normal use. Data-CD loading/reading and same-building freshness retain their existing rules. Paper ledgers, inspection, physical Shopping Lists and ordinary inventory/container Sort are unchanged.
 
@@ -18,7 +18,7 @@ Framework API source is 10041fc77124b9845a946474400f66e718c1b030 (0.5.0-dev.1). 
 
 ## Authority and persistence
 
-Authenticated Quartermaster transport owns five new Ledger-family intents: setup list/mount/eject, program Run and program Install. Ledger capability advances 3 -> **4**, with bounded admission rates. Clients must update/reconnect with the server. Other capabilities, movement/native transfer groups and timing stay unchanged.
+Authenticated Quartermaster transport owns five new Ledger-family intents: setup list/mount/eject, program Run and program Install. This feature introduced Ledger capability **4**; the current sort-ledger workflow uses Ledger **5** / Movement **12**, with bounded admission rates. Clients must update/reconnect with the server. Other capabilities, movement/native transfer groups and timing stay unchanged.
 
 The framework re-resolves current native sender, loaded powered PC, exact mounted CD/binding/type, real adjacent storage and permissions. The registered server predicate additionally requires PC configure permission. Install intent creates an actor-bound native LedgerAction grant with exact media/PC references. Reconstruction is single-use. Existing serverStart challenge, sender confirmation and full native progress are required before shared state changes. Completion resolves the CD and access again. Cancellation, moving away, CD loss, power loss, PC replacement and permission revocation prevent completion. Duplicate completion cannot add another receipt. Closing Setup cancels its token; completed installs do not send a broad cancellation.
 
@@ -79,3 +79,11 @@ Commands: `python -B tests/run_tests.py --only-program --pc-framework <paired-fr
 [RUNTIME GATE] Actual new-container loot rolls and dedicated MP are NOT TESTED. G7/stable G8 remain BLOCKED. No packaging, deployment or publication.
 
 0.20.0-dev.2 source receipt: **228 files**, SHA-256 `2322f506ca6e72d1f35ab2908263820dc84aea683795d4982423d87da09cb356` (same sorted-source algorithm above; no package).
+
+## 0.21.0-dev.3 installer polish
+
+[VERIFIED SOURCE] The reusable setup DriveService binding remained occupied after installation even when its actual Application CD was removed. That could reject ledger-data mounting/burning on an installed PC. Successful server native-action completion now releases exactly the verified setup binding through DriveService.handle/eject before recording the per-PC receipt. The data-drive namespace is untouched; no physical media moves or consumption occur. Admission/completion still require exact CD, powered PC, configuration permission and native challenge/progress. A repeated already-installed receipt check is idempotent; it grants no new installation or access.
+
+[TESTED OFFLINE] Production tests cover automatic setup release, retained real media, moving the Application CD into player inventory afterward, installed paper/CD read access and a new ledger-burn grant without the installer disc nearby. Existing cancellation, power/media/access loss, forged receipt, exact-PC identity and future-schema regressions pass. The native client action cancellation path also reports local cancellation so a server cancel response cannot leave the UI busy; delayed native result callbacks are ignored after closure. Cancellation feedback is not evidence of an uncommitted server outcome.
+
+Native CD/setup desktop transition, save/restart and dedicated multiplayer remain NOT TESTED. Existing pre-polish setup bindings can still be explicitly ejected through Setup; no broad migration deletes bindings. Framework source was inspected read-only and was not modified in this pass.

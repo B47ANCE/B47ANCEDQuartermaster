@@ -33,7 +33,7 @@ function R.start(playerNum,view,callback,ledgerPrepared)
   local V=require 'B47ANCEDQuartermaster/LedgerUI'
   return V.prepareSort(playerNum,function()
    return R.start(playerNum,view,function(status,completed,skipped,reasons)
-    V.sortFinished(playerNum,status,function(final) if callback then callback(final,completed,skipped,reasons) end end)
+    V.sortFinished(playerNum,status,function(final,ledgerOutcome) if callback then callback(final,completed,skipped,reasons,ledgerOutcome) end end)
    end,true)
   end,function(status) if callback then callback(status,0,0,{}) end end)
  end

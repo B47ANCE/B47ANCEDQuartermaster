@@ -84,7 +84,7 @@ function S.start(playerNum,source,callback,options)
         local prepared={ledgerPrepared=true};for k,v in pairs(options or {}) do prepared[k]=v end
         return V.prepareSort(playerNum,function()
             return S.start(playerNum,source,function(status,completed,failed,reasons)
-                V.sortFinished(playerNum,status,function(final) if callback then callback(final,completed,failed,reasons) end end)
+                V.sortFinished(playerNum,status,function(final,ledgerOutcome) if callback then callback(final,completed,failed,reasons,ledgerOutcome) end end)
             end,prepared)
         end,function(status) if callback then callback(status,0,0,{}) end end)
     end

@@ -35,6 +35,9 @@ local function cancel(self)
  if isClient() then
   B47ANCEDQuartermaster.Authority.request(self.character:getPlayerNum(),'ledgerCancel',{token=self.token},function() end)
   L.clientOffers[self.token]=nil
+  -- Cancel intent can retire the grant before serverStop emits a result. Release
+  -- local UI work too; this is feedback only, never proof of a committed write.
+  if L.clientResult then L.clientResult(self.character,{token=self.token,status='cancelled'}) end
  else L.stop(self.character,self.token) end
 end
 function C:serverStop() return L.stop(self.character,self.token) end

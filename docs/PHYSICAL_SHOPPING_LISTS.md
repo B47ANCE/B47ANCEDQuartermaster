@@ -1,8 +1,8 @@
 # Physical Shopping Lists
 
-Project Version: 0.21.0-dev.2
+Project Version: 0.21.0-dev.3
 
-Checkpoint dev.2 changes only the container-save window workflow. Physical-shopping code and its dev.1 full-suite/native-source evidence are unchanged; see [the focused current checks](MULTI_CONTAINER_UI_IMPLEMENTATION.md).
+Historical 0.16 dev.2 checkpoint changes only the container-save window workflow. Physical-shopping code and its dev.1 full-suite/native-source evidence are unchanged; see [the focused current checks](MULTI_CONTAINER_UI_IMPLEMENTATION.md).
 
 Compatible feature iteration from 0.15.0-dev.1, with an explicit default-on workflow change. Old personal data is preserved. This implementation is now distributed in the 0.16.0-dev.2 Workshop MP testing build; see [the exact publication receipt](WORKSHOP_TEST_0_16_0.md). Native and dedicated acceptance remain pending.
 
@@ -80,3 +80,9 @@ Source manifest: **209 runtime files**. The original source-only checkpoint prod
 **[RUNTIME GATE] G7 BLOCKED / NOT TESTED:** dedicated server with two remote clients; simultaneous editing/handoff, stale revisions, ownership lost during walking/native transfer, current holder credit, native add/remove/name synchronization, disconnect/rejoin, native save/restart, partial/cancelled creation, exact item conservation and no unauthorized disclosure/movement. Host fixtures do not prove these cases on a server.
 
 **G8 stable release BLOCKED.** The source-implementation checkpoint itself did not package or publish; the later authorized dev.2 MP test distribution is recorded separately. No local deployment, game/server launch or stable-release claim was made.
+
+## 0.21.0-dev.3 presentation polish
+
+Paper controls restore explicitly across Sorting/Shopping and enabled/disabled settings. Import stays hidden when no legacy list exists. The fallback two-column layout gives the paper picker/actions their own row, instead of drawing them over the Shopping heading/Add Item controls, and exposes paper actions to controllers. The current framework layout already had a separate row; its controller rows remain unique. Authoritative refreshes clear obsolete writing-supply tooltip warnings before applying current state.
+
+[TESTED OFFLINE] Active-framework font 14/24/32/42 geometry, repeated mode changes, supply loss/return, physical-mode toggles, legacy Import visibility, unique visible focus rows, fallback row/footer separation and controller access. Native pixels/controller input remain NOT TESTED. No changes to physical paper creation, ownership, quantities or server editing authorization.
