@@ -1,3 +1,10 @@
+# Changelog
+
+## [0.23.0-dev.1] - 2026-10-18
+
+- Add room/building stock goals, paper/PC stock views and low-stock notifications. Support latest-per-area multi-CD and linked Base Ledger views through PC Framework. Sorting, transfers and personal Needed goals unchanged.
+- Native and dedicated multiplayer NOT TESTED; no deployment/publication.
+
 ## [0.22.0-dev.1] - 2026-10-18
 
 - Extract shared presentation into required B47ANCEDUI public Lua API 1. Remove the embedded library; retain application screens and gameplay callbacks.

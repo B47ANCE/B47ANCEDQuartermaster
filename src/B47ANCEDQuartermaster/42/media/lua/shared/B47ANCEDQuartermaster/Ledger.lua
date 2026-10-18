@@ -8,7 +8,7 @@ local Policy=require 'B47ANCEDQuartermaster/LedgerPolicy'
 local Live=require 'B47ANCEDQuartermaster/LedgerLive'
 local Program=require 'B47ANCEDQuartermaster/LedgerProgram'
 local Q=B47ANCEDQuartermaster
-local L={jobs={},grants={},actors={},readers={},clientOffers={},recordCache={}};Q.Ledger=L
+local L={jobs={},grants={},actors={},readers={},stockReaders={},clientOffers={},recordCache={}};Q.Ledger=L
 local function integer(n,min,max) return type(n)=='number' and n==n and n%1==0 and n>=min and n<=max end
 local checked=setmetatable({},{__mode='k'})
 local phases={ready=true,prepared=true,outputAdded=true,committed=true,rolledBack=true,uncertain=true}
@@ -102,6 +102,8 @@ local function emit(actor,command,data)
  elseif L.clientResult and command=='result' then L.clientResult(actor,data) end
 end
 function L.cleanup(actor)
+ local base=package.loaded['B47ANCEDQuartermaster/BaseLedger'];if base then base.cleanup(actor) end
+ L.stockReaders[actor]=nil;if Q.Stock then Q.Stock.cleanup(actor) end
  local token=L.actors[actor];local g=token and L.grants[token]
  if g then L.grants[token]=nil end
  L.actors[actor]=nil;L.jobs[actor]=nil;L.readers[actor]=nil
@@ -393,7 +395,8 @@ local function nextWork(actor,j,args)
  Media.stamp(actor,j.paper,s.id,s.complete)
  L.jobs[actor]=nil;return {status='done',summary=s.status}
 end
-local function read(actor,args)
+local function read(actor,args,stock)
+ local readers=stock and L.stockReaders or L.readers
  local item,s,unused,error,computer
  if args.drive~=nil then
   item,s,computer=require('B47ANCEDQuartermaster/LedgerDrives').read(actor,args.drive,Media.object(args.computer))
@@ -404,23 +407,34 @@ local function read(actor,args)
  computer=computer or digital and Media.object(args.computer)
  if digital and not Media.computer(actor,computer,true) then return {status='LedgerPower'} end
  if digital and not Program.has(actor,computer,true) then return {status='ProgramRequired'} end
+ local viewMode=args.ledgerMode or 'single'
+ if viewMode~='single' and viewMode~='local' and viewMode~='base' or not digital and viewMode~='single' then return {status='invalid'} end
+ if digital and viewMode~='single' then
+  local projected,why=require('B47ANCEDQuartermaster/BaseLedger').resolve(actor,computer,viewMode,stock)
+  if not projected then return {status=why or 'BaseLedgerUnavailable',summary='BaseLedgerLoading'} end;s=projected
+ end
  if type(args.query or '')~='string' or #(args.query or '')>128 or type(args.room or '')~='string' or #(args.room or '')>128 then return {status='invalid'} end
  if not digital and ((args.query or '')~='' or (args.room or '')~='') then return {status='invalid'} end
  if args.entry~=nil or args.row~=nil or args.cursor~=nil and (type(args.cursor)~='string' or #args.cursor>80) then return {status='invalid'} end
- local query=string.lower(args.query or '');local room=args.room or '';local session=L.readers[actor]
+ local query=string.lower(args.query or '');local room=args.room or '';local session=readers[actor]
  local computerScope=digital and Scope.capture({getCurrentSquare=function() return computer:getSquare() end},'building')
  local localComputer=digital and Policy.computerMatches(s,computerScope and Scope.signature(computerScope)) or false
- local fresh=Policy.fresh(s,localComputer);local live=(not digital or localComputer) and Policy.live(s,localComputer) or false
+ local fresh=s.base and s.baseFresh or Policy.fresh(s,localComputer);local live=s.base and s.baseLive or (not digital or localComputer) and Policy.live(s,localComputer) or false
+ if s.base then localComputer=true;fresh=s.baseFresh;live=s.baseLive end
  local policy=Policy.mode()..':'..Policy.days()..':'..tostring(Policy.manualComputer())..':'..tostring(fresh)..':'..tostring(live)
- if not session or session.item~=item:getID() or session.snapshot~=s.id or session.revision~=s.revision or session.query~=query or session.room~=room or session.policy~=policy or live and session.liveServedAt and getTimestampMs()-session.liveServedAt>=5000 then
+ if not session or session.item~=item:getID() or session.snapshot~=s.id or session.revision~=s.revision or session.query~=query or session.room~=room or session.policy~=policy or not stock and live and session.liveServedAt and getTimestampMs()-session.liveServedAt>=5000 then
   local tag=uuid();if not tag then return {status='failed'} end
-  session={item=item:getID(),snapshot=s.id,revision=s.revision,publicRevision=tag,query=query,room=room,tokens={},positions={},count=0,policy=policy,liveEntries={},liveRows=0};L.readers[actor]=session
+  session={item=item:getID(),snapshot=s.id,revision=s.revision,publicRevision=tag,query=query,room=room,tokens={},positions={},count=0,policy=policy,liveEntries={},liveRows=0};readers[actor]=session
  end
  session.time=getTimestampMs()
  local position=args.cursor and session.tokens[args.cursor]
  if args.cursor and not position then return {status='LedgerPageChanged'} end
  local entry,index=position and position.entry or 1,position and position.row or 1
- local result={status='ok',rows={},rooms={},scope=s.scope.label,began=s.began,finished=s.finished,summary=s.status or 'LedgerPartial',revision=session.publicRevision,digital=digital,live=live,fresh=fresh,expires=Policy.deadline(s,localComputer),computerOffsite=digital and not localComputer or false}
+ local result={status='ok',rows={},rooms={},scope=s.scope.label,began=s.began,finished=s.finished,summary=s.status or 'LedgerPartial',revision=session.publicRevision,digital=digital,live=live,fresh=fresh,expires=s.base and s.baseExpires or Policy.deadline(s,localComputer),computerOffsite=digital and not localComputer or false}
+ local context={snapshot=s,digital=digital,computer=computer,item=item}
+ result.stockAreas={}
+ for _,area in ipairs(s.stockAreas or {}) do result.stockAreas[#result.stockAreas+1]={id=area.id,label=area.label} end
+ if stock and args.metadataOnly==true then return result,context end
  local rooms={};local bytes=0;local permissions={};local disclosure={}
  local function addRoom(e)
   if not rooms[e.room] and #result.rooms<16 then
@@ -429,10 +443,11 @@ local function read(actor,args)
   end
  end
  for _=1,128 do
-  local key=s.order[entry];if not key then session.liveServedAt=session.liveServedAt or getTimestampMs();return result end
+  local key=s.order[entry];if not key then session.liveServedAt=session.liveServedAt or getTimestampMs();return result,context end
   local e=s.entries[key]
   if type(e)~='table' or type(e.rows)~='table' or #e.rows>4096 or type(e.position)~='table' or type(e.room)~='string' or #e.room>256 or type(e.roomName)~='string' or #e.roomName>256 or type(e.container)~='string' or #e.container>256 then return {status='schema'} end
   for _,k in ipairs({'x','y','z'}) do if not integer(e.position[k],-10000000,10000000) then return {status='schema'} end end
+  local stockArea=e.stockArea;local stockKey=e.stockKey
   if permissions[key]==nil then permissions[key]=HistoricalAccess.read(actor,e,disclosure) end
   if permissions[key] and live then
    local projected,why=Live.entry(actor,session,e)
@@ -448,7 +463,7 @@ local function read(actor,args)
    addRoom(e)
    if query=='' and (not digital or args.room==nil or args.room=='' or args.room==e.room) then
     bytes=bytes+#e.roomName+#e.container+300;if bytes>16000 then break end
-    result.rows[#result.rows+1]={name=getText('UI_QMSS_LedgerEmpty'),fullType='',quantity=0,condition='',room=e.roomName,roomID=e.room,container=e.container,position=e.position,recorded=e.recorded,empty=true}
+    result.rows[#result.rows+1]={name=getText('UI_QMSS_LedgerEmpty'),fullType='',quantity=0,condition='',room=e.roomName,roomID=e.room,container=e.container,position=e.position,recorded=e.recorded,empty=true,stockArea=stockArea}
    end
    entry=entry+1;index=1;if #result.rows>=32 then break end
   elseif index>#e.rows then entry=entry+1;index=1
@@ -458,7 +473,7 @@ local function read(actor,args)
    if (not digital or args.room==nil or args.room=='' or args.room==e.room) and (query=='' or string.find(string.lower(row.name..' '..row.fullType),query,1,true)) then
     bytes=bytes+#row.name+#row.fullType+#e.roomName+#e.container+256
     if bytes>16000 then index=index-1;break end
-    result.rows[#result.rows+1]={name=row.name,fullType=row.fullType,quantity=row.quantity,condition=row.condition,room=e.roomName,roomID=e.room,container=e.container,position=e.position,recorded=e.recorded}
+    result.rows[#result.rows+1]={name=row.name,fullType=row.fullType,quantity=row.quantity,condition=row.condition,room=e.roomName,roomID=e.room,container=e.container,position=e.position,recorded=e.recorded,stockArea=stockArea}
     if #result.rows>=32 then break end
    end
   end
@@ -473,7 +488,7 @@ local function read(actor,args)
   result.cursor=token
  end
  session.liveServedAt=session.liveServedAt or getTimestampMs()
- return result
+ return result,context
 end
 function L.handle(actor,command,args)
  if isClient() or not actor or actor:isDead() or type(args)~='table' then return {status='invalid'} end
@@ -498,7 +513,8 @@ function L.handle(actor,command,args)
  if command=='ledgerBegin' then if L.actors[actor] or Q.Movement.runs[actor] or Q.Movement.operations[actor] then return {status='busy'} end;return begin(actor,args) end
  if command=='ledgerNext' then local j=L.jobs[actor];return j and nextWork(actor,j,args) or {status='invalid'} end
  if command=='ledgerCancel' then if args.token and L.actors[actor]~=args.token then return {status='invalid'} end;L.cleanup(actor);return {status='ok'} end
- if command=='ledgerRead' then return read(actor,args) end
+ if command=='ledgerRead' or command=='ledgerBaseRead' then return read(actor,args) end
+ if command=='ledgerStock' then return require('B47ANCEDQuartermaster/Stock').read(actor,args,function(a,d) return read(a,d,true) end) end
  if command=='ledgerConfirm' then
   local g=type(args.token)=='string' and L.grants[args.token]
   if not g or g.actor~=actor or not g.started or g.challenge~=args.challenge or getTimestampMs()-g.created>10000 then return {status='denied'} end
@@ -542,11 +558,14 @@ function L.tick()
   end
   for actor in pairs(L.readers) do L.readers[actor]=nil end
  end
- local active=false;for _ in pairs(L.jobs) do active=true;break end;for _ in pairs(L.grants) do active=true;break end;for _ in pairs(L.readers) do active=true;break end;if not active then return end
+ local active=false;for _ in pairs(L.stockReaders) do active=true;break end;for _ in pairs(L.jobs) do active=true;break end;for _ in pairs(L.grants) do active=true;break end;for _ in pairs(L.readers) do active=true;break end;if not active then return end
  local connected
  if isServer() then connected={};local players=getOnlinePlayers();for n=0,players:size()-1 do connected[players:get(n)]=true end end
  local liveJobs={}
- for actor,reader in pairs(L.readers) do
+ local allReaders={}
+ for actor,reader in pairs(L.readers) do allReaders[#allReaders+1]={actor,reader} end
+ for actor,reader in pairs(L.stockReaders) do allReaders[#allReaders+1]={actor,reader} end
+ for _,pair in ipairs(allReaders) do local actor,reader=unpack(pair)
   if reader.livePending and not actor:isDead() and (not connected or connected[actor]) then liveJobs[#liveJobs+1]={actor=actor,reader=reader} end
  end
  table.sort(liveJobs,function(a,b) return (a.reader.liveStepAt or 0)<(b.reader.liveStepAt or 0) end)
@@ -556,6 +575,7 @@ function L.tick()
   if Policy.enabled() then Live.step(j.actor,j.reader) else j.reader.livePending=nil end
   if getTimestampMs()>=deadline then break end
  end
+ for actor,reader in pairs(L.stockReaders) do if actor:isDead() or connected and not connected[actor] or getTimestampMs()-reader.time>60000 or not Policy.enabled() then L.stockReaders[actor]=nil;if Q.Stock then Q.Stock.cleanup(actor) end end end
  for actor,reader in pairs(L.readers) do if actor:isDead() or connected and not connected[actor] or getTimestampMs()-reader.time>1800000 then L.readers[actor]=nil end end
  for actor,j in pairs(L.jobs) do if actor:isDead() or connected and not connected[actor] or not L.actors[actor] and getTimestampMs()-j.time>1800000 then L.cleanup(actor) end end
  for _,g in pairs(L.grants) do

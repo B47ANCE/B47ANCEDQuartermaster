@@ -105,6 +105,7 @@ function V.attach(p)
  p.titleBarHeight=function() return T.metrics().header end
  local function tab(label,fn) local b=U.TabBar.add(p,tr(label),fn);if u then u.owned[b]=true end;return b end
  v.sorting=tab('Sorting',function() if u then Q.ShoppingUI.switch(p,'sorting') end;p:layout();p:configJoypad() end)
+ v.stock=tab('StockTitle',function() require('B47ANCEDQuartermaster/StockUI').open(p.playerNum,p) end)
  v.shopping=tab('Shopping',function() Q.ShoppingUI.switch(p,'shopping');p:layout();p:configJoypad() end)
  v.help=tab('Help',function()
   U.Tooltip.inspect(p.playerNum,tr('HelpText')..' <LINE> '..tr('RulesTip')..' <LINE> '..tr('ControlsTip'),p)
@@ -147,6 +148,7 @@ function V.attach(p)
   local rail=self.containerUI;local railWidth=not personal and rail and Q.WindowLayout.railWidth(self) or 0
   local left=railWidth>0 and railWidth+20 or 12;local width=w-left-12
   at(v.sorting,left,y,math.min(160,width/3),t.tab);at(v.shopping,left+math.min(160,width/3)+gap,y,math.min(160,width/3),t.tab)
+  at(v.stock,left+2*(math.min(160,width/3)+gap),y,math.min(160,math.max(60,width/3-2*gap)),t.tab);visible(v.stock,true)
   visible(v.shopping,u~=nil);visible(v.sorting,true);at(v.help,w-116,6,30,t.header-12)
   if self.b47LayoutButton then at(self.b47LayoutButton,w-154,6,30,t.header-12) end
   at(self.pinButton,w-78,6,30,t.header-12);at(self.collapseButton,w-78,6,30,t.header-12)
@@ -290,7 +292,7 @@ function V.attach(p)
  local joy=p.configJoypad
  p.configJoypad=function(self)
   U.Focus.visibleRows(self,function(owner)
-   joy(owner);owner:insertNewLineOfButtons(v.sorting,u and v.shopping or nil,v.help,self.b47LayoutButton)
+   joy(owner);owner:insertNewLineOfButtons(v.sorting,u and v.shopping or nil,v.stock,v.help,self.b47LayoutButton)
    if u and u.mode=='shopping' then owner:insertNewLineOfButtons(u.shoppingTab,u.wantedTab,u.neededTab,u.preferences,u.stateFilter,u.shoppingSearch.clear);owner:insertNewLineOfButtons(u.paperPicker,u.paperNew,u.paperRename,u.paperImport) else owner:insertNewLineOfButtons(v.sortSearch.clear,v.cancel) end
   end)
  end
@@ -310,7 +312,7 @@ function V.popup(p,label)
 end
 function V.itemPicker(p)
  p.b47PickerShell=true
- V.popup(p,tr(p.kind=='needed' and 'AddNeededItem' or (p.kind=='wanted' or p.kind=='wish') and 'AddWantedItem' or p.kind=='override' and 'AddOverride' or 'ShoppingAdd'))
+ V.popup(p,tr(p.kind=='stock' and 'StockAdd' or p.kind=='needed' and 'AddNeededItem' or (p.kind=='wanted' or p.kind=='wish') and 'AddWantedItem' or p.kind=='override' and 'AddOverride' or 'ShoppingAdd'))
  local search=U.SearchField.attach(p,p.search,tr('SearchItems'));search.clear:setTooltip(tr('ClearSearch'))
  p:insertNewLineOfButtons(search.clear)
  local old=p.prerender

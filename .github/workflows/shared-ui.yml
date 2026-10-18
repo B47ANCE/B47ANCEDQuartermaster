@@ -12,6 +12,18 @@ jobs:
           repository: B47ANCE/B47ANCEDUI
           ref: ad48807afb5da7af9bb9e66078e726774cc65682
           path: .test-deps/B47ANCEDUI
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: B47ANCE/B47ANCEDPCFramework
+          ref: f528e3531517dcff2b05f3b4759d2b4932676af3
+          path: .test-deps/B47ANCEDPCFramework
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: B47ANCE/B47ANCEDRooms
+          ref: e12573c2d493c44415509f67387e6ca90a784f87
+          path: .test-deps/B47ANCEDRooms
+          persist-credentials: false
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.12'
@@ -20,3 +32,5 @@ jobs:
       - run: python -B scripts/check_deployment.py
       - run: python -B tests/test_ui_boundary.py --ui .test-deps/B47ANCEDUI
       - run: python -B .test-deps/B47ANCEDUI/tests/run_tests.py
+      - name: Paired Stock and Base Ledger fixtures
+        run: python -B tests/run_tests.py --only-stock --rooms .test-deps/B47ANCEDRooms --ui .test-deps/B47ANCEDUI --pc-framework .test-deps/B47ANCEDPCFramework

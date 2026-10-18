@@ -1,6 +1,6 @@
-[b]Version 0.22.0-dev.1[/b]
-Source-only: shared UI now requires B47ANCEDUI API 1 (no assigned Workshop item). Not packaged or published; dedicated NOT TESTED.
+[b]Version 0.23.0-dev.1[/b]
+Source-only development draft; not uploaded. Adds shared room/building Stock targets, paper/PC stock reports, PC-only low-stock notifications and newest-per-area multi-CD/Base Ledger views. Uses PC Framework 0.11.0-dev.1 notification/connections APIs and its Network Status screen.
 
-New transparent crate/checklist mod icon; thumbnail unchanged. Integrates the clipboard ledger, application-CD installation, automatic post-Sort ledger writing and unified computer desktop. Requires B47ANCEDRooms and B47ANCEDPCFramework.
+Requires Rooms, PC Framework and UI; UI has no assigned Workshop item. Native transfer grouping and personal Needed goals unchanged.
 
-MP testing build - dedicated multiplayer NOT TESTED. Use matching versions on all peers and reconnect. Native client and dedicated acceptance for this combined build remain pending.
+MP testing build - dedicated multiplayer NOT TESTED. G7/stable G8 BLOCKED.

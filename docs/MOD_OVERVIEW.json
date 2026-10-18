@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.22.0-dev.1",
+  "version": "0.23.0-dev.1",
   "reviewed": true,
-  "source_digest": "63b8cc377df25b7bde20cc44f151fc08245f555843f3d2e7e7c091cb723280e5",
+  "source_digest": "def8410cc5b0bb89fa382258823de971b307469f3f49c143c0238488f815244c",
   "features": [
     {
       "status": "Source",
@@ -40,7 +40,7 @@
     },
     {
       "status": "Source",
-      "text": "Public PC Framework 0.9.0-dev.3 owns the unified desktop and separate application/tool windows. Quartermaster supplies the shared digital/paper table, details and owner-bound writer results."
+      "text": "Paired development PC Framework 0.11.0-dev.1 owns the unified desktop and separate application/tool windows. Quartermaster supplies the shared digital/paper table, details and owner-bound writer results."
     },
     {
       "status": "Source",
@@ -61,9 +61,13 @@
     {
       "status": "Source",
       "text": "Required B47ANCEDUI public Lua API 1 supplies shared controls, renderer, dialogs/tooltips, appearance editor and clipboard drawing; no embedded shared library. Application/server intent remains Quartermaster-owned."
+    },
+    {
+      "status": "Source",
+      "text": "Shared room/building Stock targets, paper/PC reports and PC-only low-stock alerts. Latest-per-area multi-CD/Base Ledger requires paired PC Framework 0.11.0-dev.1 APIs, powered loaded local-copy PCs and current permissions. Source iteration not packaged/published."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.22.0-dev.1; G7/stable G8 BLOCKED. Requires Rooms, PC Framework and UI. UI has no Workshop item; this source-only dependency is not Workshop-distributed. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.23.0-dev.1; G7/stable G8 BLOCKED. Source iteration not packaged, deployed or published. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI has no assigned Workshop item. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",
@@ -75,7 +79,8 @@
     "docs/APPLICATION_CD.md",
     "docs/SORT_LEDGER.md",
     "docs/OPEN_PR_INTEGRATION_2026_10_18.md",
-    "docs/UI_EXTRACTION.md"
+    "docs/UI_EXTRACTION.md",
+    "docs/STOCK_AND_BASE_LEDGER.md"
   ],
   "relations": [
     {
@@ -86,7 +91,7 @@
     {
       "target": "local-2c6a6aca81aa",
       "kind": "Required",
-      "text": "CD program API 1, desktop/device/server-drive host. Quartermaster owns installation receipts, native timing, ledger privacy/data and app callbacks."
+      "text": "Required PC Framework 0.11.0-dev.1 development APIs: desktop/CD program 1 plus notification/connections 1; Quartermaster owns stock goals, ledger privacy and local-copy validation."
     },
     {
       "target": "local-295e28ef7161",
