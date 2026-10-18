@@ -10,7 +10,15 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-This source integrates the open Quartermaster feature branches as **0.22.0-dev.1** for authorized Workshop MP testing. Native client/dedicated acceptance for this combined build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
+This source develops shared Stock and Base Ledger features as **0.23.0-dev.1**. This iteration has not been packaged, deployed or published. Native client/dedicated acceptance for this combined build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
+
+## Stock and connected computers
+
+Set shared room/building item targets from **Stock** in the normal Quartermaster menu. Paper and PC ledgers show Current / Target / Remaining; personal Dibs! Needed stays separate. The PC app automatically posts low-stock notifications only from complete, fresh live data.
+
+Choose This CD, Latest local CDs or Base ledger in the digital reader. Newest completed copies cover each area once. Connect PCs using the Framework's PC Network app: start pairing on one, visit another and enter its address, or connect to a public PC. Network Status shows online and offline/unavailable computers. Each remote building needs a loaded, powered, accessible PC with Quartermaster installed and its own local ledger CD. Connections never bypass access rules or simulate unloaded inventory.
+
+This development source requires paired PC Framework **0.11.0-dev.1**, Rooms **0.2.0-dev.7** and UI **0.1.0-dev.1** for the tested offline combination. [Workflow, settings, authority, persistence and acceptance limits](docs/STOCK_AND_BASE_LEDGER.md).
 
 ## Current integrated features
 
@@ -24,7 +32,7 @@ The dev.3 polish checkpoint fixes lost-ledger discovery, returns to the original
 
 Find a **Quartermaster Application CD** in commercial office desks/counters, office supply shelves/crates or computer retail/stock containers (including warehouse offices that use native office loot). Put it in accessible storage beside a powered PC, open **Quartermaster Setup**, load the CD in **CD-ROM (D:)** and run **SETUP.EXE**. Choose **Install Quartermaster** and complete the native action. Installation belongs to that PC and survives a service reload; the reusable Application CD stays in storage. Successful installation automatically releases its setup-drive binding, leaving the reusable disc in storage. Open Quartermaster to write/read ledger CDs; the Application CD no longer needs to stay nearby. Existing PCs require installation by default; server sandbox settings control the prerequisite, install time and new-loot weight. [Workflow, authority, persistence and validation](docs/APPLICATION_CD.md).
 
-The computer desktop and reusable drive service are supplied by the required [B47ANCED PC Framework](https://github.com/B47ANCE/B47ANCEDPCFramework). Use public companion 0.9.0-dev.3 for the unified desktop and CD program API 1; Quartermaster owns the ledger and CD Writer apps. [Dependency details](docs/PC_FRAMEWORK_INTEGRATION.md).
+The computer desktop and reusable drive service are supplied by the required [B47ANCED PC Framework](https://github.com/B47ANCE/B47ANCEDPCFramework). Use paired development companion 0.11.0-dev.1 for the unified desktop, CD program, connections and notification APIs 1; Quartermaster owns the ledger and CD Writer apps. [Dependency details](docs/PC_FRAMEWORK_INTEGRATION.md).
 
 - Windows ’93 computer presentation now has a bulky original beige CRT case, thick recessed bezel, broad lower control panel, substantial stand and status light and pixel-art desktop/application icons. Softer case shading and a working taskbar retain separate drive, writer and ledger tasks, with minimize/restore, app switching and Show Desktop. The ledger application uses a Windows 93 table with Item, Quantity and Location columns, a live/snapshot status strip, page counts and selected-entry details. Native visual acceptance remains pending. [Computer UI details](docs/WINDOWS93_COMPUTER.md).
 

@@ -1,7 +1,8 @@
 # Quartermaster supply extension API
 
-Project Version: 0.22.0-dev.1
+Project Version: 0.23.0-dev.1
 
+Current addition: [Separate shared Stock targets and read-only ledger counts](STOCK_AND_BASE_LEDGER.md). Existing authority and historical evidence below remain distinct.
 Current iteration: [Dangerous Load, ledger boundaries and validation](LEDGER_AND_LOAD.md). Existing SupplyAPI, Rooms permissions and container configuration contracts are unchanged.
 
 ## Current development iteration

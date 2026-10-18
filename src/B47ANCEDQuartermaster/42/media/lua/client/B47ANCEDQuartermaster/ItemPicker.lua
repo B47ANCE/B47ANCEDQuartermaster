@@ -11,7 +11,7 @@ require 'B47ANCEDQuartermaster/ItemCatalog'
 P.catalog=Q.ItemCatalog.catalog;P.search=Q.ItemCatalog.search
 local Window=ISPanelJoypad:derive('B47ItemPicker')
 function P.open(playerNum,kind,onChanged,parent)
-    if kind~='wish' and kind~='wanted' and kind~='needed' and kind~='shopping' and kind~='override' then return end
+    if kind~='wish' and kind~='wanted' and kind~='needed' and kind~='shopping' and kind~='override' and kind~='stock' then return end
     local x,y,w,h=0,0,540,430
     if getPlayerScreenWidth then
         w=math.max(260,math.min(w,getPlayerScreenWidth(playerNum)-20))
@@ -22,9 +22,9 @@ function P.open(playerNum,kind,onChanged,parent)
     local p=Window:new(x,y,w,h);p.playerNum=playerNum;p.kind=kind;p.onChanged=onChanged;p.owner=parent;p.moveWithMouse=true
     p:initialise();p:instantiate();p:addToUIManager();p:build()
     Q.UI.itemPicker(p)
-    Q.Authority.request(playerNum,'personalList',{},function(snapshot)
+    if kind~='stock' then Q.Authority.request(playerNum,'personalList',{},function(snapshot)
         if not p.closed and snapshot.status=='ok' then p.existingWish=kind=='needed' and snapshot.needed or snapshot.wish;p:updateAdd() end
-    end)
+    end) end
     if JoypadState and JoypadState.players[playerNum+1] then setJoypadFocus(playerNum,p) end
     return p
 end
@@ -44,7 +44,7 @@ function Window:build()
         local isGoal=self.kind=='wish' or self.kind=='wanted' or self.kind=='needed'
         local duplicate=isGoal and self.existingWish and self.existingWish[self.selectedType]
         self.add:setEnable(not duplicate and self.selectedType~=nil and n~=nil and n==math.floor(n) and n>0 and n<=1000000)
-        self.add:setTooltip(getText('UI_QMSS_'..(duplicate and (self.kind=='needed' and 'NeededExists' or 'WishExists') or self.kind=='override' and 'AddOverride' or self.kind=='needed' and 'NeededAdd' or isGoal and 'WishAdd' or 'ShoppingAdd')))
+        self.add:setTooltip(getText('UI_QMSS_'..(duplicate and (self.kind=='needed' and 'NeededExists' or 'WishExists') or self.kind=='override' and 'AddOverride' or self.kind=='stock' and 'StockAdd' or self.kind=='needed' and 'NeededAdd' or isGoal and 'WishAdd' or 'ShoppingAdd')))
     end
     self.updateAdd=enable
     self.list.onmousedown=function(_,row) self.selectedType=row.fullType;enable() end
@@ -53,9 +53,9 @@ function Window:build()
         elseif key==Joypad.BButton then self:close() end
     end
     self.quantity=child(ISTextEntryBox:new('1',12,h-88,100,24))
-    self.quantity:setTooltip(getText('UI_QMSS_PhysicalQuantity'))
+    self.quantity:setTooltip(getText('UI_QMSS_'..(self.kind=='stock' and 'StockQuantityHelp' or 'PhysicalQuantity')))
     self.quantity.onTextChangeFunction=enable
-    self.add=child(ISButton:new(124,h-88,w-226,24,getText('UI_QMSS_'..(w<480 and 'Add' or self.kind=='needed' and 'NeededAdd' or (self.kind=='wish' or self.kind=='wanted') and 'WishAdd' or 'ShoppingAdd')),self,function(owner) owner:submit() end));self.add:setEnable(false)
+    self.add=child(ISButton:new(124,h-88,w-226,24,getText('UI_QMSS_'..(w<480 and 'Add' or self.kind=='stock' and 'StockAdd' or self.kind=='needed' and 'NeededAdd' or (self.kind=='wish' or self.kind=='wanted') and 'WishAdd' or 'ShoppingAdd')),self,function(owner) owner:submit() end));self.add:setEnable(false)
     self.cancel=child(ISButton:new(w-90,h-88,78,24,getText('UI_QMSS_Cancel'),self,function(owner) owner:close() end))
     if self.kind=='override' then self.quantity:setVisible(false);self.add:setTitle(getText('UI_QMSS_AddOverride')) end
     local function search()
@@ -76,6 +76,7 @@ function Window:submit()
     if not self.selectedType then return end
     local t,n=self.selectedType,tonumber(self.quantity:getInternalText())
     if not n or n~=math.floor(n) or n<1 or n>1000000 then return end
+    if self.kind=='stock' then if self.onChanged then self.onChanged({fullType=t,quantity=n}) end;self:close();return end
     if self.kind=='override' then if self.onChanged then self.onChanged({fullType=t}) end;self:close();return end
     if self.kind=='shopping' then
         Q.ShoppingAddUI.send(self.playerNum,{kind='shopping',fullType=t,quantity=n},function(result)
@@ -106,7 +107,7 @@ function Window:onGainJoypadFocus(data) ISPanelJoypad.onGainJoypadFocus(self,dat
 function Window:render()
     ISPanelJoypad.render(self)
     if not self.b47PickerShell then
-        self:drawText(getText('UI_QMSS_'..(self.kind=='needed' and 'NeededAdd' or (self.kind=='wish' or self.kind=='wanted') and 'WishAdd' or self.kind=='override' and 'AddOverride' or 'ShoppingAdd')),12,10,1,1,1,1,UIFont.Small)
+        self:drawText(getText('UI_QMSS_'..(self.kind=='stock' and 'StockAdd' or self.kind=='needed' and 'NeededAdd' or (self.kind=='wish' or self.kind=='wanted') and 'WishAdd' or self.kind=='override' and 'AddOverride' or 'ShoppingAdd')),12,10,1,1,1,1,UIFont.Small)
         self:drawText(getText('UI_QMSS_SelectedType',self.selectedType or ''),12,self:getHeight()-44,1,1,1,1,UIFont.Small)
     end
     self:renderJoypadFocus()

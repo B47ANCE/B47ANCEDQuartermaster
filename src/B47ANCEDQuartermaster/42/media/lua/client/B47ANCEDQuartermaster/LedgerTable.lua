@@ -27,10 +27,12 @@ function T.new(panel,list,search,rooms,previous,more,close,m,p,paper)
  list.itemheight=m.font+10;list.altBgColor=nil;list.joypadParent=panel;list.resetSelectionOnChangeFocus=false
  function view:layout()
   local w,h=panel:getWidth(),panel:getHeight();local inputY=m.font+12;local left=self.left
-  local roomX=math.floor(w*.60)
+  local mode=panel.ledgerControls and panel.ledgerControls.networkMode
+  local roomX=math.floor(w*(mode and .45 or .60));local roomRight=mode and math.floor(w*.70) or w
   if not paper then
    U.Layout.place(search,8,inputY,roomX-16,m.button)
-   U.Layout.place(rooms,roomX,inputY,w-roomX-8,m.button)
+   U.Layout.place(rooms,roomX,inputY,roomRight-roomX-8,m.button)
+   if mode then U.Layout.place(mode,roomRight,inputY,w-roomRight-8,m.button) end
   end
   self.statusY=paper and 66+m.font+12 or inputY+m.button+8;self.headerY=self.statusY+m.font+10
   self.detailsHeight=paper and 3*m.font+24 or 2*m.font+16
@@ -41,9 +43,12 @@ function T.new(panel,list,search,rooms,previous,more,close,m,p,paper)
   local qty=math.min(math.floor(usable*.25),math.max(64,getTextManager():MeasureStringX(U.Theme.fonts.body,tr('LedgerTableQuantity'))+16))
   local item=math.floor((usable-qty)*.43)
   self.columns={{x=1,width=item,label=tr('LedgerTableItem')},{x=item+1,width=qty,label=tr('LedgerTableQuantity')},{x=item+qty+1,width=usable-item-qty,label=tr('LedgerTableLocation')}}
-  local bw=math.min(math.floor((w-2*left-16)/3),math.max(120,m.font*9));local footer=h-m.button-(paper and 22 or 8)
+  local stock=panel.ledgerControls and panel.ledgerControls.stock
+  local count=stock and 4 or 3
+  local bw=math.min(math.floor((w-2*left-8*(count-1))/count),math.max(120,m.font*9));local footer=h-m.button-(paper and 22 or 8)
   U.Layout.place(previous,left,footer,bw,m.button)
   U.Layout.place(more,left+8+bw,footer,bw,m.button)
+  if stock then U.Layout.place(stock,left+16+2*bw,footer,bw,m.button) end
   U.Layout.place(close,w-left-bw,footer,bw,m.button)
  end
  function view:drawRow(y,row,alt)
@@ -70,12 +75,14 @@ function T.new(panel,list,search,rooms,previous,more,close,m,p,paper)
   return y+height
  end
  function view:draw()
-  local w=panel:getWidth();local roomX=math.floor(w*.60);local left=self.left;local width=w-2*left
+  local w=panel:getWidth();local mode=panel.ledgerControls and panel.ledgerControls.networkMode
+  local roomX=math.floor(w*(mode and .45 or .60));local roomRight=mode and math.floor(w*.70) or w;local left=self.left;local width=w-2*left
   if paper then paper.draw(panel,self,m)
   else
    R.rect(panel,0,0,w,panel:getHeight(),p.grey)
    R.text(panel,R.fit(tr('LedgerTableSearch'),roomX-16),8,6,p.black)
-   R.text(panel,R.fit(tr('LedgerTableRoom'),w-roomX-8),roomX,6,p.black)
+   R.text(panel,R.fit(tr('LedgerTableRoom'),(mode and w*.25 or w-roomX)-8),roomX,6,p.black)
+   if mode then R.text(panel,R.fit(tr('LedgerViewLabel'),w*.30-8),math.floor(w*.70),6,p.black) end
   end
   local page=tr(paper and 'LedgerClipboardPage' or 'LedgerTablePage',self.page,self.count)
   local pageWidth=math.min(w*.40,getTextManager():MeasureStringX(U.Theme.fonts.body,page))

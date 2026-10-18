@@ -197,3 +197,29 @@ option B47ANCEDQuartermaster.ApplicationCDLootWeight
     page = B47ANCEDQuartermaster,
     translation = B47ANCEDQuartermaster_ApplicationCDLootWeight,
 }
+
+option B47ANCEDQuartermaster.StockEnabled
+{
+ type = boolean,
+ default = true,
+ page = B47ANCEDQuartermaster,
+ translation = B47ANCEDQuartermaster_StockEnabled,
+}
+
+option B47ANCEDQuartermaster.StockCheckSeconds
+{
+ type = integer,
+ default = 30,
+ min = 5,
+ max = 300,
+ page = B47ANCEDQuartermaster,
+ translation = B47ANCEDQuartermaster_StockCheckSeconds,
+}
+
+option B47ANCEDQuartermaster.LedgerMultipleCDs
+{
+ type = boolean,
+ default = true,
+ page = B47ANCEDQuartermaster,
+ translation = B47ANCEDQuartermaster_LedgerMultipleCDs,
+}

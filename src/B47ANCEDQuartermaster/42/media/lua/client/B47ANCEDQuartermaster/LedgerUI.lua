@@ -202,11 +202,14 @@ function V.read(num,item,computer,host)
   for _,key in ipairs({'closeButton','pinButton','collapseButton','infoButton'}) do if panel[key] then panel[key]:setVisible(false) end end
  end
  local requestSerial=0;local pending=false;local page={};local cursor;local history={};local summary='';local lastRead=0;local due;local closed=false;local revision
- local selectedRoom='';local roomNames={};local query=''
+ local selectedRoom='';local roomNames={};local query='';local ledgerMode='single';local knownStockAreas={}
+ local stockWatch;local stockSource
  local tableView;local resetSelection=true;local selectedKey;local savedScroll=0
  local list=U.ScrollList:new(12,header+3*m.button+24,panel:getWidth()-24,240);list:initialise();list:instantiate();panel:addChild(list)
  list.drawBorder=true
- local search,rooms
+ local search,rooms,networkMode
+ local knownStockRooms={}
+ local function stockRooms() local out={};for _,row in ipairs(knownStockRooms) do out[#out+1]=row end;for _,area in ipairs(knownStockAreas) do out[#out+1]={building=area.id,name=area.label} end;return out end
  local fetch
  if digital then
   search=U.TextInput:new('',12,header+8,400,m.button);search:initialise();search:instantiate();panel:addChild(search)
@@ -216,6 +219,13 @@ function V.read(num,item,computer,host)
    local option=box.options[box.selected];selectedRoom=option and option.data or '';page={};history={};resetSelection=true;due=getTimestampMs();requestSerial=requestSerial+1;pending=false
   end)
   rooms:initialise();rooms:instantiate();U.skin(rooms,'dropdown');rooms:addOptionWithData(tr('LedgerAllRooms'),'');panel:addChild(rooms)
+  networkMode=ISComboBox:new(0,0,180,m.button,panel,function(_,box)
+   local option=box.options[box.selected];ledgerMode=option and option.data or 'single';page={};history={};roomNames={};knownStockRooms={};knownStockAreas={};selectedRoom='';resetSelection=true;due=getTimestampMs();requestSerial=requestSerial+1;pending=false
+   if stockWatch then stockWatch:close();stockWatch=nil end
+  end)
+  networkMode:initialise();networkMode:instantiate();U.skin(networkMode,'dropdown');panel:addChild(networkMode)
+  for _,mode in ipairs({'single','local','base'}) do networkMode:addOptionWithData(tr('LedgerView_'..mode),mode) end
+  networkMode.tooltip=tr('BaseLedgerHelp')
  end
  local previous=U.Button:new(12,0,120,m.button,tr(host and 'LedgerPrevious' or 'LedgerClipboardPrevious'),panel,function()
   if pending or #history==0 then return end;page=table.remove(history);resetSelection=true;fetch()
@@ -223,14 +233,15 @@ function V.read(num,item,computer,host)
  local more=U.Button:new(140,0,120,m.button,tr(host and 'LedgerNextPage' or 'LedgerClipboardNext'),panel,function()
   if pending or not cursor then return end;history[#history+1]=page;page={cursor=cursor};resetSelection=true;fetch()
  end)
+ local stock=U.Button:new(0,0,120,m.button,tr('StockTitle'),panel,function() require('B47ANCEDQuartermaster/StockUI').open(num,panel,stockSource,host,stockRooms()) end)
  local close=U.Button:new(0,0,120,m.button,tr('LedgerClose'),panel,function() panel:close() end)
- for _,b in ipairs({previous,more,close}) do b:initialise();b:instantiate();panel:addChild(b) end
- panel.ledgerControls={list=list,search=search,rooms=rooms,previous=previous,more=more,close=close}
+ for _,b in ipairs({previous,more,stock,close}) do b:initialise();b:instantiate();panel:addChild(b) end
+ panel.ledgerControls={list=list,search=search,rooms=rooms,previous=previous,more=more,close=close,stock=stock,networkMode=networkMode}
  if host then
-  for _,entry in ipairs({{list,'list'},{search,'input'},{rooms,'input'},{previous,'button'},{more,'button'},{close,'button'}}) do if entry[1] then Computer.decorate(entry[1],entry[2]) end end
+  for _,entry in ipairs({{list,'list'},{search,'input'},{rooms,'input'},{previous,'button'},{more,'button'},{stock,'button'},{networkMode,'input'},{close,'button'}}) do if entry[1] then Computer.decorate(entry[1],entry[2]) end end
   tableView=LedgerTable.new(panel,list,search,rooms,previous,more,close,m,colors);panel.ledgerTable=tableView
  else
-  for _,w in ipairs({previous,more,close}) do w.backgroundColor=U.Theme.copy(colors.grey);w.backgroundColorMouseOver=U.Theme.copy(colors.light);w.borderColor=U.Theme.copy(colors.shadow);w.textColor=U.Theme.copy(colors.black);w.textColorDisabled=U.Theme.copy(colors.muted) end
+  for _,w in ipairs({previous,more,stock,close}) do w.backgroundColor=U.Theme.copy(colors.grey);w.backgroundColorMouseOver=U.Theme.copy(colors.light);w.borderColor=U.Theme.copy(colors.shadow);w.textColor=U.Theme.copy(colors.black);w.textColorDisabled=U.Theme.copy(colors.muted) end
   tableView=LedgerTable.new(panel,list,nil,nil,previous,more,close,m,colors,Clipboard);panel.ledgerTable=tableView;panel.ledgerClipboard=true
  end
  local function rememberSelection()
@@ -238,7 +249,7 @@ function V.read(num,item,computer,host)
   local row=list.items[list.selected];selectedKey=LedgerTable.key(row and row.item);savedScroll=list:getYScroll()
  end
  function panel:close()
-  if closed then return end;closed=true;requestSerial=requestSerial+1;V.readers[num]=nil;U.Tooltip.dispose(self)
+  if closed then return end;closed=true;if stockWatch then stockWatch:close() end;requestSerial=requestSerial+1;V.readers[num]=nil;U.Tooltip.dispose(self)
   if host then host:release(self) else self:removeFromUIManager();U.Focus.restore(num) end
  end
  if host then Computer.keyboard(panel,function() panel:close() end)
@@ -252,7 +263,8 @@ function V.read(num,item,computer,host)
   requestSerial=requestSerial+1;local serial=requestSerial;pending=true;lastRead=getTimestampMs()
   local d
   if digital then local sq=computer and computer:getSquare();if not sq then panel:close();return end;d={x=sq:getX(),y=sq:getY(),z=sq:getZ(),index=computer:getObjectIndex()} end
-  Q.Authority.request(num,'ledgerRead',{item=item:getID(),drive=item.drive,computer=d,query=query,room=selectedRoom,cursor=page.cursor},function(r)
+  stockSource={item=item:getID(),drive=item.drive,computer=d,ledgerMode=ledgerMode}
+  Q.Authority.request(num,ledgerMode~='single' and 'ledgerBaseRead' or 'ledgerRead',{ledgerMode=ledgerMode,item=item:getID(),drive=item.drive,computer=d,query=query,room=selectedRoom,cursor=page.cursor},function(r)
    if closed or serial~=requestSerial or getSpecificPlayer(num)~=actor then return end
    rememberSelection();pending=false;U.RowTooltip.hide(list);list:clear();cursor=nil
    if tableView then tableView.count=0;tableView.status=tr('LedgerLoading');tableView.emptyLabel=tableView.status;tableView.summary='';list:setYScroll(0) end
@@ -262,7 +274,9 @@ function V.read(num,item,computer,host)
    if r.status=='LedgerBlank' then summary=tr('LedgerBlank');if tableView then tableView.status=summary;tableView.emptyLabel=summary end;return end
    if r.status~='ok' then summary=tr(r.status);tableView.status=summary;tableView.emptyLabel=summary;if digital then panel:close();note(actor,r.status) end;return end
    if revision and revision~=r.revision and page.cursor~=nil then revision=r.revision;page={};history={};resetSelection=true;due=getTimestampMs()+250;return end
-   revision=r.revision
+   revision=r.revision;knownStockAreas=r.stockAreas or {}
+   for _,room in ipairs(r.rooms or {}) do local found=false;for _,old in ipairs(knownStockRooms) do if old.id==room.id then found=true end end;if not found then knownStockRooms[#knownStockRooms+1]=room end end
+   if r.redacted then knownStockRooms={} end
    summary=tr(r.summary)..' - '..r.scope..' - '..tr(r.live and 'LedgerLive' or r.fresh==false and r.summary=='LedgerComplete' and 'LedgerExpired' or 'LedgerStatic')
    if r.expires and r.fresh then summary=summary..' - '..tr('LedgerExpires',r.expires) end
    if r.computerOffsite then summary=summary..' - '..tr('LedgerComputerOffsite') end
@@ -290,15 +304,20 @@ function V.read(num,item,computer,host)
    if #r.rows==0 and cursor and digital and (query~='' or selectedRoom~='') then page={cursor=cursor};resetSelection=true;due=getTimestampMs()+250 end
   end)
  end
+ if host then function panel:updateComputer()
+  if not stockWatch and stockSource then stockWatch=require('B47ANCEDQuartermaster/StockWatch').new(num,host,stockSource,panel,stockRooms) end
+  if stockWatch then stockWatch:update() end
+ end end
  panel.prerender=function(self,...)
   if not Policy.enabled() or getSpecificPlayer(num)~=actor or actor:isDead() or (not digital and Media.owned(actor,item:getID())~=item) or digital and not Media.computer(actor,computer,true) then self:close();return end
   tableView:layout();tableView:draw()
+  if panel.updateComputer then panel:updateComputer() end
   previous:setEnable(not pending and #history>0);more:setEnable(not pending and cursor~=nil)
   local now=getTimestampMs()
   if not pending and (due and now>=due or now-lastRead>=2000) then due=nil;fetch() end
  end
  panel.joypadButtonsY={};panel.joypadButtons={};panel.allJoypadButtons={};panel.joypadIndexY=1;panel.joypadIndex=1
- if search then panel:insertNewLineOfButtons(search,rooms) end;panel:insertNewLineOfButtons(list);panel:insertNewLineOfButtons(previous,more,close)
+ if search then panel:insertNewLineOfButtons(search,rooms,networkMode) end;panel:insertNewLineOfButtons(list);panel:insertNewLineOfButtons(previous,more,stock,close)
  local joy=panel.onJoypadDown;panel.onJoypadDown=function(self,key,...)
   if key==Joypad.BButton then if host then host:minimizeApp('ledger');setJoypadFocus(num,host) else self:close() end elseif joy then joy(self,key,...) end
  end

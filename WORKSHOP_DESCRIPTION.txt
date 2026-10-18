@@ -1,9 +1,12 @@
+[h2]Stock and Base Ledger (development source)[/h2]
+Set shared room/building item targets in the normal menu; read Current / Target / Remaining on paper or PC. The PC app alerts on complete live shortages. Connect computers in PC Network and view the newest local ledger copy for each building. Each remote building needs a loaded, powered, authorized PC with its own ledger CD. No unloaded-world live data. This source iteration is not yet uploaded.
+
 B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep track of what you need.
 
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.22.0-dev.1. Offline regression checks passed; native client and dedicated acceptance are pending. Back up saves and use matching builds on the server and every client.
+Version 0.23.0-dev.1. Offline regression checks passed; native client and dedicated acceptance are pending. Back up saves and use matching builds on the server and every client.
 
 [h2]Sorting made simple[/h2]
 • Choose whole categories or individual items in a searchable tree with native item icons.

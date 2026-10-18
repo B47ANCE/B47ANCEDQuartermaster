@@ -1,6 +1,6 @@
 # Clipboard UI correction and PC integration
 
-Project Version: 0.22.0-dev.1
+Project Version: 0.23.0-dev.1
 
 ## Historical metal clamp correction — 0.19.0-dev.3
 

@@ -133,6 +133,10 @@
     {
       "path": "docs/UI_EXTRACTION.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/STOCK_AND_BASE_LEDGER.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {

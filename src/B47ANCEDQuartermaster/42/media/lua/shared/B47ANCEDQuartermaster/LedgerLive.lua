@@ -21,6 +21,7 @@ function V.entry(actor,session,e)
  if session.liveFailure then return nil,session.liveFailure end
  if not session.livePending then
   local active=0;for _,reader in pairs(Q.Ledger.readers) do if reader.livePending then active=active+1 end end
+  for _,reader in pairs(Q.Ledger.stockReaders or {}) do if reader.livePending then active=active+1 end end
   if active>=16 then return nil,'busy' end
   local function valid()
    local current=resolve(actor,e)

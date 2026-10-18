@@ -1,10 +1,11 @@
 # PC Framework extraction
 
-Project Version: 0.22.0-dev.1
+Project Version: 0.23.0-dev.1
 
+Current addition: [Stock/Base Ledger integration with PC Framework 0.11.0-dev.1](STOCK_AND_BASE_LEDGER.md). Existing authority and historical evidence below remain distinct.
 Current Sort policy is the separate default-on [paper search/pickup and deferred writing workflow](SORT_LEDGER.md), Movement 12 / Ledger 5. Application installation and computer/CD behavior below remain otherwise unchanged; older capability/evidence checkpoints retain their original identity.
 
-Quartermaster requires `B47ANCEDRooms`, `B47ANCEDPCFramework` and now `B47ANCEDUI` on the server and every client. Shared presentation uses UI's public client API 1; [source-only extraction and validation](UI_EXTRACTION.md). PC Framework 0.9.0-dev.3 / registration and CD program API 1 is the public companion for the unified desktop and genuine installer CD. Powered-PC support first appeared in framework 0.2.0-dev.1. PC Framework is distributed as Workshop item 3822042011; UI has no assigned Workshop item. Current integration is checked against public companion 0.9.0-dev.3, retaining API 1. This source work does not change Quartermaster's existing Workshop item 3807217050.
+Quartermaster requires `B47ANCEDRooms`, `B47ANCEDPCFramework` and now `B47ANCEDUI` on the server and every client. Shared presentation uses UI's public client API 1; [source-only extraction and validation](UI_EXTRACTION.md). PC Framework 0.11.0-dev.1 / registration, CD program, notification and connections APIs 1 is the development companion for the unified desktop and genuine installer CD. Powered-PC support first appeared in framework 0.2.0-dev.1. PC Framework is distributed as Workshop item 3822042011; UI has no assigned Workshop item. Current integration is checked against development companion 0.11.0-dev.1, retaining API 1. This source work does not change Quartermaster's existing Workshop item 3807217050.
 
 [VERIFIED source] The desktop, shared native computer helpers and server drive engine are extracted into the standalone [B47ANCED PC Framework](https://github.com/B47ANCE/B47ANCEDPCFramework). Framework runtime has no Quartermaster imports. Quartermaster's `ComputerUI.lua` is now a compatibility alias; `LedgerUI.lua` registers `quartermaster`, `QUARTERMASTER.EXE`, the reader, and `ComputerWriter.lua`. Only the framework subscribes its world computer menu. Bare framework use opens without Quartermaster or ledger data. Disabling Quartermaster ledgers removes its app while leaving the independent desktop available; disabling the framework closes all framework desktops and fails computer access.
 

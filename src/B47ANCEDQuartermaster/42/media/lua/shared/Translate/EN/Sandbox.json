@@ -63,5 +63,11 @@
   "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight": "Application CD loot weight",
   "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight_tooltip": "Relative loot-table weight in commercial office desks/counters, office supply shelves/crates and computer store/stock containers. Range 0-10; default 1. Zero disables these drops. Not a percentage. Only affects new native loot rolls; existing containers and items are not changed. Restart to apply distribution settings.",
   "Sandbox_B47ANCEDQuartermaster_SortUpdatesLedger": "Update paper ledger while sorting",
-  "Sandbox_B47ANCEDQuartermaster_SortUpdatesLedger_tooltip": "Default on. Every Sort requires a carried Supply Sheet and a pen or pencil. First search accessible loaded building storage for a completed ledger covering the location and pick it up through normal transfer. Otherwise use a carried blank or unfinished sheet. Write confirmed touched storage after the whole successful Sort. Blank sheets remain partial; unvisited entries are not made fresh. Computers do not replace paper in this mode. Off restores the previous sorting requirements. Disabled Ledger mode bypasses this option."
+  "Sandbox_B47ANCEDQuartermaster_SortUpdatesLedger_tooltip": "Default on. Every Sort requires a carried Supply Sheet and a pen or pencil. First search accessible loaded building storage for a completed ledger covering the location and pick it up through normal transfer. Otherwise use a carried blank or unfinished sheet. Write confirmed touched storage after the whole successful Sort. Blank sheets remain partial; unvisited entries are not made fresh. Computers do not replace paper in this mode. Off restores the previous sorting requirements. Disabled Ledger mode bypasses this option.",
+  "Sandbox_B47ANCEDQuartermaster_StockEnabled": "Stock tracking",
+  "Sandbox_B47ANCEDQuartermaster_StockEnabled_tooltip": "Enable shared room/building stock targets and ledger stock views.",
+  "Sandbox_B47ANCEDQuartermaster_StockCheckSeconds": "Stock check interval",
+  "Sandbox_B47ANCEDQuartermaster_StockCheckSeconds_tooltip": "Seconds between PC stock-check rounds. Only authorized, recorded storage is read; no per-frame inventory scans.",
+  "Sandbox_B47ANCEDQuartermaster_LedgerMultipleCDs": "Multiple ledger CDs / Base Ledger",
+  "Sandbox_B47ANCEDQuartermaster_LedgerMultipleCDs_tooltip": "Allow the PC app to read newest local ledger CDs and combine linked powered PCs. Each area requires its own powered, loaded PC and matching local ledger CD."
 }

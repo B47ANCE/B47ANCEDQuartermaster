@@ -1,6 +1,6 @@
 # Shared UI extraction
 
-Project Version: 0.22.0-dev.1
+Project Version: 0.23.0-dev.1
 
 2026-10-18: current baseline Quartermaster 0.21.0-dev.5 commit `2c1d663dadd68ec1757845ff90e14b6225908904`. Fresh clean feature worktree; old root checkout remains untouched. Source-only 0.x MINOR adds the required B47ANCEDUI dependency and public API 1; install the new dependency on both peers. No UI Workshop item is assigned, so this source iteration is not yet distributable through Workshop. Existing item IDs/visibility untouched.
 
