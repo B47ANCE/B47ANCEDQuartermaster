@@ -32,5 +32,5 @@ jobs:
       - run: python -B scripts/check_deployment.py
       - run: python -B tests/test_ui_boundary.py --ui .test-deps/B47ANCEDUI
       - run: python -B .test-deps/B47ANCEDUI/tests/run_tests.py
-      - name: Paired Stock and Base Ledger fixtures
-        run: python -B tests/run_tests.py --only-stock --rooms .test-deps/B47ANCEDRooms --ui .test-deps/B47ANCEDUI --pc-framework .test-deps/B47ANCEDPCFramework
+      - name: Paired server Stock and Base Ledger host contracts
+        run: python -B tests/run_tests.py --stock-service-contracts --rooms .test-deps/B47ANCEDRooms --ui .test-deps/B47ANCEDUI --pc-framework .test-deps/B47ANCEDPCFramework

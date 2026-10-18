@@ -22,6 +22,7 @@ PARSER.add_argument('--only-sort-ledger', action='store_true', help='Focused ser
 PARSER.add_argument('--pc-framework', type=Path, default=ROOT.parent / 'B47ANCEDPCFramework', help='Required standalone PC Framework checkout')
 PARSER.add_argument('--ui', type=Path, default=ROOT.parent / 'B47ANCEDUI', help='Required standalone shared UI checkout')
 PARSER.add_argument('--only-stock', action='store_true', help='Stock, multi-CD/base and editor regression fixtures')
+PARSER.add_argument('--stock-service-contracts', action='store_true', help='CI server Stock/Base paths with independent host action scaffolding; no proprietary engine files or native/UI proof')
 PARSER.add_argument('--only-ui', action='store_true', help='Shared UI public provider and existing UI regressions')
 PARSER.add_argument('--rooms', type=Path, default=ROOT.parent / 'B47ANCEDRooms', help='Standalone Rooms checkout for paired production integration tests')
 PARSER.add_argument('--require-rooms', action='store_true', help='Fail instead of reporting unavailable paired integration')
@@ -62,6 +63,14 @@ if ARGS.only_polish:
     for name in ('test_sort_ledger.lua', 'test_sort_ledger_ui.lua', 'test_ledger_failures.lua', 'test_program_installation.lua', 'test_shopping_paper_ui.lua', 'test_movement.lua'):
         runtime().execute((ROOT/'tests'/name).read_text(encoding='utf-8'))
     raise SystemExit(0)
+
+if ARGS.stock_service_contracts:
+    for name in ('test_stock.lua','test_base_ledger.lua'):
+        lua=runtime()
+        lua.execute((ROOT/'tests/fixtures/stock_action_contract.lua').read_text(encoding='utf-8'))
+        lua.execute((ROOT/'tests'/name).read_text(encoding='utf-8'))
+    print('PASS HOST CONTRACTS ONLY: server Stock/Base services; native timed-action source and UI NOT TESTED by this CI mode')
+    sys.exit(0)
 
 if ARGS.only_stock:
     for name in ('test_stock.lua','test_base_ledger.lua','test_stock_ui.lua'):

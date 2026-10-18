@@ -122,9 +122,12 @@ recovery/repeat suppression. Framework independently checks status/pairing,
 component caps and notification lifecycle. Static checks retain Lua-only, path
 case, exact runtime inventory and 29-locale English fallback parity.
 
-The read-only GitHub workflow pins the exact Framework/Rooms/UI source commits
-for paired Stock fixtures. It has no Workshop, server or deployment credentials;
-host CI results are reported separately from the local suite and runtime gates.
+The read-only GitHub workflow pins the exact Framework/Rooms/UI source commits.
+It uses `--stock-service-contracts` for server Stock/Base fixtures with independent
+host action scaffolding, because proprietary PZ files are unavailable on hosted
+Linux. This explicit mode does not run native timed-action source or Stock UI;
+the local full/focused suites above do. It has no Workshop, server or deployment
+credentials. Host CI results remain separate from local tests and runtime gates.
 
 [RUNTIME GATE] Native SP, font/controller/layering, actual remote two-client
 privacy and simultaneous goal edits, pairing across chunk unload/reload, PC/CD
