@@ -1,5 +1,5 @@
 [h2]Stock and Base Ledger[/h2]
-Set shared room/building item targets in the normal menu; read Current / Target / Remaining on paper or PC. The PC app alerts on complete live shortages. Connect computers in PC Network and view the newest local ledger copy for each building. Each remote building needs a loaded, powered, authorized PC with its own ledger CD. No unloaded-world live data.
+Set shared room/building Stock targets in the normal menu. Paper and PC show Current / Target / Remaining; the PC alerts on fresh live shortages. Read the newest local ledger CDs or a connected Base Ledger. Each building needs a loaded, powered, authorized PC with its own covering CD. PC Network shows online/offline status. Unloaded inventory is not live.
 
 B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep track of what you need.
 
@@ -20,7 +20,7 @@ Version 0.23.0-dev.1. Offline regression checks passed; native client and dedica
 Open Quartermaster from your player inventory. Select categories to include them, expand them to choose individual items, then save your container's rules.
 
 [h2]Shopping lists[/h2]
-Create a named shopping paper from one blank sheet using a retained notebook and pen or pencil. Choose among the lists you carry, give them to friends before a loot run, or hold one in either hand for a small paper checklist HUD. Writing supplies are needed for creating/editing; reading and collecting do not need them. Previous personal plans are preserved for explicit one-time import.
+Create named shopping papers from blank sheets, keeping your notebook and pen/pencil. Choose among carried lists, hand them to friends before a loot run, or hold one for a paper checklist HUD. Writing supplies are needed to create/edit; reading and collecting need none. Previous personal plans support explicit one-time import.
 • Add items manually or from supported crafting, building and cooking recipes.
 • Set quantities and see what you carry and what is still missing.
 • Collect remaining items from eligible nearby storage.
@@ -33,7 +33,7 @@ Give supplies a purpose and keep your goals together.
 • Track the supplies you carry, add missing amounts to Shopping and collect what remains.
 
 [h2]Building Supply Ledger[/h2]
-Sort uses a carried Supply Sheet and pen/pencil by default. It first searches accessible loaded building storage for a completed covering ledger and picks it up normally, otherwise using a carried blank/unfinished sheet. One writing action records confirmed touched storage after the whole successful Sort; blank sheets stay partial and unvisited entries keep their timestamps. Disable SortUpdatesLedger to restore the earlier workflow. Shopping collection requires fresh covering knowledge from completed paper or a matching CD at an authorized powered computer. Planning, reading and container configuration need no supply ledger. Physical-list edits need writing supplies. Server settings can disable ledger requirements.
+Sort uses a carried Supply Sheet and pen/pencil by default. It searches accessible loaded building storage for a completed covering ledger and picks it up normally, otherwise using a carried blank/unfinished sheet. After the whole successful Sort, one writing action records confirmed touched storage; unvisited entries keep their timestamps. Disable SortUpdatesLedger for the earlier workflow. Shopping collection requires fresh covering paper or a matching CD at an authorized powered computer; planning, reading and configuration need no supply ledger. Physical-list edits need writing supplies. Server settings control these requirements.
 Computers open a Windows '93 desktop. Find a Quartermaster Application CD, load it through CD-ROM (D:) and run SETUP.EXE to install the app on each PC. The setup disc is reusable and need not stay nearby afterward. Use CD Writer to create a ledger CD, then load that disc and run QUARTERMASTER.EXE to view it.
 Craft a Supply Sheet by consuming one whole notebook while retaining the clipboard and pen/pencil, then walk through building or safehouse storage to record what is there, including unconfigured containers. Paper pages show rooms, containers, quantities, locations and recording times. Interrupted inspections keep completed entries.
 
@@ -62,7 +62,7 @@ Created by B47ANCE. Original Lua-only implementation.
 [url=https://github.com/B47ANCE/B47ANCEDQuartermaster]GitHub — Source Code & Issues[/url]
 
 [h2]Current limits[/h2]
-Native client/dedicated acceptance is pending. Real ledger CDs stay in accessible storage beside the PC. Expired pages remain readable history. Selected vehicle/trailer sources work; automatic parked-vehicle area sweeps, vehicle destinations, fluid tanks and unverified virtual storage are unsupported. Cooking plans support full portions, not partial portions or fluids. Room policies do not lock unrelated vanilla transfers.
+Native client/dedicated acceptance pending. CDs stay in accessible storage beside PCs; expired pages remain readable. Vehicle/trailer sources work, but area sweeps, vehicle destinations, fluid tanks and virtual storage do not. Cooking supports full portions only. Room policies do not lock vanilla transfers.
 
 Room organization uses designated B47ANCEDRooms rooms only; native buildings define building scope. Allocation limits and live role routing remain disabled.
 
