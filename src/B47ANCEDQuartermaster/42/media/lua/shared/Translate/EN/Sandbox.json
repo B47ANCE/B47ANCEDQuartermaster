@@ -29,7 +29,7 @@
   "Sandbox_B47ANCEDQuartermaster_LedgerBurnSeconds": "Ledger CD copying time",
   "Sandbox_B47ANCEDQuartermaster_LedgerBurnSeconds_tooltip": "Seconds required to copy a completed paper ledger at a powered desktop computer. Server controlled; 10-120, default 30. One compatible vanilla CD is converted; paper is retained.",
   "Sandbox_B47ANCEDQuartermaster_RequireLedgerForSorting": "Require fresh ledger for Room/Building Sort",
-  "Sandbox_B47ANCEDQuartermaster_RequireLedgerForSorting_tooltip": "Require a fresh completed ledger covering the work location for Room/Building Sort. Inventory and selected-container Sort never require one. Disabled Ledger mode bypasses this requirement. Existing setting values are retained.",
+  "Sandbox_B47ANCEDQuartermaster_RequireLedgerForSorting_tooltip": "When automatic paper-ledger updates are off, require fresh paper or powered computer knowledge for Room/Building Sort. Inventory/selected-container Sort remains available without it. When automatic updates are on, use its carried-paper and writing-tool workflow instead.",
   "Sandbox_B47ANCEDQuartermaster_RequireLedgerForCollecting": "Require a ledger for Shopping collection",
   "Sandbox_B47ANCEDQuartermaster_RequireLedgerForCollecting_tooltip": "Require a fresh completed location ledger for Shopping collection. Planning and list editing remain available. Disabled Ledger mode bypasses this requirement.",
   "Sandbox_B47ANCEDQuartermaster_LedgerComputerRange": "Nearby ledger computer range",
@@ -47,7 +47,7 @@
   "Sandbox_B47ANCEDQuartermaster_LedgerUpdateDays": "Ledger update interval (in-game days)",
   "Sandbox_B47ANCEDQuartermaster_LedgerUpdateDays_tooltip": "Days after a completed inspection before it expires in Periodic and Historical modes. Range 1-365; default 7. Expired records remain readable as history. Uses server world age and survives restart. No effect in Disabled/No updates modes or for automatically updating computers.",
   "Sandbox_B47ANCEDQuartermaster_LedgerComputerManualUpdates": "Computers require manual updates",
-  "Sandbox_B47ANCEDQuartermaster_LedgerComputerManualUpdates_tooltip": "On: record storage and write/load an updated CD when it expires; computer display follows Ledger mode. Off: a matching completed CD at an accessible powered computer provides live statistics for its recorded compartments without expiry. Power, real CD presence, scope and current inspection permissions are always required. Does not update paper or rewrite the CD snapshot.",
+  "Sandbox_B47ANCEDQuartermaster_LedgerComputerManualUpdates_tooltip": "When enabled, record storage and write/load an updated CD when the ledger expires. When disabled, a powered computer refreshes without expiry only inside the exact building recorded by its loaded ledger. Off-site and safehouse-wide CDs show recorded inventory under normal expiry.",
   "Sandbox_B47ANCEDQuartermaster_AllocationMode": "Allocation evaluation",
   "Sandbox_B47ANCEDQuartermaster_AllocationMode_tooltip": "Off disables advisory work. Shadow compares percentage profiles with the legacy sorter without enforcing quotas or moving items. Existing saves default to Shadow. Enforcement is unavailable until native and dedicated acceptance.",
   "Sandbox_B47ANCEDQuartermaster_AllocationMode_option1": "Off",
@@ -55,5 +55,13 @@
   "Sandbox_B47ANCEDQuartermaster_PrimaryOverflowAt": "Primary room overflow threshold (%)",
   "Sandbox_B47ANCEDQuartermaster_PrimaryOverflowAt_tooltip": "Default Primary fill threshold for newly created room allocation profiles. Server controlled, 0–100%, default 60. Existing explicit room values remain unchanged.",
   "Sandbox_B47ANCEDQuartermaster_SecondaryReturnAt": "Secondary room return threshold (%)",
-  "Sandbox_B47ANCEDQuartermaster_SecondaryReturnAt_tooltip": "Default Secondary fill threshold for newly created room allocation profiles. Server controlled, 0–100%, default 80. Existing explicit room values remain unchanged."
+  "Sandbox_B47ANCEDQuartermaster_SecondaryReturnAt_tooltip": "Default Secondary fill threshold for newly created room allocation profiles. Server controlled, 0–100%, default 80. Existing explicit room values remain unchanged.",
+  "Sandbox_B47ANCEDQuartermaster_RequireComputerApplication": "Require Quartermaster installation",
+  "Sandbox_B47ANCEDQuartermaster_RequireComputerApplication_tooltip": "Require a found Quartermaster Application CD to install the app on each PC before ledger-CD reading, CD writing or automatic computer ledger access. Default enabled, including existing PCs. Existing paper/CD records are preserved. Disable to retain immediate computer access. Paper workflows and ordinary inventory/container Sort are unchanged.",
+  "Sandbox_B47ANCEDQuartermaster_ApplicationInstallSeconds": "Application installation time (seconds)",
+  "Sandbox_B47ANCEDQuartermaster_ApplicationInstallSeconds_tooltip": "Native action duration to install Quartermaster from its genuine loaded Application CD. Range 5-120 seconds; default 20. Movement, power/access loss or cancellation prevents completion. The CD is retained.",
+  "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight": "Application CD loot weight",
+  "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight_tooltip": "Relative loot-table weight in commercial office desks/counters, office supply shelves/crates and computer store/stock containers. Range 0-10; default 1. Zero disables these drops. Not a percentage. Only affects new native loot rolls; existing containers and items are not changed. Restart to apply distribution settings.",
+  "Sandbox_B47ANCEDQuartermaster_SortUpdatesLedger": "Update paper ledger while sorting",
+  "Sandbox_B47ANCEDQuartermaster_SortUpdatesLedger_tooltip": "Default on. Every Sort requires a carried Supply Sheet and a pen or pencil. First search accessible loaded building storage for a completed ledger covering the location and pick it up through normal transfer. Otherwise use a carried blank or unfinished sheet. Write confirmed touched storage after the whole successful Sort. Blank sheets remain partial; unvisited entries are not made fresh. Computers do not replace paper in this mode. Off restores the previous sorting requirements. Disabled Ledger mode bypasses this option."
 }

@@ -1,0 +1,54 @@
+{
+  "project_version": "0.21.0-dev.5",
+  "game_version": "42.21.0",
+  "steam_build": "25485521",
+  "status": "VERIFIED SOURCE / TESTED OFFLINE",
+  "runtime": "NOT TESTED",
+  "native": [
+    {
+      "path": "media/lua/server/Items/SuburbsDistributions.lua",
+      "sha256": "25a15471f95fb56ebe7ac405c4a85705d18b3ee12a2bd7fe379e2c71e3bc36b1"
+    },
+    {
+      "path": "media/lua/server/Items/ProceduralDistributions.lua",
+      "sha256": "7e32d249a0aa3e7461dd397b0e727a3559029438f42957ddd90d47799ed33ba2"
+    },
+    {
+      "path": "media/scripts/generated/items/normal.txt",
+      "sha256": "b76cf5f91dce33567ca2bda305c4e450be297aae6b1fc11b5b34dcb280d74567"
+    },
+    {
+      "path": "media/lua/server/Items/Distributions.lua",
+      "sha256": "189ea31b26f445b753da68bff46f01b70bebadb90e0e1c263c18b4751d027ffd"
+    }
+  ],
+  "observations": [
+    "Installed SuburbsDistributions.lua registers OnPreDistributionMerge.Add at line 208; its pre-merge callback is empty. Native event timing itself is NOT TESTED.",
+    "Installed procedural distributions define the eight office/computer pools listed in APPLICATION_CD.md as alternating item-name / numeric-weight arrays. Distributions.lua office (12125-12217) and officestorage (12228-12266) map office desks/counters/shelves/office supply crates; warehouse (15336 onward) uses industrial cargo pools, not a special warehouse office pool. ElectronicStoreComputers references at 7887/7950/7977; CrateComputer stock references include 4051/4103/6559. Map-specific warehouse office room tagging and actual rolls remain runtime gates.",
+    "ApplicationCD reuses the existing verified Disc icon and Disk world model shape from the native CD item; original Lua script definition, no new bitmap asset or copied source."
+  ],
+  "framework": {
+    "api_source_commit": "10041fc77124b9845a946474400f66e718c1b030",
+    "crt_source_commit": "12d320c86a3e22f6db32dc69051167fef589d097",
+    "registration": "PC.registerCDProgram",
+    "server": "CDPrograms.new / resolve / authorize",
+    "api_version": 1
+  },
+  "authority": "Authenticated Quartermaster transport and challenged native LedgerAction own the install mutation; framework resolves real mounted media/power/access. Per-PC installation receipt is Quartermaster-owned server ModData schema 1.",
+  "limits": [
+    "Source inspection and native-shaped tests do not prove native execution, loot generation, synchronization, save restart or dedicated multiplayer.",
+    "Native object metadata transport and inherited ledger native-action boundary remain subject to documented vanilla authority limitations."
+  ],
+  "polish": {
+    "baseline_commit": "40056727420dad3530c3371db0386756a4fc88ae",
+    "framework_commit": "633ff570da7bf5b97d359a87d4f81f322afc3e66",
+    "change": "Successful server install releases only its verified setup binding through the existing eject service. No physical media change or framework edit.",
+    "evidence": "TESTED OFFLINE automatic setup release, media retained then moved away, installed read/new burn grant, existing cancellation/security regressions; native/dedicated NOT TESTED."
+  },
+  "confirmation_notification_fix": {
+    "baseline_commit": "a1422f47691acc22a0d0ef7245614f4e1f1b8e44",
+    "scope": "Finish rejected native confirmations exactly once; narrow post-commit object-notification guard returns ProgramInstallSyncPending and retires committed grant.",
+    "tests": "Actual native handler denial/rate-limit/uncertainty for install/burn/write, duplicate/late/replacement guards, native tagged stop, injector exception before fix, committed receipt/grant retirement, installer retry/pending guard and CD conservation. Offline only.",
+    "runtime": "Native client/dedicated NOT TESTED; stable G8 BLOCKED."
+  }
+}

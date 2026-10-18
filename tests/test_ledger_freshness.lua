@@ -70,6 +70,38 @@ opts.LedgerComputerManualUpdates=false
 assert(G.check(actor,actor.square,'area'),'automatic computer did not renew knowledge')
 local digital=read({drive=drive,computer=F.position,item=F.disc:getID()})
 assert(digital.status=='ok' and digital.live and digital.fresh and quantity(digital,'Fixture.LiveOnly')==3,digital.status)
+-- A real mounted CD in a different native building remains historical. Match
+-- the complete signature, not just its native room-ID key or proximity.
+local computerSquare=F.computer:getSquare();local originalBuilding=computerSquare.building
+local otherDef={getRooms=function() return f.list({{getID=function() return 77 end,getX=function() return 50 end,getY=function() return 50 end,getX2=function() return 52 end,getY2=function() return 52 end,getZ=function() return 0 end}}) end}
+local otherBuilding={getDef=function() return otherDef end}
+local workSquare;for _,sq in pairs(f.squares) do if sq~=computerSquare and sq:getBuilding()==originalBuilding then workSquare=sq;break end end
+assert(workSquare,'fixture needs a separate recorded square')
+computerSquare.building=otherBuilding;f.advance(5100)
+local Analysis=require 'B47ANCEDQuartermaster/ContentAnalysis';local begin=Analysis.begin;local scans=0
+Analysis.begin=function(...) scans=scans+1;return begin(...) end
+local offsite=read({drive=drive,computer=F.position,item=F.disc:getID(),buildingSignature=cdOriginal.signature})
+assert(offsite.status=='ok' and offsite.computerOffsite and not offsite.live and not offsite.fresh and offsite.expires==cdOriginal.finished+P.days()*24,'offsite computer used automatic freshness')
+assert(quantity(offsite,'Fixture.LiveOnly')==0 and scans==0,'offsite computer scanned/refreshed remote inventory')
+assert(not G.check(actor,workSquare,'area'),'nearby offsite computer granted expired building knowledge')
+assert(G.check(actor,workSquare,'sort'),'offsite CD blocked ordinary inventory Sort')
+local oldAge=age;age=cdOriginal.finished;opts.LedgerMode=1;f.advance(1100)
+local freshOffsite=read({drive=drive,computer=F.position,item=F.disc:getID()})
+assert(freshOffsite.fresh and not freshOffsite.live and freshOffsite.computerOffsite,'unexpired offsite CD became live')
+assert(G.check(actor,workSquare,'area'),'fresh nearby historical CD lost existing coverage')
+opts.LedgerMode=3;local noExpiry=read({drive=drive,computer=F.position,item=F.disc:getID()})
+assert(noExpiry.fresh and not noExpiry.live and noExpiry.computerOffsite,'No updates mode refreshed a remote building')
+computerSquare.building=nil;f.advance(1100)
+assert(read({drive=drive,computer=F.position,item=F.disc:getID()}).computerOffsite,'outdoor computer refreshed a building')
+computerSquare.building=originalBuilding;opts.LedgerMode=4;age=oldAge;f.advance(5100)
+local localAgain=read({drive=drive,computer=F.position,item=F.disc:getID()})
+assert(localAgain.live and localAgain.fresh and not localAgain.computerOffsite,'returning to exact building did not restore automatic refresh')
+local kind=cdOriginal.scope.kind;cdOriginal.scope.kind='safehouse';f.advance(5100)
+local broad=read({drive=drive,computer=F.position,item=F.disc:getID()})
+assert(broad.computerOffsite and not broad.live and not broad.fresh,'safehouse-wide snapshot received a building-specific exemption')
+cdOriginal.scope.kind=kind;Analysis.begin=begin;f.advance(5100)
+assert(G.check(actor,workSquare,'area'),'matching building provider failed to recover')
+print('PASS OFFLINE computer building scope: exact full signature, offsite/outdoor/safehouse-shaped snapshots, no remote inventory analysis, ignored client signature, ordinary expiry/No updates, nearby fresh history, automatic recovery and manual Sort preserved')
 F.setPower(false);assert(not G.check(actor,actor.square,'area'));F.setPower(true)
 storage:Remove(F.disc);assert(not G.check(actor,actor.square,'area'),'automatic computer accepted a removed CD');storage:AddItem(F.disc)
 opts.LedgerComputerManualUpdates=true;assert(not G.check(actor,actor.square,'area'))
@@ -103,6 +135,6 @@ assert(L.handle(actor,'ledgerRead',{item=F.paper:getID()}).status=='ok')
 currentPaper.finished=finished
 -- Independent compatibility families prevent silently mixing old scope semantics.
 local Protocol=require 'B47ANCEDQuartermaster/Protocol'
-assert(Protocol.version('ledgerRead')==3 and not Protocol.accepts('ledgerRead',{protocol=2}))
-assert(Protocol.version('areaDiscover')==4 and not Protocol.accepts('areaDiscover',{protocol=3}) and Protocol.version('movePut')==11)
+assert(Protocol.version('ledgerRead')==5 and not Protocol.accepts('ledgerRead',{protocol=3}))
+assert(Protocol.version('areaDiscover')==4 and not Protocol.accepts('areaDiscover',{protocol=3}) and Protocol.version('movePut')==12)
 print('PASS OFFLINE ledger modes: manual Sort without knowledge, area gate, default/expiry boundary/world time, live/historical statistics, privacy revocation, native renewal/CD immutability, powered automatic computer and real CD/power loss, disabled/re-enable preservation and mixed-peer refusal; native/dedicated NOT TESTED')

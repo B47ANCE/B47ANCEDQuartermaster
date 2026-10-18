@@ -1,0 +1,15 @@
+{
+  "project_version": "0.21.0-dev.5",
+  "user_approved": true,
+  "asset": "src/B47ANCEDQuartermaster/42/icon.png",
+  "sha256": "4f181298819236792b26aa2ee193024ea77659ac4b8967e48d2c4fbdb1b48da5",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "provenance": "User-approved generated subject-only derivative of the existing original Quartermaster thumbnail; copied without further image edits.",
+  "thumbnail_unchanged_sha256": "26dff08533cf806b56c106e5cd72d3627dd57179d00db505e7d201fe9d9db0c1",
+  "poster_unchanged_sha256": "7caf79e7474cc3de3bb773ba3bf22b6ce860ed94b0df886966ba159d78fbe673",
+  "native_visual_acceptance": "NOT TESTED"
+}

@@ -7,8 +7,11 @@ local L=require 'B47ANCEDQuartermaster/Ledger'
 local Media=require 'B47ANCEDQuartermaster/LedgerMedia'
 local Scope=require 'B47ANCEDQuartermaster/LedgerScope'
 local Policy=require 'B47ANCEDQuartermaster/LedgerPolicy'
+local Program=require 'B47ANCEDQuartermaster/LedgerProgram'
 local Action=require 'B47ANCEDQuartermaster/LedgerAction'
 local Computer=require 'B47ANCEDQuartermaster/ComputerUI'
+local LedgerTable=require 'B47ANCEDQuartermaster/LedgerTable'
+local Clipboard=require 'B47ANCEDQuartermaster/ClipboardArt'
 local U,Q=B47ANCEDUI,B47ANCEDQuartermaster
 local V={work={},readers={}};Q.LedgerUI=V
 local function tr(key,...) return getText('UI_QMSS_'..key,...) end
@@ -20,24 +23,68 @@ function V.cancel(num)
  if getSpecificPlayer(num)==op.actor then
   local current=queue(op.actor)[1]
   if current and current.b47LedgerWork==op and current.action then current:forceStop() end
-  Q.Authority.request(num,'ledgerCancel',{},function() end)
+  if not op.install or op.token then Q.Authority.request(num,'ledgerCancel',{token=op.token},function() end) end
  end
  if op.token then L.clientOffers[op.token]=nil end
 end
-local function finish(op,status)
+local function finish(op,status,abortNative)
  if op.closed then return end
  op.closed=true;V.work[op.num]=nil
  if op.token then L.clientOffers[op.token]=nil end
- if status~='ok' and status~='done' and status~='ShoppingPaperCreated' and status~='ShoppingPaperSyncPending' then Q.Authority.request(op.num,'ledgerCancel',{},function() end) end
+ if not op.install and status~='ok' and status~='done' and status~='ShoppingPaperCreated' and status~='ShoppingPaperSyncPending' then Q.Authority.request(op.num,'ledgerCancel',{},function() end) end
+ if abortNative then
+  -- Close first so native stop/result callbacks cannot complete work twice.
+  if op.install and op.token then Q.Authority.request(op.num,'ledgerCancel',{token=op.token},function() end) end
+  local current=queue(op.actor)[1]
+  if current and current.b47LedgerWork==op and current.action then current:forceStop() end
+ end
  local key=status=='ok' and 'LedgerSaved' or status=='done' and (op.summary or 'LedgerComplete') or status
  local screen=op.host or Computer.active[op.num]
- if op.burn and screen and not screen.closed and screen.application=='quartermaster' then screen:message(key) end
+ if (op.burn or op.install) and screen and not screen.closed and screen.application=='quartermaster' then screen:message(key) end
  note(op.actor,key)
- if op.callback then op.callback(status) end
+ if op.callback then op.callback(status,key) end
+end
+local function atOrigin(op)
+ local sq=op.actor:getCurrentSquare();local p=op.origin
+ return sq and sq:getX()==p.x and sq:getY()==p.y and sq:getZ()==p.z
+end
+local function resumeSort(op)
+ op.returning=nil;op.sortPreparing=false;op.sorting=true
+ local ok,status=op.continueSort()
+ if not ok then finish(op,status or 'busy') end
 end
 local function response(op,result)
- if op.closed or getSpecificPlayer(op.num)~=op.actor then return end
+ if op.closed or getSpecificPlayer(op.num)~=op.actor then
+  if result.status=='pickup' and result.offer then Q.Authority.request(op.num,'moveCancel',{operation=result.offer.operation,outcome='notSubmitted'},function() end) end
+  if result.status=='action' and result.token then Q.Authority.request(op.num,'ledgerCancel',{token=result.token},function() end) end
+  return
+ end
  op.pending=false;op.at=getTimestampMs()+250
+ if op.sort and result.status=='ready' then
+  if atOrigin(op) then resumeSort(op)
+  elseif not op.pickedUp then finish(op,'LedgerChanged')
+  else
+   local p=op.origin;local sq=getCell():getGridSquare(p.x,p.y,p.z)
+   if not sq or #queue(op.actor)>0 then finish(op,'LedgerUnreachable');return end
+   op.returning=true;op.returnStarted=getTimestampMs()
+   local walk=ISWalkToTimedAction:new(op.actor,sq);walk.b47LedgerWork=op
+   function walk:isValid() return not op.closed and ISWalkToTimedAction.isValid(self) end
+   walk:setOnComplete(function() if not op.closed then op.returned=true end end)
+   function walk:stop() finish(op,'cancelled');ISWalkToTimedAction.stop(self) end
+   function walk:forceCancel() finish(op,'cancelled') end
+   ISTimedActionQueue.add(walk)
+  end
+  return
+ end
+ if op.sort and result.status=='pickup' then
+  op.actionPending=true
+  if not Q.Executor.acceptOffer(op.num,result.offer,function(status)
+   if op.closed then return end
+   op.actionPending=false;op.at=getTimestampMs()+250
+   if status~='ok' then finish(op,status) else op.pickedUp=true end
+  end) then op.actionPending=false;finish(op,'busy') end
+  return
+ end
  if result.status=='ok' or result.status=='waiting' then if result.target then op.target=result.target end;return end
  if result.status=='walk' then
   if op.lastWalk==result.target then op.walks=op.walks+1 else op.lastWalk=result.target;op.walks=1 end
@@ -52,12 +99,12 @@ local function response(op,result)
  if result.status=='action' then
   if #queue(op.actor)>0 then finish(op,'busy');return end
   op.token=result.token;op.actionPending=true
-  L.clientOffers[result.token]={actor=op.actor,seconds=result.seconds}
+  L.clientOffers[result.token]={actor=op.actor,seconds=result.seconds,kind=result.kind,paper=result.paper}
   local action=Action:new(op.actor,result.token)
   if not action then finish(op,'failed');return end
   action.b47LedgerWork=op;ISTimedActionQueue.add(action);return
  end
- if result.status=='LedgerChanged' then
+ if result.status=='LedgerChanged' and not op.sort then
   op.changed=(op.changed or 0)+1
   if op.changed<=3 then return end
  end
@@ -67,10 +114,35 @@ local function nativeResult(actor,result)
  local num=actor:getPlayerNum();local op=V.work[num]
  if not op or op.token~=result.token then return end
  L.clientOffers[result.token]=nil;op.token=nil;op.actionPending=false;op.target=nil;op.at=getTimestampMs()+250
+ if op.sort then finish(op,result.status);return end
  if result.status=='LedgerChanged' then op.changed=(op.changed or 0)+1;if op.changed<=3 then return end end
  if result.status=='ShoppingPaperCreated' then finish(op,result.status) elseif result.status~='ok' then finish(op,result.status) elseif op.burn then finish(op,'ok') end
 end
 L.clientResult=nativeResult
+function V.prepareSort(num,continueSort,failed)
+ if V.work[num] then return false,'busy' end
+ local actor=getSpecificPlayer(num);if not actor or #queue(actor)>0 then return false,'busy' end
+ local sq=actor:getCurrentSquare();if not sq then return false,'LedgerScopeUnavailable' end
+ V.work[num]={actor=actor,num=num,origin={x=sq:getX(),y=sq:getY(),z=sq:getZ()},sort=true,sortPreparing=true,continueSort=continueSort,callback=failed,at=0}
+ note(actor,'SortLedgerSearching');return true
+end
+function V.sortFinished(num,status,callback)
+ local op=V.work[num]
+ if not op or not op.sort then callback(status);return end
+ op.callback=function(result,key)
+  -- Native item moves have already completed. Report the later writing outcome
+  -- separately; a canceled/failed note does not undo successful transfers.
+  callback(op.sortWriting and 'ok' or result,op.sortWriting and (key or result) or nil)
+ end
+ if status~='ok' then finish(op,status);return end
+ op.sorting=false;op.sortWriting=true;op.at=0;note(op.actor,'SortLedgerWriting')
+end
+function V.cancelSort(num)
+ local op=V.work[num];if not op or not op.sort then return end
+ V.cancel(num)
+ Q.Executor.cancel(num)
+ if op.callback then op.callback('cancelled') end
+end
 function V.record(num,item,scope)
  if V.work[num] then return end
  local actor=getSpecificPlayer(num);if not actor or #queue(actor)>0 then return end
@@ -90,6 +162,14 @@ function V.burn(num,paper,cd,computer,host)
  local sq=computer:getSquare();local d={x=sq:getX(),y=sq:getY(),z=sq:getZ(),index=computer:getObjectIndex()}
  Q.Authority.request(num,'ledgerBurn',{item=paper:getID(),cd=cd:getID(),computer=d},function(r) response(op,r) end)
 end
+function V.installProgram(num,computer,media,callback)
+ local actor=getSpecificPlayer(num)
+ if not actor or V.work[num] or #queue(actor)>0 then if callback then callback('busy') end;return end
+ local op={actor=actor,num=num,pending=true,install=true,single=true,callback=callback};V.work[num]=op
+ local sq=computer:getSquare();if not sq then finish(op,'LedgerPower');return end
+ Q.Authority.request(num,'ledgerProgramInstall',{program=Program.id,media=media.id,drive=media.drive,
+  computer={x=sq:getX(),y=sq:getY(),z=sq:getZ(),index=computer:getObjectIndex()}},function(r) response(op,r) end)
+end
 function V.atComputer(num,computer,done)
  local actor=getSpecificPlayer(num);if not actor or V.work[num] or #queue(actor)>0 then return end
  if Media.computer(actor,computer,true) then done();return end
@@ -103,98 +183,70 @@ function V.read(num,item,computer,host)
  if digital and (not host or host~=Computer.active[num] or host.mounted~=item) then return V.computer(num,computer) end
  if V.readers[num] then V.readers[num]:close() end
  local m=U.Theme.metrics();local minimum=m.header+7*m.button+80
- if getPlayerScreenWidth(num)<500 or getPlayerScreenHeight(num)<minimum then note(actor,'LedgerScreenSmall');return end
+ if not digital then minimum=math.max(minimum,6*m.font+2*m.button+160) end
+ local minimumWidth=digital and 480 or math.max(500,m.font*22+72)
+ if getPlayerScreenWidth(num)<minimumWidth+20 or getPlayerScreenHeight(num)<minimum+20 then note(actor,'LedgerScreenSmall');return end
  local panel
  if host then panel=ISPanelJoypad:new(0,0,host:getWidth()-64,host:getHeight()-200)
- else panel=U.WindowShell:new(0,0,math.min(960,getPlayerScreenWidth(num)-20),math.min(680,getPlayerScreenHeight(num)-20)) end
- local colors=host and Computer.colors or U.Theme.colors
+ else
+  local height=math.max(minimum,math.min(math.max(800,m.font*25),getPlayerScreenHeight(num)-40))
+  local width=math.max(minimumWidth,math.min(640,math.floor(height*.78),getPlayerScreenWidth(num)-40))
+  panel=U.WindowShell:new(0,0,width,height)
+ end
+ local colors=host and Computer.colors or Clipboard.colors
  local header=host and 0 or m.header
- panel.playerNum=num;panel.minimumWidth=480;panel.minimumHeight=minimum;panel.resizable=true;panel.title=tr(digital and 'LedgerDigitalTitle' or 'LedgerPaperTitle')
+ panel.playerNum=num;panel.minimumWidth=minimumWidth;panel.minimumHeight=minimum;panel.resizable=true;panel.title=tr(digital and 'LedgerDigitalTitle' or 'LedgerPaperTitle')
  panel:initialise();panel:instantiate();V.readers[num]=panel
+ if not host then
+  panel.drawFrame=false;panel.clearStentil=false;panel.titleBarHeight=function() return 52 end
+  for _,key in ipairs({'closeButton','pinButton','collapseButton','infoButton'}) do if panel[key] then panel[key]:setVisible(false) end end
+ end
  local requestSerial=0;local pending=false;local page={};local cursor;local history={};local summary='';local lastRead=0;local due;local closed=false;local revision
  local selectedRoom='';local roomNames={};local query=''
+ local tableView;local resetSelection=true;local selectedKey;local savedScroll=0
  local list=U.ScrollList:new(12,header+3*m.button+24,panel:getWidth()-24,240);list:initialise();list:instantiate();panel:addChild(list)
- list.itemheight=3*(m.font+4);list.drawBorder=true
- list.doDrawItem=function(self,y,row,alt)
-  local data=row.item;local text=host and colors.black or colors.text
-  if row.ledgerWidth~=self:getWidth() then
-   local full={data.empty and tr('LedgerEmpty') or tr('LedgerItemLine',data.name,data.quantity),
-    tr('LedgerLocationLine',data.room,data.container,data.position.x,data.position.y,data.position.z,data.position.ci+1),
-    tr('LedgerRecordedLine',data.recorded,data.fullType,data.condition)}
-   row.ledgerLines={};local clipped=false
-   for n,line in ipairs(full) do full[n]=U.Tooltip.plain(line);row.ledgerLines[n]=U.Renderer.fit(full[n],self:getWidth()-22);clipped=clipped or full[n]~=row.ledgerLines[n] end
-   row.tooltip=clipped and table.concat(full,'<LINE>') or nil;row.ledgerWidth=self:getWidth()
-  end
-  U.Renderer.text(self,row.ledgerLines[1],8,y+2,text)
-  U.Renderer.text(self,row.ledgerLines[2],8,y+m.font+6,(host and colors.muted or U.Theme.colors.muted))
-  U.Renderer.text(self,row.ledgerLines[3],8,y+2*(m.font+4),(host and colors.muted or U.Theme.colors.muted))
-  return y+self.itemheight
- end
- local tableHeader,details,searchLabel,roomLabel,pageLabel
- if host then
-  local function block()
-   local p=ISPanelJoypad:new(0,0,1,1);p.playerNum=num;p:initialise();p:instantiate();panel:addChild(p);return p
-  end
-  tableHeader=block();details=block();searchLabel=block();roomLabel=block();pageLabel=block()
-  local function line(w,s,x,y,width,c) U.Renderer.text(w,U.Renderer.fit(s,width),x,y,c or colors.black) end
-  tableHeader.prerender=function(self)
-   local w,h=self:getWidth(),self:getHeight();U.Renderer.rect(self,0,0,w,h,colors.grey)
-   U.Renderer.border(self,0,0,w,h,colors.shadow)
-   local x1,x2=math.floor(w*.38),math.floor(w*.51)
-   U.Renderer.rect(self,x1,0,1,h,colors.light);U.Renderer.rect(self,x2,0,1,h,colors.light)
-   line(self,tr('LedgerColumnItem'),6,4,x1-12);line(self,tr('LedgerColumnQuantity'),x1+6,4,x2-x1-12);line(self,tr('LedgerColumnLocation'),x2+6,4,w-x2-12)
-  end
-  list.itemheight=m.font+10
-  list.doDrawItem=function(self,y,row)
-   local data=row.item;local selected=self.selected==(row.index or row.itemindex)
-   local w=self:getWidth()-m.scrollbar;local x1,x2=math.floor(w*.38),math.floor(w*.51)
-   U.Renderer.rect(self,0,y,w,self.itemheight,selected and colors.blue or (row.index or row.itemindex or 1)%2==0 and colors.light or colors.white)
-   local c=selected and colors.white or colors.black
-   line(self,data.empty and tr('LedgerEmpty') or data.name,6,y+4,x1-12,c)
-   local quantity=tostring(data.quantity);local qw=getTextManager():MeasureStringX(U.Theme.fonts.body,quantity)
-   line(self,quantity,math.max(x1+4,x2-qw-8),y+4,x2-x1-12,c)
-   line(self,data.room..' / '..data.container,x2+6,y+4,w-x2-12,c)
-   return y+self.itemheight
-  end
-  details.prerender=function(self)
-   local w,h=self:getWidth(),self:getHeight();U.Renderer.rect(self,0,0,w,h,colors.white);U.Renderer.border(self,0,0,w,h,colors.shadow)
-   local row=list.items[list.selected] or list.items[1];if not row then return end
-   local data=row.item
-   line(self,tr('LedgerRecordedLine',data.recorded,data.fullType,data.condition),6,4,w-12)
-   line(self,tr('LedgerLocationLine',data.room,data.container,data.position.x,data.position.y,data.position.z,data.position.ci+1),6,m.font+8,w-12)
-  end
-  searchLabel.prerender=function(self) line(self,tr('LedgerFindLabel'),0,0,self:getWidth()) end
-  roomLabel.prerender=function(self) line(self,tr('LedgerRoomLabel'),0,0,self:getWidth()) end
-  pageLabel.prerender=function(self) line(self,tr('LedgerPageLabel',#history+1,#list.items),0,0,self:getWidth(),colors.muted) end
- end
+ list.drawBorder=true
  local search,rooms
  local fetch
  if digital then
   search=U.TextInput:new('',12,header+8,400,m.button);search:initialise();search:instantiate();panel:addChild(search)
   search.tooltip=tr('LedgerSearch')
-  search.onTextChangeFunction=function() query=search:getInternalText();page={};history={};due=getTimestampMs()+350;requestSerial=requestSerial+1;pending=false end
+  search.onTextChangeFunction=function() query=search:getInternalText();page={};history={};resetSelection=true;due=getTimestampMs()+350;requestSerial=requestSerial+1;pending=false end
   rooms=ISComboBox:new(420,header+8,200,m.button,panel,function(_,box)
-   local option=box.options[box.selected];selectedRoom=option and option.data or '';page={};history={};due=getTimestampMs();requestSerial=requestSerial+1;pending=false
+   local option=box.options[box.selected];selectedRoom=option and option.data or '';page={};history={};resetSelection=true;due=getTimestampMs();requestSerial=requestSerial+1;pending=false
   end)
   rooms:initialise();rooms:instantiate();U.skin(rooms,'dropdown');rooms:addOptionWithData(tr('LedgerAllRooms'),'');panel:addChild(rooms)
  end
- local previous=U.Button:new(12,0,120,m.button,tr('LedgerPrevious'),panel,function()
-  if pending or #history==0 then return end;page=table.remove(history);fetch()
+ local previous=U.Button:new(12,0,120,m.button,tr(host and 'LedgerPrevious' or 'LedgerClipboardPrevious'),panel,function()
+  if pending or #history==0 then return end;page=table.remove(history);resetSelection=true;fetch()
  end)
- local more=U.Button:new(140,0,120,m.button,tr('LedgerNextPage'),panel,function()
-  if pending or not cursor then return end;history[#history+1]=page;page={cursor=cursor};fetch()
+ local more=U.Button:new(140,0,120,m.button,tr(host and 'LedgerNextPage' or 'LedgerClipboardNext'),panel,function()
+  if pending or not cursor then return end;history[#history+1]=page;page={cursor=cursor};resetSelection=true;fetch()
  end)
  local close=U.Button:new(0,0,120,m.button,tr('LedgerClose'),panel,function() panel:close() end)
  for _,b in ipairs({previous,more,close}) do b:initialise();b:instantiate();panel:addChild(b) end
- panel.ledgerControls={list=list,search=search,rooms=rooms,previous=previous,more=more,close=close,tableHeader=tableHeader,details=details,searchLabel=searchLabel,roomLabel=roomLabel,pageLabel=pageLabel}
+ panel.ledgerControls={list=list,search=search,rooms=rooms,previous=previous,more=more,close=close}
  if host then
   for _,entry in ipairs({{list,'list'},{search,'input'},{rooms,'input'},{previous,'button'},{more,'button'},{close,'button'}}) do if entry[1] then Computer.decorate(entry[1],entry[2]) end end
+  tableView=LedgerTable.new(panel,list,search,rooms,previous,more,close,m,colors);panel.ledgerTable=tableView
+ else
+  for _,w in ipairs({previous,more,close}) do w.backgroundColor=U.Theme.copy(colors.grey);w.backgroundColorMouseOver=U.Theme.copy(colors.light);w.borderColor=U.Theme.copy(colors.shadow);w.textColor=U.Theme.copy(colors.black);w.textColorDisabled=U.Theme.copy(colors.muted) end
+  tableView=LedgerTable.new(panel,list,nil,nil,previous,more,close,m,colors,Clipboard);panel.ledgerTable=tableView;panel.ledgerClipboard=true
+ end
+ local function rememberSelection()
+  if not tableView or resetSelection or #list.items==0 then return end
+  local row=list.items[list.selected];selectedKey=LedgerTable.key(row and row.item);savedScroll=list:getYScroll()
  end
  function panel:close()
   if closed then return end;closed=true;requestSerial=requestSerial+1;V.readers[num]=nil;U.Tooltip.dispose(self)
   if host then host:release(self) else self:removeFromUIManager();U.Focus.restore(num) end
  end
- if host then Computer.keyboard(panel,function() panel:close() end) end
+ if host then Computer.keyboard(panel,function() panel:close() end)
+ else
+  panel:setWantKeyEvents(true)
+  panel.isKeyConsumed=function(self,key) return not closed and self:isVisible() and num==0 and key==Keyboard.KEY_ESCAPE end
+  panel.onKeyRelease=function(self,key) if self:isKeyConsumed(key) then self:close() end end
+ end
  fetch=function()
   if pending or closed then return end
   requestSerial=requestSerial+1;local serial=requestSerial;pending=true;lastRead=getTimestampMs()
@@ -202,60 +254,62 @@ function V.read(num,item,computer,host)
   if digital then local sq=computer and computer:getSquare();if not sq then panel:close();return end;d={x=sq:getX(),y=sq:getY(),z=sq:getZ(),index=computer:getObjectIndex()} end
   Q.Authority.request(num,'ledgerRead',{item=item:getID(),drive=item.drive,computer=d,query=query,room=selectedRoom,cursor=page.cursor},function(r)
    if closed or serial~=requestSerial or getSpecificPlayer(num)~=actor then return end
-   pending=false;U.RowTooltip.hide(list);list:clear();cursor=nil
-   if r.status=='LedgerPageChanged' then page={};history={};due=getTimestampMs()+250;return end
-   if r.status=='waiting' then summary=tr(r.summary or 'LedgerLoading');due=getTimestampMs()+250;return end
-   if r.status=='LedgerChanged' then page={};history={};due=getTimestampMs()+500;return end
-   if r.status=='LedgerBlank' then summary=tr('LedgerBlank');return end
-   if r.status~='ok' then summary=tr(r.status);if digital then panel:close();note(actor,r.status) end;return end
-   if revision and revision~=r.revision and page.cursor~=nil then revision=r.revision;page={};history={};due=getTimestampMs()+250;return end
+   rememberSelection();pending=false;U.RowTooltip.hide(list);list:clear();cursor=nil
+   if tableView then tableView.count=0;tableView.status=tr('LedgerLoading');tableView.emptyLabel=tableView.status;tableView.summary='';list:setYScroll(0) end
+   if r.status=='LedgerPageChanged' then page={};history={};resetSelection=true;due=getTimestampMs()+250;return end
+   if r.status=='waiting' then summary=tr(r.summary or 'LedgerLoading');if tableView then tableView.status=summary;tableView.emptyLabel=summary end;due=getTimestampMs()+250;return end
+   if r.status=='LedgerChanged' then page={};history={};resetSelection=true;due=getTimestampMs()+500;return end
+   if r.status=='LedgerBlank' then summary=tr('LedgerBlank');if tableView then tableView.status=summary;tableView.emptyLabel=summary end;return end
+   if r.status~='ok' then summary=tr(r.status);tableView.status=summary;tableView.emptyLabel=summary;if digital then panel:close();note(actor,r.status) end;return end
+   if revision and revision~=r.revision and page.cursor~=nil then revision=r.revision;page={};history={};resetSelection=true;due=getTimestampMs()+250;return end
    revision=r.revision
    summary=tr(r.summary)..' - '..r.scope..' - '..tr(r.live and 'LedgerLive' or r.fresh==false and r.summary=='LedgerComplete' and 'LedgerExpired' or 'LedgerStatic')
-   if host then summary=r.scope..' | '..tr(r.live and 'LedgerLiveShort' or r.fresh==false and r.summary=='LedgerComplete' and 'LedgerExpiredShort' or 'LedgerHistoryShort') end
    if r.expires and r.fresh then summary=summary..' - '..tr('LedgerExpires',r.expires) end
+   if r.computerOffsite then summary=summary..' - '..tr('LedgerComputerOffsite') end
    for _,row in ipairs(r.rows) do list:addItem(row.name,row) end
    cursor=r.cursor
    if rooms then
     if r.redacted then
      rooms:clear();roomNames={};rooms:addOptionWithData(tr('LedgerAllRooms'),'')
-     if selectedRoom~='' then selectedRoom='';page={};history={};due=getTimestampMs()+250 end
+     if selectedRoom~='' then selectedRoom='';page={};history={};resetSelection=true;due=getTimestampMs()+250 end
     end
     for _,room in ipairs(r.rooms) do if not roomNames[room.id] then roomNames[room.id]=true;rooms:addOptionWithData(room.name,room.id) end end
    end
-   if #r.rows==0 and cursor and digital and (query~='' or selectedRoom~='') then page={cursor=cursor};due=getTimestampMs()+250 end
+   if tableView then
+    tableView.count=#r.rows;tableView.page=#history+1;tableView.summary=summary;tableView.emptyLabel=tr('LedgerTableNoEntries')
+    tableView.status=r.scope..' | '..tr(r.live and 'LedgerTableLive' or r.fresh==false and r.summary=='LedgerComplete' and 'LedgerTableExpired' or 'LedgerTableSnapshot')
+    if r.computerOffsite then tableView.status=tr('LedgerTableOffsite')..' | '..tableView.status end
+    if r.expires and r.fresh then tableView.status=tableView.status..' | '..tr('LedgerTableExpires',r.expires) end
+    if r.summary~='LedgerComplete' then tableView.status=tr(r.summary)..' | '..tableView.status end
+    if resetSelection then selectedKey=nil;savedScroll=0 end
+    list.selected=#list.items>0 and 1 or -1
+    if selectedKey then for n,row in ipairs(list.items) do if LedgerTable.key(row.item)==selectedKey then list.selected=n;break end end end
+    list:setYScroll(math.max(math.min(0,list:getHeight()-#list.items*list.itemheight),math.min(0,savedScroll)))
+    resetSelection=false
+   end
+   if #r.rows==0 and cursor and digital and (query~='' or selectedRoom~='') then page={cursor=cursor};resetSelection=true;due=getTimestampMs()+250 end
   end)
  end
- local pre=panel.prerender
  panel.prerender=function(self,...)
   if not Policy.enabled() or getSpecificPlayer(num)~=actor or actor:isDead() or (not digital and Media.owned(actor,item:getID())~=item) or digital and not Media.computer(actor,computer,true) then self:close();return end
-  if host then U.Renderer.rect(self,0,0,self:getWidth(),self:getHeight(),colors.grey) else pre(self,...) end
-  local w,h=self:getWidth(),self:getHeight();local top=header+(digital and m.button+16 or 8)
-  list:setX(12);list:setY(top+2*m.button);list:setWidth(w-24);list:setHeight(math.max(m.button,h-top-3*m.button-24))
-  if search then search:setWidth(math.max(140,w*.60-20));rooms:setX(12+w*.60);rooms:setWidth(w*.40-24) end
-  if host then
-   top=2*m.font+m.button+24
-   local tableY=top+m.font+12;local detailH=2*(m.font+4)+10
-   local detailY=h-m.button-12-detailH-8
-   U.Layout.place(searchLabel,12,8,w*.60-20,m.font+4);U.Layout.place(roomLabel,12+w*.60,8,w*.40-24,m.font+4)
-   U.Layout.place(search,12,m.font+12,w*.60-20,m.button);U.Layout.place(rooms,12+w*.60,m.font+12,w*.40-24,m.button)
-   U.Layout.place(tableHeader,12,tableY,w-24-m.scrollbar,m.font+10)
-   U.Layout.place(list,12,tableY+m.font+10,w-24,math.max(m.font+10,detailY-tableY-m.font-18))
-   U.Layout.place(details,12,detailY,w-24,detailH)
-   U.Layout.place(pageLabel,w*.67,top,w*.33-12,m.font+4)
-  end
-  previous:setY(h-m.button-12);more:setY(h-m.button-12);close:setY(h-m.button-12);close:setX(w-132)
+  tableView:layout();tableView:draw()
   previous:setEnable(not pending and #history>0);more:setEnable(not pending and cursor~=nil)
-  U.Renderer.text(self,U.Renderer.fit(summary,host and w*.65-24 or w-24),12,top,host and colors.black or U.Theme.colors.text)
-  if pending then U.Renderer.text(self,tr('LedgerLoading'),12,top+m.button,(host and colors.muted or U.Theme.colors.muted)) end
   local now=getTimestampMs()
   if not pending and (due and now>=due or now-lastRead>=2000) then due=nil;fetch() end
  end
  panel.joypadButtonsY={};panel.joypadButtons={};panel.allJoypadButtons={};panel.joypadIndexY=1;panel.joypadIndex=1
- if search then panel:insertNewLineOfButtons(search,rooms) end;panel:insertNewLineOfButtons(previous,more,close)
+ if search then panel:insertNewLineOfButtons(search,rooms) end;panel:insertNewLineOfButtons(list);panel:insertNewLineOfButtons(previous,more,close)
  local joy=panel.onJoypadDown;panel.onJoypadDown=function(self,key,...)
-  if key==Joypad.BButton then self:close() elseif joy then joy(self,key,...) end
+  if key==Joypad.BButton then if host then host:minimizeApp('ledger');setJoypadFocus(num,host) else self:close() end elseif joy then joy(self,key,...) end
  end
- if host then host:showApp(panel,tr('LedgerDigitalTitle')) else U.bounds(panel,num);panel:addToUIManager();setJoypadFocus(num,panel) end
+ if host then
+  function panel:onComputerResume()
+   if closed then return end
+   rememberSelection();requestSerial=requestSerial+1;pending=false;due=nil;list:clear();summary=tr('LedgerLoading')
+   tableView.status=summary;tableView.emptyLabel=summary;tableView.summary='';tableView.count=0;fetch()
+  end
+ end
+ if host then host:showApp(panel,tr('LedgerDigitalTitle'),'ledger') else U.bounds(panel,num);panel:addToUIManager();setJoypadFocus(num,panel) end
  fetch();return panel
 end
 local function inventory(actor)
@@ -296,7 +350,7 @@ function V.inventoryMenu(num,menu,items)
 end
 local PC=require 'B47ANCEDPCFramework/API'
 PC.registerApplication('quartermaster',function(num,computer)
- if not Policy.enabled() or not computer then return end
+ if not Policy.enabled() or not computer or not Program.localInstalled(computer) then return end
  return {inventory=inventory,enabled=Policy.enabled,canUse=Media.computer,launcherTitle=tr('ComputerAppTitle'),
   text=tr,file='QUARTERMASTER.EXE',toolTitle=tr('ComputerWriter'),
   canRun=function(item) return item and item:getFullType()==Media.disc end,
@@ -311,7 +365,8 @@ PC.registerApplication('quartermaster',function(num,computer)
   busy=function() return V.work[num]~=nil end,
   close=function() local op=V.work[num];if op and op.burn then V.cancel(num) end end}
 end,tr('LedgerDigitalTitle'))
-function V.computer(num,computer) return PC.open(num,computer,'quartermaster') end
+require('B47ANCEDQuartermaster/ProgramInstaller')(PC,V)
+function V.computer(num,computer) return PC.open(num,computer,Program.localInstalled(computer) and 'quartermaster' or Program.id) end
 function V.worldMenu(num,menu,objects,test)
  if test or not Policy.enabled() then return end
  local actor=getSpecificPlayer(num);if not actor then return end
@@ -326,11 +381,16 @@ end
 function V.tick()
  for num,op in pairs(V.work) do
   if getSpecificPlayer(num)~=op.actor or op.actor:isDead() then V.cancel(num)
+  elseif op.returning then
+   if #queue(op.actor)==0 then
+    if op.returned and atOrigin(op) then resumeSort(op) else finish(op,'LedgerUnreachable') end
+   elseif getTimestampMs()-op.returnStarted>=120000 then V.cancelSort(num) end
   elseif op.navigation and #queue(op.actor)==0 then
    V.work[num]=nil;op.closed=true
    if Media.computer(op.actor,op.computer,true) and getTimestampMs()-op.started<120000 then op.done() else note(op.actor,'LedgerUnreachable') end
-  elseif not op.pending and not op.actionPending and #queue(op.actor)==0 and getTimestampMs()>=(op.at or 0) then
-   op.pending=true;Q.Authority.request(num,'ledgerNext',{target=op.target},function(r) response(op,r) end)
+  elseif not op.sorting and not op.pending and not op.actionPending and #queue(op.actor)==0 and getTimestampMs()>=(op.at or 0) then
+   local command=op.sortPreparing and 'ledgerSortPrepare' or op.sortWriting and 'ledgerSortNext' or 'ledgerNext'
+   op.pending=true;Q.Authority.request(num,command,{target=op.target},function(r) response(op,r) end)
   end
  end
 end
@@ -343,7 +403,7 @@ if Events then
   local offer=L.clientOffers[args.token];if not offer then return end
   if command=='challenge' then Q.Authority.request(offer.actor:getPlayerNum(),'ledgerConfirm',{token=args.token,challenge=args.challenge},function(r)
    local op=V.work[offer.actor:getPlayerNum()]
-   if r.status~='ok' and op and op.token==args.token then V.cancel(offer.actor:getPlayerNum()) end
+   if r.status~='ok' and op and op.token==args.token then finish(op,r.status,true) end
   end)
   elseif command=='result' then nativeResult(offer.actor,args) end
  end)

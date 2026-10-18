@@ -8,6 +8,7 @@ local Policy=require 'B47ANCEDQuartermaster/LedgerPolicy'
 local papers=setmetatable({},{__mode='k'});local buildings=setmetatable({},{__mode='k'})
 local function at(sq,kind) return Scope.capture({getCurrentSquare=function() return sq end},kind) end
 function G.enabled(kind)
+ if (kind=='sort' or kind=='area') and require('B47ANCEDQuartermaster/SortLedger').enabled() then return true end
  return Policy.enabled() and (kind=='shopping' and Options.option('RequireLedgerForCollecting')~=false
   or kind=='area' and Options.option('RequireLedgerForSorting')~=false) or false
 end
@@ -53,6 +54,9 @@ local function carried(actor)
 end
 function G.check(actor,sq,kind)
  if isClient() then return false,'LedgerRequired' end
+ if (kind=='sort' or kind=='area') and require('B47ANCEDQuartermaster/SortLedger').enabled() then
+  return require('B47ANCEDQuartermaster/SortLedger').check(actor,sq)
+ end
  if not G.enabled(kind) then return true end
  if not actor or actor:isDead() or not sq then return false,'LedgerRequired' end
  for _,paper in ipairs(carried(actor)) do
@@ -64,9 +68,12 @@ function G.check(actor,sq,kind)
  if not ids then return false,'LedgerRequired' end
  for _,id in ipairs(ids) do
   local disc,s,computer=Drives.provider(actor,id)
-  if disc and Policy.fresh(s,true) and G.covers(s,sq) then
+  if disc and require('B47ANCEDQuartermaster/LedgerProgram').has(actor,computer,false) then
    local cs=computer:getSquare();local cb=building(cs)
-   if b and cb and b.key==cb.key or cs:getZ()==sq:getZ() and math.max(math.abs(cs:getX()-sq:getX()),math.abs(cs:getY()-sq:getY()))<=range then return true end
+   local localComputer=Policy.computerMatches(s,cb and cb.signature)
+   if Policy.fresh(s,localComputer) and G.covers(s,sq) then
+    if b and cb and b.key==cb.key or cs:getZ()==sq:getZ() and math.max(math.abs(cs:getX()-sq:getX()),math.abs(cs:getY()-sq:getY()))<=range then return true end
+   end
   end
  end
  return false,'LedgerRequired'
@@ -79,7 +86,20 @@ function G.operation(actor,op)
  if op.destination then return G.check(actor,op.destination.obj:getSquare(),kind) end
  return true
 end
+function G.candidate(actor,sq,kind)
+ local sort=require 'B47ANCEDQuartermaster/SortLedger'
+ if (kind=='sort' or kind=='area') and sort.enabled() then return sort.candidate(actor,sq) end
+ return G.check(actor,sq,kind)
+end
 function G.protected(actor,item)
+ if not isClient() and require('B47ANCEDQuartermaster/SortLedger').enabled() and Media.owned(actor,item:getID())==item then
+  local t=item:getFullType()
+  if t==Media.sheet or t=='Base.Pen' or t=='Base.Pencil' then return true end
+  if instanceof(item,'InventoryContainer') then
+   local inv=item:getInventory()
+   if inv:containsTypeRecurse(Media.sheet) or inv:containsTypeRecurse('Base.Pen') or inv:containsTypeRecurse('Base.Pencil') then return true end
+  end
+ end
  if isClient() or not G.enabled('area') and not G.enabled('shopping') then return false end
  if item:getFullType()==Media.sheet and Media.owned(actor,item:getID(),Media.sheet)==item and complete(item) then return true end
  return item:getFullType()==Media.disc and Drives.protected(item) or false

@@ -6,6 +6,7 @@ local HistoricalAccess=require 'B47ANCEDQuartermaster/LedgerAccess'
 local Options=require 'B47ANCEDQuartermaster/Migration'
 local Policy=require 'B47ANCEDQuartermaster/LedgerPolicy'
 local Live=require 'B47ANCEDQuartermaster/LedgerLive'
+local Program=require 'B47ANCEDQuartermaster/LedgerProgram'
 local Q=B47ANCEDQuartermaster
 local L={jobs={},grants={},actors={},readers={},clientOffers={},recordCache={}};Q.Ledger=L
 local function integer(n,min,max) return type(n)=='number' and n==n and n%1==0 and n>=min and n<=max end
@@ -57,6 +58,10 @@ function L.snapshotFor(item)
  if j and (not journalValid(j) or j.phase~='committed' or j.output~=item:getID()) then return end
  return snapshot(r,item)
 end
+function L.unboundPaper(item)
+ local r=root()
+ return r and item and item:getFullType()==Media.sheet and r.media[tostring(item:getID())]==nil and item:getModData().B47Ledger==nil or false
+end
 local function allowed(actor,t)
  return Q.Targets.valid(t,actor) and Q.RoomAccess.can(actor,t,'inspect')
 end
@@ -68,7 +73,7 @@ local function physical(t)
  local md=t.obj:getModData();local id=md.B47LedgerPhysical
  if type(id)~='string' or #id>80 then id=uuid();if not id then return end;md.B47LedgerPhysical=id;t.obj:transmitModData() end
  local d=Q.Targets.descriptor(t)
- return id..':'..d.x..':'..d.y..':'..d.z..':'..t.ci,d
+ return id..':'..d.x..':'..d.y..':'..d.z..':'..t.ci,d,id
 end
 local function liveJob(actor,j,full)
  if not j or j.actor~=actor or actor:isDead() or Media.owned(actor,j.paper:getID(),Media.sheet)~=j.paper then return false end
@@ -100,15 +105,13 @@ function L.cleanup(actor)
  local token=L.actors[actor];local g=token and L.grants[token]
  if g then L.grants[token]=nil end
  L.actors[actor]=nil;L.jobs[actor]=nil;L.readers[actor]=nil
+ if Q.SortLedger then Q.SortLedger.cleanup(actor) end
 end
 local function retire(g,status,committed)
  L.grants[g.token]=nil;if L.actors[g.actor]==g.token then L.actors[g.actor]=nil end
  emit(g.actor,'result',{token=g.token,status=status});return committed==true or status=='ok'
 end
-local function writer(actor)
- local inv=actor:getInventory()
- return inv:containsTypeRecurse('Base.Pen') or inv:containsTypeRecurse('Base.Pencil')
-end
+local writer=Media.writer
 local function insertEntry(s,key)
  local a=s.entries[key];local low,high=1,#s.order
  local function less(b)
@@ -149,7 +152,56 @@ local function grant(actor,kind,seconds,fields)
  L.grants[token]=g;L.actors[actor]=token
  local class=require 'B47ANCEDQuartermaster/LedgerAction'
  g.action=class.raw(actor,token,seconds)
- return {status='action',token=token,seconds=seconds,kind=kind,position=g.target and Q.Targets.descriptor(g.target)}
+ if kind=='sortWrite' then g.action.writingPaper=fields.sortContext.paper:getID() end
+ return {status='action',token=token,seconds=seconds,kind=kind,paper=g.action.writingPaper,position=g.target and Q.Targets.descriptor(g.target)}
+end
+L.physical=physical;L.prepareRows=prepareRows
+local function sortShared(r,c)
+ if not c.base then return true end
+ local count=0
+ for item,id in pairs(r.media) do
+  count=count+1;if count>16384 then return nil end
+  if id==c.base.id and item~=tostring(c.paper:getID()) then return true end
+ end
+ for _,journal in pairs(r.burns) do
+  count=count+1;if count>32768 then return nil end
+  if type(journal)~='table' then return nil end
+  if journal.snapshot==c.base.id and journal.phase~='rolledBack' then return true end
+ end
+ return false
+end
+function L.sortGrant(actor,context)
+ local r=root();if not r then return {status='schema'} end
+ local shared=sortShared(r,context);if shared==nil or shared and r.count>=2048 then return {status='tooLarge'} end
+ local entries=0;for _,record in ipairs(context.records) do entries=entries+#record.rows end
+ if entries>32768 then return {status='tooLarge'} end
+ return grant(actor,'sortWrite',option('LedgerBaseSeconds',0,120,10)+entries*option('LedgerEntrySeconds',1,5,1),{sortContext=context})
+end
+local function sortComplete(actor,c)
+ local r=root();if not r then return 'schema' end
+ local shared=sortShared(r,c);if shared==nil or shared and r.count>=2048 then return 'tooLarge' end
+ local id=shared and uuid() or c.base.id;if not id or shared and r.snapshots[id] then return 'failed' end
+ local old=c.base
+ local s={schema=1,id=id,scope={kind=c.scope.kind,label=c.scope.label},signature=c.signature,revision=(old and old.revision or 0)+1,
+  entries={},order={},totalRows=old and old.totalRows or 0,began=old and old.began or stamp(),finished=old and old.finished,
+  complete=old and old.complete or false,status=old and old.status or 'LedgerPartial',sortUpdated=stamp()}
+ if old then for key,entry in pairs(old.entries) do s.entries[key]=entry end;for n,key in ipairs(old.order) do s.order[n]=key end end
+ for _,record in ipairs(c.records) do
+  local rows=prepareRows(record);if not rows then return 'LedgerChanged' end
+  local previous=s.entries[record.key];local rid,name=Scope.room(actor,record.target.obj:getSquare());if not rid then return 'RoomPermissionUnavailable' end
+  s.totalRows=s.totalRows-(previous and #previous.rows or 0)+#rows
+  if s.totalRows>32768 then return 'tooLarge' end
+  local label=record.target.container:getCustomName();if type(label)~='string' or #label==0 or #label>256 then label=record.target.container:getType() end
+  s.entries[record.key]={key=record.key,position=record.position,room=rid,roomName=name,container=label,rows=rows,recorded=stamp()}
+  if previous then for n,key in ipairs(s.order) do if key==record.key then table.remove(s.order,n);break end end end
+  insertEntry(s,record.key)
+ end
+ if #s.order>4096 then return 'tooLarge' end
+ -- Copy-on-write: existing CDs and other sheets retain the original generation.
+ r.snapshots[id]=s;if shared then r.count=r.count+1 end;r.media[tostring(c.paper:getID())]=id
+ Q.SortLedger.cleanup(actor)
+ local synced=pcall(Media.stamp,actor,c.paper,id,s.complete)
+ return synced and 'SortLedgerSaved' or 'SortLedgerSyncPending'
 end
 function L.grantShopping(actor,fields)
  if L.actors[actor] or L.jobs[actor] or Q.Movement.runs[actor] or Q.Movement.operations[actor] then return {status='busy'} end
@@ -167,9 +219,15 @@ function L.valid(actor,token,action)
  -- multiplier must not cancel a legitimate long writing action.
  if g.kind=='shoppingPaper' then return require('B47ANCEDQuartermaster/ShoppingLists').valid(actor,g) end
  if not Policy.enabled() then return false end
+ if g.kind=='sortWrite' then return require('B47ANCEDQuartermaster/SortLedger').writeValid(actor,g.sortContext) end
+ if g.kind=='programInstall' then
+  local ctx=Program.resolve(actor,g.computer,g.programRequest)
+  return ctx~=nil and ctx.item==g.setupItem and not require('B47ANCEDQuartermaster/LedgerDrives').occupied(g.computer)
+ end
  if g.kind=='inspect' then return liveJob(actor,g.job) and allowed(actor,g.target) and stationary(g.record) and Scope.includes(g.job.scope,g.target.obj:getSquare()) and Media.reachable(actor,g.target.obj) and writer(actor) end
  return Media.owned(actor,g.paper:getID(),Media.sheet)==g.paper and Media.owned(actor,g.cd:getID())==g.cd
-  and Media.usable(g.cd) and Media.computer(actor,g.computer,true) and g.snapshot.complete==true
+  and Media.usable(g.cd) and Media.computer(actor,g.computer,true) and Program.has(actor,g.computer,true) and g.snapshot.complete==true
+  and not Program.occupied(g.computer)
   and not require('B47ANCEDQuartermaster/LedgerDrives').occupied(g.computer)
 end
 function L.start(actor,token,action)
@@ -197,6 +255,14 @@ function L.complete(actor,token,action)
  if g.kind=='shoppingPaper' then
   local status=require('B47ANCEDQuartermaster/ShoppingLists').complete(actor,g)
   return retire(g,status,status=='ShoppingPaperCreated' or status=='ShoppingPaperSyncPending')
+ end
+ if g.kind=='sortWrite' then
+  local status=sortComplete(actor,g.sortContext)
+  return retire(g,status,status=='SortLedgerSaved' or status=='SortLedgerSyncPending')
+ end
+ if g.kind=='programInstall' then
+  local status=Program.install(actor,g.computer,g.programRequest)
+  return retire(g,status,status=='ProgramInstalled' or status=='ProgramInstallSyncPending')
  end
  if g.kind=='inspect' then
   local rows=prepareRows(g);if not rows then g.job.prepared=nil;return retire(g,'LedgerChanged') end
@@ -328,19 +394,23 @@ local function nextWork(actor,j,args)
  L.jobs[actor]=nil;return {status='done',summary=s.status}
 end
 local function read(actor,args)
- local item,s,unused,error
+ local item,s,unused,error,computer
  if args.drive~=nil then
-  item,s=require('B47ANCEDQuartermaster/LedgerDrives').read(actor,args.drive,Media.object(args.computer))
+  item,s,computer=require('B47ANCEDQuartermaster/LedgerDrives').read(actor,args.drive,Media.object(args.computer))
  else item,s,unused,error=binding(actor,args.item) end
  if not item then return {status='invalid'} end
  if not s then return {status=error or 'LedgerBlank'} end
  local digital=item:getFullType()==Media.disc
- if digital and not Media.computer(actor,Media.object(args.computer),true) then return {status='LedgerPower'} end
+ computer=computer or digital and Media.object(args.computer)
+ if digital and not Media.computer(actor,computer,true) then return {status='LedgerPower'} end
+ if digital and not Program.has(actor,computer,true) then return {status='ProgramRequired'} end
  if type(args.query or '')~='string' or #(args.query or '')>128 or type(args.room or '')~='string' or #(args.room or '')>128 then return {status='invalid'} end
  if not digital and ((args.query or '')~='' or (args.room or '')~='') then return {status='invalid'} end
  if args.entry~=nil or args.row~=nil or args.cursor~=nil and (type(args.cursor)~='string' or #args.cursor>80) then return {status='invalid'} end
  local query=string.lower(args.query or '');local room=args.room or '';local session=L.readers[actor]
- local fresh=Policy.fresh(s,digital);local live=Policy.live(s,digital)
+ local computerScope=digital and Scope.capture({getCurrentSquare=function() return computer:getSquare() end},'building')
+ local localComputer=digital and Policy.computerMatches(s,computerScope and Scope.signature(computerScope)) or false
+ local fresh=Policy.fresh(s,localComputer);local live=(not digital or localComputer) and Policy.live(s,localComputer) or false
  local policy=Policy.mode()..':'..Policy.days()..':'..tostring(Policy.manualComputer())..':'..tostring(fresh)..':'..tostring(live)
  if not session or session.item~=item:getID() or session.snapshot~=s.id or session.revision~=s.revision or session.query~=query or session.room~=room or session.policy~=policy or live and session.liveServedAt and getTimestampMs()-session.liveServedAt>=5000 then
   local tag=uuid();if not tag then return {status='failed'} end
@@ -350,7 +420,7 @@ local function read(actor,args)
  local position=args.cursor and session.tokens[args.cursor]
  if args.cursor and not position then return {status='LedgerPageChanged'} end
  local entry,index=position and position.entry or 1,position and position.row or 1
- local result={status='ok',rows={},rooms={},scope=s.scope.label,began=s.began,finished=s.finished,summary=s.status or 'LedgerPartial',revision=session.publicRevision,digital=digital,live=live,fresh=fresh,expires=Policy.deadline(s,digital)}
+ local result={status='ok',rows={},rooms={},scope=s.scope.label,began=s.began,finished=s.finished,summary=s.status or 'LedgerPartial',revision=session.publicRevision,digital=digital,live=live,fresh=fresh,expires=Policy.deadline(s,localComputer),computerOffsite=digital and not localComputer or false}
  local rooms={};local bytes=0;local permissions={};local disclosure={}
  local function addRoom(e)
   if not rooms[e.room] and #result.rooms<16 then
@@ -409,6 +479,21 @@ function L.handle(actor,command,args)
  if isClient() or not actor or actor:isDead() or type(args)~='table' then return {status='invalid'} end
  local confirming=command=='ledgerConfirm' and type(args.token)=='string' and L.grants[args.token]
  if not Policy.enabled() and command~='ledgerCancel' and not (confirming and confirming.actor==actor and confirming.kind=='shoppingPaper') then return {status='LedgerDisabled'} end
+ if command=='ledgerSortPrepare' then return require('B47ANCEDQuartermaster/SortLedger').prepare(actor,args) end
+ if command=='ledgerSortNext' then return require('B47ANCEDQuartermaster/SortLedger').next(actor) end
+ if Q.SortLedger and Q.SortLedger.contexts[actor] and (command=='ledgerBegin' or command=='ledgerBurn' or command=='ledgerProgramInstall') then return {status='busy'} end
+ if command=='ledgerSetupList' or command=='ledgerSetupMount' or command=='ledgerSetupEject' then return Program.drive(actor,command,args) end
+ if command=='ledgerProgramRun' then return Program.authorize(actor,Media.object(args.computer),args) end
+ if command=='ledgerProgramInstall' then
+  if L.actors[actor] or L.jobs[actor] or Q.Movement.runs[actor] or Q.Movement.operations[actor] then return {status='busy'} end
+  local computer=Media.object(args.computer);local ctx,status=Program.resolve(actor,computer,args)
+  if not ctx then return {status=status} end
+  local drives=require 'B47ANCEDQuartermaster/LedgerDrives'
+  if drives.occupied(computer) or drives.busy(computer) then return {status='LedgerDriveOccupied'} end
+  return grant(actor,'programInstall',option('ApplicationInstallSeconds',5,120,20),{computer=computer,setupItem=ctx.item,
+   programRequest={program=ctx.program.id,media=ctx.item:getID(),drive=ctx.drive}})
+ end
+ if command=='ledgerDriveMount' and Program.occupied(Media.object(args.computer)) then return {status='LedgerDriveOccupied'} end
  if command=='ledgerDriveList' or command=='ledgerDriveMount' or command=='ledgerDriveEject' then return require('B47ANCEDQuartermaster/LedgerDrives').handle(actor,command,args) end
  if command=='ledgerBegin' then if L.actors[actor] or Q.Movement.runs[actor] or Q.Movement.operations[actor] then return {status='busy'} end;return begin(actor,args) end
  if command=='ledgerNext' then local j=L.jobs[actor];return j and nextWork(actor,j,args) or {status='invalid'} end
@@ -426,6 +511,8 @@ function L.handle(actor,command,args)
   local paper,s,r=binding(actor,args.item);local cd=Media.owned(actor,args.cd);local computer=Media.object(args.computer)
   if not paper or paper:getFullType()~=Media.sheet or not s or not s.complete or not Media.cd(cd) or not Media.usable(cd) then return {status='invalid'} end
   if not Media.computer(actor,computer,true) then return {status='LedgerPower'} end
+  if not Program.has(actor,computer,true) then return {status='ProgramRequired'} end
+  if Program.occupied(computer) then return {status='LedgerDriveOccupied'} end
   local drives=require 'B47ANCEDQuartermaster/LedgerDrives'
   if drives.occupied(computer) then return {status='LedgerDriveOccupied'} end
   if drives.busy(computer) then return {status='busy'} end
@@ -444,6 +531,7 @@ local nextTick=0
 function L.tick()
  if isClient() then return end
  if getTimestampMs()<nextTick then return end;nextTick=getTimestampMs()+250
+ if Q.SortLedger then Q.SortLedger.tick() end
  if not Policy.enabled() then
   -- Preserve records, but disabled inspection jobs must not occupy the actor
   -- and block the independent physical Shopping List creation workflow.

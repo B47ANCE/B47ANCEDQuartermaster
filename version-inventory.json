@@ -72,7 +72,7 @@
     },
     {
       "path": "README.md",
-      "pattern": "contains \\*\\*(?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+) development work\\*\\*"
+      "pattern": "as \\*\\*(?P<version>\\d+\\.\\d+\\.\\d+-dev\\.\\d+)\\*\\*"
     },
     {
       "path": "docs/LEDGER_AND_LOAD.md",
@@ -103,28 +103,40 @@
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
-      "path": "docs/DESIGNATED_ROOM_SCOPES.md",
+      "path": "docs/MOD_OVERVIEW.json",
+      "pattern": "^  \"version\": \"(?P<version>[^\\\"]+)\"[,]?$"
+    },
+    {
+      "path": "docs/CLIPBOARD_AND_LOCAL_COMPUTER.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
-      "path": "docs/MOD_OVERVIEW.json",
-      "pattern": "^  \"version\": \"(?P<version>[^\\\"]+)\"[,]?$"
+      "path": "docs/DESIGNATED_ROOM_SCOPES.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
       "path": "docs/PC_FRAMEWORK_INTEGRATION.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
-      "path": "docs/MOD_OVERVIEW.json",
-      "pattern": "^  \"version\": \"(?P<version>[^\\\"]+)\""
+      "path": "docs/CLIPBOARD_UI_FIX.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
-      "path": "WORKSHOP_CHANGE_NOTE.txt",
-      "pattern": "Development source (?P<version>[0-9][^: ]+):"
+      "path": "docs/APPLICATION_CD.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
-      "path": "WORKSHOP_DESCRIPTION.txt",
-      "pattern": "Development source (?P<version>[0-9][^: ]+):"
+      "path": "docs/APPLICATION_CD_EVIDENCE.json",
+      "pattern": "^  \"project_version\": \"(?P<version>[^\\\"]+)\""
+    },
+    {
+      "path": "docs/SORT_LEDGER.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/SORT_LEDGER_EVIDENCE.json",
+      "pattern": "^  \"project_version\": \"(?P<version>[^\\\"]+)\""
     }
   ],
   "changelog": {
@@ -150,6 +162,11 @@
       "category": "pz",
       "reference": "src/B47ANCEDQuartermaster/42/mod.info: versionMin",
       "reason": "PZ compatibility, not project version"
+    },
+    {
+      "category": "compatibility",
+      "reference": "LedgerProgram.lua version=1 / CD program API 1 / PC Framework 0.5.0-dev.2",
+      "reason": "Independent application-program compatibility, framework API and dependency versions; not Quartermaster project version."
     }
   ],
   "historical": [
@@ -300,6 +317,10 @@
     {
       "reference": "docs/ALLOCATION_INTEGRATION.md",
       "reason": "Immutable dated PR9 integration report for 0.18.0-dev.1; its version, dependency and offline observations are historical, not current follow-up acceptance."
+    },
+    {
+      "reference": "docs/DESIGNATED_ROOM_SCOPES.md",
+      "reason": "Exact 0.18.0-dev.2 scope follow-up source hashes, paired tests and review; preserved as dated historical evidence, not current CRT UI acceptance."
     }
   ]
 }

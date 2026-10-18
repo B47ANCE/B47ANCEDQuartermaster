@@ -1,6 +1,6 @@
 # Quartermaster supply extension API
 
-Project Version: 0.20.0-dev.1
+Project Version: 0.21.0-dev.5
 
 Current iteration: [Dangerous Load, ledger boundaries and validation](LEDGER_AND_LOAD.md). Existing SupplyAPI, Rooms permissions and container configuration contracts are unchanged.
 

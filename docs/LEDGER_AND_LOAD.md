@@ -1,10 +1,15 @@
 # Physical Supply Ledger and Dangerous Load
 
-Project Version: 0.20.0-dev.1
+Project Version: 0.21.0-dev.5
 
-Current computer hosting is supplied by the required **B47ANCED PC Framework**; Quartermaster registers its ledger reader and CD Writer as apps. Existing ledger/drive data and server permissions are preserved. See [extraction, setup and current evidence](PC_FRAMEWORK_INTEGRATION.md).
+Current Sort workflow: default-on `SortUpdatesLedger` requires carried paper and pen/pencil, searches accessible loaded building storage for a completed covering ledger first, uses native pickup, accepts carried blank/unfinished fallback and writes confirmed touched storage once after the full successful job. It overrides the older Sort-only freshness/computer exception below while enabled. Shopping collection and computer application installation are unchanged. Movement 12 / Ledger 5 require matching peers. [Current implementation, boundaries and validation](SORT_LEDGER.md). Earlier checkpoint evidence remains historical.
 
-Current policy is [0.17 ledger modes/freshness](LEDGER_FRESHNESS.md): manual inventory/container Sort is free; scoped Sort requires fresh knowledge. The physical inspection/conversion implementation below remains the baseline. Historical snapshots stay immutable; live statistics are separate ephemeral server projections. Prior dated artifacts/tests retain their actual versions.
+Current application prerequisite: find and run the Quartermaster Application CD installer on each PC before computer ledger reads/writes or automatic knowledge provision (server opt-out supported). The Application CD is released after successful setup and is not required nearby afterward. Paper inspection does not need the app; Sort follows the default paper/writer policy above. Current capabilities are Ledger 5 / Movement 12. [Exact implementation, settings, validation and migration limits](APPLICATION_CD.md). Earlier checkpoint sections retain their original evidence.
+
+Current reader: paper ledgers use a ruled clipboard with three columns and page-turn controls. Computers can show live stock and waive expiry only in the exact native building recorded by their CD. Off-site/outdoor computers and safehouse-wide CDs fall back to recorded history and ordinary freshness. Existing privacy, inspection, CD binding and native transfer boundaries remain. See [current policy and validation](CLIPBOARD_AND_LOCAL_COMPUTER.md).
+
+
+Historical [0.17 ledger modes/freshness](LEDGER_FRESHNESS.md), retained when SortUpdatesLedger=false: manual inventory/container Sort is free; scoped Sort requires fresh knowledge. The physical inspection/conversion implementation below remains the baseline. Historical snapshots stay immutable; live statistics are separate ephemeral server projections. Prior dated artifacts/tests retain their actual versions.
 
 ## Implemented workflow
 
@@ -14,7 +19,7 @@ The compatible MINOR Ledger baseline was implemented on `feature/building-supply
 
 ### Using it
 
-1. Craft **Quartermaster Building Supply Sheet** using one `Base.SheetPaper2` or `Base.Notebook`, plus a retained `Base.Pen` or `Base.Pencil`. The B42 in-hand native craft recipe creates one blank sheet.
+1. Craft **Quartermaster Building Supply Sheet** by consuming one whole `Base.Notebook` (`mode:destroy`), plus one retained `Base.Clipboard` and a retained `Base.Pen` or `Base.Pencil`. The B42 in-hand native craft recipe creates one blank ledger. Loose pages are not accepted; recording and post-sort updates reuse the resulting ledger.
 2. Carry the sheet and a writing implement. Right-click the sheet and choose **Record / resume building supply sheet**, or the safehouse option when a supported native safehouse contains the character.
 3. The character walks through storage and performs a timed inspection for each physical compartment. Unconfigured storage is included. Cancel safely; completed records stay on the sheet.
 4. Use **Read supply sheet** without electricity. It shows static room/container sections, actual quantities, exact FullTypes/condition, coordinates and each inspection's world-hour timestamp. Empty containers are shown. There is no paper search, filtering or digital sort control.
@@ -98,4 +103,6 @@ git -c core.safecrlf=false diff --check
 
 [RUNTIME GATE] **G6 native client NOT TESTED; G7 dedicated multiplayer NOT TESTED / BLOCKED; stable G8 BLOCKED.** Required live cases: craft/retain pen; paper trade/drop/pickup/save; record 20/100 containers and large ammo; cancel/rejoin/restart/reinspect; changed/removed storage; computer walking/grid/generator/power loss; explicit CD overwrite and exact counts; two-client concurrent burns/inspections; permission revocation/private-room ownership; portable read at an unloaded origin; native constructor/stop/clock behavior and actual UI scaling/controller. Implementation is ready for these tests, not claimed accepted. No live deployment or Workshop publication is authorized by this development pass.
 
-The 0.20.0-dev.1 computer UI renders existing authorized ledger rows as the approved Item/Quantity/Location table with selected-record details. Source query/mode/freshness/permission and genuine media rules are unchanged. The shared framework launcher retains other installed apps, and writer completion stays with its originating window. See WINDOWS93_COMPUTER.md for source/offline evidence and pending native gates.
+## Current desktop integration
+
+The required B47ANCED PC Framework now hosts the computer desktop and reusable drive engine. Quartermaster supplies the ledger reader, ComputerWriter and authoritative data/privacy adapters. Supported hardware is the four verified vanilla PC orientations or placed tiles declaring exact CustomName=Computer metadata; the one-facing initial implementation above is historical. Use paired framework 0.3.0-dev.1 for the preserved CRT/taskbar. Paper opens a portrait clipboard with scroll-aligned rules and three-line selection details. [Integration](PC_FRAMEWORK_INTEGRATION.md) / [current UI evidence](CLIPBOARD_UI_FIX.md).

@@ -21,14 +21,22 @@ local function close(run,status)
  if run.callback then run.callback(status,run.completed,run.skipped,run.skipReasons) end
 end
 function R.cancel(playerNum)
- local run=R.active[playerNum];if not run then return end
+ local run=R.active[playerNum];if not run then if Q.LedgerUI then Q.LedgerUI.cancelSort(playerNum) end;return end
  close(run,'cancelled');Q.Sorter.cancel(playerNum)
 end
-function R.start(playerNum,view,callback)
+function R.start(playerNum,view,callback,ledgerPrepared)
  local player=getSpecificPlayer(playerNum)
  if Q.Collector and Q.Collector.active[playerNum] then return false end
  if not player or R.active[playerNum] or Q.Sorter.active[playerNum] or Q.Executor.active[playerNum] or Q.Executor.batches[playerNum]
   or #ISTimedActionQueue.getTimedActionQueue(player).queue>0 or not view or (view.kind~='customRoom' and view.kind~='building') or isGamePaused and isGamePaused() then return false end
+ if not ledgerPrepared and require('B47ANCEDQuartermaster/SortLedger').enabled() then
+  local V=require 'B47ANCEDQuartermaster/LedgerUI'
+  return V.prepareSort(playerNum,function()
+   return R.start(playerNum,view,function(status,completed,skipped,reasons)
+    V.sortFinished(playerNum,status,function(final,ledgerOutcome) if callback then callback(final,completed,skipped,reasons,ledgerOutcome) end end)
+   end,true)
+  end,function(status) if callback then callback(status,0,0,{}) end end)
+ end
  serial=serial+1
  R.active[playerNum]={playerNum=playerNum,player=player,view=view,nonce=tostring(getTimestampMs())..':'..serial,
   callback=callback,time=getTimestampMs(),completed=0,skipped=0,index=1,nextAt=0}

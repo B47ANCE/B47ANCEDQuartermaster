@@ -1,10 +1,71 @@
+## [0.21.0-dev.5] - 2026-10-18
+
+- Integrate all open Quartermaster feature branches with the public PC Framework dependency and unified desktop.
+- Use the approved transparent crate/checklist mod icon; Workshop thumbnail and poster are unchanged.
+- Preserve installer-CD, clipboard, sort-ledger and failure-handling workflows.
+- MP testing build - dedicated multiplayer NOT TESTED.
+
 # Changelog
+
+## [0.21.0-dev.4] - 2026-10-17
+
+- Publication preparation corrects stale mod.info/release prose: current default SortUpdatesLedger, whole-Notebook ingredient and Movement 12 / Ledger 5. Runtime code is unchanged; required Framework distribution remains a publication gate.
+
+- Rejected/timed-out native confirmations close tagged work and notify its caller once, preserving the specific error and any completed Sort movement.
+- Installation notification failure returns an explicit committed/synchronization-pending result. Keep the per-PC receipt and retire the grant successfully; never replay installation or consume the CD.
+- Installer controls allow retry after denial and prevent reinstall while a committed installation notification is pending.
+- Compatible error-path corrections; native groups/timing, sandbox defaults, schemas and protocol capabilities are unchanged. Native/dedicated acceptance remains NOT TESTED; no deploy or publication.
+
+## [0.21.0-dev.3] - 2026-10-17
+
+- Revalidate ledgers after bounded discovery; lost carried sheets fail safely.
+- Resume sorting at its original source after picking up a stored ledger.
+- Clear interrupted native writing work instead of leaving the UI busy.
+- Keep movement results distinct from the subsequent ledger-writing outcome.
+- Release the reusable Application CD after installation so the data drive is available.
+- Repair Shopping paper controls, visibility, focus and feedback across view changes.
+- Offline regressions cover these transitions; native client and dedicated MP remain NOT TESTED.
+
+## [0.21.0-dev.2] - 2026-10-17
+
+- Creating a new paper Supply Ledger consumes one whole vanilla Notebook via native mode:destroy; remove the loose-sheet alternative. Keep the clipboard and pen/pencil. Existing ledgers are reused for recording and post-sort updates, with no new notebook charge.
+- Compatible recipe correction within the current prerelease; no saved-item, snapshot or protocol change. Shopping List materials remain unchanged. Metadata/recipe, version and source-manifest checks pass offline; native crafting/dedicated acceptance remains NOT TESTED. No deploy or publication.
+
+## [0.21.0-dev.1] - 2026-10-17
+
+- Default-on Sort ledger workflow: bounded server building search prioritizes a completed accessible paper ledger, collects it through native transfer, otherwise uses carried blank/unfinished paper. Require carried paper and pen/pencil throughout sorting.
+- After the entire successful Sort, a server-granted native writing action updates confirmed touched storage on the paper. Blank papers remain partial; untouched timestamps and existing CD snapshots are preserved.
+- Server sandbox opt-out restores previous behavior; Ledger Disabled bypasses this feature. Ledger/movement capabilities advance; all peers must update/reconnect. Native and dedicated acceptance pending; no package, deploy or publication.
+
+## [0.20.0-dev.2] - 2026-10-17
+
+- Place the Application CD in commercial office desks/counters, office supply shelves/crates and computer retail/stock pools, including warehouse offices mapped as native office rooms. Remove generic electronics drops; home desks and general warehouse cargo remain unchanged.
+- Compatible loot correction; reuse the existing server loot-weight option. New native loot rolls only, no inventory refill or installation/protocol/save changes.
+- Focused offline program, native-table integration, metadata/version/manifest checks pass. Native loot generation and dedicated multiplayer remain NOT TESTED; no deploy or publication.
+
+## [0.20.0-dev.2] - 2026-10-17
+
+- PATCH-level publication metadata/tooling checkpoint within pending 0.20.0: link required PC Framework Workshop item 3822042011 and prepare accurate MP testing prose. Pass explicit dependency checkouts through Workshop staging.
+- SteamCMD upload succeeded for existing item 3807217050; public metadata/version verified and the Workshop required-item relationship added alongside Rooms. Record exact source/package/upload evidence in WORKSHOP_PUBLICATION.md.
+- Gameplay, sandbox settings, public APIs, saves, existing item 3807217050 and visibility are unchanged. Full offline package/paired regressions are required before upload. Native SP/dedicated NOT TESTED; G7/stable G8 BLOCKED.
 
 ## [0.20.0-dev.1] - 2026-10-17
 
-- Compatible MINOR UI expansion: restore the approved Windows 93 ledger table and selected-record details within PC Framework's unified CRT desktop. Paper presentation and authoritative ledger/media formats remain unchanged.
-- Keep writer completion messages bound to the writer window when other apps are active. Native SP/dedicated NOT TESTED; G7/stable G8 BLOCKED.
+- Add a found Quartermaster Application CD and explicit SETUP.EXE installer through PC Framework CD program API 1. Native timed completion creates a server-owned receipt bound to the exact PC; setup media is retained and reusable.
+- Require installation for computer ledger reads/writes and automatic ledger knowledge by default, preserving paper/CD records and ordinary Sort. Server sandbox options control the prerequisite, install duration and new office/electronics loot weight.
+- Ledger protocol advances to 4; peers must update and reconnect. No snapshot migration or automatic legacy-PC installation. Use paired PC Framework 0.5.0-dev.2 integration, preserving the CRT/taskbar and public SDK/API branches.
+- Full offline paired regressions and focused installation/loot/UI checks pass; native SP/dedicated NOT TESTED. See docs/APPLICATION_CD.md. No package, deploy, publication or shared-main merge.
 
+## [0.19.0-dev.3] - 2026-10-17
+
+- Redraw the paper ledger metal clamp with a wider beveled steel plate, rivets, raised spring tab and rolled jaw overlapping the sheet. Retain title clearance, row geometry and all ledger behavior.
+- Presentation-only PATCH checkpoint; source-rendered visual review and focused offline UI/version/manifest checks pass. Native visual acceptance remains NOT TESTED; no deploy or publication.
+
+## [0.19.0-dev.2] - 2026-10-17
+
+- Reconcile the clipboard/ledger work with the standalone PC Framework integration. Preserve owned CRT/taskbar presentation in PC Framework 0.3.0-dev.1 rather than duplicating a desktop in Quartermaster.
+- Correct paper-ledger proportions, ruling/scroll alignment, usable row selection and page/details controls. Keep the reusable clipboard recipe and exact-building computer-refresh policy.
+- Compatible UI/integration checkpoint, no save/protocol change. Offline/native evidence: docs/CLIPBOARD_UI_FIX.md. No package/deploy/publication.
 
 ## [0.19.0-dev.1] - 2026-10-17
 
@@ -12,6 +73,47 @@
 - PC Framework 0.2.0-dev.1 recognizes all powered vanilla PC orientations and Computer-tagged alternate tiles; Quartermaster inherits this through the unchanged device adapter.
 - Quartermaster registers its ledger reader/CD writer as an app; existing paper/CD identities, snapshots and persisted drive bindings remain unchanged.
 - 0.x compatibility change: enable B47ANCEDPCFramework on every peer. Missing framework fails closed through the loader dependency. No deployment/publication; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED.
+
+
+## [0.18.0-dev.8] - 2026-10-17
+
+- Require one retained vanilla Base.Clipboard in the paper Supply Sheet recipe, alongside the retained pen/pencil. Paper/notebook consumption and the single-sheet output remain unchanged.
+- Verify the native clipboard definition and kept-input recipe line in the existing ledger metadata test. Update ingredient documentation and current version mirrors.
+- Compatible recipe checkpoint within the 0.18 development line; no Lua behavior, schema, item identity or existing-ledger migration changes. Native crafting/dedicated acceptance pending; no deployment/publication.
+
+## [0.18.0-dev.7] - 2026-10-17
+
+- Give paper ledgers an original clipboard, metal clip, ruled sheets, Item / Quantity / Location columns and previous/next-sheet controls, with exact-entry details and native resizing/controller access.
+- Limit computer live updates and automatic freshness exemptions to the exact recorded native building. Off-site and safehouse-wide CDs stay readable as historical records under ordinary expiry; they cannot refresh remote buildings.
+- Preserve paper live-mode policy, manual Sort, permissions, immutable snapshots, transfer grouping and server-owned media. Compatible UI/policy correction within the 0.18 development line; no save/protocol change.
+- Offline/native evidence: docs/CLIPBOARD_AND_LOCAL_COMPUTER.md. No deployment/publication.
+
+## [0.18.0-dev.6] - 2026-10-17
+
+- Give the computer ledger a Windows 93 table with Item, Quantity and Location columns, compact status and page information, raised headers and a selected-entry details area.
+- Retain authenticated reads, literal search, room filtering, paging, media checks and taskbar behavior. Paper reading and shared gameplay/protocols remain unchanged.
+- Compatible client presentation checkpoint within the 0.18 minor development line. Offline/native evidence is recorded in docs/WINDOWS93_COMPUTER.md; no deployment/publication.
+
+## [0.18.0-dev.5] - 2026-10-17
+
+- Clean the CRT artwork with softer molded-case shading and fewer concentric edge bands, retaining its bulky housing, recessed glass and substantial stand.
+- Replace the single placeholder task button with independent retained CD-ROM, CD Writer and ledger tasks. Add active/minimized states, task switching, most-recent visible fallback, per-app Close and Show Desktop/restore.
+- Preserve query, pagination and media choices across minimizing/switching; clear old ledger rows and revalidate through existing server reads on resume. Media loss/ejection closes the ledger without discarding unrelated apps; late mount/read replies do not reopen closed windows.
+- Refresh controller rows after mounting a CD, ignore Escape in hidden panels, and keep native full-title tooltips and tooltip cleanup on task switches. Power/Log Off still closes all tasks and cancels pending CD writing.
+- Client presentation only: no new commands, protocol/save changes, runtime dependency or gameplay settings. Offline and native evidence are recorded in docs/WINDOWS93_COMPUTER.md; no deployment/publication.
+
+## [0.18.0-dev.4] - 2026-10-17
+
+- Increase CRT case mass with thick front molding, offset vented rear housing, a deeper glass recess, a broad lower control deck and a large swivel-neck pedestal.
+- Keep icons/CD behavior unchanged; reserve usable desktop area and adapt the centered badge/control deck at large fonts. The power switch still closes the local UI and cancels pending CD writing, without changing shared electricity or stored media.
+- Strengthen offline coverage for power-button cancellation and glass/control/stand separation. UI-only compatible correction; no protocol, persistence or gameplay change. Native visual acceptance remains pending; no deployment/publication.
+
+## [0.18.0-dev.3] - 2026-10-17
+
+- Replace the flat computer surround with an original Lua-drawn beige CRT, recessed glass rim, pedestal, vents and power light. Add detailed CD-drive, CD-writer and application pixel icons.
+- Keep the desktop, taskbar and status text within the glass; increase resize minimums for the bezel and large fonts. The physical power button uses the existing Log Off/cancellation path and controller focus.
+- Presentation only: no networking, saved-data, ledger authorization, CD handling or native transfer changes. No protocol bump or new gameplay setting.
+- Offline/UI evidence and remaining native gates: docs/WINDOWS93_COMPUTER.md. No deployment or publication.
 
 ## [0.18.0-dev.2] - 2026-10-17
 

@@ -1,0 +1,99 @@
+{
+  "project_version": "0.21.0-dev.5",
+  "game_version": "42.21.0",
+  "steam_build": "25485521",
+  "baseline_commit": "a1422f47691acc22a0d0ef7245614f4e1f1b8e44",
+  "evidence": "VERIFIED SOURCE / TESTED OFFLINE (host Lua 5.1); NOT native or dedicated execution",
+  "native": [
+    {
+      "path": "media/lua/shared/TimedActions/ISWriteSomething.lua",
+      "sha256": "01bdab27c9b2cbf026a32b591a972e4ce30ce28c29b165ed7a3a9f11a82e56c3"
+    },
+    {
+      "path": "media/lua/shared/TimedActions/ISBaseTimedAction.lua",
+      "sha256": "ad72e57f976bd1564d59d08d98d06f8c8d4acea6386aace48e0d99ce9d02a1f0"
+    },
+    {
+      "path": "media/lua/client/TimedActions/ISInventoryTransferAction.lua",
+      "sha256": "96ee554609f9ae029809643d50e4f31dbc5a7d21a558934be0804fd909c345b4"
+    },
+    {
+      "path": "media/scripts/generated/items/literature.txt",
+      "sha256": "01f9950ecfa984eb1c874de0eeaee283b8ba265cd249cf34111df9f30268e293"
+    },
+    {
+      "path": "media/scripts/generated/recipes/recipes_ammunition.txt",
+      "sha256": "b7e49ecd4d31bdfe3e49f1ff96ec67a7e1c2c202d70f5d6f1201be4a62d67e6c"
+    },
+    {
+      "path": "media/lua/client/TimedActions/WalkToTimedAction.lua",
+      "sha256": "960a098ccf1c8aee420891881c6921330aac91281278d3f09b6aa90b19dc63a1"
+    }
+  ],
+  "notes": [
+    "Paper writing reuses native ISWriteSomething book/read pose, wrappers and EventRead; no invented write animation.",
+    "Pickup uses the existing native ISInventoryTransferAction metatable and verified executor, including existing external nested-container identities. Lua does not retract already-dispatched native transfers or secure unrelated vanilla actions.",
+    "All current runtime files are original Lua/script/assets; no custom Java/JAR or third-party implementation imported.",
+    "Native Notebook item is declared in literature.txt at 1819-1831; native item 1 ... mode:destroy syntax appears in recipes_ammunition.txt at line 12. This is source syntax evidence, not native crafting execution.",
+    "Polish corrected the historical dev.1 source digest from the immutable 39263a1 record; the dev.2 checkpoint had inadvertently copied its current digest into the earlier nested record. No historical test result was upgraded."
+  ],
+  "source": {
+    "files": 229,
+    "sha256": "a5503445542288a4434f9fb47eba5d05b0b92d33a82fcb6883ec2f20bee697ce",
+    "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
+  },
+  "previous_checkpoints": [
+    {
+      "project_version": "0.21.0-dev.1",
+      "baseline_commit": "7692a3acdc777587824a2661c857fbdfaf6b947d",
+      "source": {
+        "files": 229,
+        "sha256": "223b296029e10acb7eec065ec33304f7c6b10379c63f2951c6fb03263a430d3e",
+        "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
+      },
+      "validation": "Full offline workflow/paired regression suite at dev.1. Preserve as historical; native/dedicated NOT TESTED."
+    },
+    {
+      "project_version": "0.21.0-dev.2",
+      "source": {
+        "files": 229,
+        "sha256": "faa25c504bfc88acb0bc7c2adbdb2a68cf7e2a67e8d841b426d1b9df9108db6b",
+        "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
+      },
+      "baseline_commit": "39263a1e6d52b0a8acf5f6124e865faa43593994",
+      "validation": [
+        "TESTED OFFLINE tests/test_ledger_metadata.py: exactly one whole Notebook input with mode:destroy, no SheetPaper2 input, retained clipboard/writer and one output.",
+        "TESTED OFFLINE scripts/check_versions.py and scripts/check_deployment.py; unchanged 229-file manifest.",
+        "No repeat full-suite claim at dev.2; actual native crafting/consumption and dedicated multiplayer NOT TESTED."
+      ]
+    },
+    {
+      "project_version": "0.21.0-dev.3",
+      "baseline_commit": "40056727420dad3530c3371db0386756a4fc88ae",
+      "source": {
+        "files": 229,
+        "sha256": "18cfee8629566d1b428eab31654ac4940409da678b45ecbb9f0ba10329daae3f",
+        "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
+      },
+      "validation": [
+        "TESTED OFFLINE full tests/run_tests.py --require-rooms with Rooms 0.2.0-dev.6 and paired PC Framework 0.5.0-dev.2; production full suite passed.",
+        "TESTED OFFLINE --only-polish rerun adds unreachable/canceled/late-return and specific-source-error checks, native client write cancellation, final halo feedback, setup release/read/burn after CD removal, active/fallback Shopping rows.",
+        "Source/metadata/version/manifest/fixture checks are offline only. Native G6/dedicated G7 NOT TESTED; stable G8 BLOCKED. No package/deploy/publish."
+      ]
+    }
+  ],
+  "current_validation": [
+    "TESTED OFFLINE focused program fixtures plus actual native confirmation handler: install/burn/write denial, rate limit and uncertainty, one callback, specific errors, native stop, duplicate/late/replacement guards.",
+    "TESTED OFFLINE injected installation notification failure preserves receipt/CD, retires committed action, reports ProgramInstallSyncPending; installer retries after denial and blocks reinstall while awaiting metadata.",
+    "Full paired suite, version/manifest and disposable parity results documented with current source receipt. Native/dedicated G6/G7 NOT TESTED; stable G8 BLOCKED."
+  ],
+  "publication_preparation": {
+    "runtime_commit": "458857d9941b90817663ea81d5ebc06990366b91",
+    "runtime_source": {
+      "files": 229,
+      "sha256": "d61e908eb23eac253966dc82381a11a334f3872e32600729623207571e2ce756",
+      "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
+    },
+    "delta": "Current mod.info prose corrected for release; runtime code is unchanged. Dependency distribution is pending; no upload receipt."
+  }
+}

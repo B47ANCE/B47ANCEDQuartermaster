@@ -125,6 +125,14 @@ option B47ANCEDQuartermaster.LedgerBurnSeconds
     translation = B47ANCEDQuartermaster_LedgerBurnSeconds,
 }
 
+option B47ANCEDQuartermaster.SortUpdatesLedger
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_SortUpdatesLedger,
+}
+
 option B47ANCEDQuartermaster.RequireLedgerForSorting
 {
     type = boolean,
@@ -162,4 +170,30 @@ option B47ANCEDQuartermaster.ShoppingWritingSupplies
     default = true,
     page = B47ANCEDQuartermaster,
     translation = B47ANCEDQuartermaster_ShoppingWritingSupplies,
+}
+
+option B47ANCEDQuartermaster.RequireComputerApplication
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_RequireComputerApplication,
+}
+option B47ANCEDQuartermaster.ApplicationInstallSeconds
+{
+    type = integer,
+    min = 5,
+    max = 120,
+    default = 20,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_ApplicationInstallSeconds,
+}
+option B47ANCEDQuartermaster.ApplicationCDLootWeight
+{
+    type = double,
+    min = 0,
+    max = 10,
+    default = 1,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_ApplicationCDLootWeight,
 }

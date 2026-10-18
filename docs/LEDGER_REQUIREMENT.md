@@ -1,14 +1,16 @@
 # Ledger requirement for sorting and collection
 
-Project Version: 0.20.0-dev.1
+Project Version: 0.21.0-dev.5
 
-Current computer hosting is supplied by the required **B47ANCED PC Framework**; Quartermaster registers its ledger reader and CD Writer as apps. Existing ledger/drive data and server permissions are preserved. See [extraction, setup and current evidence](PC_FRAMEWORK_INTEGRATION.md).
+Current Sort workflow: default-on `SortUpdatesLedger` requires carried paper and pen/pencil, searches accessible loaded building storage for a completed covering ledger first, uses native pickup, accepts carried blank/unfinished fallback and writes confirmed touched storage once after the full successful job. It overrides the older Sort-only freshness/computer exception below while enabled. Shopping collection and computer application installation are unchanged. Movement 12 / Ledger 5 require matching peers. [Current implementation, boundaries and validation](SORT_LEDGER.md). Earlier checkpoint evidence remains historical.
+
+Current application prerequisite: find and run the Quartermaster Application CD installer on each PC before computer ledger reads/writes or automatic knowledge provision (server opt-out supported). The Application CD is released after successful setup and is not required nearby afterward. Paper inspection does not need the app; Sort follows the default paper/writer policy above. Current capabilities are Ledger 5 / Movement 12. [Exact implementation, settings, validation and migration limits](APPLICATION_CD.md). Earlier checkpoint sections retain their original evidence.
 
 Physical Shopping now has separate writing supplies and carried shopping papers; those do not replace the completed supply ledger required for collection. Planning/reading do not require a supply ledger. See [physical Shopping](PHYSICAL_SHOPPING_LISTS.md).
 
 See [ledger modes, freshness, renewal and the current acceptance report](LEDGER_FRESHNESS.md).
 
-## Behavior
+## Previous Sort behavior (when SortUpdatesLedger is off) and current Shopping behavior
 
 Inventory and selected-container Sort never require a ledger. By default, Room/Building Sort and Shopping **collection** require a fresh completed ledger covering each work location; Disabled Ledger mode bypasses both requirements. Shopping list planning/editing, recipe additions, Wanted/Needed planning, container configuration and recording a new ledger remain available without one. This avoids a circular prerequisite.
 
@@ -41,7 +43,7 @@ The stock desktop sprite remains `appliances_com_01_72`; the CD must be the exis
 | --- | --- | --- | --- |
 | LedgerMode | 1 | enum 1–4 | Periodic live / Disabled / No updates live / Historical |
 | LedgerUpdateDays | 7 | integer, 1–365 days | Expiry for Periodic and Historical modes |
-| LedgerComputerManualUpdates | true | boolean | Require inspection and new CD; false provides live automatic computer statistics |
+| LedgerComputerManualUpdates | true | boolean | Require inspection and new CD; false provides live automatic computer statistics only in the exact recorded building |
 | RequireLedgerForSorting | true | boolean | Require fresh paper/computer knowledge only for Room/Building Sort |
 | RequireLedgerForCollecting | true | boolean | Require it for Shopping collection; planning stays free |
 | LedgerComputerRange | 10 | integer, 1–30 tiles | Nearby computer distance outside the same native building, same floor |
@@ -88,3 +90,7 @@ git -c core.safecrlf=false diff --check
 Source manifest: **211 runtime files**. No package, deployment, Workshop publication or game/server launch is part of this iteration. Historical packages remain in their original worktrees with their original versions. The new branch is `feature/ledger-freshness`, based on 2cac3ae5497bdbf793e119d12f3ef61ceb457457 (physical Shopping Lists / PR #16); earlier stacked branches are not merged by this work.
 
 [RUNTIME GATE] Native G6 NOT TESTED; dedicated G7 NOT TESTED/BLOCKED; stable G8 BLOCKED. Test two remote clients with completed/wrong/partial/forged records; inventory/container/ground/vehicle/room/building Sort; Collect versus list editing; all defaults/opt-outs; loaded computers across floors/nearby range; private computer/storage configure/inspect permissions; competing load/eject/write; power loss and CD removal during walking, dispatch and transfer; cancel/return/unknown outcomes; exact item conservation; reconnect; real server save/restart; unloaded objects and changed object indices; Linux path case; and actual native UI/input/performance. Offline passes do not replace those results.
+
+## Framework boundary
+
+Computer device/drive hosting delegates to the required PC Framework; Quartermaster retains ledger coverage, freshness, exact media/snapshot identity and current Rooms/Safehouse authorization. Client presentation cannot authorize a read or transfer. Paper clipboard styling changes no requirement. See [paired integration](PC_FRAMEWORK_INTEGRATION.md) and [current correction report](CLIPBOARD_UI_FIX.md).

@@ -52,6 +52,7 @@ function S.cancel(playerNum)
         local action=ISTimedActionQueue.getTimedActionQueue(run.player).queue[1]
         if action and action.sortRun==run then action:forceStop() end
     end
+    if B47ANCEDQuartermaster.LedgerUI then B47ANCEDQuartermaster.LedgerUI.cancelSort(playerNum) end
 end
 local function request(run,command,args,done)
     run.pending=true
@@ -78,6 +79,15 @@ function S.start(playerNum,source,callback,options)
     if B47ANCEDQuartermaster.Collector and B47ANCEDQuartermaster.Collector.active[playerNum] then return false,'busy' end
     if B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[playerNum] and not (options and options.area) then return false,'busy' end
     if not player or not source or S.active[playerNum] or E.active[playerNum] or E.batches[playerNum] or not empty(player) then return false,'busy' end
+    if not (options and (options.area or options.ledgerPrepared)) and require('B47ANCEDQuartermaster/SortLedger').enabled() then
+        local V=require 'B47ANCEDQuartermaster/LedgerUI'
+        local prepared={ledgerPrepared=true};for k,v in pairs(options or {}) do prepared[k]=v end
+        return V.prepareSort(playerNum,function()
+            return S.start(playerNum,source,function(status,completed,failed,reasons)
+                V.sortFinished(playerNum,status,function(final,ledgerOutcome) if callback then callback(final,completed,failed,reasons,ledgerOutcome) end end)
+            end,prepared)
+        end,function(status) if callback then callback(status,0,0,{}) end end)
+    end
     local token,target,sourceItems,sourceHint
     if not (options and options.area) then sourceHint=External.hint(source,player) end
     if sourceHint then token='external'
@@ -324,7 +334,7 @@ local function step(run)
     elseif run.phase=='deposit' and empty(run.player) then
         local op=run.loaded[run.index]
         if not op then
-            if not run.remaining then endRun(run,'ok');return end
+            if not run.remaining then run.phase='next';return end
             run.phase='return'
             return
         end

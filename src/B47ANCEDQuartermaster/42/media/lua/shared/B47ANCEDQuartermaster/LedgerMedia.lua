@@ -1,5 +1,9 @@
 -- Native item ownership/conversion. Called only by the authenticated server service.
 local M={sheet='B47ANCEDQuartermaster.SupplySheet',disc='B47ANCEDQuartermaster.SupplyDisc'}
+function M.writer(actor)
+ local inv=actor:getInventory()
+ return inv:containsTypeRecurse('Base.Pen') or inv:containsTypeRecurse('Base.Pencil')
+end
 function M.owned(actor,id,kind)
  if type(id)~='number' or id~=id or id~=math.floor(id) or id< -2147483648 or id>2147483647 then return end
  local item=actor:getInventory():getItemWithIDRecursiv(id)
