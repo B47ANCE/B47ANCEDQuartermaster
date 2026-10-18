@@ -10,12 +10,12 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           repository: B47ANCE/B47ANCEDUI
-          ref: ad48807afb5da7af9bb9e66078e726774cc65682
+          ref: 7ee3bdc155058017c4b66b659b470789f081e4d6
           path: .test-deps/B47ANCEDUI
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           repository: B47ANCE/B47ANCEDPCFramework
-          ref: f528e3531517dcff2b05f3b4759d2b4932676af3
+          ref: d8b80d4c1cee6d4c7c29bdd9ca41ece97e0c722e
           path: .test-deps/B47ANCEDPCFramework
           persist-credentials: false
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
