@@ -3,6 +3,7 @@
 ## [0.19.0-dev.1] - 2026-10-17
 
 - Extract the Windows '93 desktop, computer validation and reusable server drive engine into the required B47ANCED PC Framework mod.
+- PC Framework 0.2.0-dev.1 recognizes all powered vanilla PC orientations and Computer-tagged alternate tiles; Quartermaster inherits this through the unchanged device adapter.
 - Quartermaster registers its ledger reader/CD writer as an app; existing paper/CD identities, snapshots and persisted drive bindings remain unchanged.
 - 0.x compatibility change: enable B47ANCEDPCFramework on every peer. Missing framework fails closed through the loader dependency. No deployment/publication; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED.
 

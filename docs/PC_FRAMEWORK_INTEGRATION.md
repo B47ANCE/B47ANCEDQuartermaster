@@ -2,7 +2,7 @@
 
 Project Version: 0.19.0-dev.1
 
-Quartermaster requires `B47ANCEDRooms` and `B47ANCEDPCFramework` on the server and every client. PC Framework 0.1.0-dev.1 / registration API 1 is the companion development source. PC Framework has no assigned Workshop item yet; do not publish this dependency combination until distribution is arranged explicitly. This source work does not change Quartermaster's existing Workshop item 3807217050.
+Quartermaster requires `B47ANCEDRooms` and `B47ANCEDPCFramework` on the server and every client. PC Framework 0.2.0-dev.1 / registration API 1 is the companion development source. PC Framework has no assigned Workshop item yet; do not publish this dependency combination until distribution is arranged explicitly. This source work does not change Quartermaster's existing Workshop item 3807217050.
 
 [VERIFIED source] The desktop, shared native computer helpers and server drive engine are extracted into the standalone [B47ANCED PC Framework](https://github.com/B47ANCE/B47ANCEDPCFramework). Framework runtime has no Quartermaster imports. Quartermaster's `ComputerUI.lua` is now a compatibility alias; `LedgerUI.lua` registers `quartermaster`, `QUARTERMASTER.EXE`, the reader, and `ComputerWriter.lua`. Only the framework subscribes its world computer menu. Bare framework use opens without Quartermaster or ledger data. Disabling Quartermaster ledgers removes its app while leaving the independent desktop available; disabling the framework closes all framework desktops and fails computer access.
 
@@ -26,3 +26,5 @@ python -B tests/test_deployment.py
 The runner requires a separate PC Framework checkout; pass `--pc-framework` from a worktree. Build.ps1 accepts `-PCFrameworkPath` / `-RoomsPath` and does not bundle either dependency. Its packaging entry point is not run by this task.
 
 [RUNTIME GATE] Native SP and dedicated multiplayer NOT TESTED. G7 BLOCKED / NOT TESTED; stable G8 BLOCKED. Test standalone framework load, dependency absence, compatible peers, two-client drive contention, privacy/power/media loss, delayed replies, app switching, native rendering/input and restart/rejoin with existing bindings. No deployment, packaging, Workshop publication or game/server launch occurred.
+
+PC Framework 0.2.0-dev.1 removes the one-facing hardware restriction: all four powered vanilla PC orientations and other placed `CustomName=Computer` tiles qualify. Quartermaster inherits this through its existing `LedgerMedia.computer` delegate and retains its Rooms/privacy checks. The consumer API and all data formats are unchanged, so this dependency expansion does not independently bump Quartermaster's version. Untagged modded PC graphics cannot be identified from appearance alone. Power loss, access denial and moved/deleted objects still revoke access.
