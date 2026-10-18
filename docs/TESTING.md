@@ -1,8 +1,10 @@
 # Testing
 
-Project Version: 0.21.0-dev.3
+Project Version: 0.21.0-dev.4
 
-Current polish: full offline Quartermaster suite and focused `--only-polish` regressions pass with actual Rooms 0.2.0-dev.6 and paired PC Framework 0.5.0-dev.2 source. Lost-ledger scan and native client write-cancel failures were reproduced before fixes. Coverage includes original-source return/cancellation/unreachable travel, post-movement write feedback, reusable installer release, physical-list visibility/focus/layout, native transfer conservation and paired integration. See SORT_LEDGER.md for exact commands and evidence limits. G6/G7 remain NOT TESTED; stable G8 BLOCKED. No package/deploy/publish.
+Dev.4 current scope: confirmation-denial callbacks and committed installation notification failure. Focused program/native-handler/installer fixtures cover exact errors, one-shot callbacks, late/replacement cleanup, native stop, retry controls and server-confirmed pending receipt presentation. Full paired suite and consistency checks are recorded in APPLICATION_CD.md / SORT_LEDGER.md. All execution is offline; native client/dedicated validation remains pending.
+
+Historical dev.3 polish: full offline Quartermaster suite and focused `--only-polish` regressions pass with actual Rooms 0.2.0-dev.6 and paired PC Framework 0.5.0-dev.2 source. Lost-ledger scan and native client write-cancel failures were reproduced before fixes. Coverage includes original-source return/cancellation/unreachable travel, post-movement write feedback, reusable installer release, physical-list visibility/focus/layout, native transfer conservation and paired integration. See SORT_LEDGER.md for exact commands and evidence limits. G6/G7 remain NOT TESTED; stable G8 BLOCKED. No package/deploy/publish.
 
 Current Sort workflow: default-on `SortUpdatesLedger` requires carried paper and pen/pencil, searches accessible loaded building storage for a completed covering ledger first, uses native pickup, accepts carried blank/unfinished fallback and writes confirmed touched storage once after the full successful job. It overrides the older Sort-only freshness/computer exception below while enabled. Shopping collection and computer application installation are unchanged. Movement 12 / Ledger 5 require matching peers. [Current implementation, boundaries and validation](SORT_LEDGER.md). Earlier checkpoint evidence remains historical.
 
@@ -89,7 +91,7 @@ User confirms dev.20 loaded but visible Category labels remained vanilla with Ne
 
 Compatible PATCH correction on dev.19: Category cells use the canonical resolver cache and current localized labels. Compatibility is checked during rendering rather than permanently skipping registration during early Lua loading. Native row.cat, sorting, grouping and item definitions stay unchanged. Full offline regression and frozen 5,092-item comparison passed; actual B42.21 inventory/loot/controller/scaling and second-language client acceptance remain UNTESTED. Dev.19 Stage A instrumentation is retained; its dedicated timing gate remains BLOCKED. See `dist/handoffs/dev20-inventory-category.md`. No deployment or publication.
 
-Current source version: 0.21.0-dev.3. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
+Current source version: 0.21.0-dev.4. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
 
 Historical note: Recorded source snapshot: 0.4.0-dev.50. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
 

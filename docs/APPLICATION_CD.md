@@ -1,6 +1,6 @@
 # Quartermaster Application CD and PC installation
 
-Project Version: 0.21.0-dev.3
+Project Version: 0.21.0-dev.4
 
 Current Sort policy is the separate default-on [paper search/pickup and deferred writing workflow](SORT_LEDGER.md), Movement 12 / Ledger 5. Successful installation now automatically releases the setup-drive binding without moving or consuming the CD; older capability/evidence checkpoints retain their original identity.
 
@@ -87,3 +87,17 @@ Commands: `python -B tests/run_tests.py --only-program --pc-framework <paired-fr
 [TESTED OFFLINE] Production tests cover automatic setup release, retained real media, moving the Application CD into player inventory afterward, installed paper/CD read access and a new ledger-burn grant without the installer disc nearby. Existing cancellation, power/media/access loss, forged receipt, exact-PC identity and future-schema regressions pass. The native client action cancellation path also reports local cancellation so a server cancel response cannot leave the UI busy; delayed native result callbacks are ignored after closure. Cancellation feedback is not evidence of an uncommitted server outcome.
 
 Native CD/setup desktop transition, save/restart and dedicated multiplayer remain NOT TESTED. Existing pre-polish setup bindings can still be explicitly ejected through Setup; no broad migration deletes bindings. Framework source was inspected read-only and was not modified in this pass.
+
+## 0.21.0-dev.4 confirmation and notification correction
+
+Compatible failure-path fixes; existing native action challenge/progress, setup-CD identity, configuration permission and per-PC receipt remain authoritative. No new setting, dependency, item, schema or protocol is introduced.
+
+- **Confirmation rejection:** LedgerUI previously called cancel directly, which removed work without notifying its caller. The normal finish path now receives the exact denial/rate-limit/uncertain status. It closes work and removes its client offer before stopping the tagged native action, preventing duplicate callbacks. Installer grants are canceled using their exact token. Closed or replaced work ignores delayed responses. The installer resets its working state after denial; post-Sort writing returns its own failure without relabeling completed native transfers.
+- **Notification failure after commit:** LedgerProgram previously committed the receipt and then let transmitModData exceptions escape, leaving completion unretired until cancellation. Only that notification call is now guarded. It returns ProgramInstallSyncPending; Ledger.complete retires the grant as committed. The receipt and actual CD are preserved. Rechecking an existing receipt resends only its notification, without creating another record. No physical action or transfer is replayed.
+- **Pending presentation:** The installer remembers the server's committed result separately from the synchronized PC hint. While notification is pending it shows the explicit status and disables reinstall, including repeated direct button activation. It never fabricates synchronized PC ModData or grants access locally. Native propagation/reload behavior remains a runtime gate; no automatic retry or guaranteed recovery time is claimed.
+
+Changed production files: client LedgerUI.lua and ProgramInstaller.lua; shared LedgerProgram.lua and Ledger.lua; one new status key in all 29 UI fallback files; version mirrors. Tests exercise the actual registered native command handler and challenged action completion. The old failures were reproduced before correction, including an injected native notification exception.
+
+[TESTED OFFLINE] Focused `python -B tests/run_tests.py --only-program --pc-framework <paired-PC-0.5.0-dev.2>` and full paired suite. Install/burn/post-Sort-write denial, rate limiting and uncertainty each notify once, preserve their specific result, clear offers/work and stop tagged actions. Duplicate and delayed replies cannot affect replacement operations. Installer retry, pending status visibility/reinstall guard, eventual metadata hint, native grant retirement, duplicate completion, idempotent receipt count and physical CD conservation are covered. Full suite retains existing Rooms, sorting/grouping/conservation, Shopping, UI/font and persistence-shaped regressions.
+
+[VERIFIED SOURCE] Reuses the existing native object transmitModData call and action stop API already used by this project. Narrow notification failure handling does not downgrade permission checks or infer native transfer completion. [RUNTIME GATE] Real notification transport, native focus/action interruption, two-client synchronization, save/restart and reconnect remain NOT TESTED. G6/G7 NOT TESTED; stable G8 BLOCKED. No deployment/publication or external-mod changes.

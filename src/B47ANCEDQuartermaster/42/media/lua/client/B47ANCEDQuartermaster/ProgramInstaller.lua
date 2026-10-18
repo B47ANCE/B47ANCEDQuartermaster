@@ -21,23 +21,23 @@ return function(PC,V)
   onDenied=function(ctx) ctx.player:setHaloNote(tr('ProgramInstallDenied')) end,
   onClose=function(ctx) local op=V.work[ctx.playerNum];if op and op.install then V.cancel(ctx.playerNum) end end,
   create=function(ctx)
-   local UI=PC.UI;local labels={};local status=tr('ProgramInstallReady');local working=false
+   local UI=PC.UI;local labels={};local status=tr('ProgramInstallReady');local working=false;local receiptConfirmed=false
    local window=ctx.window({titleKey='UI_QMSS_ProgramSetup',onResize=function(self,w,h)
     local m=UI.metrics()
     for n,label in ipairs(labels) do UI.place(label,12,12+(n-1)*(m.font+10),w-24,m.font+6) end
     UI.place(self.install,12,h-m.button-12,w-24,m.button)
    end,onUpdate=function(self)
     local installed=ctx.computer:getModData().B47QMProgramVersion==Program.version
-    self.install:setEnable(not working and not installed)
+    self.install:setEnable(not working and not installed and not receiptConfirmed)
     labels[4]:setText(installed and tr('ProgramInstalledHelp') or status)
    end})
    for _,key in ipairs({'ProgramInstallIntro','ProgramInstallRetained','ProgramInstallStorage','ProgramInstallReady'}) do
     labels[#labels+1]=UI.label(window,{text=tr(key)})
    end
    window.install=UI.button(window,{textKey='UI_QMSS_ProgramInstall',onClick=ctx.guard(function()
-    if working then return end;working=true;status=tr('ProgramInstalling');window.install:setEnable(false)
+    if working or receiptConfirmed or ctx.computer:getModData().B47QMProgramVersion==Program.version then return end;working=true;status=tr('ProgramInstalling');window.install:setEnable(false)
     V.installProgram(ctx.playerNum,ctx.computer,ctx.media,function(result)
-     working=false
+     working=false;receiptConfirmed=result=='ProgramInstalled' or result=='ProgramInstallSyncPending'
      if ctx.isActive() then status=tr(result=='ProgramInstalled' and 'ProgramInstalledHelp' or result) end
     end)
    end)})

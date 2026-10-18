@@ -1,8 +1,8 @@
 {
-  "project_version": "0.21.0-dev.3",
+  "project_version": "0.21.0-dev.4",
   "game_version": "42.21.0",
   "steam_build": "25485521",
-  "baseline_commit": "40056727420dad3530c3371db0386756a4fc88ae",
+  "baseline_commit": "a1422f47691acc22a0d0ef7245614f4e1f1b8e44",
   "evidence": "VERIFIED SOURCE / TESTED OFFLINE (host Lua 5.1); NOT native or dedicated execution",
   "native": [
     {
@@ -39,7 +39,7 @@
   ],
   "source": {
     "files": 229,
-    "sha256": "18cfee8629566d1b428eab31654ac4940409da678b45ecbb9f0ba10329daae3f",
+    "sha256": "d61e908eb23eac253966dc82381a11a334f3872e32600729623207571e2ce756",
     "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
   },
   "previous_checkpoints": [
@@ -66,11 +66,25 @@
         "TESTED OFFLINE scripts/check_versions.py and scripts/check_deployment.py; unchanged 229-file manifest.",
         "No repeat full-suite claim at dev.2; actual native crafting/consumption and dedicated multiplayer NOT TESTED."
       ]
+    },
+    {
+      "project_version": "0.21.0-dev.3",
+      "baseline_commit": "40056727420dad3530c3371db0386756a4fc88ae",
+      "source": {
+        "files": 229,
+        "sha256": "18cfee8629566d1b428eab31654ac4940409da678b45ecbb9f0ba10329daae3f",
+        "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
+      },
+      "validation": [
+        "TESTED OFFLINE full tests/run_tests.py --require-rooms with Rooms 0.2.0-dev.6 and paired PC Framework 0.5.0-dev.2; production full suite passed.",
+        "TESTED OFFLINE --only-polish rerun adds unreachable/canceled/late-return and specific-source-error checks, native client write cancellation, final halo feedback, setup release/read/burn after CD removal, active/fallback Shopping rows.",
+        "Source/metadata/version/manifest/fixture checks are offline only. Native G6/dedicated G7 NOT TESTED; stable G8 BLOCKED. No package/deploy/publish."
+      ]
     }
   ],
   "current_validation": [
-    "TESTED OFFLINE full tests/run_tests.py --require-rooms with Rooms 0.2.0-dev.6 and paired PC Framework 0.5.0-dev.2; production full suite passed.",
-    "TESTED OFFLINE --only-polish rerun adds unreachable/canceled/late-return and specific-source-error checks, native client write cancellation, final halo feedback, setup release/read/burn after CD removal, active/fallback Shopping rows.",
-    "Source/metadata/version/manifest/fixture checks are offline only. Native G6/dedicated G7 NOT TESTED; stable G8 BLOCKED. No package/deploy/publish."
+    "TESTED OFFLINE focused program fixtures plus actual native confirmation handler: install/burn/write denial, rate limit and uncertainty, one callback, specific errors, native stop, duplicate/late/replacement guards.",
+    "TESTED OFFLINE injected installation notification failure preserves receipt/CD, retires committed action, reports ProgramInstallSyncPending; installer retries after denial and blocks reinstall while awaiting metadata.",
+    "Full paired suite, version/manifest and disposable parity results documented with current source receipt. Native/dedicated G6/G7 NOT TESTED; stable G8 BLOCKED."
   ]
 }

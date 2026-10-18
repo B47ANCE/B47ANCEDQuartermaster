@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.21.0-dev.3",
+  "version": "0.21.0-dev.4",
   "reviewed": true,
-  "source_digest": "cf720e13c167f9b80dcfd34021b02e3132dfe3609d16514de1f758da2379de13",
+  "source_digest": "73a6b2fea349ebf6b209ec09d301cf21090e48a2b07b94c9e94fb0bceb8b2b28",
   "features": [
     {
       "status": "Source",
@@ -48,18 +48,18 @@
     },
     {
       "status": "Source",
-      "text": "Found Application CD runs SETUP.EXE via PC Framework CD program API 1. Server native-action completion installs per exact PC; guards digital reads/writes/automatic knowledge. Reusable disc, server prerequisite/time/loot settings; old ledger data preserved. CD loot targets commercial offices, office supply storage and computer stock; generic electronics/home desks/general cargo excluded. Completed setup releases its own drive binding; installed use does not require the Application CD nearby."
+      "text": "Found Application CD runs SETUP.EXE via PC Framework CD program API 1. Server native-action completion installs per exact PC; guards digital reads/writes/automatic knowledge. Reusable disc, server prerequisite/time/loot settings; old ledger data preserved. CD loot targets commercial offices, office supply storage and computer stock; generic electronics/home desks/general cargo excluded. Completed setup releases its own drive binding; installed use does not require the Application CD nearby. Post-commit notification exceptions report installed/pending and retire the grant; installer prevents replay while its metadata hint is pending."
     },
     {
       "status": "Source",
-      "text": "Default SortUpdatesLedger: server building search prefers an accessible completed paper ledger, native pickup, otherwise carried blank/partial paper; requires pen/pencil and writes confirmed touched storage once after the full successful Sort. Existing CD generations and unvisited inspection timestamps are preserved. No inventory mutation by bookkeeping. Initial ledger creation consumes one whole Notebook; subsequent writing reuses the ledger. Lost scan candidates fail closed; pickup returns to the original Sort source. Native cancellation clears local writing work and completion distinguishes movement from ledger outcomes."
+      "text": "Default SortUpdatesLedger: server building search prefers an accessible completed paper ledger, native pickup, otherwise carried blank/partial paper; requires pen/pencil and writes confirmed touched storage once after the full successful Sort. Existing CD generations and unvisited inspection timestamps are preserved. No inventory mutation by bookkeeping. Initial ledger creation consumes one whole Notebook; subsequent writing reuses the ledger. Lost scan candidates fail closed; pickup returns to the original Sort source. Native cancellation clears local writing work and completion distinguishes movement from ledger outcomes. Native confirmation failures return their exact reason once and cannot close replacement work."
     },
     {
       "status": "Source",
       "text": "Physical Shopping paper controls restore across mode/settings changes with unique active-framework controller rows; fallback layout has a separate paper row and controller access."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.21.0-dev.3; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.21.0-dev.4; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",

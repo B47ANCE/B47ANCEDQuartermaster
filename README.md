@@ -8,9 +8,11 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.21.0-dev.3 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/sort-ledger-write).
+The Workshop feature guide is below. This branch also contains **0.21.0-dev.4 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/sort-ledger-write).
 
 ## Development work in this branch
+
+Dev.4 closes native confirmation failures through the normal result callback, so rejected/timed-out actions show their reason and the installer can retry. If computer notification fails after installation, the server keeps the installed receipt, retires the action and explicitly reports synchronization pending; the installer prevents duplicate installation while waiting. [Failure-path validation](docs/APPLICATION_CD.md#0210-dev4-confirmation-and-notification-correction).
 
 The dev.3 polish checkpoint fixes lost-ledger discovery, returns to the original Sort source after ledger pickup, clears interrupted writing work, preserves ledger save warnings in the final Sort message, releases the installer drive, and repairs fallback Shopping paper layout/controller access. Native transfer grouping, recipes and saved-data schemas are unchanged. [Audit findings, fixes and acceptance checks](docs/SORT_LEDGER.md#0210-dev3-polish-checkpoint).
 

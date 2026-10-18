@@ -262,7 +262,7 @@ function L.complete(actor,token,action)
  end
  if g.kind=='programInstall' then
   local status=Program.install(actor,g.computer,g.programRequest)
-  return retire(g,status,status=='ProgramInstalled')
+  return retire(g,status,status=='ProgramInstalled' or status=='ProgramInstallSyncPending')
  end
  if g.kind=='inspect' then
   local rows=prepareRows(g);if not rows then g.job.prepared=nil;return retire(g,'LedgerChanged') end

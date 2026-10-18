@@ -27,11 +27,17 @@ function V.cancel(num)
  end
  if op.token then L.clientOffers[op.token]=nil end
 end
-local function finish(op,status)
+local function finish(op,status,abortNative)
  if op.closed then return end
  op.closed=true;V.work[op.num]=nil
  if op.token then L.clientOffers[op.token]=nil end
  if not op.install and status~='ok' and status~='done' and status~='ShoppingPaperCreated' and status~='ShoppingPaperSyncPending' then Q.Authority.request(op.num,'ledgerCancel',{},function() end) end
+ if abortNative then
+  -- Close first so native stop/result callbacks cannot complete work twice.
+  if op.install and op.token then Q.Authority.request(op.num,'ledgerCancel',{token=op.token},function() end) end
+  local current=queue(op.actor)[1]
+  if current and current.b47LedgerWork==op and current.action then current:forceStop() end
+ end
  local key=status=='ok' and 'LedgerSaved' or status=='done' and (op.summary or 'LedgerComplete') or status
  local screen=Computer.active[op.num];if (op.burn or op.install) and screen then screen:message(key) end
  note(op.actor,key)
@@ -396,7 +402,7 @@ if Events then
   local offer=L.clientOffers[args.token];if not offer then return end
   if command=='challenge' then Q.Authority.request(offer.actor:getPlayerNum(),'ledgerConfirm',{token=args.token,challenge=args.challenge},function(r)
    local op=V.work[offer.actor:getPlayerNum()]
-   if r.status~='ok' and op and op.token==args.token then V.cancel(offer.actor:getPlayerNum()) end
+   if r.status~='ok' and op and op.token==args.token then finish(op,r.status,true) end
   end)
   elseif command=='result' then nativeResult(offer.actor,args) end
  end)

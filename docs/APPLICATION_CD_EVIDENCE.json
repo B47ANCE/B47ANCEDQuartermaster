@@ -1,5 +1,5 @@
 {
-  "project_version": "0.21.0-dev.3",
+  "project_version": "0.21.0-dev.4",
   "game_version": "42.21.0",
   "steam_build": "25485521",
   "status": "VERIFIED SOURCE / TESTED OFFLINE",
@@ -44,5 +44,11 @@
     "framework_commit": "633ff570da7bf5b97d359a87d4f81f322afc3e66",
     "change": "Successful server install releases only its verified setup binding through the existing eject service. No physical media change or framework edit.",
     "evidence": "TESTED OFFLINE automatic setup release, media retained then moved away, installed read/new burn grant, existing cancellation/security regressions; native/dedicated NOT TESTED."
+  },
+  "confirmation_notification_fix": {
+    "baseline_commit": "a1422f47691acc22a0d0ef7245614f4e1f1b8e44",
+    "scope": "Finish rejected native confirmations exactly once; narrow post-commit object-notification guard returns ProgramInstallSyncPending and retires committed grant.",
+    "tests": "Actual native handler denial/rate-limit/uncertainty for install/burn/write, duplicate/late/replacement guards, native tagged stop, injector exception before fix, committed receipt/grant retirement, installer retry/pending guard and CD conservation. Offline only.",
+    "runtime": "Native client/dedicated NOT TESTED; stable G8 BLOCKED."
   }
 }

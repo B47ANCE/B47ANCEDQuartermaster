@@ -60,8 +60,14 @@ function P.drive(actor,command,args)
  if command=='ledgerSetupEject' and c and D.busy(c) then return {status='busy'} end
  return D.handle(actor,command,args)
 end
+local function notifyInstalled(c)
+ -- The server receipt is already committed. Notification failure is not an
+ -- installation failure and must not leave the native grant unretired.
+ local synced=pcall(function() c:transmitModData() end)
+ return synced and 'ProgramInstalled' or 'ProgramInstallSyncPending'
+end
 function P.install(actor,c,args)
- if P.has(actor,c,true,true) and c:getModData().B47QMProgramVersion==P.version then return 'ProgramInstalled' end
+ if P.has(actor,c,true,true) and c:getModData().B47QMProgramVersion==P.version then return notifyInstalled(c) end
  local ctx,status=CD.resolve(actor,c,args);if not ctx then return status end
  local r=root();if not r then return 'schema' end
  if r.count>=4096 then return 'tooLarge' end -- internal persistent-record safety bound
@@ -70,7 +76,7 @@ function P.install(actor,c,args)
  local released=D.handle(actor,'ledgerSetupEject',{computer=position(c),drive=args.drive})
  if released.status~='ok' then return released.status end
  r.records[id]={version=P.version,position=position(c)};r.count=r.count+1
- local md=c:getModData();md.B47QMProgram=id;md.B47QMProgramVersion=P.version;c:transmitModData()
- return 'ProgramInstalled'
+ local md=c:getModData();md.B47QMProgram=id;md.B47QMProgramVersion=P.version
+ return notifyInstalled(c)
 end
 return P

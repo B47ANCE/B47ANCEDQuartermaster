@@ -45,7 +45,7 @@ def runtime():
     return lua
 
 if ARGS.only_polish:
-    for name in ('test_sort_ledger.lua', 'test_sort_ledger_ui.lua', 'test_program_installation.lua', 'test_shopping_paper_ui.lua', 'test_movement.lua'):
+    for name in ('test_sort_ledger.lua', 'test_sort_ledger_ui.lua', 'test_ledger_failures.lua', 'test_program_installation.lua', 'test_shopping_paper_ui.lua', 'test_movement.lua'):
         runtime().execute((ROOT/'tests'/name).read_text(encoding='utf-8'))
     raise SystemExit(0)
 
@@ -56,7 +56,7 @@ if ARGS.only_sort_ledger:
 
 if ARGS.only_program:
     import runpy
-    for name in ('test_program_installation.lua','test_program_installer_ui.lua'):
+    for name in ('test_program_installation.lua','test_program_installer_ui.lua','test_ledger_failures.lua'):
         runtime().execute((ROOT/'tests'/name).read_text(encoding='utf-8'))
     runpy.run_path(str(ROOT/'tests/test_ledger_metadata.py'))
     raise SystemExit(0)
@@ -66,6 +66,7 @@ for path in (SOURCE / '42/media/lua').rglob('*.lua'):
 print('PASS Lua 5.1 syntax')
 runtime().execute((ROOT / 'tests/test_sort_ledger.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_sort_ledger_ui.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_ledger_failures.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_carry_budget.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_container_sources.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_progress.lua').read_text(encoding='utf-8'))

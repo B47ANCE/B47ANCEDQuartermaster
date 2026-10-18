@@ -1,6 +1,6 @@
 # PC Framework extraction
 
-Project Version: 0.21.0-dev.3
+Project Version: 0.21.0-dev.4
 
 Current Sort policy is the separate default-on [paper search/pickup and deferred writing workflow](SORT_LEDGER.md), Movement 12 / Ledger 5. Application installation and computer/CD behavior below remain otherwise unchanged; older capability/evidence checkpoints retain their original identity.
 

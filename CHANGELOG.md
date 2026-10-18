@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.21.0-dev.4] - 2026-10-17
+
+- Rejected/timed-out native confirmations close tagged work and notify its caller once, preserving the specific error and any completed Sort movement.
+- Installation notification failure returns an explicit committed/synchronization-pending result. Keep the per-PC receipt and retire the grant successfully; never replay installation or consume the CD.
+- Installer controls allow retry after denial and prevent reinstall while a committed installation notification is pending.
+- Compatible error-path corrections; native groups/timing, sandbox defaults, schemas and protocol capabilities are unchanged. Native/dedicated acceptance remains NOT TESTED; no deploy or publication.
+
 ## [0.21.0-dev.3] - 2026-10-17
 
 - Revalidate ledgers after bounded discovery; lost carried sheets fail safely.

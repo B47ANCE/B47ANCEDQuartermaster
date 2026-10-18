@@ -1,6 +1,6 @@
 # Sort with a physical paper ledger
 
-Project Version: 0.21.0-dev.3
+Project Version: 0.21.0-dev.4
 
 ## Player workflow
 
@@ -113,3 +113,21 @@ python -B tests/test_deployment.py
 [RUNTIME GATE] Native pixels/focus, pickup/return pathfinding, interruption/network result ordering, real installation/data-CD transition, reconnect/restart and dedicated peers remain NOT TESTED. G6/G7 NOT TESTED; stable G8 BLOCKED. Existing allocation enforcement/live role routing remains intentionally disabled and the shelf/3D experiment remains out of scope. No package, deployment, publication or game/server launch performed.
 
 Current dev.3 source receipt: **229 runtime files**, SHA-256 `18cfee8629566d1b428eab31654ac4940409da678b45ecbb9f0ba10329daae3f` (algorithm above; source only).
+
+## 0.21.0-dev.4 action-confirmation checkpoint
+
+Rejected/rate-limited/unconfirmed native challenge replies now finish the current tagged work with its actual reason, rather than silently canceling the coordinator. Callback delivery is guarded before native stop, and late/duplicate/replaced-operation responses are ignored. Completed Sort transfers remain successful; a later writing error remains the separate ledger outcome. Program installation notification failure separately reports committed/pending instead of failing the action. See [the correction and tests](APPLICATION_CD.md#0210-dev4-confirmation-and-notification-correction).
+
+Validation commands (from this worktree, using the paired dependency checkouts):
+
+```powershell
+python -B tests/run_tests.py --only-program --pc-framework ../../pc-quartermaster-program/B47ANCEDPCFramework
+python -B tests/run_tests.py --require-rooms --rooms ../../../B47ANCEDRooms --pc-framework ../../pc-quartermaster-program/B47ANCEDPCFramework
+python -B scripts/check_versions.py
+python -B scripts/check_deployment.py
+python -B tests/test_deployment.py
+```
+
+These tests are offline; actual PZ/dedicated G6/G7 remain NOT TESTED. No source package/deploy/publish performed. The previous dev.3 source receipt and full-suite result above remain historical.
+
+Dev.4 source receipt: **229 runtime files**, SHA-256 `d61e908eb23eac253966dc82381a11a334f3872e32600729623207571e2ce756` (same algorithm, source only).

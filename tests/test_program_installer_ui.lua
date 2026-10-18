@@ -18,6 +18,7 @@ Q.Authority.request=function(_,command,args,reply)
  elseif command=='ledgerProgramInstall' then
   installs=installs+1;assert(args.program==P.id and args.media==809 and args.drive=='setup-binding')
   reply({status='action',token='native-install-'..installs,seconds=20,kind='programInstall'})
+ elseif command=='ledgerConfirm' then reply({status='denied'})
  elseif command=='ledgerCancel' then cancels=cancels+1;reply({status='ok'})
  elseif command=='ledgerDriveList' then reply({status='ok',choices={}})
  else error('unexpected installer UI command '..tostring(command)) end
@@ -30,11 +31,22 @@ denied=true;host:runDisc();assert(not host.content.install,'refused program crea
 denied=false;host:runDisc();local panel=host.content;assert(panel.install and installs==0,'opening installer installed immediately')
 panel.install.onclick();assert(installs==1 and V.work[0].actionPending and not panel.install.enable)
 panel.install.onclick();assert(installs==1,'double-click queued duplicate native install')
+local rejected=V.work[0].token
+for _,handler in ipairs(LEDGER_UI_COMMANDS) do handler('B47ANCEDQuartermasterLedger','challenge',{token=rejected,challenge='denied'}) end
+panel:updateComputer();assert(not V.work[0] and panel.install.enable,'denied confirmation kept installer disabled')
+
 host:close();assert(not V.work[0] and cancels>0,'power/close left native installation running')
 ISTimedActionQueue.getTimedActionQueue(actor).queue={}
 host=assert(V.computer(0,computer));host:openDrive();host:runDisc();panel=host.content;panel.install.onclick()
-local op=V.work[0];local beforeComplete=cancels;computer:getModData().B47QMProgramVersion=P.version -- simulated server ModData notification
-Q.Ledger.clientResult(actor,{token=op.token,status='ProgramInstalled'})
+local op=V.work[0];local beforeComplete=cancels
+Q.Ledger.clientResult(actor,{token=op.token,status='ProgramInstallSyncPending'})
+panel:updateComputer()
+assert(not panel.install.enable and not computer:getModData().B47QMProgramVersion,'pending receipt enabled reinstall or forged synced metadata')
+local displayed=false;for _,child in ipairs(panel.children) do if child.captionText==getText('UI_QMSS_ProgramInstallSyncPending') then displayed=true end end
+assert(displayed,'pending installation status was hidden')
+local attempts=installs;panel.install.onclick();assert(installs==attempts,'pending installation was replayed')
+computer:getModData().B47QMProgramVersion=P.version -- eventual server ModData notification
+
 host:prerender();assert(not V.work[0] and not panel.install.enable and cancels==beforeComplete,'completed install sent a broad cancellation')
 host:eject();assert(not host.mounted,'installer CD remained mounted after explicit eject')
 host=assert(V.computer(0,computer));assert(host.application=='quartermaster' and host.writerIcon:isVisible(),'installed PC lost ordinary reader/writer')

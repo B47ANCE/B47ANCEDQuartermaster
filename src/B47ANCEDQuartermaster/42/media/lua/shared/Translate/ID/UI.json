@@ -573,5 +573,6 @@
   "UI_QMSS_SortLedgerSyncPending": "Paper ledger saved; inventory notification is pending. Do not repeat the sort to retry writing.",
   "UI_QMSS_SortLedgerUnchanged": "Sorting finished. No storage entries needed updating.",
   "UI_QMSS_SortLedgerSkipped": "Sorting finished. Automatic ledger updates are disabled.",
-  "UI_QMSS_SortLedgerWriteIncomplete": "Ledger update incomplete or unconfirmed: %1. Completed item transfers are unchanged."
+  "UI_QMSS_SortLedgerWriteIncomplete": "Ledger update incomplete or unconfirmed: %1. Completed item transfers are unchanged.",
+  "UI_QMSS_ProgramInstallSyncPending": "Quartermaster installed. Computer notification pending; wait for synchronization before reopening. Do not reinstall."
 }

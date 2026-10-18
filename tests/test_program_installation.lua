@@ -41,7 +41,13 @@ assert(not action:complete() and not P.has(actor,computer,true),'unconfirmed act
 offer=begin();action=assert(C:new(actor,offer.token));action.netAction={getProgress=function() return progress end};assert(action:serverStart())
 challenge=messages[#messages].data.challenge
 assert(L.handle(actor,'ledgerConfirm',{token=offer.token,challenge=challenge}).status=='ok')
-progress=1;assert(action:complete() and P.has(actor,computer,true));assert(not action:complete(),'duplicate install completion accepted')
+local transmit=computer.transmitModData
+computer.transmitModData=function() error('injected computer notification failure') end
+progress=1;assert(action:complete() and P.has(actor,computer,true))
+assert(messages[#messages].command=='result' and messages[#messages].data.status=='ProgramInstallSyncPending','committed install was reported failed')
+assert(not L.grants[offer.token] and not L.actors[actor],'committed install left native grant active')
+assert(not action:complete(),'duplicate install completion accepted')
+computer.transmitModData=transmit
 assert(#container.items==count and container:getItemWithID(cd:getID())==cd,'installation moved/consumed the application CD')
 assert(not P.occupied(computer),'finished installer retained the setup drive lock')
 -- Moving the reusable setup disc away must not block the installed application.
