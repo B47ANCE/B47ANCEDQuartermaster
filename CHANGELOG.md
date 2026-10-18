@@ -2,6 +2,8 @@
 
 ## [0.21.0-dev.4] - 2026-10-17
 
+- Publication preparation corrects stale mod.info/release prose: current default SortUpdatesLedger, whole-Notebook ingredient and Movement 12 / Ledger 5. Runtime code is unchanged; required Framework distribution remains a publication gate.
+
 - Rejected/timed-out native confirmations close tagged work and notify its caller once, preserving the specific error and any completed Sort movement.
 - Installation notification failure returns an explicit committed/synchronization-pending result. Keep the per-PC receipt and retire the grant successfully; never replay installation or consume the CD.
 - Installer controls allow retry after denial and prevent reinstall while a committed installation notification is pending.

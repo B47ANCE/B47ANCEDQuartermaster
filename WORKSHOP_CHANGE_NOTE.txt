@@ -5,4 +5,4 @@ Fix native confirmation rejection/timeout ending without a result. Tagged work s
 
 If computer notification fails after installation, preserve the installed receipt and return synchronization pending. Retire the native action successfully and prevent duplicate installation while waiting. No repeated item movement, installation or CD consumption.
 
-Native transfer grouping/timing, sandbox settings, schemas and Movement 12 / Ledger 5 are unchanged. Regression evidence is offline; native/dedicated acceptance remains pending. No package, deployment or Workshop upload performed.
+Native transfer grouping/timing, sandbox settings, schemas and Movement 12 / Ledger 5 are unchanged. Regression evidence is offline; native/dedicated acceptance remains pending. This upload distributes an MP testing candidate; it is not dedicated-multiplayer verification or stable-release approval.

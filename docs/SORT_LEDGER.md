@@ -131,3 +131,5 @@ python -B tests/test_deployment.py
 These tests are offline; actual PZ/dedicated G6/G7 remain NOT TESTED. No source package/deploy/publish performed. The previous dev.3 source receipt and full-suite result above remain historical.
 
 Dev.4 source receipt: **229 runtime files**, SHA-256 `d61e908eb23eac253966dc82381a11a334f3872e32600729623207571e2ce756` (same algorithm, source only).
+
+Publication preparation corrects only mod.info/player-facing release prose; the runtime-code checkpoint above remains 458857d. Candidate source (including corrected metadata) SHA-256: `a5503445542288a4434f9fb47eba5d05b0b92d33a82fcb6883ec2f20bee697ce`, 229 files. Dependency distribution remains pending; package validation does not authorize an unavailable required dependency.

@@ -3,7 +3,7 @@ B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep t
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.21.0-dev.4 (development source; not yet uploaded). Computers have a bulky beige CRT case, softer artwork, original pixel icons and a working taskbar with retained apps and Show Desktop. New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
+Version 0.21.0-dev.4. Offline regression checks passed; native client and dedicated acceptance are pending. Back up saves and use matching builds on the server and every client.
 
 [h2]Sorting made simple[/h2]
 • Choose whole categories or individual items in a searchable tree with native item icons.
@@ -31,8 +31,8 @@ Give supplies a purpose and keep your goals together.
 
 [h2]Building Supply Ledger[/h2]
 Sort now uses a carried Supply Sheet and pen/pencil by default. It first searches accessible loaded building storage for a completed covering ledger and picks it up through normal transfer; otherwise it uses a carried blank or unfinished sheet. After the entire successful Sort, one writing action updates confirmed touched storage. Blank sheets stay partial and unvisited entries keep their inspection times. Disable SortUpdatesLedger to restore the previous Sort workflow. Shopping collection still requires fresh completed location knowledge: carry a current completed paper supply ledger covering the location, or use a matching ledger CD loaded at an authorized powered computer in the building or nearby. A shopping paper does not replace the supply ledger. Shopping planning/reading and container configuration do not require a supply ledger; physical-list edits still need writing supplies. Server settings can disable either ledger requirement.
-Computers open a Windows '93 desktop. Use CD Writer to create a ledger CD; place it in storage beside the computer, load it through CD-ROM (D:) and run QUARTERMASTER.EXE to open the application.
-Craft a Supply Sheet from paper or a notebook using a retained clipboard and pen/pencil, then walk through building or safehouse storage to record what is there, including unconfigured containers. Paper pages show rooms, containers, quantities, locations and recording times. Interrupted inspections keep completed entries.
+Computers open a Windows '93 desktop. Find a Quartermaster Application CD, load it through CD-ROM (D:) and run SETUP.EXE to install the app on each PC. The setup disc is reusable and need not stay nearby afterward. Use CD Writer to create a ledger CD, then load that disc and run QUARTERMASTER.EXE to view it.
+Craft a Supply Sheet by consuming one whole notebook while retaining the clipboard and pen/pencil, then walk through building or safehouse storage to record what is there, including unconfigured containers. Paper pages show rooms, containers, quantities, locations and recording times. Interrupted inspections keep completed entries.
 
 At a supported powered desktop computer, copy a completed sheet onto a chosen vanilla CD. The paper stays intact; the CD's original music is overwritten. Read the portable ledger CD at a supported powered desktop to search item names/IDs and browse rooms. Choose periodic live statistics, Disabled, no-expiry live statistics, or historical snapshots. The update interval defaults to 7 in-game days; computers can require manual inspection/CD updates or refresh automatically while powered in the exact building recorded by the loaded ledger. Off-site and safehouse-wide CDs remain readable snapshots under ordinary expiry. Live readers show confirmed contents of recorded storage; older snapshots and CDs are retained. The initial terminal is the stock desktop computer.
 
@@ -48,7 +48,7 @@ Resize the window, adjust the container divider and set background transparency.
 
 [h2]Compatibility[/h2]
 • Project Zomboid Build 42.21.
-• Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url]. Enable it alongside Quartermaster.
+• Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url] and B47ANCED PC Framework. Enable both on the server and every client.
 • Supports Better Sorting, Better Containers or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3650035249]Extended Categories[/url]. Client-local category selections save explicit item choices. Reselect after changing category membership; follow each category mod's compatibility rules. Without category mods, Quartermaster uses vanilla categories.
 • Optional shopping-list controls for Project Cook, Neat Crafting and Neat Building. Supported recipes only; shopping does not automatically craft, build or cook.
 • Disable original Quartermaster and older B47 sorting copies.
@@ -59,13 +59,6 @@ Created by B47ANCE. Original Lua-only implementation.
 [url=https://github.com/B47ANCE/B47ANCEDQuartermaster]GitHub — Source Code & Issues[/url]
 
 [h2]Current limits[/h2]
-Native client and dedicated multiplayer acceptance for this candidate are pending. The initial computer is the stock desktop; its CD remains a real item in accessible adjacent storage. Ledger modes offer periodic live statistics, Disabled, no-expiry live statistics, or historical snapshots. Update interval and manual/automatic computer updates are server settings. Live statistics cover recorded, loaded compartments; new storage requires inspection. Expired pages remain readable history. Selected vehicle/trailer sources are supported; automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks and unverified virtual storage are not. Supported cooking plans use full portions; partial portions, fluids and unsupported recipes are not handled. Room policies do not lock unrelated vanilla transfers.
+Native client and dedicated multiplayer acceptance for this candidate are pending. The initial computer is the stock desktop; its CD remains a real item in accessible adjacent storage. Live statistics cover recorded, loaded compartments; new storage requires inspection. Expired pages remain readable history. Selected vehicle/trailer sources are supported; automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks and unverified virtual storage are not. Supported cooking plans use full portions; partial portions, fluids and unsupported recipes are not handled. Room policies do not lock unrelated vanilla transfers.
 
-Room organization uses designated B47ANCEDRooms rooms only; native buildings define building scope. Retired native-room scope requests are rejected (Quartermaster Rooms capability 4). Existing building-ledger coverage and historical data are preserved. Allocation limits and live role routing remain disabled.
-
-
-Development source 0.21.0-dev.4: requires B47ANCED PC Framework (no Workshop item assigned yet). PC Framework 0.3.0-dev.1 hosts the bulky CRT and retained taskbar; Quartermaster registers its ledger/CD Writer apps. Paper uses a portrait clipboard with scroll-aligned ruling and clear entry details. MP testing build - dedicated multiplayer NOT TESTED. G7/stable G8 BLOCKED. This text is source preparation only; no upload is authorized or performed.
-
-Find a Quartermaster Application CD in commercial office desks/counters, office supply shelves/crates or computer retail/stock containers and run SETUP.EXE from accessible storage beside a powered PC. Install once per PC before writing or reading ledger CDs. The Application CD is retained and reusable; eject it after installation. Server settings control this prerequisite, installation time and loot weight. Existing paper/CD data is preserved; existing PCs require installation by default. This source requires the paired PC Framework CD program API 1 integration (0.5.0-dev.2). Native and dedicated acceptance are pending.
-
-Create a paper Supply Ledger with one whole notebook, plus a reusable clipboard and pen/pencil. No loose pages are required. Recording and sorting updates reuse the same ledger.
+Room organization uses designated B47ANCEDRooms rooms only; native buildings define building scope. Allocation limits and live role routing remain disabled.

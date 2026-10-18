@@ -39,7 +39,7 @@
   ],
   "source": {
     "files": 229,
-    "sha256": "d61e908eb23eac253966dc82381a11a334f3872e32600729623207571e2ce756",
+    "sha256": "a5503445542288a4434f9fb47eba5d05b0b92d33a82fcb6883ec2f20bee697ce",
     "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
   },
   "previous_checkpoints": [
@@ -86,5 +86,14 @@
     "TESTED OFFLINE focused program fixtures plus actual native confirmation handler: install/burn/write denial, rate limit and uncertainty, one callback, specific errors, native stop, duplicate/late/replacement guards.",
     "TESTED OFFLINE injected installation notification failure preserves receipt/CD, retires committed action, reports ProgramInstallSyncPending; installer retries after denial and blocks reinstall while awaiting metadata.",
     "Full paired suite, version/manifest and disposable parity results documented with current source receipt. Native/dedicated G6/G7 NOT TESTED; stable G8 BLOCKED."
-  ]
+  ],
+  "publication_preparation": {
+    "runtime_commit": "458857d9941b90817663ea81d5ebc06990366b91",
+    "runtime_source": {
+      "files": 229,
+      "sha256": "d61e908eb23eac253966dc82381a11a334f3872e32600729623207571e2ce756",
+      "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
+    },
+    "delta": "Current mod.info prose corrected for release; runtime code is unchanged. Dependency distribution is pending; no upload receipt."
+  }
 }
