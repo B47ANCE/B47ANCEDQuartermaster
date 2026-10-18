@@ -104,11 +104,16 @@ function V.read(num,item,computer,host)
  if digital and (not host or host~=Computer.active[num] or host.mounted~=item) then return V.computer(num,computer) end
  if V.readers[num] then V.readers[num]:close() end
  local m=U.Theme.metrics();local minimum=m.header+7*m.button+80
+ if not digital then minimum=math.max(minimum,6*m.font+2*m.button+160) end
  local minimumWidth=digital and 480 or math.max(500,m.font*22+72)
  if getPlayerScreenWidth(num)<minimumWidth+20 or getPlayerScreenHeight(num)<minimum+20 then note(actor,'LedgerScreenSmall');return end
  local panel
  if host then panel=ISPanelJoypad:new(0,0,host:getWidth()-64,host:getHeight()-200)
- else panel=U.WindowShell:new(0,0,math.max(minimumWidth,math.min(960,getPlayerScreenWidth(num)-20)),math.max(minimum,math.min(680,getPlayerScreenHeight(num)-20))) end
+ else
+  local height=math.max(minimum,math.min(math.max(800,m.font*25),getPlayerScreenHeight(num)-40))
+  local width=math.max(minimumWidth,math.min(640,math.floor(height*.78),getPlayerScreenWidth(num)-40))
+  panel=U.WindowShell:new(0,0,width,height)
+ end
  local colors=host and Computer.colors or Clipboard.colors
  local header=host and 0 or m.header
  panel.playerNum=num;panel.minimumWidth=minimumWidth;panel.minimumHeight=minimum;panel.resizable=true;panel.title=tr(digital and 'LedgerDigitalTitle' or 'LedgerPaperTitle')
@@ -264,19 +269,24 @@ function V.inventoryMenu(num,menu,items)
  end
  U.menu(menu)
 end
-function V.computer(num,computer)
+local PC=require 'B47ANCEDPCFramework/API'
+PC.registerApplication('quartermaster',function(num,computer)
  if not Policy.enabled() or not computer then return end
- return Computer.open(num,computer,{inventory=inventory,
+ return {inventory=inventory,enabled=Policy.enabled,canUse=Media.computer,
+  text=tr,file='QUARTERMASTER.EXE',toolTitle=tr('ComputerWriter'),
+  canRun=function(item) return item and item:getFullType()==Media.disc end,
+  writer=require 'B47ANCEDQuartermaster/ComputerWriter',
   drive=function(command,args,reply)
    local sq=computer:getSquare();if not sq then reply({status='LedgerPower'});return end
    args.computer={x=sq:getX(),y=sq:getY(),z=sq:getZ(),index=computer:getObjectIndex()}
-   Q.Authority.request(num,command,args,reply)
+   Q.Authority.request(num,({list='ledgerDriveList',mount='ledgerDriveMount',eject='ledgerDriveEject'})[command],args,reply)
   end,
   read=function(item,host) return V.read(num,item,computer,host) end,
   burn=function(paper,cd) V.burn(num,paper,cd,computer) end,
   busy=function() return V.work[num]~=nil end,
-  close=function() local op=V.work[num];if op and op.burn then V.cancel(num) end end})
-end
+  close=function() local op=V.work[num];if op and op.burn then V.cancel(num) end end}
+end,tr('LedgerDigitalTitle'))
+function V.computer(num,computer) return PC.open(num,computer,'quartermaster') end
 function V.worldMenu(num,menu,objects,test)
  if test or not Policy.enabled() then return end
  local actor=getSpecificPlayer(num);if not actor then return end
@@ -301,7 +311,7 @@ function V.tick()
 end
 if Events then
  Events.OnFillInventoryObjectContextMenu.Add(V.inventoryMenu)
- Events.OnFillWorldObjectContextMenu.Add(V.worldMenu)
+ -- PC Framework owns the world computer entry point.
  Events.OnTick.Add(V.tick)
  Events.OnServerCommand.Add(function(module,command,args)
   if module~='B47ANCEDQuartermasterLedger' or type(args)~='table' then return end

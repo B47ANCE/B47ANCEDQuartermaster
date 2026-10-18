@@ -10,10 +10,13 @@ from PIL import Image,ImageDraw,ImageFont
 import argparse,os
 args=argparse.ArgumentParser(description='Host-render the real computer Lua layout; not native PZ pixels.')
 args.add_argument('--output',type=Path,required=True)
+args.add_argument('--pc-framework',type=Path,required=True,help='Paired standalone PC Framework source checkout')
 args=args.parse_args()
 ROOT=Path(__file__).resolve().parents[1]
 SRC=ROOT/'src/B47ANCEDQuartermaster/42/media/lua'
 OUT=args.output.resolve();OUT.mkdir(parents=True,exist_ok=True)
+PC=args.pc_framework.resolve()/'src/B47ANCEDPCFramework/42/media/lua'
+assert (PC/'client/B47ANCEDPCFramework/ComputerArt.lua').is_file(), 'Paired CRT framework is required'
 fontroot=Path(os.environ.get('WINDIR','C:/Windows'))/'Fonts'
 try:
  font=ImageFont.truetype(str(fontroot/'tahoma.ttf'),14)
@@ -22,10 +25,12 @@ except OSError:
  font=ImageFont.truetype('DejaVuSans.ttf',14)
  heading=ImageFont.truetype('DejaVuSans-Bold.ttf',18)
 labels=json.loads((SRC/'shared/Translate/EN/UI.json').read_text(encoding='utf-8'))
+labels.update(json.loads((PC/'shared/Translate/EN/UI.json').read_text(encoding='utf-8')))
 lua=LuaRuntime(unpack_returned_tuples=True)
 lua.globals().translate=lambda k,*args:labels.get(k,k)
 lua.globals().measure=lambda s:font.getlength(str(s))
 lua.execute('package.path=... .. "/client/?.lua;" .. ... .. "/shared/?.lua;" .. package.path',SRC.as_posix(),SRC.as_posix())
+lua.execute('package.path=... .. "/client/?.lua;" .. ... .. "/shared/?.lua;" .. package.path',PC.as_posix(),PC.as_posix())
 lua.execute(r'''
 UIFont={Small=1,Medium=2};Keyboard={KEY_ESCAPE=1};Joypad={BButton=1}
 getText=function(k,...) local s=translate(k);for n,v in ipairs({...}) do s=s:gsub('%%'..n,tostring(v)) end;return s end
@@ -66,6 +71,11 @@ B47ANCEDUI.Layout={place=function(w,x,y,a,b) w.x=x;w.y=y;w.width=a;w.height=b en
 B47ANCEDUI.Tooltip={attach=function() end,dispose=function() end};B47ANCEDUI.Focus={restore=function() end}
 B47ANCEDUI.bounds=function(w) w.x=0;w.y=0 end
 package.loaded['B47ANCEDUI/Controls']=true
+require 'B47ANCEDPCUI/Theme';require 'B47ANCEDPCUI/Renderer'
+B47ANCEDPCUI.Layout=B47ANCEDUI.Layout;B47ANCEDPCUI.Tooltip=B47ANCEDUI.Tooltip;B47ANCEDPCUI.Focus=B47ANCEDUI.Focus;B47ANCEDPCUI.bounds=B47ANCEDUI.bounds
+package.loaded['B47ANCEDPCUI/Controls']=true
+B47ANCEDPCFramework={}
+package.loaded['B47ANCEDPCFramework/Device']={enabled=function() return true end,computer=function() return true end}
 B47ANCEDQuartermaster={}
 actor={isDead=function() return false end};getSpecificPlayer=function() return actor end
 package.loaded['B47ANCEDQuartermaster/LedgerPolicy']={enabled=function() return true end}
@@ -74,9 +84,9 @@ local function item(id,name,ft) return {getID=function() return id end,getDispla
 paper=item(1,'Supply Sheet - Home','B47ANCEDQuartermaster.SupplySheet');cd=item(2,'CD','Base.Disc_Retail')
 mounted=false
 local function row() return {id=3,name='Home Supply Ledger',fullType='B47ANCEDQuartermaster.SupplyDisc',drive='preview-drive',token='preview-token'} end
-hooks={close=function() end,busy=function() return false end,read=function() end,burn=function() end,inventory=function() return {paper},{},{cd} end,
+hooks={id='preview',enabled=function() return true end,canUse=function() return true end,canRun=function(i) return i:getFullType()=='B47ANCEDQuartermaster.SupplyDisc' end,file='QUARTERMASTER.EXE',text=function(k,...) return getText('UI_QMSS_'..k,...) end,writer=function(screen,hooks) return require('B47ANCEDQuartermaster/ComputerWriter')(screen,hooks) end,close=function() end,busy=function() return false end,read=function() end,burn=function() end,inventory=function() return {paper},{},{cd} end,
  drive=function(command,args,reply)
- if command=='ledgerDriveMount' then mounted=true elseif command=='ledgerDriveEject' then mounted=false end
+ if command=='mount' then mounted=true elseif command=='eject' then mounted=false end
  reply({status='ok',choices={row()},mounted=mounted and row() or nil})
  end}
 C=require 'B47ANCEDQuartermaster/ComputerUI'

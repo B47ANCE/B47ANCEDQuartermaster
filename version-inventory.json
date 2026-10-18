@@ -109,6 +109,18 @@
     {
       "path": "docs/CLIPBOARD_AND_LOCAL_COMPUTER.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/DESIGNATED_ROOM_SCOPES.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/PC_FRAMEWORK_INTEGRATION.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/CLIPBOARD_UI_FIX.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {

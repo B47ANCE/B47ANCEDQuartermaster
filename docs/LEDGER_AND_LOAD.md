@@ -1,6 +1,6 @@
 # Physical Supply Ledger and Dangerous Load
 
-Project Version: 0.18.0-dev.8
+Project Version: 0.19.0-dev.2
 
 Current reader: paper ledgers use a ruled clipboard with three columns and page-turn controls. Computers can show live stock and waive expiry only in the exact native building recorded by their CD. Off-site/outdoor computers and safehouse-wide CDs fall back to recorded history and ordinary freshness. Existing privacy, inspection, CD binding and native transfer boundaries remain. See [current policy and validation](CLIPBOARD_AND_LOCAL_COMPUTER.md).
 
@@ -98,3 +98,7 @@ git -c core.safecrlf=false diff --check
 [UNKNOWN / NOT MEASURED NATIVE] Native first-movement latency, actual inspection/burning seconds with modifiers/fast-forward, network bytes, frame/server tick impact, lifecycle/save ordering under a process crash and large-base throughput. No native performance gain is claimed from host fixtures. Safehouse/building coverage is limited to loaded native storage; oversized work is explicitly refused. Native rendering/controller/font acceptance remains required.
 
 [RUNTIME GATE] **G6 native client NOT TESTED; G7 dedicated multiplayer NOT TESTED / BLOCKED; stable G8 BLOCKED.** Required live cases: craft/retain pen; paper trade/drop/pickup/save; record 20/100 containers and large ammo; cancel/rejoin/restart/reinspect; changed/removed storage; computer walking/grid/generator/power loss; explicit CD overwrite and exact counts; two-client concurrent burns/inspections; permission revocation/private-room ownership; portable read at an unloaded origin; native constructor/stop/clock behavior and actual UI scaling/controller. Implementation is ready for these tests, not claimed accepted. No live deployment or Workshop publication is authorized by this development pass.
+
+## Current desktop integration
+
+The required B47ANCED PC Framework now hosts the computer desktop and reusable drive engine. Quartermaster supplies the ledger reader, ComputerWriter and authoritative data/privacy adapters. Supported hardware is the four verified vanilla PC orientations or placed tiles declaring exact CustomName=Computer metadata; the one-facing initial implementation above is historical. Use paired framework 0.3.0-dev.1 for the preserved CRT/taskbar. Paper opens a portrait clipboard with scroll-aligned rules and three-line selection details. [Integration](PC_FRAMEWORK_INTEGRATION.md) / [current UI evidence](CLIPBOARD_UI_FIX.md).

@@ -33,8 +33,8 @@ function T.new(panel,list,search,rooms,previous,more,close,m,p,paper)
    U.Layout.place(rooms,roomX,inputY,w-roomX-8,m.button)
   end
   self.statusY=paper and 66+m.font+12 or inputY+m.button+8;self.headerY=self.statusY+m.font+10
-  self.detailsY=h-m.button-2*m.font-(paper and 60 or 40)
-  self.detailsHeight=2*m.font+16
+  self.detailsHeight=paper and 3*m.font+24 or 2*m.font+16
+  self.detailsY=paper and h-m.button-22-self.detailsHeight-8 or h-m.button-2*m.font-40
   U.Layout.place(list,left,self.headerY+m.button,w-2*left,math.max(list.itemheight,self.detailsY-8-self.headerY-m.button))
   U.Layout.scrollbar(list)
   local usable=list:getWidth()-m.scrollbar-2
@@ -83,7 +83,8 @@ function T.new(panel,list,search,rooms,previous,more,close,m,p,paper)
   R.text(panel,R.fit(page,pageWidth),w-pageWidth-left,self.statusY,p.muted)
   inset(panel,list.x,list.y,list:getWidth(),list:getHeight(),p)
   if paper then
-   local y=list.y+list.itemheight-1
+   -- The native list scrolls rows; the page background must use the same phase.
+   local y=list.y+(list:getYScroll()+list.itemheight-1)%list.itemheight
    while y<list.y+list:getHeight() do R.rect(panel,list.x+1,y,list:getWidth()-2,1,p.shadow);y=y+list.itemheight end
   end
   if self.count==0 then R.text(panel,R.fit(self.emptyLabel,list:getWidth()-32),list.x+8,list.y+8,p.muted) end
@@ -97,8 +98,14 @@ function T.new(panel,list,search,rooms,previous,more,close,m,p,paper)
   end
   inset(panel,left,self.detailsY,width,self.detailsHeight,p)
   local row=list.items[list.selected];local lines=row and T.lines(row.item)
-  R.text(panel,R.fit(lines and lines[3] or tr('LedgerTableSelect'),width-16),left+8,self.detailsY+6,p.black)
-  R.text(panel,R.fit(lines and lines[2] or self.summary,width-16),left+8,self.detailsY+m.font+10,p.muted)
+  if paper then
+   R.text(panel,R.fit(lines and lines[1] or tr('LedgerTableSelect'),width-16),left+8,self.detailsY+6,p.black)
+   R.text(panel,R.fit(lines and lines[2] or self.summary,width-16),left+8,self.detailsY+m.font+10,p.muted)
+   R.text(panel,R.fit(lines and lines[3] or '',width-16),left+8,self.detailsY+2*m.font+14,p.muted)
+  else
+   R.text(panel,R.fit(lines and lines[3] or tr('LedgerTableSelect'),width-16),left+8,self.detailsY+6,p.black)
+   R.text(panel,R.fit(lines and lines[2] or self.summary,width-16),left+8,self.detailsY+m.font+10,p.muted)
+  end
  end
  list.doDrawItem=function(_,y,row,alt) return view:drawRow(y,row,alt) end
  return view

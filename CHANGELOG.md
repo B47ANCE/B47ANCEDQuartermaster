@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.19.0-dev.2] - 2026-10-17
+
+- Reconcile the clipboard/ledger work with the standalone PC Framework integration. Preserve owned CRT/taskbar presentation in PC Framework 0.3.0-dev.1 rather than duplicating a desktop in Quartermaster.
+- Correct paper-ledger proportions, ruling/scroll alignment, usable row selection and page/details controls. Keep the reusable clipboard recipe and exact-building computer-refresh policy.
+- Compatible UI/integration checkpoint, no save/protocol change. Offline/native evidence: docs/CLIPBOARD_UI_FIX.md. No package/deploy/publication.
+
+## [0.19.0-dev.1] - 2026-10-17
+
+- Extract the Windows '93 desktop, computer validation and reusable server drive engine into the required B47ANCED PC Framework mod.
+- PC Framework 0.2.0-dev.1 recognizes all powered vanilla PC orientations and Computer-tagged alternate tiles; Quartermaster inherits this through the unchanged device adapter.
+- Quartermaster registers its ledger reader/CD writer as an app; existing paper/CD identities, snapshots and persisted drive bindings remain unchanged.
+- 0.x compatibility change: enable B47ANCEDPCFramework on every peer. Missing framework fails closed through the loader dependency. No deployment/publication; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED.
+
+
 ## [0.18.0-dev.8] - 2026-10-17
 
 - Require one retained vanilla Base.Clipboard in the paper Supply Sheet recipe, alongside the retained pen/pencil. Paper/notebook consumption and the single-sheet output remain unchanged.

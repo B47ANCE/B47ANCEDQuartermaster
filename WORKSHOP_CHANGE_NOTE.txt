@@ -1,6 +1,8 @@
-[b]Version 0.18.0-dev.8[/b]
+[b]Version 0.19.0-dev.2[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-The paper Supply Sheet recipe now requires a vanilla clipboard. Keep the clipboard and pen/pencil; consume one paper sheet or notebook as before. Existing ledger items, reading, recording, CD conversion and sorting remain unchanged.
+Paper supply ledgers open as portrait clipboards. Ruled rows stay aligned while scrolling, selected-item details have their own space, and the resize grip is visible.
 
-Source-only development. Recipe/reference/version/source checks passed offline; native crafting and dedicated acceptance remain pending. No deployment or Workshop upload.
+Reconciles the required PC Framework integration while retaining its bulky CRT, original icons and drive/writer/ledger taskbar. Quartermaster keeps ledger privacy, media, freshness and CD Writer behavior. The reusable clipboard recipe and same-building automatic computer refresh policy remain.
+
+Source-only preparation. Offline paired regressions and version/source checks pass; native client and dedicated acceptance are pending. PC Framework has no assigned Workshop item. No packaging, deployment or upload performed.

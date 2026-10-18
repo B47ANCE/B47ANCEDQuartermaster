@@ -1,12 +1,12 @@
 # Architecture and implementation map
 
-Project Version: 0.18.0-dev.8
+Project Version: 0.19.0-dev.2
 
 Current designated-only scope correction: native room selectors/requests are retired; B47ANCEDRooms designations provide room identity and native buildings provide building scope. Quartermaster Rooms capability is 4; movement remains 11. Existing ledger signatures, upstream complete-footprint configuration permission and provider-capability checks remain. Enforcement/live role routing stay disabled. [Exact validation and limitations](DESIGNATED_ROOM_SCOPES.md).
 
 ## Computer presentation
 
-ComputerArt owns original pixel icons and CRT chrome; ComputerUI owns a bounded three-app registry, per-app task buttons, minimize/restore/focus and layout. LedgerUI resumes cached digital panels through the existing authenticated read hook, invalidating old callbacks and clearing old rows. There is no new shared state, network command, inventory mutation, protocol change or dependency. Geometry caches refresh on resize. Artwork draws from fixed bounded layers rather than scanning world state. [Behavior, preview and validation](WINDOWS93_COMPUTER.md).
+PC Framework owns original pixel icons and CRT chrome in ComputerArt, plus the bounded drive/tool/app registry, task buttons, minimize/restore/focus and layout. Quartermaster ComputerUI is an alias; LedgerUI registers its reader and ComputerWriter tool. LedgerUI resumes cached digital panels through the existing authenticated read hook, invalidating old callbacks and clearing old rows. The reconciled source requires PC Framework, as introduced by upstream 0.19.0-dev.1. This UI correction adds no further shared state, network command, inventory mutation or protocol change. Geometry caches refresh on resize. Artwork draws from fixed bounded layers rather than scanning world state. [Behavior, preview and validation](WINDOWS93_COMPUTER.md).
 
 ## Ledger freshness — current 0.17 source iteration
 
@@ -77,7 +77,7 @@ User confirms dev.20 loaded but visible Category labels remained vanilla with Ne
 
 Compatible PATCH correction on dev.19: Category cells use the canonical resolver cache and current localized labels. Compatibility is checked during rendering rather than permanently skipping registration during early Lua loading. Native row.cat, sorting, grouping and item definitions stay unchanged. Full offline regression and frozen 5,092-item comparison passed; actual B42.21 inventory/loot/controller/scaling and second-language client acceptance remain UNTESTED. Dev.19 Stage A instrumentation is retained; its dedicated timing gate remains BLOCKED. See `dist/handoffs/dev20-inventory-category.md`. No deployment or publication.
 
-Current source version: 0.18.0-dev.8. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
+Current source version: 0.19.0-dev.2. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
 
 Historical note: Recorded source snapshot: 0.4.0-dev.50. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
 

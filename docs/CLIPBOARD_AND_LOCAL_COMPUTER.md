@@ -1,6 +1,6 @@
 # Paper clipboard and local computer inventory
 
-Project Version: 0.18.0-dev.8
+Project Version: 0.19.0-dev.2
 
 ## 0.18.0-dev.8 recipe checkpoint
 
@@ -8,7 +8,7 @@ The native in-hand Supply Sheet recipe now requires one `Base.Clipboard` with `m
 
 [VERIFIED SOURCE] Installed Build 42.21 / Steam build 25485521 defines vanilla `Base.Clipboard` in `media/scripts/generated/items/normal.txt`. Existing B42 recipe syntax and the retained pen/pencil input establish `mode:keep` usage. [TESTED OFFLINE] The ledger metadata check verifies the required kept clipboard, actual native FullType, retained writing tool, consumed paper/notebook, single output and translation parity. Version/source-manifest checks pass. This small recipe-only slice does not rerun unrelated gameplay regressions; the full dev.7 suite below remains historical evidence.
 
-Current source inventory: 225 runtime files. Runtime SHA-256: `e7cdc5aa317ca617c844cf3214a63cd09ad9f244a92042ed3e3581c811a647fe` (sorted relative UTF-8 path, NUL, binary file SHA-256). Native clipboard definition source was inspected read-only; no external assets or custom runtime code were added.
+Historical dev.8 source inventory: 225 runtime files. Runtime SHA-256: `e7cdc5aa317ca617c844cf3214a63cd09ad9f244a92042ed3e3581c811a647fe` (sorted relative UTF-8 path, NUL, binary file SHA-256). Native clipboard definition source was inspected read-only; no external assets or custom runtime code were added.
 
 Exact commands:
 
@@ -64,3 +64,7 @@ git -c core.safecrlf=false diff --cached --check
 ```
 
 [RUNTIME GATE] G6 native clipboard/window/controller and G7 dedicated multiplayer NOT TESTED; stable G8 BLOCKED. Required acceptance: paper pages/resizing/fonts, two clients reading local/off-site CDs in every ledger mode, same-building and neighboring/outdoor computers, safehouse-wide fallback, expired-provider denial, power/media/permission changes, delayed pages, reconnect and server restart. No game/server launch, package, deployment or Workshop publication.
+
+## Current reconciliation and UI correction
+
+The current 0.19.0-dev.2 source uses the separate PC Framework 0.3.0-dev.1 and keeps the dev.7 exact-building computer policy plus dev.8 reusable clipboard recipe. Portrait default proportions, scroll-aligned ruling, full selected-item details and the visible resize grip are corrected. [Exact current source inventory, evidence and commands](CLIPBOARD_UI_FIX.md). The earlier hashes and results above are historical; they are not hashes of this reconciled source.

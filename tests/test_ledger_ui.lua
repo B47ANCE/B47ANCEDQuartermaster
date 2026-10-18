@@ -35,7 +35,9 @@ function ISPanelJoypad:bringToTop() self.raised=true end
 function ISPanel:drawTextCentre() end
 function ISTextEntryBox:setTextRGBA(r,g,b,a) self.nativeTextColor={r,g,b,a} end
 local V=require 'B47ANCEDQuartermaster/LedgerUI'
+require 'B47ANCEDPCFramework/Startup'
 local panel=assert(V.read(0,paper));assert(not panel.ledgerControls.search and not panel.ledgerControls.rooms,'paper exposes digital controls')
+assert(panel:getWidth()<panel:getHeight(),'paper clipboard opens as a wide desktop window')
 panel:prerender();assert(#panel.ledgerControls.list.items==1)
 panel:setWidth(800);panel:setHeight(620);panel:prerender()
 assert(panel.ledgerControls.list.y+panel.ledgerControls.list.height<=panel.ledgerControls.close.y,'paper list overlaps footer')
@@ -44,7 +46,7 @@ panel.ledgerControls.previous.onclick();assert(sent[#sent].args.cursor==nil)
 panel:onJoypadDown(Joypad.BButton);assert(not V.readers[0])
 local before=readCount()
 local C=require 'B47ANCEDQuartermaster/ComputerUI'
-local art=require 'B47ANCEDQuartermaster/ComputerArt'
+local art=require 'B47ANCEDPCFramework/ComputerArt'
 -- The shared grid is original artwork, not a texture/foreign-asset dependency.
 for kind,layers in pairs(art.icons) do
  assert(#layers>0)
@@ -101,6 +103,7 @@ assert(screen:openWriter()~=writerTask,'closed app task was reused')
 screen.apps.ledger.task.onclick()
 screen:eject();assert(not V.readers[0] and not screen.mounted and not screen.apps.ledger and screen.apps.writer and screen.apps.drive,'eject closed unrelated tasks or left ledger running')
 local afterEject=#sent;screen:runDisc();assert(#sent==afterEject,'empty drive ran application')
+writerTask.write.onclick();assert(#sent==afterEject,'closed writer submitted stale burn intent')
 local writer=screen:openWriter();local beforeWrite=#sent
 assert(#sent==beforeWrite);writer.write.onclick()
 assert(sent[#sent].command=='ledgerBurn' and sent[#sent].args.item==900 and sent[#sent].args.cd==902,'writer did not require explicit native media choices')
@@ -284,8 +287,16 @@ for _,font in ipairs({14,24,32,42}) do
   assert(tableView.detailsY+tableView.detailsHeight<=controls.close.y-8,'clipboard details/footer overlap')
   assert(controls.more.x+controls.more.width<controls.close.x and controls.close.y+controls.close.height<=panel.height-20,'page controls escape paper')
   assert(tableView.left>=38 and tableView.headerY>=66+2*font,'clip/title/header overlap')
+  local lines={};local color=require('B47ANCEDQuartermaster/ClipboardArt').colors.shadow
+  panel.drawRect=function(_,x,y,w,h,a,r,g,b)
+   if h==1 and x==list.x+1 and w==list.width-2 and r==color.r and g==color.g then lines[#lines+1]=y end
+  end
+  list:setYScroll(-5);panel:prerender()
+  assert(#lines>0 and lines[1]==list.y+list.itemheight-6,'paper ruling does not align with scrolled row boundaries')
+  list:setYScroll(0)
  end
  assert(list.joypadParent==panel and panel.allJoypadButtons[1]==list,'paper rows unreachable by controller')
+ assert(tableView.detailsHeight>=3*font+12,'paper details omit the selected item name')
  list.selected=2;local draw={};list.drawText=function(_,s,x,y,r,g,b) draw[#draw+1]={r=r,g=g,b=b} end
  list:doDrawItem(0,list.items[2],false);assert(draw[1].r==require('B47ANCEDQuartermaster/ClipboardArt').colors.black.r,'paper uses white screen text')
  controls.more.onclick();assert(tableView.page==2 and not controls.search,'paper page attempted digital search')

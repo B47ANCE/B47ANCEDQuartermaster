@@ -1,6 +1,6 @@
 # Ledger requirement for sorting and collection
 
-Project Version: 0.18.0-dev.8
+Project Version: 0.19.0-dev.2
 
 Physical Shopping now has separate writing supplies and carried shopping papers; those do not replace the completed supply ledger required for collection. Planning/reading do not require a supply ledger. See [physical Shopping](PHYSICAL_SHOPPING_LISTS.md).
 
@@ -86,3 +86,7 @@ git -c core.safecrlf=false diff --check
 Source manifest: **211 runtime files**. No package, deployment, Workshop publication or game/server launch is part of this iteration. Historical packages remain in their original worktrees with their original versions. The new branch is `feature/ledger-freshness`, based on 2cac3ae5497bdbf793e119d12f3ef61ceb457457 (physical Shopping Lists / PR #16); earlier stacked branches are not merged by this work.
 
 [RUNTIME GATE] Native G6 NOT TESTED; dedicated G7 NOT TESTED/BLOCKED; stable G8 BLOCKED. Test two remote clients with completed/wrong/partial/forged records; inventory/container/ground/vehicle/room/building Sort; Collect versus list editing; all defaults/opt-outs; loaded computers across floors/nearby range; private computer/storage configure/inspect permissions; competing load/eject/write; power loss and CD removal during walking, dispatch and transfer; cancel/return/unknown outcomes; exact item conservation; reconnect; real server save/restart; unloaded objects and changed object indices; Linux path case; and actual native UI/input/performance. Offline passes do not replace those results.
+
+## Framework boundary
+
+Computer device/drive hosting delegates to the required PC Framework; Quartermaster retains ledger coverage, freshness, exact media/snapshot identity and current Rooms/Safehouse authorization. Client presentation cannot authorize a read or transfer. Paper clipboard styling changes no requirement. See [paired integration](PC_FRAMEWORK_INTEGRATION.md) and [current correction report](CLIPBOARD_UI_FIX.md).

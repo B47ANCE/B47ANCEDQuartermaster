@@ -14,8 +14,7 @@ function A.draw(panel,view,m)
  -- Stacked square-cut sheets, restrained ruling and a red notebook margin.
  R.rect(panel,22,56,w-40,h-70,P.shade);R.rect(panel,20,54,w-40,h-70,P.paper)
  R.rect(panel,18,52,w-40,h-70,P.sheet)
- local ruleY=view.headerY+m.button
- while ruleY<h-m.button-24 do R.rect(panel,26,ruleY,w-54,1,P.rule);ruleY=ruleY+view.rowHeight end
+ -- Ruling belongs only to the scrolling table, not the header/details/buttons.
  R.rect(panel,view.left-10,60,1,h-86,P.red)
  -- Folded steel clip, top handle, screw heads and its cast shadow.
  local cw=math.max(110,m.font*5);local x=math.floor((w-cw)/2)
@@ -26,5 +25,7 @@ function A.draw(panel,view,m)
  for _,sx in ipairs({x+10,x+cw-14}) do R.rect(panel,sx,23,4,4,P.metalDark);R.rect(panel,sx+1,23,2,1,P.metalLight) end
  local title=getText('UI_QMSS_LedgerClipboardTitle')
  R.text(panel,R.fit(title,w-2*view.left),view.left,66,P.ink)
+ -- The native resize widget stays active when its ordinary window frame is hidden.
+ for band=0,2 do for n=0,band+1 do R.rect(panel,w-9-band*4+n*2,h-6-n*2,2,2,P.metalLight) end end
 end
 return A
