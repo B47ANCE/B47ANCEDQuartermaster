@@ -1,5 +1,5 @@
-[h2]Stock and Base Ledger (development source)[/h2]
-Set shared room/building item targets in the normal menu; read Current / Target / Remaining on paper or PC. The PC app alerts on complete live shortages. Connect computers in PC Network and view the newest local ledger copy for each building. Each remote building needs a loaded, powered, authorized PC with its own ledger CD. No unloaded-world live data. This source iteration is not yet uploaded.
+[h2]Stock and Base Ledger[/h2]
+Set shared room/building item targets in the normal menu; read Current / Target / Remaining on paper or PC. The PC app alerts on complete live shortages. Connect computers in PC Network and view the newest local ledger copy for each building. Each remote building needs a loaded, powered, authorized PC with its own ledger CD. No unloaded-world live data.
 
 B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep track of what you need.
 
@@ -51,7 +51,7 @@ Resize the window, adjust the container divider and set background transparency.
 
 [h2]Compatibility[/h2]
 • Project Zomboid Build 42.21.
-• Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011]B47ANCED PC Framework[/url]. Enable both on the server and every client.
+• Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442]B47ANCE'd Rooms[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011]B47ANCED PC Framework[/url]. Also requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3822582242]B47ANCE'd UI[/url]. Enable all three on the server and every client.
 • Supports Better Sorting, Better Containers or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3650035249]Extended Categories[/url]. Client-local category selections save explicit item choices. Reselect after changing category membership; follow each category mod's compatibility rules. Without category mods, Quartermaster uses vanilla categories.
 • Optional shopping-list controls for Project Cook, Neat Crafting and Neat Building. Supported recipes only; shopping does not automatically craft, build or cook.
 • Disable original Quartermaster and older B47 sorting copies.
@@ -66,4 +66,4 @@ Native client/dedicated acceptance is pending. The stock desktop uses a real CD 
 
 Room organization uses designated B47ANCEDRooms rooms only; native buildings define building scope. Allocation limits and live role routing remain disabled.
 
-Source-only next iteration requires B47ANCEDUI API 1 in addition to Rooms and PC Framework. UI has no assigned Workshop item; no new upload is claimed. Dedicated multiplayer NOT TESTED.
+PC Framework 0.11.0-dev.1 and UI 0.3.0-dev.1 provide the current tested offline API combination. Stock checks, multiple CDs and invitation lifetime have server sandbox controls. Dedicated multiplayer NOT TESTED.

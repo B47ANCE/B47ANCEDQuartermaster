@@ -1,9 +1,10 @@
 [CmdletBinding()]
 param([string]$WorkshopRoot='C:\Users\willi\Zomboid\Workshop',
       [string]$PCFrameworkPath=(Join-Path (Split-Path $PSScriptRoot -Parent) 'B47ANCEDPCFramework'),
-      [string]$RoomsPath=(Join-Path (Split-Path $PSScriptRoot -Parent) 'B47ANCEDRooms'))
+      [string]$RoomsPath=(Join-Path (Split-Path $PSScriptRoot -Parent) 'B47ANCEDRooms'),
+      [string]$UIPath=(Join-Path (Split-Path $PSScriptRoot -Parent) 'B47ANCEDUI'))
 $ErrorActionPreference='Stop'
-& (Join-Path $PSScriptRoot 'Build.ps1') -PCFrameworkPath $PCFrameworkPath -RoomsPath $RoomsPath
+& (Join-Path $PSScriptRoot 'Build.ps1') -PCFrameworkPath $PCFrameworkPath -RoomsPath $RoomsPath -UIPath $UIPath
 $source=Join-Path $PSScriptRoot 'src\B47ANCEDQuartermaster'
 $stage=Join-Path $WorkshopRoot 'B47ANCEDQuartermaster'
 if(Test-Path -LiteralPath $stage){

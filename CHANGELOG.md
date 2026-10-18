@@ -3,7 +3,7 @@
 ## [0.23.0-dev.1] - 2026-10-18
 
 - Add room/building stock goals, paper/PC stock views and low-stock notifications. Support latest-per-area multi-CD and linked Base Ledger views through PC Framework. Sorting, transfers and personal Needed goals unchanged.
-- Native and dedicated multiplayer NOT TESTED; no deployment/publication.
+- Prepared for authorized Workshop MP testing with existing UI item 3822582242 (UI 0.3.0-dev.1 / API 1) and PC Framework 0.11.0-dev.1. Build entry points accept the explicit UI checkout; CI pins the current public dependency commits. Native and dedicated multiplayer NOT TESTED; upload receipts remain separate evidence.
 
 ## [0.22.0-dev.1] - 2026-10-18
 

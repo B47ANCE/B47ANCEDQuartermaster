@@ -4,7 +4,7 @@
   "name": "Quartermaster",
   "version": "0.23.0-dev.1",
   "reviewed": true,
-  "source_digest": "def8410cc5b0bb89fa382258823de971b307469f3f49c143c0238488f815244c",
+  "source_digest": "1155f1f28bcebfacf98ad80bdbbcd2210680feb0d8dd9bf810e6a77bd6bf5dad",
   "features": [
     {
       "status": "Source",
@@ -64,10 +64,10 @@
     },
     {
       "status": "Source",
-      "text": "Shared room/building Stock targets, paper/PC reports and PC-only low-stock alerts. Latest-per-area multi-CD/Base Ledger requires paired PC Framework 0.11.0-dev.1 APIs, powered loaded local-copy PCs and current permissions. Source iteration not packaged/published."
+      "text": "Shared room/building Stock targets, paper/PC reports and PC-only low-stock alerts. Latest-per-area multi-CD/Base Ledger requires paired PC Framework 0.11.0-dev.1 APIs, powered loaded local-copy PCs and current permissions. MP testing candidate; no native/dedicated acceptance claim."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.23.0-dev.1; G7/stable G8 BLOCKED. Source iteration not packaged, deployed or published. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI has no assigned Workshop item. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.23.0-dev.1; G7/stable G8 BLOCKED. Prepared for authorized MP testing distribution. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current offline pairing uses UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",

@@ -1,6 +1,8 @@
 [b]Version 0.23.0-dev.1[/b]
-Source-only development draft; not uploaded. Adds shared room/building Stock targets, paper/PC stock reports, PC-only low-stock notifications and newest-per-area multi-CD/Base Ledger views. Uses PC Framework 0.11.0-dev.1 notification/connections APIs and its Network Status screen.
+MP testing build - dedicated multiplayer NOT TESTED.
 
-Requires Rooms, PC Framework and UI; UI has no assigned Workshop item. Native transfer grouping and personal Needed goals unchanged.
+Shared room/building Stock targets in the Quartermaster menu; paper/PC Current / Target / Remaining reports; PC-only low-stock notices. Newest-per-area CDs and connected Base Ledger views use powered, loaded, authorized PCs with their own real ledger copies. PC Network displays online/offline status and supports visited pairing/public connections.
 
-MP testing build - dedicated multiplayer NOT TESTED. G7/stable G8 BLOCKED.
+Requires Rooms (3820077442), PC Framework 0.11.0-dev.1 (3822042011) and UI API 1 (3822582242; paired with 0.3.0-dev.1). Enable all dependencies on server and clients and reconnect with matching builds. Native transfer grouping and personal Needed goals remain unchanged.
+
+Offline regression/package checks pass. Native SP and dedicated acceptance pending; G7/stable G8 BLOCKED.

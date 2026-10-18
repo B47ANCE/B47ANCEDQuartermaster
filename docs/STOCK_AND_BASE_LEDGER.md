@@ -4,9 +4,9 @@ Project Version: 0.23.0-dev.1
 
 Compatible MINOR development: server-owned shared Stock goals and read-only
 multi-CD/Base Ledger views. Requires paired PC Framework 0.11.0-dev.1 (Connections
-and Notification APIs 1), Rooms 0.2.0-dev.7 schema 2 and UI 0.1.0-dev.1 API 1 for
-the checked offline combination. UI has no assigned Workshop item. No upload or
-deployment is included. Existing Movement 12, Ledger 5 and personal list schemas
+and Notification APIs 1), Rooms 0.2.0-dev.7 schema 2 and UI 0.3.0-dev.1 API 1 for
+the current checked offline combination. Existing UI Workshop item: 3822582242.
+Prepared for authorized MP testing; upload receipts are separate from runtime proof. Existing Movement 12, Ledger 5 and personal list schemas
 remain unchanged; new Stock and BaseLedger command families are version 1.
 
 ## Stock workflow
