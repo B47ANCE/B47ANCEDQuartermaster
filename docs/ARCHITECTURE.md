@@ -1,6 +1,6 @@
 # Architecture and implementation map
 
-Project Version: 0.19.0-dev.1
+Project Version: 0.20.0-dev.1
 
 Current computer hosting is supplied by the required **B47ANCED PC Framework**; Quartermaster registers its ledger reader and CD Writer as apps. Existing ledger/drive data and server permissions are preserved. See [extraction, setup and current evidence](PC_FRAMEWORK_INTEGRATION.md).
 
@@ -75,7 +75,7 @@ User confirms dev.20 loaded but visible Category labels remained vanilla with Ne
 
 Compatible PATCH correction on dev.19: Category cells use the canonical resolver cache and current localized labels. Compatibility is checked during rendering rather than permanently skipping registration during early Lua loading. Native row.cat, sorting, grouping and item definitions stay unchanged. Full offline regression and frozen 5,092-item comparison passed; actual B42.21 inventory/loot/controller/scaling and second-language client acceptance remain UNTESTED. Dev.19 Stage A instrumentation is retained; its dedicated timing gate remains BLOCKED. See `dist/handoffs/dev20-inventory-category.md`. No deployment or publication.
 
-Current source version: 0.19.0-dev.1. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
+Current source version: 0.20.0-dev.1. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
 
 Historical note: Recorded source snapshot: 0.4.0-dev.50. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
 
@@ -156,3 +156,5 @@ Current dev.29 independent tracks: [category audit/blocker and adjustable appear
 
 
 Current integration: see [ALLOCATION_INTEGRATION.md](ALLOCATION_INTEGRATION.md).
+
+Computer presentation 0.20.0-dev.1 restores the approved table/detail design inside the standalone framework CRT shell. Search, room selection, cursor/revision/reply checks and server authorization remain unchanged. Only client row/header/detail rendering and writer-host completion routing change. Writer and ledger can retain separate taskbar sessions; native actor/device/privacy checks still gate their existing transports. No persistence migration, gameplay option, capability/schema change or custom Java is added.

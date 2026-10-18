@@ -1,6 +1,6 @@
 # Windows '93 computer desktop
 
-Project Version: 0.19.0-dev.1
+Project Version: 0.20.0-dev.1
 
 Current computer hosting is supplied by the required **B47ANCED PC Framework**; Quartermaster registers its ledger reader and CD Writer as apps. Existing ledger/drive data and server permissions are preserved. See [extraction, setup and current evidence](PC_FRAMEWORK_INTEGRATION.md).
 
@@ -31,3 +31,5 @@ Native buttons/dropdowns, B/controller navigation, keyboard Escape, resize minim
 The original 0.14.0-dev.2 UI commit is 4a9be2bf7ae664e49880158d996268ee56c61097; its local-only carried-CD mount was replaced by this server-owned storage binding. Historical package/API receipts retain their exact original versions. This source iteration is not packaged/deployed/published.
 
 [RUNTIME GATE] Native client visuals, tooltip/dropdown layering, keyboard/controller focus, scaling, late replies, two-client drive changes and power/permission/media-loss behavior remain NOT TESTED. Dedicated G7 and stable G8 remain BLOCKED. Shared ledger/media gameplay acceptance is not proven by offline geometry tests.
+
+UI iteration 0.20.0-dev.1 uses PC Framework 0.9.0-dev.1's unified B47 / CRT 93 desktop: original beige casing/stand, pixel icons, shared Start menu, in-screen status/taskbar and physical logoff. Select Quartermaster alongside installed apps; its entry opens the CD browser and still requires explicit EXE/Run. CD Writer gets a separate retained tool window, so the ledger can stay open when another app/tool is active. The PC reader shows labeled search/room filters, a compact mode/scope summary, page/row count, Item/Quantity/Location columns and selected-row recorded/full-type/condition/location details. Paper layout and server response data are unchanged. Writer completion targets its originating host rather than the currently focused unrelated app. Disabling Quartermaster retires its sessions while leaving other framework apps available. Physical logoff still cancels owned writer work; it does not change shared electricity.

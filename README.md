@@ -8,7 +8,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.19.0-dev.1 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/fix/designated-room-scopes).
+The Workshop feature guide is below. This branch also contains **0.20.0-dev.1 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/fix/designated-room-scopes).
 
 ## Development work in this branch
 
@@ -127,3 +127,5 @@ Created by B47ANCE. Original Lua-only implementation; no third-party mod source 
 Current integration 0.18.0-dev.1: see [allocation integration and evidence](docs/ALLOCATION_INTEGRATION.md).
 
 Allocation profiles and percentage controls are now an advisory foundation. Off/Shadow defaults to Shadow; quota enforcement and Primary/Secondary routing remain disabled. Use matching peers after the configuration/preset wire upgrade. Original configurations and preset libraries are backed up on explicit migration writes. [Behavior, permissions and rollback](docs/ALLOCATION_SYSTEM.md).
+
+Computer UI development 0.20.0-dev.1 pairs with PC Framework 0.9.0-dev.1: Quartermaster, Minesweeper and other authorized apps share one approved beige CRT desktop/Start menu. The PC ledger now uses the designed Item/Quantity/Location table with selected-record details; writer and ledger remain separate taskbar windows. Server ledger/media protocols and saves are unchanged. Native SP/dedicated remain NOT TESTED; G7/stable G8 BLOCKED. See [computer UI](docs/WINDOWS93_COMPUTER.md).

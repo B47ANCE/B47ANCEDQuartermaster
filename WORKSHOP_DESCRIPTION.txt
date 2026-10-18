@@ -3,7 +3,7 @@ B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep t
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.19.0-dev.1 (development source; not yet uploaded). New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
+Version 0.20.0-dev.1 (development source; not yet uploaded). New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
 
 [h2]Sorting made simple[/h2]
 • Choose whole categories or individual items in a searchable tree with native item icons.
@@ -64,4 +64,6 @@ Native client and dedicated multiplayer acceptance for this candidate are pendin
 Room organization uses designated B47ANCEDRooms rooms only; native buildings define building scope. Retired native-room scope requests are rejected (Quartermaster Rooms capability 4). Existing building-ledger coverage and historical data are preserved. Allocation limits and live role routing remain disabled.
 
 
-Development source 0.19.0-dev.1: requires B47ANCED PC Framework (no Workshop item assigned yet). Desktop and reusable drives are extracted; Quartermaster registers its ledger/CD Writer apps. MP testing build - dedicated multiplayer NOT TESTED. G7/stable G8 BLOCKED. This text is source preparation only; no upload is authorized or performed.
+Development source 0.20.0-dev.1: requires B47ANCED PC Framework (no Workshop item assigned yet). Desktop and reusable drives are extracted; Quartermaster registers its ledger/CD Writer apps. MP testing build - dedicated multiplayer NOT TESTED. G7/stable G8 BLOCKED. This text is source preparation only; no upload is authorized or performed.
+
+Unified computer UI: shared PC Framework desktop/Start menu, approved B47 / CRT 93 styling, table/detail ledger reader and retained writer/ledger taskbar windows. Source-only development; native SP/dedicated NOT TESTED. G7/stable G8 BLOCKED.

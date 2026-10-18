@@ -20,11 +20,12 @@ return function(screen,hooks)
  local self=screen
   self:refreshDrive();local v=view(tr('ComputerWriter'));v.paper=choice(v);v.cd=choice(v)
   v.write=button(v,tr('ComputerWrite'),function()
+   if screen.closed or screen.content~=v then return end
    local paper,cd=picked(v.paper),picked(v.cd)
    if not paper or not cd or hooks.busy() then return end
    if screen.mounted or screen.occupied or not screen.driveReady or screen.drivePending then screen:message('ComputerEjectFirst');return end
    if not Media.computer(actor,screen.computer,true) then screen:close();return end
-   hooks.burn(paper,cd);screen:message('ComputerWriting')
+   hooks.burn(paper,cd,screen);screen:message('ComputerWriting')
   end)
   v.prerender=function(self)
    screen:refreshDrive();local sheets,discs,cds=scan();local complete={};for _,p in ipairs(sheets) do if p:getModData().B47Ledger and p:getModData().B47Ledger.complete then complete[#complete+1]=p end end
