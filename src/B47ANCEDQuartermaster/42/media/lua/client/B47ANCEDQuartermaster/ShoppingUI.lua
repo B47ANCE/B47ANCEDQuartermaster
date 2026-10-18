@@ -13,7 +13,13 @@ function U.attach(p)
             if not u.owned[c] and c~=u.toggle and c~=self.closeButton and c~=self.infoButton and c~=self.pinButton
                 and c~=self.collapseButton and c~=self.resizeWidget and c~=self.resizeWidget2 then c:setVisible(false) end
         end
-        if not self.b47UI then for _,c in ipairs(u.widgets) do if not c:isVisible() then c:setVisible(true) end end end
+        if not self.b47UI then
+            for _,c in ipairs(u.widgets) do if not c:isVisible() then c:setVisible(true) end end
+            local paper=u.lists.paper or {}
+            for _,c in ipairs({u.paperPicker,u.paperNew,u.paperRename,u.paperImport}) do
+                c:setVisible(paper.enabled==true and (c~=u.paperImport or paper.legacy==true))
+            end
+        end
     end
     local function add(w) w:initialise();w:instantiate();p:addChild(w);u.widgets[#u.widgets+1]=w;u.owned[w]=true;w:setVisible(false);return w end
     local function button(label,fn) return add(ISButton:new(0,0,100,24,tr(label),p,fn)) end
@@ -43,6 +49,7 @@ function U.attach(p)
     u.shopTitle=add(ISLabel:new(0,0,24,tr('ShoppingList'),1,1,1,1,UIFont.Small,true))
     u.wishTitle=add(ISLabel:new(0,0,24,tr('WishList'),1,1,1,1,UIFont.Small,true))
     local function rebuild()
+        u.status:setTooltip(nil)
         local filter=string.lower(u.search:getInternalText() or '')
         if u.lastFilter~=filter then
             u.lastFilter=filter;u.catalogList:clear()
@@ -271,14 +278,17 @@ function U.attach(p)
         toggle:setX(w-64);toggle:setY(3)
         local function at(c,x,y,width,height) c:setX(x);c:setY(y);c:setWidth(width);c:setHeight(height or 24) end
         local half=math.floor((w-36)/2)
-        if u.paperPicker and u.lists.paper and u.lists.paper.enabled then
+        local paper=u.paperPicker and u.lists.paper and u.lists.paper.enabled
+        local offset=paper and math.max(30,B47ANCEDUI.Theme.metrics().button+6) or 0
+        if paper then
             at(u.paperPicker,10,34,half);at(u.paperNew,half+22,34,half/3-4);at(u.paperRename,half+26+half/3,34,half/3-4);at(u.paperImport,half+30+2*half/3,34,half/3-4)
+            for _,c in ipairs({u.paperPicker,u.paperNew,u.paperRename,u.paperImport}) do c:setHeight(offset-6) end
         end
-        at(u.search,10,64,half);at(u.quantity,10,h-110,80)
-        at(u.catalogList,10,94,half,h-270)
-        local listHeight=math.floor((h-282)/2)
-        at(u.shopTitle,half+22,34,half-80);at(u.pickerShopping,w-88,34,78);at(u.shopping,half+22,64,half,listHeight)
-        local wishY=78+listHeight
+        at(u.search,10,64+offset,half);at(u.quantity,10,h-110,80)
+        at(u.catalogList,10,94+offset,half,math.max(22,h-270-offset))
+        local listHeight=math.max(48,math.floor((h-282-offset)/2))
+        at(u.shopTitle,half+22,34+offset,half-80);at(u.pickerShopping,w-88,34+offset,78);at(u.shopping,half+22,64+offset,half,listHeight)
+        local wishY=78+offset+listHeight
         at(u.neededTab,half+22,wishY,half/2-2);at(u.wantedTab,half+24+half/2,wishY,half/2-2)
         at(u.wishTitle,half+22,wishY+26,half)
         at(u.wish,half+22,wishY+52,half,listHeight-24)
@@ -307,6 +317,9 @@ function U.attach(p)
     p.configJoypad=function(self)
         if u.mode=='sorting' then joy(self);self:insertNewLineOfButtons(toggle);return end
         self.joypadButtonsY={};self.allJoypadButtons={};self.joypadButtons={};self.joypadIndexY=1;self.joypadIndex=1
+        if not self.b47UI and u.lists.paper and u.lists.paper.enabled then
+            self:insertNewLineOfButtons(u.paperPicker,u.paperNew,u.paperRename,u.lists.paper.legacy and u.paperImport or nil)
+        end
         self:insertNewLineOfButtons(toggle,u.search,u.quantity)
         self:insertNewLineOfButtons(u.catalogList,u.addShopping,u.addWish,u.addNeeded,u.preferences)
         self:insertNewLineOfButtons(u.shopping,u.pickerShopping,u.removeShopping)

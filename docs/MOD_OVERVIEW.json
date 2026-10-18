@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.20.0-dev.2",
+  "version": "0.21.0-dev.5",
   "reviewed": true,
-  "source_digest": "e761197e8b776d375cf77d23b2500915059652a35becddf29e11a224c064b74e",
+  "source_digest": "c1c966c7ecbcb82d61bb71074919fe62ccbdc2bb9fee0a45398c9372f9d8475c",
   "features": [
     {
       "status": "Source",
@@ -40,16 +40,37 @@
     },
     {
       "status": "Source",
-      "text": "Approved Windows93 PC ledger table with selected-record details; retained ledger/writer tasks on PC Framework's unified CRT desktop and owner-bound writer completion. Source/offline only."
+      "text": "Public PC Framework 0.9.0-dev.3 owns the unified desktop and separate application/tool windows. Quartermaster supplies the shared digital/paper table, details and owner-bound writer results."
+    },
+    {
+      "status": "Source",
+      "text": "Portrait paper clipboard with a beveled spring clamp gripping the sheet, scroll-aligned ruling, separate selected-item details and resize grip with three-column ledger and page-turn controls. Server limits live computer statistics and automatic freshness to the exact recorded building; off-site/safehouse-wide CDs retain ordinary historical access. Supply Sheet creation requires a reusable vanilla clipboard and writing implement; one whole Notebook is consumed; no loose-page alternative."
+    },
+    {
+      "status": "Source",
+      "text": "Found Application CD runs SETUP.EXE via PC Framework CD program API 1. Server native-action completion installs per exact PC; guards digital reads/writes/automatic knowledge. Reusable disc, server prerequisite/time/loot settings; old ledger data preserved. CD loot targets commercial offices, office supply storage and computer stock; generic electronics/home desks/general cargo excluded. Completed setup releases its own drive binding; installed use does not require the Application CD nearby. Post-commit notification exceptions report installed/pending and retire the grant; installer prevents replay while its metadata hint is pending."
+    },
+    {
+      "status": "Source",
+      "text": "Default SortUpdatesLedger: server building search prefers an accessible completed paper ledger, native pickup, otherwise carried blank/partial paper; requires pen/pencil and writes confirmed touched storage once after the full successful Sort. Existing CD generations and unvisited inspection timestamps are preserved. No inventory mutation by bookkeeping. Initial ledger creation consumes one whole Notebook; subsequent writing reuses the ledger. Lost scan candidates fail closed; pickup returns to the original Sort source. Native cancellation clears local writing work and completion distinguishes movement from ledger outcomes. Native confirmation failures return their exact reason once and cannot close replacement work."
+    },
+    {
+      "status": "Source",
+      "text": "Physical Shopping paper controls restore across mode/settings changes with unique active-framework controller rows; fallback layout has a separate paper row and controller access."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.20.0-dev.2; G7/stable G8 BLOCKED. Requires PC Framework Workshop item 3822042011; matching peers required. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.21.0-dev.5; G7/stable G8 BLOCKED. Requires Rooms and public PC Framework Workshop item 3822042011. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",
     "docs/DESIGNATED_ROOM_SCOPES.md",
+    "docs/WINDOWS93_COMPUTER.md",
+    "docs/CLIPBOARD_AND_LOCAL_COMPUTER.md",
     "docs/PC_FRAMEWORK_INTEGRATION.md",
-    "docs/WINDOWS93_COMPUTER.md"
+    "docs/CLIPBOARD_UI_FIX.md",
+    "docs/APPLICATION_CD.md",
+    "docs/SORT_LEDGER.md",
+    "docs/OPEN_PR_INTEGRATION_2026_10_18.md"
   ],
   "relations": [
     {
@@ -60,7 +81,7 @@
     {
       "target": "local-2c6a6aca81aa",
       "kind": "Required",
-      "text": "Independent desktop/device/server-drive host; Quartermaster supplies ledger privacy, data and app callbacks."
+      "text": "CD program API 1, desktop/device/server-drive host. Quartermaster owns installation receipts, native timing, ledger privacy/data and app callbacks."
     }
   ]
 }

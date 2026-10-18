@@ -1,8 +1,8 @@
 # Ledger modes and scoped sorting
 
-Project Version: 0.20.0-dev.2
+Project Version: 0.21.0-dev.5
 
-Current computer hosting is supplied by the required **B47ANCED PC Framework**; Quartermaster registers its ledger reader and CD Writer as apps. Existing ledger/drive data and server permissions are preserved. See [extraction, setup and current evidence](PC_FRAMEWORK_INTEGRATION.md).
+Current Sort workflow: default-on `SortUpdatesLedger` requires carried paper and pen/pencil, searches accessible loaded building storage for a completed covering ledger first, uses native pickup, accepts carried blank/unfinished fallback and writes confirmed touched storage once after the full successful job. It overrides the older Sort-only freshness/computer exception below while enabled. Shopping collection and computer application installation are unchanged. Movement 12 / Ledger 5 require matching peers. [Current implementation, boundaries and validation](SORT_LEDGER.md). Earlier checkpoint evidence remains historical.
 
 Inventory and selected-container Sort do not need a ledger, including supported ground/proximity/vehicle sources. Room/Building Sort includes carried inventory and requires fresh location knowledge by default. Shopping planning/physical papers remain independent; collection retains its separate server requirement. Native capacity, access, routing, smaller transfer groups and timing are preserved.
 
@@ -15,12 +15,16 @@ Inventory and selected-container Sort do not need a ledger, including supported 
 | LedgerMode = 3 | No updates | Completed ledgers never expire and show live statistics. Initial physical recording is still required for scoped operations. |
 | LedgerMode = 4 | Historical | Show actual recorded quantities, not current stock. A record can be inaccurate immediately after storage changes; it remains eligible until the update interval expires. Outdated pages stay readable. |
 | LedgerUpdateDays | 7, integer 1–365 | In-game days after completed inspection; applies to Periodic and Historical modes. Exact expiry is finished + days × 24 world hours. |
-| LedgerComputerManualUpdates | true | On: record storage and write/load a new CD when expired. Off: a matching completed CD at a powered authorized computer provides live statistics and knowledge without expiry, even in Historical mode. Does not rewrite paper/CD history. |
+| LedgerComputerManualUpdates | true | On: record storage and write/load a new CD when expired. Off: a completed building CD at a powered authorized computer inside that exact recorded building provides live statistics and knowledge without expiry, even in Historical mode. Off-site/safehouse-wide CDs stay historical under ordinary expiry. Does not rewrite paper/CD history. |
 | RequireLedgerForSorting | true | Existing identifier/values retained; now applies only to Room/Building Sort. |
 | RequireLedgerForCollecting | true | Existing collection requirement retained. |
 | LedgerComputerRange | 10, integer 1–30 | Existing nearby same-floor range outside the work building. Same-building providers retain their existing behavior. |
 
 Mode numbers correspond to the user's requested four ledger types. Computer updating is a separate boolean. These are authoritative SandboxVars, with native enum/integer/boolean definitions and English fallback names/tooltips/options across all 29 locale folders. Invalid new values fall back to defaults. No client-local setting can grant gameplay access.
+
+## Current same-building restriction
+
+As of 0.18.0-dev.7, all computer live reads require a match between the actual computer's native-building signature and the snapshot's saved building signature. A nearby computer in another building, an outdoor computer, or a safehouse-wide CD gets no computer freshness exemption and no live projection, including in No updates mode. Ordinary ledger freshness still applies; the record stays readable with existing privacy checks. An unexpired nearby historical CD can still satisfy the existing scoped requirement; an expired off-site CD cannot. Safehouse records have no unique building and fall back conservatively. Carried paper retains the chosen ledger mode. [Implementation and current evidence](CLIPBOARD_AND_LOCAL_COMPUTER.md).
 
 ## Existing records and renewal
 

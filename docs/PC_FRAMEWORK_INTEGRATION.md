@@ -1,8 +1,10 @@
 # PC Framework extraction
 
-Project Version: 0.20.0-dev.2
+Project Version: 0.21.0-dev.5
 
-Quartermaster requires `B47ANCEDRooms` and `B47ANCEDPCFramework` on the server and every client. PC Framework 0.9.0-dev.3 / registration API 1 is the companion MP testing build, available as [Workshop item 3822042011](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011). Enable and update it on all peers. This source work does not change Quartermaster's existing Workshop item 3807217050.
+Current Sort policy is the separate default-on [paper search/pickup and deferred writing workflow](SORT_LEDGER.md), Movement 12 / Ledger 5. Application installation and computer/CD behavior below remain otherwise unchanged; older capability/evidence checkpoints retain their original identity.
+
+Quartermaster requires `B47ANCEDRooms` and `B47ANCEDPCFramework` on the server and every client. PC Framework 0.9.0-dev.3 / registration and CD program API 1 is the public companion for the unified desktop and genuine installer CD. Powered-PC support first appeared in framework 0.2.0-dev.1. PC Framework is now distributed as Workshop item 3822042011. Current integration is checked against public companion 0.9.0-dev.3, retaining API 1. This source work does not change Quartermaster's existing Workshop item 3807217050.
 
 [VERIFIED source] The desktop, shared native computer helpers and server drive engine are extracted into the standalone [B47ANCED PC Framework](https://github.com/B47ANCE/B47ANCEDPCFramework). Framework runtime has no Quartermaster imports. Quartermaster's `ComputerUI.lua` is now a compatibility alias; `LedgerUI.lua` registers `quartermaster`, `QUARTERMASTER.EXE`, the reader, and `ComputerWriter.lua`. Only the framework subscribes its world computer menu. Bare framework use opens without Quartermaster or ledger data. Disabling Quartermaster ledgers removes its app while leaving the independent desktop available; disabling the framework closes all framework desktops and fails computer access.
 
@@ -29,6 +31,14 @@ The runner requires a separate PC Framework checkout; pass `--pc-framework` from
 
 PC Framework 0.2.0-dev.1 removes the one-facing hardware restriction: all four powered vanilla PC orientations and other placed `CustomName=Computer` tiles qualify. Quartermaster inherits this through its existing `LedgerMedia.computer` delegate and retains its Rooms/privacy checks. The consumer API and all data formats are unchanged, so this dependency expansion does not independently bump Quartermaster's version. Untagged modded PC graphics cannot be identified from appearance alone. Power loss, access denial and moved/deleted objects still revoke access.
 
-Unified UI follow-up: pair Quartermaster 0.20.0-dev.1 with Framework 0.9.0-dev.1. App callbacks/media transport remain API 1. The framework now retains independent app/tool host facades in one native root; `ComputerUI.active` represents foreground focus, while `ComputerUI.isLive(host)` checks retained lifetime and `host.root` is the native widget. Quartermaster keeps its server permission/binding/read/burn validation. A writer intent stores its UI host for completion status, preventing another active app from receiving that message. No snapshot, binding, capability or gameplay protocol changes. The Item/Quantity/Location table and selected details consume the same authorized response rows. No items, private records or gameplay authority are moved into UI state. The loader dependency remains B47ANCEDPCFramework; this source pair is not automatically packaged or deployed.
+## Reconciliation checkpoint — 0.19.0-dev.2
 
-Publication checkpoint 0.20.0-dev.2 records the authorized companion Workshop distribution and preserves all APIs, authority, sandbox settings and save formats. It changes metadata and isolated-worktree build arguments only. Native SP/dedicated acceptance remains NOT TESTED; upload success is distribution evidence.
+The user approved reconciling upstream extraction with the owned clipboard/CRT branch, and preserving the newer CRT/taskbar in the framework. Quartermaster contains no second desktop or ComputerArt module. PC Framework 0.3.0-dev.1 supplies retained drive/writer/app tasks and original art; Quartermaster ComputerWriter uses the existing writer callback and its ledger reader revalidates cached pages on resume. The portrait clipboard and table ruling fixes are local presentation. Existing exact-building live/freshness checks, kept clipboard recipe, schemas, permissions and native transfer grouping remain. [Current evidence and commands](CLIPBOARD_UI_FIX.md). Prior checkpoint evidence above retains its original scope.
+
+## Application CD consumer
+
+Quartermaster registers quartermaster.setup through PC.registerCDProgram and validates launch/installation through the framework CDPrograms server service. Application media uses its own actual DriveService bindings; the existing data-CD service remains separate. Quartermaster coordinates both drive namespaces to prevent mounting setup and ledger media simultaneously, and blocks writing while setup media remains loaded. The framework does not install or mutate inventory: Quartermaster owns the per-PC receipt and existing challenged native-action completion. [Current contract and runtime gates](APPLICATION_CD.md). The earlier 0.5.0-dev.2 pairing is historical; the current public 0.9.0-dev.3 companion preserves program API 1.
+
+## Unified desktop reconciliation — 0.21.0-dev.5
+
+The public companion retains independent application/tool host facades in one native desktop. Writer completion keeps the originating host, and closed or background applications do not receive another application's status. The shared LedgerTable remains the single digital/paper table renderer. Earlier paired-version observations above are historical checkpoints.

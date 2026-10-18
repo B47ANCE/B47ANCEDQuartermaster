@@ -16,6 +16,9 @@ from lupa.lua51 import LuaRuntime
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument('--quartermaster', type=Path, default=Path(r'E:\Program Files (x86)\Steam\steamapps\workshop\content\108600\3761216758\mods\Quartermaster\42'))
 PARSER.add_argument('--package', action='store_true')
+PARSER.add_argument('--only-polish', action='store_true', help='Focused ledger, installation, Shopping and completion-feedback regressions')
+PARSER.add_argument('--only-program', action='store_true', help='Focused Application CD server/UI and metadata fixtures')
+PARSER.add_argument('--only-sort-ledger', action='store_true', help='Focused server sorting-ledger workflow')
 PARSER.add_argument('--pc-framework', type=Path, default=ROOT.parent / 'B47ANCEDPCFramework', help='Required standalone PC Framework checkout')
 PARSER.add_argument('--rooms', type=Path, default=ROOT.parent / 'B47ANCEDRooms', help='Standalone Rooms checkout for paired production integration tests')
 PARSER.add_argument('--require-rooms', action='store_true', help='Fail instead of reporting unavailable paired integration')
@@ -26,7 +29,7 @@ upstream = ARGS.quartermaster
 before = {p: hashlib.sha256(p.read_bytes()).hexdigest() for p in upstream.rglob('*') if p.is_file()}
 
 PC_SOURCE=ARGS.pc_framework / 'src/B47ANCEDPCFramework/42/media/lua'
-if not (PC_SOURCE / 'shared/B47ANCEDPCFramework/Device.lua').is_file():
+if not (PC_SOURCE / 'shared/B47ANCEDPCFramework/CDPrograms.lua').is_file():
     raise SystemExit('Required PC Framework checkout unavailable; pass --pc-framework <path>')
 
 def runtime():
@@ -41,9 +44,29 @@ def runtime():
     lua.execute("getActivatedMods=function() return {size=function() return 1 end,get=function() return 'B47ANCEDQuartermaster' end} end")
     return lua
 
+if ARGS.only_polish:
+    for name in ('test_sort_ledger.lua', 'test_sort_ledger_ui.lua', 'test_ledger_failures.lua', 'test_program_installation.lua', 'test_shopping_paper_ui.lua', 'test_movement.lua'):
+        runtime().execute((ROOT/'tests'/name).read_text(encoding='utf-8'))
+    raise SystemExit(0)
+
+if ARGS.only_sort_ledger:
+    runtime().execute((ROOT/'tests/test_sort_ledger.lua').read_text(encoding='utf-8'))
+    runtime().execute((ROOT/'tests/test_sort_ledger_ui.lua').read_text(encoding='utf-8'))
+    raise SystemExit(0)
+
+if ARGS.only_program:
+    import runpy
+    for name in ('test_program_installation.lua','test_program_installer_ui.lua','test_ledger_failures.lua'):
+        runtime().execute((ROOT/'tests'/name).read_text(encoding='utf-8'))
+    runpy.run_path(str(ROOT/'tests/test_ledger_metadata.py'))
+    raise SystemExit(0)
+
 for path in (SOURCE / '42/media/lua').rglob('*.lua'):
     runtime().execute('assert(loadstring(...))', path.read_text(encoding='utf-8'))
 print('PASS Lua 5.1 syntax')
+runtime().execute((ROOT / 'tests/test_sort_ledger.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_sort_ledger_ui.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_ledger_failures.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_carry_budget.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_container_sources.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_progress.lua').read_text(encoding='utf-8'))
@@ -71,12 +94,14 @@ runtime().execute((ROOT / 'tests/test_carry_authority.lua').read_text(encoding='
 runtime().execute((ROOT / 'tests/test_load_policy.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_content_analysis.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_ledger.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_program_installation.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_ledger_requirement.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_ledger_freshness.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_shopping_papers.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_shopping_paper_hud.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_shopping_paper_ui.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_ledger_ui.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_program_installer_ui.lua').read_text(encoding='utf-8'))
 for path in (SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Movement.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/Trips.lua', CLIENT / 'B47ANCEDQuartermaster/Executor.lua', CLIENT / 'B47ANCEDQuartermaster/Sorter.lua', CLIENT / 'B47ANCEDQuartermaster/SortControls.lua', SOURCE / '42/media/lua/shared/B47ANCEDQuartermaster/GroundSources.lua'):
     owned = path.read_text(encoding='utf-8')
     assert 'LootSorter' not in owned and 'require "LootSorter' not in owned

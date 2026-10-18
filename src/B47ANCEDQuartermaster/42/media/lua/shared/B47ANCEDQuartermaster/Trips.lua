@@ -140,6 +140,7 @@ function Trips.handle(player,command,args)
         run={id=M.fresh(),trace=args.trace,session=args.session,source=args.source,container=source,target=target,
             ids=ids,refs=refs,considered={},operations={},skipped=0,time=getTimestampMs(),area=args.area==true,sweep=args.sweep,sourceConfig=areaConfig,sourceEffective=areaEffective,
             external=target and target.external and target or nil}
+        if not require('B47ANCEDQuartermaster/SortLedger').started(player,run) then return {status='SortLedgerRequired'} end
         M.runs[player]=run
         Trace.emit(args.trace,'SOURCE_ENUMERATION','complete',nil,run.id,measured,#ids)
         return {status='ok',run=run.id,sourceCount=#ids}
@@ -198,7 +199,7 @@ function Trips.handle(player,command,args)
         local knowledgeBlocked=false
         local choice,reason=B47ANCEDQuartermaster.Planner.choose(player,run.session,item,library and library.definitions or {},function(t,it,candidate)
             if not candidate or not candidate.rulesReady or not t or not t.container then return false end
-            if not require('B47ANCEDQuartermaster/LedgerRequirement').check(player,t.obj:getSquare(),run.area and 'area' or 'sort') then knowledgeBlocked=true;return false end
+            if not require('B47ANCEDQuartermaster/LedgerRequirement').candidate(player,t.obj:getSquare(),run.area and 'area' or 'sort') then knowledgeBlocked=true;return false end
             if not t.container:isItemAllowed(it) or not t.container:hasRoomFor(player,it) then return false end
             return Carry.weight(it)<=(room(player,t.container)-(reserved[t.container] or 0))
         end,run.trace,planning)
@@ -379,6 +380,7 @@ function Trips.handle(player,command,args)
         if remaining or hasOperations(run) then return {status='waiting',skipped=run.skipped,skipReasons=run.skipReasons,planningTargets=#planning.candidates,reason='loadPending'} end
         Trace.emit(run.trace,'TRIP_PLANNING','zero',nil,run.id,measured,#run.ids)
         Trace.emit(run.trace,'PLAN_CREATED','zero')
+        require('B47ANCEDQuartermaster/SortLedger').finished(player,run)
         M.runs[player]=nil
         return {status='done',skipped=run.skipped,skipReasons=run.skipReasons,planningTargets=#planning.candidates}
     end

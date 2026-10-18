@@ -1,8 +1,5 @@
-[b]Version 0.20.0-dev.2[/b]
-[b]MP testing build - dedicated multiplayer NOT TESTED[/b]
+[b]Version 0.21.0-dev.5[/b]
 
-Requires B47ANCEDRooms and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011]B47ANCED PC Framework[/url] on server and every client. Computers share one beige CRT desktop and Start menu with Minesweeper and other installed apps. Ledger and CD Writer retain separate taskbar windows; the ledger uses Item/Quantity/Location columns and selected-record details.
+New transparent crate/checklist mod icon; thumbnail unchanged. Integrates the clipboard ledger, application-CD installation, automatic post-Sort ledger writing and unified computer desktop. Requires B47ANCEDRooms and B47ANCEDPCFramework.
 
-Includes current supply-ledger modes/freshness, physical Shopping Lists, designated-room scope and advisory sparse allocation profiles. Existing permissions, server-owned data, real CD identity and recovery snapshots are preserved. Allocation enforcement and live role routing remain disabled. Back up saves and update all peers together.
-
-Development source 0.20.0-dev.2: publication metadata/dependency checkpoint; gameplay, sandbox settings, APIs and saved formats are unchanged from 0.20.0-dev.1. Full offline build/package and paired regressions are required before upload. Native SP/dedicated NOT TESTED; G7/stable G8 BLOCKED.
+MP testing build - dedicated multiplayer NOT TESTED. Use matching versions on all peers and reconnect. Native client and dedicated acceptance for this combined build remain pending.

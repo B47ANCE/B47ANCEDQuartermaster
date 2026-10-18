@@ -460,6 +460,14 @@ handler:perform();assert(openedMenu and #openedMenu.options==4 and not chosen an
 openedMenu.options[1].callback();assert(chosen.kind=='building' and not selectedSource)
 openedMenu.options[2].callback();assert(chosen.kind=='customRoom' and chosen.room=='designated-storage' and chosen.revision==3 and not selectedSource)
 openedMenu.options[3].callback();assert(selectedSource==carried)
+-- Final feedback preserves both the movement count and the later write outcome.
+local halo;f.player.setHaloNote=function(_,s) halo=s end
+Sorter.start=function(_,_,done) done('ok',8,0,{},'SortLedgerSyncPending');return true end
+openedMenu.options[3].callback()
+assert(string.find(halo,'UI_B47_SortFinished',1,true) and string.find(halo,'UI_QMSS_SortLedgerSyncPending',1,true),'sync warning overwritten')
+area.start=function(_,_,done) done('ok',9,0,{},'denied');return true end
+openedMenu.options[1].callback()
+assert(string.find(halo,'UI_QMSS_RoomSortSummary',1,true) and string.find(halo,'UI_QMSS_SortLedgerWriteIncomplete',1,true),'writing denial mislabeled area movement')
 area.start,Sorter.start,A.request=areaStart,singleStart,request
 print('PASS OFFLINE inventory scope control: menu opens without sorting; building, room and exact current-source choices dispatch independently')
 f.network(false,false)
