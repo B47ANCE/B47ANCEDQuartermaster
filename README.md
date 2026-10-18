@@ -10,7 +10,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-This source develops shared Stock and Base Ledger features as **0.23.0-dev.1**. Prepared for the authorized Workshop MP testing upload; upload evidence remains separate from native acceptance. Native client/dedicated acceptance for this combined build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
+This source develops shared Stock and Base Ledger features as **0.23.0-dev.1**. Published for Workshop MP testing; [exact upload receipt and validation limits](docs/WORKSHOP_STOCK_TESTING_2026_10_18.md). Distribution is separate from native acceptance. Native client/dedicated acceptance for this combined build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
 
 ## Stock and connected computers
 

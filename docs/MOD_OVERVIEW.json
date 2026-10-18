@@ -4,7 +4,7 @@
   "name": "Quartermaster",
   "version": "0.23.0-dev.1",
   "reviewed": true,
-  "source_digest": "1155f1f28bcebfacf98ad80bdbbcd2210680feb0d8dd9bf810e6a77bd6bf5dad",
+  "source_digest": "0f466eb36e1867c0fdbf79903e1f68529d13524104c830c973d4a4cd0ad8b256",
   "features": [
     {
       "status": "Source",
@@ -67,7 +67,7 @@
       "text": "Shared room/building Stock targets, paper/PC reports and PC-only low-stock alerts. Latest-per-area multi-CD/Base Ledger requires paired PC Framework 0.11.0-dev.1 APIs, powered loaded local-copy PCs and current permissions. MP testing candidate; no native/dedicated acceptance claim."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.23.0-dev.1; G7/stable G8 BLOCKED. Prepared for authorized MP testing distribution. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current offline pairing uses UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.23.0-dev.1; G7/stable G8 BLOCKED. Verified 0.23.0-dev.1 MP testing upload to existing Workshop item 3807217050; no runtime acceptance implied. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current offline pairing uses UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",
@@ -80,7 +80,8 @@
     "docs/SORT_LEDGER.md",
     "docs/OPEN_PR_INTEGRATION_2026_10_18.md",
     "docs/UI_EXTRACTION.md",
-    "docs/STOCK_AND_BASE_LEDGER.md"
+    "docs/STOCK_AND_BASE_LEDGER.md",
+    "docs/WORKSHOP_STOCK_TESTING_2026_10_18.md"
   ],
   "relations": [
     {
