@@ -1,8 +1,8 @@
 {
-  "project_version": "0.21.0-dev.1",
+  "project_version": "0.21.0-dev.2",
   "game_version": "42.21.0",
   "steam_build": "25485521",
-  "baseline_commit": "7692a3acdc777587824a2661c857fbdfaf6b947d",
+  "baseline_commit": "39263a1e6d52b0a8acf5f6124e865faa43593994",
   "evidence": "VERIFIED SOURCE / TESTED OFFLINE (host Lua 5.1); NOT native or dedicated execution",
   "native": [
     {
@@ -16,16 +16,42 @@
     {
       "path": "media/lua/client/TimedActions/ISInventoryTransferAction.lua",
       "sha256": "96ee554609f9ae029809643d50e4f31dbc5a7d21a558934be0804fd909c345b4"
+    },
+    {
+      "path": "media/scripts/generated/items/literature.txt",
+      "sha256": "01f9950ecfa984eb1c874de0eeaee283b8ba265cd249cf34111df9f30268e293"
+    },
+    {
+      "path": "media/scripts/generated/recipes/recipes_ammunition.txt",
+      "sha256": "b7e49ecd4d31bdfe3e49f1ff96ec67a7e1c2c202d70f5d6f1201be4a62d67e6c"
     }
   ],
   "notes": [
     "Paper writing reuses native ISWriteSomething book/read pose, wrappers and EventRead; no invented write animation.",
     "Pickup uses the existing native ISInventoryTransferAction metatable and verified executor, including existing external nested-container identities. Lua does not retract already-dispatched native transfers or secure unrelated vanilla actions.",
-    "All current runtime files are original Lua/script/assets; no custom Java/JAR or third-party implementation imported."
+    "All current runtime files are original Lua/script/assets; no custom Java/JAR or third-party implementation imported.",
+    "Native Notebook item is declared in literature.txt at 1819-1831; native item 1 ... mode:destroy syntax appears in recipes_ammunition.txt at line 12. This is source syntax evidence, not native crafting execution."
   ],
   "source": {
     "files": 229,
-    "sha256": "223b296029e10acb7eec065ec33304f7c6b10379c63f2951c6fb03263a430d3e",
+    "sha256": "faa25c504bfc88acb0bc7c2adbdb2a68cf7e2a67e8d841b426d1b9df9108db6b",
     "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
-  }
+  },
+  "previous_checkpoints": [
+    {
+      "project_version": "0.21.0-dev.1",
+      "baseline_commit": "7692a3acdc777587824a2661c857fbdfaf6b947d",
+      "source": {
+        "files": 229,
+        "sha256": "faa25c504bfc88acb0bc7c2adbdb2a68cf7e2a67e8d841b426d1b9df9108db6b",
+        "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
+      },
+      "validation": "Full offline workflow/paired regression suite at dev.1. Preserve as historical; native/dedicated NOT TESTED."
+    }
+  ],
+  "current_validation": [
+    "TESTED OFFLINE tests/test_ledger_metadata.py: exactly one whole Notebook input with mode:destroy, no SheetPaper2 input, retained clipboard/writer and one output.",
+    "TESTED OFFLINE scripts/check_versions.py and scripts/check_deployment.py; unchanged 229-file manifest.",
+    "No repeat full-suite claim at dev.2; actual native crafting/consumption and dedicated multiplayer NOT TESTED."
+  ]
 }

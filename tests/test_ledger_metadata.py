@@ -12,7 +12,8 @@ assert 'OnTest = B47SupplyLedgerEnabled,' in code
 assert 'ItemType = base:normal' in code and 'Tags = InHandCraft' in code
 assert re.search(r'item 1 \[Base\.Pen;Base\.Pencil\] mode:keep,', code)
 assert re.search(r'item 1 \[Base\.Clipboard\] mode:keep,', code), 'Clipboard must be required and retained'
-assert re.search(r'item 1 \[Base\.SheetPaper2;Base\.Notebook\],', code)
+assert re.search(r'item 1 \[Base\.Notebook\] mode:destroy,', code), 'Creation must consume one whole notebook'
+assert 'Base.SheetPaper2' not in code, 'Supply ledgers must not require/accept loose pages'
 assert re.search(r'outputs\s*\{\s*item 1 B47ANCEDQuartermaster\.SupplySheet,\s*\}', code)
 assert 'SupplyDisc,' not in code, 'Disc conversion must remain behind authoritative completion'
 assert 'ShoppingPaper,' not in code, 'Shopping paper creation must remain behind authoritative completion'
@@ -26,4 +27,4 @@ for filename, names in {'literature.txt': ['Notebook', 'SheetPaper2'], 'weapon.t
     text = (native / filename).read_text(encoding='utf-8-sig')
     for name in names:
         assert re.search(r'\bitem\s+' + re.escape(name) + r'\s*\{', text), name
-print('PASS OFFLINE ledger definitions: native clipboard/paper/pen/CD/computer identities, retained clipboard and writing implement, one-sheet output, server-only disc conversion and 29-locale name/recipe fallback parity; native crafting NOT TESTED')
+print('PASS OFFLINE ledger definitions: native clipboard/paper/pen/CD/computer identities, retained clipboard and writing implement, one whole notebook consumed, one-ledger output, server-only disc conversion and 29-locale name/recipe fallback parity; native crafting NOT TESTED')

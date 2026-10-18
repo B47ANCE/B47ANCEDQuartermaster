@@ -3,7 +3,7 @@ B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep t
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.21.0-dev.1 (development source; not yet uploaded). Computers have a bulky beige CRT case, softer artwork, original pixel icons and a working taskbar with retained apps and Show Desktop. New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
+Version 0.21.0-dev.2 (development source; not yet uploaded). Computers have a bulky beige CRT case, softer artwork, original pixel icons and a working taskbar with retained apps and Show Desktop. New ledger, computer and physical-list features have offline regression coverage; native client and dedicated acceptance are pending. Back up saves and update/reconnect the server and all clients together.
 
 [h2]Sorting made simple[/h2]
 • Choose whole categories or individual items in a searchable tree with native item icons.
@@ -64,6 +64,8 @@ Native client and dedicated multiplayer acceptance for this candidate are pendin
 Room organization uses designated B47ANCEDRooms rooms only; native buildings define building scope. Retired native-room scope requests are rejected (Quartermaster Rooms capability 4). Existing building-ledger coverage and historical data are preserved. Allocation limits and live role routing remain disabled.
 
 
-Development source 0.21.0-dev.1: requires B47ANCED PC Framework (no Workshop item assigned yet). PC Framework 0.3.0-dev.1 hosts the bulky CRT and retained taskbar; Quartermaster registers its ledger/CD Writer apps. Paper uses a portrait clipboard with scroll-aligned ruling and clear entry details. MP testing build - dedicated multiplayer NOT TESTED. G7/stable G8 BLOCKED. This text is source preparation only; no upload is authorized or performed.
+Development source 0.21.0-dev.2: requires B47ANCED PC Framework (no Workshop item assigned yet). PC Framework 0.3.0-dev.1 hosts the bulky CRT and retained taskbar; Quartermaster registers its ledger/CD Writer apps. Paper uses a portrait clipboard with scroll-aligned ruling and clear entry details. MP testing build - dedicated multiplayer NOT TESTED. G7/stable G8 BLOCKED. This text is source preparation only; no upload is authorized or performed.
 
 Find a Quartermaster Application CD in commercial office desks/counters, office supply shelves/crates or computer retail/stock containers and run SETUP.EXE from accessible storage beside a powered PC. Install once per PC before writing or reading ledger CDs. The Application CD is retained and reusable; eject it after installation. Server settings control this prerequisite, installation time and loot weight. Existing paper/CD data is preserved; existing PCs require installation by default. This source requires the paired PC Framework CD program API 1 integration (0.5.0-dev.2). Native and dedicated acceptance are pending.
+
+Create a paper Supply Ledger with one whole notebook, plus a reusable clipboard and pen/pencil. No loose pages are required. Recording and sorting updates reuse the same ledger.

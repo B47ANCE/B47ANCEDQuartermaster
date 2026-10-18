@@ -1,5 +1,7 @@
-[b]Version 0.21.0-dev.1[/b]
+[b]Version 0.21.0-dev.2[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
+
+Creating a paper ledger now consumes one whole notebook. No loose pages are needed. The clipboard and pen/pencil are kept; later recording and Sort updates reuse the same ledger. Shopping List materials are unchanged.
 
 Sort uses carried paper and a pen/pencil by default. It first searches accessible loaded building storage for a completed ledger covering the location and picks it up through normal transfer. If none is found, it uses a carried blank or unfinished Supply Sheet.
 

@@ -1,8 +1,10 @@
 # Sort with a physical paper ledger
 
-Project Version: 0.21.0-dev.1
+Project Version: 0.21.0-dev.2
 
 ## Player workflow
+
+Create the initial paper ledger by consuming one whole vanilla Notebook, retaining the clipboard and pen/pencil. No loose page is needed. Existing blank, partial or completed ledgers are reused; sorting does not consume another notebook.
 
 The default-on server option **SortUpdatesLedger** applies to inventory, selected-container, floor/proximity, vehicle-source, designated-room and building Sort. Carry a **pen or pencil**. The server first searches accessible, loaded physical storage in the player's native building for a completed Supply Sheet covering that location. Carried completed papers are also considered. A completed accessible ledger takes precedence over a carried blank/unfinished sheet; carried completed papers win over stored papers, then stored choices use distance and native item ID as deterministic ordering. Stale but completed papers can be used: this updates touched entries without renewing the whole building's freshness.
 
@@ -70,4 +72,12 @@ Changed production paths: shared SortLedger.lua (new), Ledger.lua, LedgerMedia.l
 
 [RUNTIME GATE] G6 native client NOT TESTED; G7 dedicated multiplayer NOT TESTED/BLOCKED; stable G8 BLOCKED. Required: real building scan/pickup in storage/bags/across floors, full carry refusal, inaccessible and unloaded storage, paper/writer loss during walking/transfers/writing, two players contending for one paper/container, permission and room revision changes, native paper pose/cancel and progress, real item ModData synchronization, native save/restart/reconnect, and measured large-building search/write latency. Existing release evidence is not current proof for this feature.
 
-Current source receipt: **229 runtime files**, SHA-256 `223b296029e10acb7eec065ec33304f7c6b10379c63f2951c6fb03263a430d3e`; [native/source fingerprints](SORT_LEDGER_EVIDENCE.json). No current package was produced.
+Historical 0.21.0-dev.1 source receipt: **229 runtime files**, SHA-256 `223b296029e10acb7eec065ec33304f7c6b10379c63f2951c6fb03263a430d3e`; [native/source fingerprints](SORT_LEDGER_EVIDENCE.json). No current package was produced.
+
+## 0.21.0-dev.2 recipe checkpoint
+
+Compatible recipe correction: MakeSupplySheet now has one `Base.Notebook` input with native `mode:destroy`, replacing the loose-paper/notebook alternative. Keep inputs and single ledger output remain unchanged. No persistence/network schema change or new sandbox micro-setting for this ingredient correction. Physical Shopping Lists keep their separate sheet/notebook requirements.
+
+[TESTED OFFLINE] `python -B tests/test_ledger_metadata.py`; `python -B scripts/check_versions.py`; `python -B scripts/check_deployment.py`; staged diff/source-receipt checks. The dev.1 full workflow suite above is historical, still applicable to unchanged sorting code but not relabeled as dev.2 execution. Native crafting/material consumption and dedicated G7 remain NOT TESTED; G8 BLOCKED. No package, deploy or publication.
+
+0.21.0-dev.2 source receipt: **229 runtime files**, SHA-256 `faa25c504bfc88acb0bc7c2adbdb2a68cf7e2a67e8d841b426d1b9df9108db6b` (same algorithm; source only).

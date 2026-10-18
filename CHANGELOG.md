@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.21.0-dev.2] - 2026-10-17
+
+- Creating a new paper Supply Ledger consumes one whole vanilla Notebook via native mode:destroy; remove the loose-sheet alternative. Keep the clipboard and pen/pencil. Existing ledgers are reused for recording and post-sort updates, with no new notebook charge.
+- Compatible recipe correction within the current prerelease; no saved-item, snapshot or protocol change. Shopping List materials remain unchanged. Metadata/recipe, version and source-manifest checks pass offline; native crafting/dedicated acceptance remains NOT TESTED. No deploy or publication.
+
 ## [0.21.0-dev.1] - 2026-10-17
 
 - Default-on Sort ledger workflow: bounded server building search prioritizes a completed accessible paper ledger, collects it through native transfer, otherwise uses carried blank/unfinished paper. Require carried paper and pen/pencil throughout sorting.

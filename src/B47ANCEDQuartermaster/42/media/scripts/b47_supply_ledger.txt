@@ -41,7 +41,7 @@ module B47ANCEDQuartermaster
         Tags = InHandCraft,
         inputs
         {
-            item 1 [Base.SheetPaper2;Base.Notebook],
+            item 1 [Base.Notebook] mode:destroy,
             item 1 [Base.Clipboard] mode:keep,
             item 1 [Base.Pen;Base.Pencil] mode:keep,
         }

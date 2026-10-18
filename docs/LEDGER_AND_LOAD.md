@@ -1,6 +1,6 @@
 # Physical Supply Ledger and Dangerous Load
 
-Project Version: 0.21.0-dev.1
+Project Version: 0.21.0-dev.2
 
 Current Sort workflow: default-on `SortUpdatesLedger` requires carried paper and pen/pencil, searches accessible loaded building storage for a completed covering ledger first, uses native pickup, accepts carried blank/unfinished fallback and writes confirmed touched storage once after the full successful job. It overrides the older Sort-only freshness/computer exception below while enabled. Shopping collection and computer application installation are unchanged. Movement 12 / Ledger 5 require matching peers. [Current implementation, boundaries and validation](SORT_LEDGER.md). Earlier checkpoint evidence remains historical.
 
@@ -19,7 +19,7 @@ The compatible MINOR Ledger baseline was implemented on `feature/building-supply
 
 ### Using it
 
-1. Craft **Quartermaster Building Supply Sheet** using one `Base.SheetPaper2` or `Base.Notebook`, plus one retained `Base.Clipboard` and a retained `Base.Pen` or `Base.Pencil`. The B42 in-hand native craft recipe creates one blank sheet.
+1. Craft **Quartermaster Building Supply Sheet** by consuming one whole `Base.Notebook` (`mode:destroy`), plus one retained `Base.Clipboard` and a retained `Base.Pen` or `Base.Pencil`. The B42 in-hand native craft recipe creates one blank ledger. Loose pages are not accepted; recording and post-sort updates reuse the resulting ledger.
 2. Carry the sheet and a writing implement. Right-click the sheet and choose **Record / resume building supply sheet**, or the safehouse option when a supported native safehouse contains the character.
 3. The character walks through storage and performs a timed inspection for each physical compartment. Unconfigured storage is included. Cancel safely; completed records stay on the sheet.
 4. Use **Read supply sheet** without electricity. It shows static room/container sections, actual quantities, exact FullTypes/condition, coordinates and each inspection's world-hour timestamp. Empty containers are shown. There is no paper search, filtering or digital sort control.

@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.21.0-dev.1",
+  "version": "0.21.0-dev.2",
   "reviewed": true,
-  "source_digest": "c9f2c175407a743150c96a2e164d8d92adc74822792cbc41937ec88d67eccf28",
+  "source_digest": "cbe5fb60980ae6bf4314603a37066b6f28242245a1b50e4864c6179a50a6f4fc",
   "features": [
     {
       "status": "Source",
@@ -44,7 +44,7 @@
     },
     {
       "status": "Source",
-      "text": "Portrait paper clipboard with a beveled spring clamp gripping the sheet, scroll-aligned ruling, separate selected-item details and resize grip with three-column ledger and page-turn controls. Server limits live computer statistics and automatic freshness to the exact recorded building; off-site/safehouse-wide CDs retain ordinary historical access. Supply Sheet creation requires a reusable vanilla clipboard and writing implement; paper/notebook is consumed."
+      "text": "Portrait paper clipboard with a beveled spring clamp gripping the sheet, scroll-aligned ruling, separate selected-item details and resize grip with three-column ledger and page-turn controls. Server limits live computer statistics and automatic freshness to the exact recorded building; off-site/safehouse-wide CDs retain ordinary historical access. Supply Sheet creation requires a reusable vanilla clipboard and writing implement; one whole Notebook is consumed; no loose-page alternative."
     },
     {
       "status": "Source",
@@ -52,10 +52,10 @@
     },
     {
       "status": "Source",
-      "text": "Default SortUpdatesLedger: server building search prefers an accessible completed paper ledger, native pickup, otherwise carried blank/partial paper; requires pen/pencil and writes confirmed touched storage once after the full successful Sort. Existing CD generations and unvisited inspection timestamps are preserved. No inventory mutation by bookkeeping."
+      "text": "Default SortUpdatesLedger: server building search prefers an accessible completed paper ledger, native pickup, otherwise carried blank/partial paper; requires pen/pencil and writes confirmed touched storage once after the full successful Sort. Existing CD generations and unvisited inspection timestamps are preserved. No inventory mutation by bookkeeping. Initial ledger creation consumes one whole Notebook; subsequent writing reuses the ledger."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.21.0-dev.1; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.21.0-dev.2; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",
