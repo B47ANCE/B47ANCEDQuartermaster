@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.20.0-dev.2] - 2026-10-17
+
+- Place the Application CD in commercial office desks/counters, office supply shelves/crates and computer retail/stock pools, including warehouse offices mapped as native office rooms. Remove generic electronics drops; home desks and general warehouse cargo remain unchanged.
+- Compatible loot correction; reuse the existing server loot-weight option. New native loot rolls only, no inventory refill or installation/protocol/save changes.
+- Focused offline program, native-table integration, metadata/version/manifest checks pass. Native loot generation and dedicated multiplayer remain NOT TESTED; no deploy or publication.
+
 ## [0.20.0-dev.1] - 2026-10-17
 
 - Add a found Quartermaster Application CD and explicit SETUP.EXE installer through PC Framework CD program API 1. Native timed completion creates a server-owned receipt bound to the exact PC; setup media is retained and reusable.

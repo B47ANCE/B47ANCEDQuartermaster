@@ -61,5 +61,5 @@
   "Sandbox_B47ANCEDQuartermaster_ApplicationInstallSeconds": "Application installation time (seconds)",
   "Sandbox_B47ANCEDQuartermaster_ApplicationInstallSeconds_tooltip": "Native action duration to install Quartermaster from its genuine loaded Application CD. Range 5-120 seconds; default 20. Movement, power/access loss or cancellation prevents completion. The CD is retained.",
   "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight": "Application CD loot weight",
-  "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight_tooltip": "Relative loot-table weight in office desks, electronics stores and electronics crates. Range 0-10; default 1. Zero disables these drops. Not a percentage. Only affects new native loot rolls; existing containers and items are not changed. Restart to apply distribution settings."
+  "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight_tooltip": "Relative loot-table weight in commercial office desks/counters, office supply shelves/crates and computer store/stock containers. Range 0-10; default 1. Zero disables these drops. Not a percentage. Only affects new native loot rolls; existing containers and items are not changed. Restart to apply distribution settings."
 }

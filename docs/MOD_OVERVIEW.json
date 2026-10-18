@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.20.0-dev.1",
+  "version": "0.20.0-dev.2",
   "reviewed": true,
-  "source_digest": "1d5f294eb8ff8e42e9c45288fbc5b205b08826b30c09363a36fb267f226eac64",
+  "source_digest": "587cf7c8716584c9abd33f743e95c197887c6b75f2a7b3371d5f686988a77c33",
   "features": [
     {
       "status": "Source",
@@ -48,10 +48,10 @@
     },
     {
       "status": "Source",
-      "text": "Found Application CD runs SETUP.EXE via PC Framework CD program API 1. Server native-action completion installs per exact PC; guards digital reads/writes/automatic knowledge. Reusable disc, server prerequisite/time/loot settings; old ledger data preserved."
+      "text": "Found Application CD runs SETUP.EXE via PC Framework CD program API 1. Server native-action completion installs per exact PC; guards digital reads/writes/automatic knowledge. Reusable disc, server prerequisite/time/loot settings; old ledger data preserved. CD loot targets commercial offices, office supply storage and computer stock; generic electronics/home desks/general cargo excluded."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.20.0-dev.1; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.20.0-dev.2; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",

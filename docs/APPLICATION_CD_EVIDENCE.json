@@ -1,5 +1,5 @@
 {
-  "project_version": "0.20.0-dev.1",
+  "project_version": "0.20.0-dev.2",
   "game_version": "42.21.0",
   "steam_build": "25485521",
   "status": "VERIFIED SOURCE / TESTED OFFLINE",
@@ -16,11 +16,15 @@
     {
       "path": "media/scripts/generated/items/normal.txt",
       "sha256": "b76cf5f91dce33567ca2bda305c4e450be297aae6b1fc11b5b34dcb280d74567"
+    },
+    {
+      "path": "media/lua/server/Items/Distributions.lua",
+      "sha256": "189ea31b26f445b753da68bff46f01b70bebadb90e0e1c263c18b4751d027ffd"
     }
   ],
   "observations": [
     "Installed SuburbsDistributions.lua registers OnPreDistributionMerge.Add at line 208; its pre-merge callback is empty. Native event timing itself is NOT TESTED.",
-    "Installed procedural distributions define OfficeDesk, ElectronicStoreMisc and CrateElectronics with alternating item-name / numeric-weight items arrays.",
+    "Installed procedural distributions define the eight office/computer pools listed in APPLICATION_CD.md as alternating item-name / numeric-weight arrays. Distributions.lua office (12125-12217) and officestorage (12228-12266) map office desks/counters/shelves/office supply crates; warehouse (15336 onward) uses industrial cargo pools, not a special warehouse office pool. ElectronicStoreComputers references at 7887/7950/7977; CrateComputer stock references include 4051/4103/6559. Map-specific warehouse office room tagging and actual rolls remain runtime gates.",
     "ApplicationCD reuses the existing verified Disc icon and Disk world model shape from the native CD item; original Lua script definition, no new bitmap asset or copied source."
   ],
   "framework": {

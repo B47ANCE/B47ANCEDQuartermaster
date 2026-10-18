@@ -1,6 +1,6 @@
 # Windows '93 computer desktop
 
-Project Version: 0.20.0-dev.1
+Project Version: 0.20.0-dev.2
 
 Current application prerequisite: find and run the Quartermaster Application CD installer on each PC before computer ledger reads/writes or automatic knowledge provision (server opt-out supported). Paper ledgers and ordinary Sort remain independent. Ledger capability is now 4. [Exact implementation, settings, validation and migration limits](APPLICATION_CD.md). Earlier checkpoint sections retain their original evidence.
 

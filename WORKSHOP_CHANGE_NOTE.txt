@@ -1,5 +1,7 @@
-[b]Version 0.20.0-dev.1[/b]
+[b]Version 0.20.0-dev.2[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
+
+Application CDs now spawn in commercial office desks/counters, office supply shelves/crates and computer retail/stock containers. Warehouse offices use their native office pools. Generic electronics drops are removed; home desks and general cargo are unchanged. New loot rolls only.
 
 Find a Quartermaster Application CD, load it beside a powered PC and run SETUP.EXE. Install Quartermaster on that PC before reading ledger CDs, writing paper ledgers to CD or using its automatic ledger knowledge. The Application CD stays reusable in storage. Eject it after installation.
 

@@ -60,12 +60,23 @@ f.network(false,false)
 SandboxVars.B47ANCEDQuartermaster.RequireComputerApplication=false
 assert(reloaded.has(actor,other,true),'server opt-out did not preserve existing computer workflow')
 -- Loot is idempotent and respects zero/malformed settings without inventory writes.
-local pools={OfficeDesk={items={'Base.Pen',2}},ElectronicStoreMisc={items={}},CrateElectronics={items={}}}
+local targets={'OfficeDesk','OfficeDeskSecretary','OfficeDeskStressed','OfficeCounter','OfficeShelfSupplies','CrateOfficeSupplies','ElectronicStoreComputers','CrateComputer'}
+local pools={ElectronicStoreMisc={items={P.disc,1,'Base.Battery',2,P.disc,1}},CrateElectronics={items={P.disc,1}},OfficeDeskHome={items={'Base.Pen',2}},CrateTools={items={'Base.Hammer',2}}}
+for _,name in ipairs(targets) do pools[name]={items={'Base.Pen',2}} end
 ProceduralDistributions={list=pools};package.loaded['Items/ProceduralDistributions']=true
 local callback;Events={OnPreDistributionMerge={Add=function(fn) callback=fn end}}
 dofile(TEST_ROOT..'/../src/B47ANCEDQuartermaster/42/media/lua/server/B47ANCEDQuartermaster/ApplicationLoot.lua')
 callback();callback();assert(#pools.OfficeDesk.items==4 and pools.OfficeDesk.items[3]==P.disc)
-SandboxVars.B47ANCEDQuartermaster.ApplicationCDLootWeight=0;callback();assert(#pools.OfficeDesk.items==2 and #pools.CrateElectronics.items==0)
+for _,name in ipairs(targets) do assert(#pools[name].items==4 and pools[name].items[3]==P.disc and pools[name].items[4]==1,name) end
+assert(#pools.ElectronicStoreMisc.items==2 and pools.ElectronicStoreMisc.items[1]=='Base.Battery' and #pools.CrateElectronics.items==0,'old generic electronics entry retained')
+assert(#pools.OfficeDeskHome.items==2 and #pools.CrateTools.items==2,'unrelated home/cargo loot changed')
+SandboxVars.B47ANCEDQuartermaster.ApplicationCDLootWeight=2.5;callback()
+for _,name in ipairs(targets) do assert(#pools[name].items==4 and pools[name].items[4]==2.5,name) end
+SandboxVars.B47ANCEDQuartermaster.ApplicationCDLootWeight=0;callback()
+for _,name in ipairs(targets) do assert(#pools[name].items==2,name) end
 SandboxVars.B47ANCEDQuartermaster.ApplicationCDLootWeight=0/0;callback();assert(pools.OfficeDesk.items[4]==1)
 SandboxVars.B47ANCEDQuartermaster.LedgerMode=2;callback();assert(#pools.OfficeDesk.items==2,'disabled ledger mode still added application loot')
+SandboxVars.B47ANCEDQuartermaster.LedgerMode=1
+pools.OfficeDesk=nil;pools.OfficeCounter={};pools.CrateComputer={items={'malformed'}}
+callback();assert(#pools.CrateComputer.items==1,'malformed pool modified')
 print('PASS OFFLINE Quartermaster program installation: real CD API, default gate, paper unaffected, missing/forged media, cancel/power/permission/media loss, native challenge, retained CD, duplicate/reload/future schema, exact PC receipt, client refusal, opt-out and idempotent loot')
