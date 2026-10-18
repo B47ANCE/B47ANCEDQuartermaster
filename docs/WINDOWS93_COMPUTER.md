@@ -1,6 +1,8 @@
 # Windows '93 computer desktop
 
-Project Version: 0.18.0-dev.2
+Project Version: 0.19.0-dev.1
+
+Current computer hosting is supplied by the required **B47ANCED PC Framework**; Quartermaster registers its ledger reader and CD Writer as apps. Existing ledger/drive data and server permissions are preserved. See [extraction, setup and current evidence](PC_FRAMEWORK_INTEGRATION.md).
 
 Computers open an original Lua-drawn Windows '93 desktop with a CRT bezel, teal desktop, grey beveled controls, Start menu and taskbar. Opening the desktop never auto-runs the ledger.
 
@@ -20,7 +22,7 @@ The **sorting/collection requirement** is described in [LEDGER_REQUIREMENT.md](L
 
 ComputerUI owns presentation and proxies returned by server drive discovery, never authoritative item ownership. Drive choices are bounded, authenticated, sender-bound opaque offers. A mounted proxy cannot authorize sorting. Drive List/Mount/Eject/Read use Ledger capability 3; physical ledger schema stays 1. The stored CD is re-resolved on server reads and grants. The client polls authorized drive status at most once per two seconds while using the screen; native transfer authority does not wait for that UI poll.
 
-Native buttons/dropdowns, B/controller navigation, keyboard Escape, resize minimums, taskbar/list/footer bounds and light search-entry glyphs remain. Existing native `ISTextEntryBox:setTextRGBA` colors the actual native text-entry glyphs. All 29 UI locales retain English fallbacks. New UI code uses existing Lua-exposed ISUI primitives and original symbols; no external OS assets, arbitrary executable loader, filesystem, Java modification or separate runtime dependency is introduced.
+Native buttons/dropdowns, B/controller navigation, keyboard Escape, resize minimums, taskbar/list/footer bounds and light search-entry glyphs remain. Existing native `ISTextEntryBox:setTextRGBA` colors the actual native text-entry glyphs. All 29 UI locales retain English fallbacks. UI code uses existing Lua-exposed ISUI primitives and original symbols; no external OS assets, arbitrary executable loader, filesystem or Java modification is introduced. B47ANCED PC Framework is now a separate required Lua-only mod dependency; Quartermaster registers the ledger reader and CD Writer apps with it.
 
 ## Validation
 

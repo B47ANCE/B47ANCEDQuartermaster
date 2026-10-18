@@ -35,6 +35,7 @@ function ISPanelJoypad:bringToTop() self.raised=true end
 function ISPanel:drawTextCentre() end
 function ISTextEntryBox:setTextRGBA(r,g,b,a) self.nativeTextColor={r,g,b,a} end
 local V=require 'B47ANCEDQuartermaster/LedgerUI'
+require 'B47ANCEDPCFramework/Startup'
 local panel=assert(V.read(0,paper));assert(not panel.ledgerControls.search and not panel.ledgerControls.rooms,'paper exposes digital controls')
 panel:prerender();assert(#panel.ledgerControls.list.items==1)
 panel:setWidth(800);panel:setHeight(620);panel:prerender()
