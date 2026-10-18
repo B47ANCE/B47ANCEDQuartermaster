@@ -1,7 +1,7 @@
-require 'B47ANCEDUI/Controls'
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 require 'ISUI/ISCollapsableWindowJoypad'
 require 'RadioCom/ISUIRadio/ISSliderPanel'
-local Q,U=B47ANCEDQuartermaster,B47ANCEDUI
+local Q,U=B47ANCEDQuartermaster,SharedUI
 local V={active={},pending={}}
 local function tr(key,...) return getText('UI_QMSS_'..key,...) end
 function V.open(num,owner)

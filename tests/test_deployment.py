@@ -41,9 +41,10 @@ with tempfile.TemporaryDirectory() as directory:
     info=target/'42/mod.info';content=info.read_text(encoding='utf-8')
     gate.SOURCE=target
     gate.validate()
-    for invalid in (content.replace('require=B47ANCEDRooms,B47ANCEDPCFramework\n',''),
-                    content.replace('require=B47ANCEDRooms,B47ANCEDPCFramework','require=B47ANCEDRooms'),
-                    content.replace('require=B47ANCEDRooms,B47ANCEDPCFramework','require=B47ANCEDPCFramework'),
+    for invalid in (content.replace('require=B47ANCEDRooms,B47ANCEDPCFramework,B47ANCEDUI\n',''),
+                    content.replace('require=B47ANCEDRooms,B47ANCEDPCFramework,B47ANCEDUI','require=B47ANCEDRooms,B47ANCEDPCFramework'),
+                    content.replace('require=B47ANCEDRooms,B47ANCEDPCFramework,B47ANCEDUI','require=B47ANCEDRooms'),
+                    content.replace('require=B47ANCEDRooms,B47ANCEDPCFramework,B47ANCEDUI','require=B47ANCEDPCFramework'),
                     content.replace('require=B47ANCEDRooms','require=WrongRooms'),
                     content.replace('require=B47ANCEDRooms','require=B47ANCEDRooms\nrequire=B47ANCEDRooms')):
         info.write_text(invalid,encoding='utf-8')
@@ -52,6 +53,6 @@ with tempfile.TemporaryDirectory() as directory:
         except AssertionError:
             pass
         else:
-            raise AssertionError('Missing, wrong or duplicate Rooms dependency passed source packaging gate')
+            raise AssertionError('Missing UI/Rooms/PC, wrong or duplicate dependency passed source packaging gate')
     gate.SOURCE=original_source
-print('PASS dependency gate refuses missing, wrong and duplicate Rooms requirements')
+print('PASS dependency gate refuses missing UI/Rooms/PC, wrong and duplicate requirements')

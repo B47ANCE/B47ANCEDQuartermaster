@@ -1,3 +1,5 @@
+-- Domain controls isolate their presentation dependency; paired suites load the real public provider.
+package.loaded['B47ANCEDQuartermaster/UIProvider']={Dialog={decorate=function() end}}
 require 'B47ANCEDQuartermaster/Schema';require 'B47ANCEDQuartermaster/Categorizer'
 local Q=B47ANCEDQuartermaster;local UI=require 'B47ANCEDQuartermaster/AllocationUI'
 getText=function(key) return key end;UIFont={Small=1}
@@ -23,7 +25,7 @@ local dialog
 ISTextBox={new=function(_,_,_,_,_,_,text,owner,callback)
  dialog={entry={getInternalText=function() return text end},initialise=function() end,addToUIManager=function() end,owner=owner,callback=callback};return dialog
 end}
-B47ANCEDUI={Dialog={decorate=function() end}};setJoypadFocus=function() end
+setJoypadFocus=function() end
 UI.exact(p,rows[2]);assert(dialog)
 dialog.entry.getInternalText=function() return '31' end;dialog.callback(p,{internal='OK',parent=dialog});assert(p.allocation.items['Base.Food']==31)
 dialog.entry.getInternalText=function() return '101' end;dialog.callback(p,{internal='OK',parent=dialog});assert(p.allocation.items['Base.Food']==31)

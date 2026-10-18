@@ -424,6 +424,8 @@ local floorControls={}
 ISLootWindowContainerControls={AddHandler=ISInventoryWindowContainerControls.AddHandler,AddFloorHandler=function(c) floorControls[#floorControls+1]=c end}
 for _,path in ipairs({'ISUI/InventoryWindow/ISInventoryWindowControlHandler','ISUI/InventoryWindow/ISInventoryWindowContainerControls',
     'ISUI/LootWindow/ISLootWindowObjectControlHandler','ISUI/LootWindow/ISLootWindowFloorControlHandler','ISUI/LootWindow/ISLootWindowContainerControls','ISUI/ISContextMenu'}) do package.loaded[path]=true end
+-- This executor-only fixture has no native UI environment; real provider is covered by paired UI suites.
+package.loaded['B47ANCEDQuartermaster/UIProvider']={menu=function(menu) return menu end}
 require 'B47ANCEDQuartermaster/SortControls'
 assert(#controls==2)
 assert(controls[1].Type=='B47InventorySortControl' and controls[2].Type=='B47LootSortControl')

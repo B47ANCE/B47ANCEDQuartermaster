@@ -1,6 +1,6 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 require 'B47ANCEDQuartermaster/Authority'
 require 'B47ANCEDQuartermaster/ShoppingAddUI'
-require 'B47ANCEDUI/Dialog'
 local Q=B47ANCEDQuartermaster
 local U={};Q.RecipeShoppingUI=U
 local function tr(k) return getText('UI_QMSS_'..k) end
@@ -11,13 +11,13 @@ function U.prompt(default,callback,playerNum,owner)
     local dialog=ISTextBox:new(0,0,360,180,tr('ProjectQuantity'),tostring(default or 1),nil,function(_,button)
         if button.internal=='OK' then callback(tonumber(button.parent.entry:getInternalText())) end
     end,playerNum)
-    dialog:initialise();dialog:addToUIManager();B47ANCEDUI.Dialog.decorate(dialog,playerNum,owner)
+    dialog:initialise();dialog:addToUIManager();SharedUI.Dialog.decorate(dialog,playerNum,owner)
     return dialog
 end
 function U.explain(playerNum,key,owner)
     require 'ISUI/ISModalDialog'
     local dialog=ISModalDialog:new(0,0,480,220,tr(key),false,nil,nil,playerNum)
-    dialog:initialise();dialog:addToUIManager();B47ANCEDUI.Dialog.decorate(dialog,playerNum,owner);setJoypadFocus(playerNum,dialog)
+    dialog:initialise();dialog:addToUIManager();SharedUI.Dialog.decorate(dialog,playerNum,owner);setJoypadFocus(playerNum,dialog)
     return dialog
 end
 function U.install(class,kind)
@@ -38,7 +38,7 @@ function U.install(class,kind)
                 end,nil,nil,owner)
             end,owner.player:getPlayerNum(),owner)
         end)
-        button:initialise();button:instantiate();B47ANCEDUI.skin(button,'button');button:setTooltip(tr('AddToShopping'));self:addChild(button);self.b47Shopping=button
+        button:initialise();button:instantiate();SharedUI.skin(button,'button');button:setTooltip(tr('AddToShopping'));self:addChild(button);self.b47Shopping=button
     end
     class.calculateLayout=function(self,...)
         layout(self,...)

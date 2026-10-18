@@ -30,8 +30,8 @@ def validate(stage=None, local=None, package=False):
     info_text = (SOURCE / '42/mod.info').read_text(encoding='utf-8')
     info = dict(line.split('=', 1) for line in info_text.splitlines() if '=' in line)
     assert info['id'] == MOD and info['name'] == "B47ANCE'd Quartermaster"
-    assert info['modversion'] == version and info.get('require') == 'B47ANCEDRooms,B47ANCEDPCFramework'
-    assert re.findall(r'^require=(.*)$', info_text, re.M) == ['B47ANCEDRooms,B47ANCEDPCFramework']
+    assert info['modversion'] == version and info.get('require') == 'B47ANCEDRooms,B47ANCEDPCFramework,B47ANCEDUI'
+    assert re.findall(r'^require=(.*)$', info_text, re.M) == ['B47ANCEDRooms,B47ANCEDPCFramework,B47ANCEDUI']
     for name in expected:
         assert '/AutoClean/' not in name, 'Embedded cleaning returned to Quartermaster: '+name
         p = SOURCE / name

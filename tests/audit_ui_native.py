@@ -1,6 +1,6 @@
 """Read-only native ISUI contract inventory. Source evidence, not runtime proof."""
 from pathlib import Path
-import hashlib,json
+import hashlib,json,argparse
 root=Path(r'E:\Program Files (x86)\Steam\steamapps\common\ProjectZomboid\media\lua\client\ISUI')
 contracts={
  'ISUIElement.lua':['function ISUIElement:setAnchorsTBLR','function ISUIElement:setWidth','function ISUIElement:setHeight'],
@@ -19,8 +19,10 @@ for name,symbols in contracts.items():
  path=root/name;code=path.read_text(encoding='utf-8')
  for symbol in symbols: assert symbol in code,(name,symbol)
  report['files'][name]={'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'symbols':symbols}
-project=Path(__file__).resolve().parents[1]
-for path in (project/'src/B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDUI').glob('*.lua'):
+parser=argparse.ArgumentParser();parser.add_argument('--ui',type=Path,required=True);args=parser.parse_args()
+project=args.ui
+assert (project/'src/B47ANCEDUI/42/media/lua/client/B47ANCEDUI/API.lua').is_file()
+for path in (project/'src/B47ANCEDUI/42/media/lua/client/B47ANCEDUI').glob('*.lua'):
  code=path.read_text(encoding='utf-8')
  assert 'B47ANCEDQuartermaster' not in code and 'sendClientCommand' not in code and 'getSpecificPlayer' not in code,path
 print(json.dumps(report,indent=2))

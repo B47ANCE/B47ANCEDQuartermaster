@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.21.0-dev.5",
+  "version": "0.22.0-dev.1",
   "reviewed": true,
-  "source_digest": "c1c966c7ecbcb82d61bb71074919fe62ccbdc2bb9fee0a45398c9372f9d8475c",
+  "source_digest": "63b8cc377df25b7bde20cc44f151fc08245f555843f3d2e7e7c091cb723280e5",
   "features": [
     {
       "status": "Source",
@@ -57,9 +57,13 @@
     {
       "status": "Source",
       "text": "Physical Shopping paper controls restore across mode/settings changes with unique active-framework controller rows; fallback layout has a separate paper row and controller access."
+    },
+    {
+      "status": "Source",
+      "text": "Required B47ANCEDUI public Lua API 1 supplies shared controls, renderer, dialogs/tooltips, appearance editor and clipboard drawing; no embedded shared library. Application/server intent remains Quartermaster-owned."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.21.0-dev.5; G7/stable G8 BLOCKED. Requires Rooms and public PC Framework Workshop item 3822042011. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.22.0-dev.1; G7/stable G8 BLOCKED. Requires Rooms, PC Framework and UI. UI has no Workshop item; this source-only dependency is not Workshop-distributed. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",
@@ -70,7 +74,8 @@
     "docs/CLIPBOARD_UI_FIX.md",
     "docs/APPLICATION_CD.md",
     "docs/SORT_LEDGER.md",
-    "docs/OPEN_PR_INTEGRATION_2026_10_18.md"
+    "docs/OPEN_PR_INTEGRATION_2026_10_18.md",
+    "docs/UI_EXTRACTION.md"
   ],
   "relations": [
     {
@@ -82,6 +87,11 @@
       "target": "local-2c6a6aca81aa",
       "kind": "Required",
       "text": "CD program API 1, desktop/device/server-drive host. Quartermaster owns installation receipts, native timing, ledger privacy/data and app callbacks."
+    },
+    {
+      "target": "local-295e28ef7161",
+      "kind": "Required",
+      "text": "Client UI API 1 and scoped appearance; no gameplay dependency in provider."
     }
   ]
 }

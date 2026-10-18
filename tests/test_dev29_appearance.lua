@@ -1,7 +1,7 @@
 -- Owned production paths plus installed native slider code. Offline, not pixel evidence.
 dofile(TEST_ROOT..'/test_shopping_ui.lua')
 local Q,U=B47ANCEDQuartermaster,B47ANCEDUI
-local A=U.Appearance;local p=Q.openPicker(CONTAINER_FIXTURE.a,0,0)
+local A=Q.UIProvider.Appearance;local p=Q.openPicker(CONTAINER_FIXTURE.a,0,0)
 assert(A.get(0)==82)
 local records={};local writes=0
 getFileWriter=function(name) return {write=function(_,s) records[name]=s;writes=writes+1 end,close=function() end} end
@@ -23,14 +23,15 @@ local child=ISPanel:new(0,0,100,100);child.parent=p;U.skin(child,'panel');A.prep
 local button=U.Button:new(0,0,100,30,'button',p,function() end);A.prepare(button,'button');assert(button.backgroundColor.a==U.Theme.colors.raised.a)
 local stripe=U.Theme.colors.accent.a;assert(stripe==1)
 local before=Q.WindowLayout.railWidth(p);Q.WindowLayout.change(p,'railMore');assert(A.get(0)==100 and Q.WindowLayout.railWidth(p)>before)
-A.save(0);assert(records['B47ANCEDQuartermasterAppearance0.txt']=='opacity=100\n')
+A.save(0);assert(records['B47ANCEDUI/appearance/B47ANCEDQuartermaster.0.txt']=='opacity=100\n')
 -- Separate local player and a fresh module cache simulate restart/reconnect reload.
 getFileReader=function(name) return {readLine=function() return records[name] end,close=function() end} end
-local path=TEST_ROOT..'/../src/B47ANCEDQuartermaster/42/media/lua/client/B47ANCEDUI/Appearance.lua'
-local Reload=dofile(path)
+local path=UI_SOURCE..'/B47ANCEDUI/Appearance.lua'
+local RootAppearance=dofile(path)
+local Reload=RootAppearance.context('B47ANCEDQuartermaster',{legacyAppearancePrefix='B47ANCEDQuartermasterAppearance'})
 
 assert(Reload.get(0)==100 and Reload.get(1)==82,'local player persistence isolation')
-for i,value in ipairs({'opacity=abc','opacity=-1','opacity=101','opacity=nan'}) do records['B47ANCEDQuartermasterAppearance'..(i+1)..'.txt']=value;assert(Reload.get(i+1)==82) end
+for i,value in ipairs({'opacity=abc','opacity=-1','opacity=101','opacity=nan'}) do records['B47ANCEDUI/appearance/Corrupt'..i..'.0.txt']=value;assert(RootAppearance.context('Corrupt'..i).get(0)==82) end
 A=Reload
 -- Run the installed native slider rather than mirroring its rounding implementation.
 dofile(GAME_ROOT..'/media/lua/client/RadioCom/ISUIRadio/ISSliderPanel.lua')
@@ -43,7 +44,7 @@ assert(p.width==oldWidth and p.height==oldHeight)
 panel.slider:onJoypadDirRight();assert(A.get(0)==55)
 panel.reset.onclick();assert(A.get(0)==82 and panel.slider.currentValue==82)
 assert(panel.b47AppearanceOpaque and A.alpha(panel)==.94)
-panel.close();assert(records['B47ANCEDQuartermasterAppearance0.txt']=='opacity=82\n')
+panel.close();assert(records['B47ANCEDUI/appearance/B47ANCEDQuartermaster.0.txt']=='opacity=82\n')
 local tip={backgroundColor={a=0},b47AppearanceOpaque=true};assert(A.alpha(tip)==.94)
 assert(calls==0,'appearance emitted gameplay RPC')
 Q.Authority.request=request;p.layout=layout

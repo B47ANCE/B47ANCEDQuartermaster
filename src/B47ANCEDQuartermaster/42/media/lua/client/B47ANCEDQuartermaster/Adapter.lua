@@ -1,8 +1,8 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 require 'B47ANCEDQuartermaster/Picker'
 require 'B47ANCEDQuartermaster/Model'
 require 'B47ANCEDQuartermaster/Ownership'
 require 'B47ANCEDQuartermaster/UIOptions'
-require 'B47ANCEDUI/Controls'
 local AllocationUI=require 'B47ANCEDQuartermaster/AllocationUI'
 
 local Q = B47ANCEDQuartermaster
@@ -170,7 +170,7 @@ local function selectRow(p, row)
 end
 
 function Q.context(p, row, x, y)
-    local menu = B47ANCEDUI.menu(ISContextMenu.get(p.playerNum or 0, x, y))
+    local menu = SharedUI.menu(ISContextMenu.get(p.playerNum or 0, x, y))
     AllocationUI.context(p,row,menu)
     AllocationUI.actions(p,menu)
     if p.allocationOnly then
@@ -200,7 +200,7 @@ function Q.context(p, row, x, y)
         local key = row.kind == 'mod' and (row.open and 'CollapseMod' or 'ExpandMod')
             or (row.open and 'CollapseCategory' or 'ExpandCategory')
         add(menu, key, function() expand(p, rowById(p, row.id)) end)
-        local submenu = B47ANCEDUI.menu(ISContextMenu:getNew(menu))
+        local submenu = SharedUI.menu(ISContextMenu:getNew(menu))
         menu:addSubMenu(menu:addOption(tr('VisibleList')), submenu)
         visibleOptions(submenu)
     else visibleOptions(menu) end
@@ -208,7 +208,7 @@ function Q.context(p, row, x, y)
         Q.UIOptions.setGroupByMod(not Q.UIOptions.groupByMod())
     end)
     if row then
-        local rangeMenu = B47ANCEDUI.menu(ISContextMenu:getNew(menu))
+        local rangeMenu = SharedUI.menu(ISContextMenu:getNew(menu))
         menu:addSubMenu(menu:addOption(tr('Range')), rangeMenu)
         add(rangeMenu, 'SetAnchor', function() p.qmss.rangeAnchor = row.id end)
         local anchor = rowById(p, p.qmss.rangeAnchor)
@@ -257,7 +257,7 @@ local function drawRow(lb, y, entry, alt)
     local state = rowState(p, row)
     local width = lb:getWidth()
     if lb:isVScrollBarVisible() then width = lb.vscroll.x end
-    local UI=B47ANCEDUI
+    local UI=SharedUI
     UI.Renderer.row(lb,y,height,entry.index,lb.selected==entry.index,lb.mouseoverselected==entry.index and lb:isMouseOver())
     local x = UI.Tree.indent(row.depth)
     local by = y + (height - 16) / 2

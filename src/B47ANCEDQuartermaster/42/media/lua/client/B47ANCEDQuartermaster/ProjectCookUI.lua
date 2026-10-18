@@ -1,3 +1,4 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 require 'B47ANCEDQuartermaster/RecipeShoppingUI'
 local Q=B47ANCEDQuartermaster;local U={};Q.ProjectCookUI=U
 local function tr(k) return getText('UI_QMSS_'..k) end
@@ -54,7 +55,7 @@ function U.install(class,kind,footer)
                 end,intent,(class==PJCK_CraftActionPanel or class==PJCK_CookingInfo) and 'cook' or nil,owner)
             end,owner.player:getPlayerNum(),owner)
         end)
-        b:initialise();b:instantiate();B47ANCEDUI.skin(b,'button');self:addChild(b);self.b47CookShopping=b;place(self)
+        b:initialise();b:instantiate();SharedUI.skin(b,'button');self:addChild(b);self.b47CookShopping=b;place(self)
         if self.insertNewLineOfButtons and self.joypadButtonsY and self.allJoypadButtons then self:insertNewLineOfButtons(b) end
     end
     if kind=='evolved' or footer then

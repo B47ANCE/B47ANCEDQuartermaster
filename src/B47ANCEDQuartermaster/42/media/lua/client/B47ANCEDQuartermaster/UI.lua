@@ -1,7 +1,6 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 -- Application presentation consumes the embedded, state-free UI framework.
-require 'B47ANCEDUI/Controls'
-require 'B47ANCEDUI/Dialog'
-local Q=B47ANCEDQuartermaster;local U=B47ANCEDUI;local T,R=U.Theme,U.Renderer
+local Q=B47ANCEDQuartermaster;local U=SharedUI;local T,R=U.Theme,U.Renderer
 local V={};Q.UI=V
 local function tr(k) return getText('UI_QMSS_'..k) end
 local function at(w,x,y,width,height) U.Layout.place(w,x,y,width,height or T.metrics().button) end

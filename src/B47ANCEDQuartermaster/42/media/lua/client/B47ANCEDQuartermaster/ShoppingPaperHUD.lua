@@ -1,3 +1,4 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 -- Local held-paper presentation. Only the server supplies list contents/counts.
 require 'ISUI/ISPanel'
 require 'B47ANCEDQuartermaster/Authority'
@@ -20,7 +21,7 @@ local function panel(num,e)
  p.background=false;p.border=false;p:setWantMouseEvents(false);p:setWantKeyEvents(false);p:setCapture(false);p:setRenderThisPlayerOnly(num)
  function p:prerender()
   if not valid(num,e) then return end
-  local U=B47ANCEDUI;local font=UIFont.Small;local fh=getTextManager():getFontHeight(font);local row=fh+9
+  local U=SharedUI;local font=UIFont.Small;local fh=getTextManager():getFontHeight(font);local row=fh+9
   local vw,vh=getPlayerScreenWidth(num),getPlayerScreenHeight(num)
   local width=math.min(350,vw-20);local available=math.max(1,math.min(8,math.floor((vh-160)/row)))
   local state=e.snapshot;local rows=state and state.requirements or {};local page=math.floor(getTimestampMs()/6000)%math.max(1,math.ceil(#rows/available))

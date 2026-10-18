@@ -1,3 +1,4 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 require 'B47ANCEDQuartermaster/Authority'
 require 'B47ANCEDQuartermaster/ItemCatalog'
 require 'B47ANCEDQuartermaster/ShoppingAddUI'
@@ -237,7 +238,7 @@ function U.attach(p)
             end
             change('wish',false,n)
         end,p.playerNum)
-        dialog:initialise();dialog:addToUIManager();B47ANCEDUI.Dialog.decorate(dialog,p.playerNum,p)
+        dialog:initialise();dialog:addToUIManager();SharedUI.Dialog.decorate(dialog,p.playerNum,p)
         setJoypadFocus(p.playerNum,dialog)
     end)
     local function goalKind(kind) u.goalKind=kind;u.selected=nil;u.selectedProject=nil;u.selectedSource=nil;rebuild();p:configJoypad() end
@@ -279,7 +280,7 @@ function U.attach(p)
         local function at(c,x,y,width,height) c:setX(x);c:setY(y);c:setWidth(width);c:setHeight(height or 24) end
         local half=math.floor((w-36)/2)
         local paper=u.paperPicker and u.lists.paper and u.lists.paper.enabled
-        local offset=paper and math.max(30,B47ANCEDUI.Theme.metrics().button+6) or 0
+        local offset=paper and math.max(30,SharedUI.Theme.metrics().button+6) or 0
         if paper then
             at(u.paperPicker,10,34,half);at(u.paperNew,half+22,34,half/3-4);at(u.paperRename,half+26+half/3,34,half/3-4);at(u.paperImport,half+30+2*half/3,34,half/3-4)
             for _,c in ipairs({u.paperPicker,u.paperNew,u.paperRename,u.paperImport}) do c:setHeight(offset-6) end

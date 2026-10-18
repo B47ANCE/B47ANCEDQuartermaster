@@ -1,4 +1,4 @@
-require 'B47ANCEDUI/Controls'
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 require 'ISUI/ISComboBox'
 require 'TimedActions/ISTimedActionQueue'
 require 'TimedActions/WalkToTimedAction'
@@ -12,7 +12,7 @@ local Action=require 'B47ANCEDQuartermaster/LedgerAction'
 local Computer=require 'B47ANCEDQuartermaster/ComputerUI'
 local LedgerTable=require 'B47ANCEDQuartermaster/LedgerTable'
 local Clipboard=require 'B47ANCEDQuartermaster/ClipboardArt'
-local U,Q=B47ANCEDUI,B47ANCEDQuartermaster
+local U,Q=SharedUI,B47ANCEDQuartermaster
 local V={work={},readers={}};Q.LedgerUI=V
 local function tr(key,...) return getText('UI_QMSS_'..key,...) end
 local function note(actor,status) actor:setHaloNote(tr(status)) end

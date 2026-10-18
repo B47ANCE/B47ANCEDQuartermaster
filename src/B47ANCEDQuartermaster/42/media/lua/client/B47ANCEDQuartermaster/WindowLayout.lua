@@ -1,7 +1,7 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 -- Player-local presentation geometry. No ModData, taxonomy or network access.
-require 'B47ANCEDUI/Controls'
 require 'ISUI/ISPanel'
-local Q,U=B47ANCEDQuartermaster,B47ANCEDUI
+local Q,U=B47ANCEDQuartermaster,SharedUI
 local G={};Q.WindowLayout=G
 local function valid(n) return type(n)=='number' and n==n and n~=math.huge and n~=-math.huge end
 local function clamp(n,a,b) return math.max(a,math.min(b,n)) end
