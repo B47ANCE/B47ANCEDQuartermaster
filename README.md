@@ -8,7 +8,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch contains **0.20.0-dev.2 development work**, prepared for the authorized MP testing update to existing item 3807217050. The previous 0.16.0-dev.2 package remains historical. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/workshop-publication).
+The Workshop feature guide is below. This branch contains **0.20.0-dev.2 development work**, published to existing Workshop item 3807217050 as an MP testing build. The previous 0.16.0-dev.2 package remains historical. Native client/dedicated acceptance remains pending. [Published source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/workshop-publication). [Exact upload evidence](docs/WORKSHOP_PUBLICATION.md).
 
 ## Development work in this branch
 

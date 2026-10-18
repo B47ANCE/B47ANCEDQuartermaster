@@ -3,6 +3,7 @@
 ## [0.20.0-dev.2] - 2026-10-17
 
 - PATCH-level publication metadata/tooling checkpoint within pending 0.20.0: link required PC Framework Workshop item 3822042011 and prepare accurate MP testing prose. Pass explicit dependency checkouts through Workshop staging.
+- SteamCMD upload succeeded for existing item 3807217050; public metadata/version verified and the Workshop required-item relationship added alongside Rooms. Record exact source/package/upload evidence in WORKSHOP_PUBLICATION.md.
 - Gameplay, sandbox settings, public APIs, saves, existing item 3807217050 and visibility are unchanged. Full offline package/paired regressions are required before upload. Native SP/dedicated NOT TESTED; G7/stable G8 BLOCKED.
 
 ## [0.20.0-dev.1] - 2026-10-17
