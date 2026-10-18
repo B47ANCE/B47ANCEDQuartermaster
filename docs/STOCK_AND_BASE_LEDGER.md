@@ -133,4 +133,4 @@ credentials. Host CI results remain separate from local tests and runtime gates.
 privacy and simultaneous goal edits, pairing across chunk unload/reload, PC/CD
 loss, latency, reconnect and dedicated persistence/restart NOT TESTED. G7 and
 stable-release G8 BLOCKED. Existing published-build acceptance is not evidence
-for these new gameplay paths. No current package or release was produced.
+for these new gameplay paths. Current distribution is recorded separately in WORKSHOP_STOCK_TESTING_2026_10_18.md; native acceptance remains pending.

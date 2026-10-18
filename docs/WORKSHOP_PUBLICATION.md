@@ -1,5 +1,7 @@
 # Workshop publication
 
+2026-10-18: **0.23.0-dev.1 published as an MP testing build** to existing item 3807217050. SteamCMD success/exit 0 and exact public description are verified. Framework 0.11.0-dev.1 is uploaded; existing UI item 3822582242 is linked alongside Rooms and Framework. Native/dedicated acceptance remains NOT TESTED; G7/stable G8 BLOCKED. Steam restarted only after the user's specific approval. [Exact release source, retained package hashes, checks and limits](WORKSHOP_STOCK_TESTING_2026_10_18.md). Previous entries below remain historical.
+
 2026-10-18: 0.21.0-dev.5 integrates the five open Quartermaster PR heads, the approved transparent mod icon and the now-public PC Framework dependency (3822042011). Thumbnail and poster are unchanged. Authorized MP testing upload is pending final commit/package provenance and SteamCMD success; native/dedicated acceptance remains NOT TESTED. All previous preparation/publication records below remain historical.
 
 2026-10-17: **0.20.0-dev.2 published as an MP testing build** to existing item 3807217050. SteamCMD reported `Committing update...Success` and exited 0 using existing cached login. Public API metadata independently confirms App ID 108600, public visibility, the existing title/tags, current version and MP testing label. The Workshop page now lists both Rooms 3820077442 and PC Framework 3822042011 as required items; the existing Rooms relationship was preserved.

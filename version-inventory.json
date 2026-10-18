@@ -329,6 +329,10 @@
     {
       "reference": "docs/SORT_LEDGER_EVIDENCE.json",
       "reason": "Preserved prior 0.21 source/offline validation receipt, not relabeled for UI extraction; current paired evidence in UI_EXTRACTION.md."
+    },
+    {
+      "reference": "docs/WORKSHOP_STOCK_TESTING_2026_10_18.md",
+      "reason": "Dated 0.23.0-dev.1 release/source/package/dependency/upload and restart evidence; retain exact hashes and runtime limits rather than relabeling for later versions."
     }
   ]
 }
