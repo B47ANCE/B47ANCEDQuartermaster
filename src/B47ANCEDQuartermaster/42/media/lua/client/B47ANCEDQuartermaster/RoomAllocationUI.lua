@@ -1,3 +1,4 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 -- Reuse the allocation picker; Rooms remains the owner of geometry/roles/access.
 require 'B47ANCEDQuartermaster/Picker'
 local Profile=require 'B47ANCEDQuartermaster/AllocationProfile'
@@ -9,14 +10,14 @@ local function request(p,command,args,done)
  Q.Authority.request(p.playerNum,command,args,function(result) if not p.removed then done(result) end end)
 end
 local function thresholds(p)
- local menu=B47ANCEDUI.menu(ISContextMenu.get(p.playerNum,getMouseX(),getMouseY()))
+ local menu=SharedUI.menu(ISContextMenu.get(p.playerNum,getMouseX(),getMouseY()))
  for _,key in ipairs({'primaryAt','secondaryAt'}) do local field=key
   menu:addOption(tr(field=='primaryAt' and 'AllocationPrimaryAt' or 'AllocationSecondaryAt',p.roomWorking[field]),p,function()
    local dialog=ISTextBox:new(0,0,400,190,tr('AllocationExactPrompt'),tostring(p.roomWorking[field]),p,function(owner,b)
     if b.internal~='OK' or owner.removed then return end
     local value=tonumber(b.parent.entry:getInternalText());if Profile.percent(value) then owner.roomWorking[field]=value else owner.title=tr('AllocationInvalid') end
    end,p.playerNum)
-   dialog:initialise();dialog:addToUIManager();B47ANCEDUI.Dialog.decorate(dialog,p.playerNum,p);setJoypadFocus(p.playerNum,dialog)
+   dialog:initialise();dialog:addToUIManager();SharedUI.Dialog.decorate(dialog,p.playerNum,p);setJoypadFocus(p.playerNum,dialog)
   end)
  end
  if p.grabbedJoypad then setJoypadFocus(p.playerNum,menu) end
@@ -73,7 +74,7 @@ end
 function U.menu(parent)
  request(parent,'allocationRoomList',{},function(result)
   if result.status~='ok' then parent.title=tr(result.status);return end
-  local menu=B47ANCEDUI.menu(ISContextMenu.get(parent.playerNum,getMouseX(),getMouseY()))
+  local menu=SharedUI.menu(ISContextMenu.get(parent.playerNum,getMouseX(),getMouseY()))
   for _,room in ipairs(result.rooms) do local r=room
    if #(r.profileKeys or {})>1 then
     local sub=ISContextMenu:getNew(menu);menu:addSubMenu(menu:addOption(r.name),sub)

@@ -1,4 +1,6 @@
 -- Exercised production resolver/render adapter, simulated native objects only.
+local presentation={Renderer={}}
+package.loaded['B47ANCEDQuartermaster/UIProvider']=presentation
 B47ANCEDQuartermaster={};package.loaded['B47ANCEDQuartermaster/Targets']=true
 local now,checks=0,0
 getTimestampMs=function() return now end
@@ -19,7 +21,7 @@ local function object(id)
  return {obj=o,container=container,ci=0,kind='cupboard'},texture
 end
 local drawn,fallback
-B47ANCEDUI={Renderer={icon=function(_,icon) fallback=icon end}}
+presentation.Renderer.icon=function(_,icon) fallback=icon end
 local list={drawTextureScaledAspect2=function(_,tex,x,y,w,h,a,r,g,b)
  assert(w==h and x==5 and y==8 and a==1 and r==1 and g==1 and b==1);drawn=tex
 end}

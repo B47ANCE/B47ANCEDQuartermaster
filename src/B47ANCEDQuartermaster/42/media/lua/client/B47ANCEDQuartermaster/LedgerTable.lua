@@ -1,6 +1,6 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 -- Read-only Windows '93 ledger presentation. Receives authorized page rows only.
-require 'B47ANCEDUI/Controls'
-local U=B47ANCEDUI;local R=U.Renderer
+local U=SharedUI;local R=U.Renderer
 local T={}
 local function tr(k,...) return getText('UI_QMSS_'..k,...) end
 local function plain(s) return U.Tooltip.plain(tostring(s or '')) end

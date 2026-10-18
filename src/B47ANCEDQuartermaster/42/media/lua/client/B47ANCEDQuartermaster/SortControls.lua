@@ -1,3 +1,4 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 require 'B47ANCEDQuartermaster/Sorter'
 require 'ISUI/InventoryWindow/ISInventoryWindowControlHandler'
 require 'ISUI/InventoryWindow/ISInventoryWindowContainerControls'
@@ -91,7 +92,7 @@ local function perform(playerNum,container)
             menu:addOption(getText(container==player:getInventory() and 'UI_QMSS_SortOnlyInventory' or 'UI_QMSS_SortOnlyContainer'),nil,function() singleSort(playerNum,container) end)
         end
         menu:addOption(getText('UI_QMSS_DangerousLoadTitle'),nil,function() require('B47ANCEDQuartermaster/LoadSettingsUI').open(playerNum) end)
-        if B47ANCEDUI and B47ANCEDUI.menu then B47ANCEDUI.menu(menu) end
+        if SharedUI and SharedUI.menu then SharedUI.menu(menu) end
         if player:getJoypadBind()~=-1 then setJoypadFocus(playerNum,menu) end
     end)
 end

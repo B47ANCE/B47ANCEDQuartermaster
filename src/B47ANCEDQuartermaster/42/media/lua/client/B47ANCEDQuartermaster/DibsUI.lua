@@ -1,5 +1,5 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 require 'B47ANCEDQuartermaster/Authority'
-require 'B47ANCEDUI/Controls'
 require 'ISUI/ISPanelJoypad'
 local Q=B47ANCEDQuartermaster
 local D={};Q.DibsUI=D
@@ -19,9 +19,9 @@ function D.presentation(rows)
     if #rows>1 then
         lines[1]=getText('UI_QMSS_DibsMultiTip',#rows)
     elseif rows[1] then
-        for _,record in ipairs(rows[1].details.needed) do lines[#lines+1]=tr('Needed')..': '..B47ANCEDUI.Tooltip.plain(record.label) end
+        for _,record in ipairs(rows[1].details.needed) do lines[#lines+1]=tr('Needed')..': '..SharedUI.Tooltip.plain(record.label) end
         -- Wanted call order remains the authoritative order returned by Dibs.details.
-        for i,record in ipairs(rows[1].details.wanted) do lines[#lines+1]=tr('Wanted')..' '..i..'. '..B47ANCEDUI.Tooltip.plain(record.label) end
+        for i,record in ipairs(rows[1].details.wanted) do lines[#lines+1]=tr('Wanted')..' '..i..'. '..SharedUI.Tooltip.plain(record.label) end
     end
     local label=tr('Dibs')
     if priority=='needed' then label=label..' [!] '..tr('Needed')
@@ -39,7 +39,7 @@ function D.fill(playerNum,context,items)
     Q.Authority.request(playerNum,'dibsInspect',{ids=ids},function(result)
         if result.status~='ok' or context.b47DibsRequest~=stamp then return end
         local menu=ISContextMenu:getNew(context)
-        if B47ANCEDUI then B47ANCEDUI.menu(menu) end
+        if SharedUI then SharedUI.menu(menu) end
         local label,lines=D.presentation(result.rows)
         local option=context:addOption(label);option.b47Dibs=true;context:addSubMenu(option,menu)
         local wanted,needed,clear=D.options(result.rows)
@@ -55,12 +55,12 @@ function D.fill(playerNum,context,items)
         if needed then add('Needed','needed') end
         if clear then add('DibsClear','none') end
         if #lines>0 and ISWorldObjectContextMenu.addToolTip then
-            local preview={};for i=1,math.min(6,#lines) do preview[#preview+1]=lines[i] end;if #lines>6 then preview[#preview+1]=getText('UI_QMSS_DibsMore',#lines-6) end;B47ANCEDUI.Tooltip.context(option,table.concat(preview,' <LINE> '),playerNum,context)
+            local preview={};for i=1,math.min(6,#lines) do preview[#preview+1]=lines[i] end;if #lines>6 then preview[#preview+1]=getText('UI_QMSS_DibsMore',#lines-6) end;SharedUI.Tooltip.context(option,table.concat(preview,' <LINE> '),playerNum,context)
             menu:addOption(tr('InspectDibs'),nil,function() D.inspect(playerNum,lines,context) end)
         end
     end)
 end
-function D.inspect(playerNum,lines,owner) return B47ANCEDUI.Tooltip.inspect(playerNum,table.concat(lines,' <LINE> '),owner) end
+function D.inspect(playerNum,lines,owner) return SharedUI.Tooltip.inspect(playerNum,table.concat(lines,' <LINE> '),owner) end
 function D.installIconHook()
     if D.iconHook or not ISInventoryItem or not ISInventoryItem.renderItemIcon then return end
     D.iconHook=true

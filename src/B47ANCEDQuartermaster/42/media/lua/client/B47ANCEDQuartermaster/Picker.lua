@@ -1,3 +1,4 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 -- Original standalone ISUI shell. Tree behavior lives in the owned Adapter/Model.
 require 'ISUI/ISCollapsableWindowJoypad'
 require 'ISUI/ISButton'
@@ -29,7 +30,7 @@ function Picker.itemTexture(fullType)
 end
 function Picker:new(obj,ci,playerNum,options)
     local w,h=1120,780
-    local metrics=B47ANCEDUI.Theme.metrics()
+    local metrics=SharedUI.Theme.metrics()
     local minimumWidth=math.max(640,metrics.rail+math.max(560,metrics.font*18)+32)
     local minimumHeight=math.max(460,metrics.header+metrics.tab+5*metrics.button+2*metrics.treeRow+metrics.font+9*metrics.gap)
     if getPlayerScreenWidth then
@@ -223,7 +224,7 @@ function Picker:promptPreset(mode,name)
         elseif mode=='rename' then owner:changePreset(name,nil,false,nil,def.gen,owner.presetLibrary.revision,{renameTo=text})
         else owner:changePreset(text,nil,false,nil,0,owner.presetLibrary.revision,{duplicateOf=name,sourceGeneration=def.gen}) end
     end,self.playerNum)
-    dialog:initialise();dialog:addToUIManager();B47ANCEDUI.Dialog.decorate(dialog,self.playerNum,self);setJoypadFocus(self.playerNum,dialog)
+    dialog:initialise();dialog:addToUIManager();SharedUI.Dialog.decorate(dialog,self.playerNum,self);setJoypadFocus(self.playerNum,dialog)
 end
 function Picker:editPreset(name,isNew)
     local def=self:getPresetStore()[name]
@@ -248,7 +249,7 @@ function Picker:editPreset(name,isNew)
 end
 function Picker:presetMenu()
     if self.targetKind~='box' then return end
-    local menu=B47ANCEDUI.menu(ISContextMenu.get(self.playerNum,getMouseX(),getMouseY()))
+    local menu=SharedUI.menu(ISContextMenu.get(self.playerNum,getMouseX(),getMouseY()))
     menu:addOption(tr('PresetNew'),self,function(p) p:promptPreset('new') end)
     local row=self.listbox.items[self.listbox.selected]
     local name=row and type(row.item)=='string' and row.item
@@ -259,7 +260,7 @@ function Picker:presetMenu()
         menu:addOption(tr('PresetEdit'),self,function(p) p:editPreset(name,false) end)
         menu:addOption(tr('PresetDelete'),self,function(p)
             local revision,generation=p.presetLibrary.revision,def.gen
-            B47ANCEDUI.Dialog.confirm(p.playerNum,tr('PresetDeleteConfirm')..' '..name,{accept=tr('PresetDelete'),cancel=tr('Cancel')},function(mode)
+            SharedUI.Dialog.confirm(p.playerNum,tr('PresetDeleteConfirm')..' '..name,{accept=tr('PresetDelete'),cancel=tr('Cancel')},function(mode)
                 if mode=='accept' then p:changePreset(name,nil,true,nil,generation,revision) end
             end,p)
         end)
@@ -276,7 +277,7 @@ local function openPrepared(obj,ci,playerNum,api)
     local p=Picker:new(obj,ci,playerNum,{api=api,uiFramework=true})
     p:initialise();p:addToUIManager();Q.adapt(p);Q.picker=p;Q.pickers[playerNum]=p
     Q.ShoppingUI.attach(p)
-    Q.UI.attach(p);B47ANCEDUI.bounds(p,playerNum)
+    Q.UI.attach(p);SharedUI.bounds(p,playerNum)
     if getSpecificPlayer(playerNum):getJoypadBind()~=-1 then setJoypadFocus(playerNum,p) end
     return p
 end
@@ -307,7 +308,7 @@ function Q.openPicker(obj,ci,playerNum)
         else print('[B47ANCEDQuartermaster] opening cancelled: '..tostring(err)) end
     end)
     if result then return result end
-    local U=B47ANCEDUI;local metrics=U.Theme.metrics()
+    local U=SharedUI;local metrics=U.Theme.metrics()
     loading=U.WindowShell:new(100,80,400,180);loading.playerNum=playerNum;loading.title=tr('ProductTitle');loading.resizable=false
     loading.drawFrame=false;loading.titleBarHeight=function() return U.Theme.metrics().header end
     loading:initialise();loading:addToUIManager();U.bounds(loading,playerNum)

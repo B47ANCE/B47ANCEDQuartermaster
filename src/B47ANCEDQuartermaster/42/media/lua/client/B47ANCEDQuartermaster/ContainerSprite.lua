@@ -1,3 +1,4 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 -- Local previews only. Never selects a gameplay target or changes a server handle.
 require 'B47ANCEDQuartermaster/Targets'
 local Q=B47ANCEDQuartermaster;local T=Q.Targets
@@ -55,6 +56,6 @@ function S:draw(list,target,fallback,x,y,size)
         -- Native variant 2 fits the atlas's trimmed width/height, centered, without
         -- treating the original isometric tile canvas/offset as visible content.
         list:drawTextureScaledAspect2(texture,x,y,size,size,1,1,1,1)
-    else B47ANCEDUI.Renderer.icon(list,texture or fallback,x,y,size) end
+    else SharedUI.Renderer.icon(list,texture or fallback,x,y,size) end
 end
 return S

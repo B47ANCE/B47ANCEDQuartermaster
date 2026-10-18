@@ -127,16 +127,12 @@
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
-      "path": "docs/APPLICATION_CD_EVIDENCE.json",
-      "pattern": "^  \"project_version\": \"(?P<version>[^\\\"]+)\""
-    },
-    {
       "path": "docs/SORT_LEDGER.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
     },
     {
-      "path": "docs/SORT_LEDGER_EVIDENCE.json",
-      "pattern": "^  \"project_version\": \"(?P<version>[^\\\"]+)\""
+      "path": "docs/UI_EXTRACTION.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
     }
   ],
   "changelog": {
@@ -321,6 +317,14 @@
     {
       "reference": "docs/DESIGNATED_ROOM_SCOPES.md",
       "reason": "Exact 0.18.0-dev.2 scope follow-up source hashes, paired tests and review; preserved as dated historical evidence, not current CRT UI acceptance."
+    },
+    {
+      "reference": "docs/APPLICATION_CD_EVIDENCE.json",
+      "reason": "Preserved prior 0.21 source/offline validation receipt, not relabeled for UI extraction; current paired evidence in UI_EXTRACTION.md."
+    },
+    {
+      "reference": "docs/SORT_LEDGER_EVIDENCE.json",
+      "reason": "Preserved prior 0.21 source/offline validation receipt, not relabeled for UI extraction; current paired evidence in UI_EXTRACTION.md."
     }
   ]
 }

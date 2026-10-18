@@ -1,3 +1,10 @@
+## [0.22.0-dev.1] - 2026-10-18
+
+- Extract shared presentation into required B47ANCEDUI public Lua API 1. Remove the embedded library; retain application screens and gameplay callbacks.
+- Move reusable appearance editor and clipboard drawing; import old per-player appearance values read-only into consumer-scoped preferences.
+- This 0.x MINOR adds a required mod dependency. Both peers must install UI. Gameplay authority, protocols, window settings and save data are unchanged.
+- Source-only: offline validation, native SP/dedicated NOT TESTED; G7/stable G8 BLOCKED. No package/deploy/Workshop upload.
+
 ## [0.21.0-dev.5] - 2026-10-18
 
 - Integrate all open Quartermaster feature branches with the public PC Framework dependency and unified desktop.

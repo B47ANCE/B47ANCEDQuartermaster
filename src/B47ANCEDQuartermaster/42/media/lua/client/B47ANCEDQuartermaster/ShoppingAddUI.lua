@@ -1,11 +1,11 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 require 'B47ANCEDQuartermaster/Authority'
 require 'ISUI/ISModalDialog'
-require 'B47ANCEDUI/Dialog'
 local Q=B47ANCEDQuartermaster;local U={pending={},recent={}};Q.ShoppingAddUI=U
 local serial=0
 local function tr(k) return getText('UI_QMSS_'..k) end
 function U.confirm(playerNum,text,callback,owner,newOnly)
-    return B47ANCEDUI.Dialog.confirm(playerNum,text,{accept=tr('AddAgain'),cancel=tr('Cancel'),extra=newOnly and tr('AddNewOnly') or nil},function(mode)
+    return SharedUI.Dialog.confirm(playerNum,text,{accept=tr('AddAgain'),cancel=tr('Cancel'),extra=newOnly and tr('AddNewOnly') or nil},function(mode)
         callback(mode=='accept' and 'again' or mode=='extra' and 'newOnly' or 'cancel')
     end,owner)
 end

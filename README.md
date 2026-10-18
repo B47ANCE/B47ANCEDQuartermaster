@@ -1,5 +1,7 @@
 # B47ANCE'd Quartermaster
 
+Shared UI source iteration: requires [B47ANCEDUI](https://github.com/B47ANCE/B47ANCEDUI) public client API 1 in addition to Rooms and PC Framework. UI currently has no Workshop item. [Extraction, migration and actual validation limits](docs/UI_EXTRACTION.md).
+
 <img src="preview-client.png" alt="B47ANCE'd Quartermaster: wooden storage crate with a supply checklist" width="320">
 
 Organize storage, put supplies away and keep track of what you need in Project Zomboid.
@@ -8,7 +10,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-This source integrates the open Quartermaster feature branches as **0.21.0-dev.5** for authorized Workshop MP testing. Native client/dedicated acceptance for this combined build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
+This source integrates the open Quartermaster feature branches as **0.22.0-dev.1** for authorized Workshop MP testing. Native client/dedicated acceptance for this combined build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
 
 ## Current integrated features
 
@@ -118,7 +120,7 @@ From that source checkout, with Python and the host-only Lupa dependency availab
 
 ```powershell
 python -B scripts/check_versions.py
-python -B tests/run_tests.py --require-rooms --pc-framework <framework-checkout>
+python -B tests/run_tests.py --require-rooms --ui <B47ANCEDUI-checkout> --pc-framework <B47ANCEDPCFramework-checkout> --pc-framework <framework-checkout>
 ./Build.ps1 -PythonPath <python.exe>
 ```
 

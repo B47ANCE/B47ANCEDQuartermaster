@@ -1,10 +1,10 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 require 'B47ANCEDQuartermaster/Session'
 require 'ISUI/ISContextMenu'
 require 'ISUI/ISScrollingListBox'
 require 'Definitions/ContainerButtonIcons'
 require 'B47ANCEDQuartermaster/Catalog'
 require 'B47ANCEDQuartermaster/WorldHighlight'
-require 'B47ANCEDUI/RowTooltip'
 require 'B47ANCEDQuartermaster/ContainerSprite'
 require 'B47ANCEDQuartermaster/RoomAccess'
 local Q=B47ANCEDQuartermaster
@@ -53,9 +53,9 @@ function M.attach(p)
     active[p]=s;observeWorld()
     local highlight=Q.WorldHighlight.new(p.playerNum);p.worldHighlight=highlight
     local rail=ISScrollingListBox:new(8,30,54,200)
-    rail:initialise(); rail:instantiate(); rail.itemheight=B47ANCEDUI.Theme.metrics().railRow; rail.drawBorder=true
+    rail:initialise(); rail:instantiate(); rail.itemheight=SharedUI.Theme.metrics().railRow; rail.drawBorder=true
     p:addChild(rail)
-    B47ANCEDUI.RowTooltip.attach(rail,p.playerNum)
+    SharedUI.RowTooltip.attach(rail,p.playerNum)
     local sprites=Q.ContainerSprite.new(p.playerNum)
     local buttons={};local expanded={}
     local function editable(r) return r and not r.partial and (r.configMode~='inherit' or r.pendingAction=='custom') and r.pendingAction~='remove' and r.pendingAction~='reset' end
@@ -123,7 +123,7 @@ function M.attach(p)
             if r.partial then text=text..' · '..tr('PartialGroup') end
             local e=rail:addItem(text,r)
             local d=r.target
-            e.tooltip=tr('ContainerNameTip',B47ANCEDUI.Tooltip.plain(name(d)))..' <LINE> '..tr('ContainerPositionTip',d.x,d.y,d.z)..' <LINE> '..tr('ContainerSectionTip',d.groupSection or d.ci+1)..' <LINE> '..tr(r.partial and 'PartialGroupTip' or r.target.whole and 'ParentRulesTip' or (r.configMode or d.configMode)=='inherit' and 'InheritedTip' or (r.configMode or d.configMode)=='custom' and 'CustomTip' or 'IndependentTip')
+            e.tooltip=tr('ContainerNameTip',SharedUI.Tooltip.plain(name(d)))..' <LINE> '..tr('ContainerPositionTip',d.x,d.y,d.z)..' <LINE> '..tr('ContainerSectionTip',d.groupSection or d.ci+1)..' <LINE> '..tr(r.partial and 'PartialGroupTip' or r.target.whole and 'ParentRulesTip' or (r.configMode or d.configMode)=='inherit' and 'InheritedTip' or (r.configMode or d.configMode)=='custom' and 'CustomTip' or 'IndependentTip')
             if r==s.selected then rail.selected=#rail.items end
         end
         if rail.setYScroll then rail:setYScroll(math.max(math.min(0,rail:getHeight()-#rail.items*rail.itemheight),math.min(0,scroll))) end
@@ -134,19 +134,19 @@ function M.attach(p)
     rail.doDrawItem=function(self,y,item)
         if y+self:getYScroll()+item.height<=0 or y+self:getYScroll()>=self:getHeight() then return y+item.height end
         local r=item.item
-        B47ANCEDUI.Renderer.row(self,y,item.height,item.index,r==s.selected,self.mouseoverselected==item.index)
+        SharedUI.Renderer.row(self,y,item.height,item.index,r==s.selected,self.mouseoverselected==item.index)
         local icon=ContainerButtonIcons[r.target.kind] or shelfIcon
-        if r.target.whole then B47ANCEDUI.Renderer.text(self,expanded[r.target.group] and 'v' or '>',5,y+(item.height-B47ANCEDUI.Theme.metrics().font)/2,B47ANCEDUI.Theme.colors.text) end
+        if r.target.whole then SharedUI.Renderer.text(self,expanded[r.target.group] and 'v' or '>',5,y+(item.height-SharedUI.Theme.metrics().font)/2,SharedUI.Theme.colors.text) end
         local indent=r.target.whole and 22 or r.nested and 14 or 0
         sprites:draw(self,r.target,icon,5+indent,y+(item.height-32)/2,32)
-        if self:getWidth()>80 then B47ANCEDUI.Renderer.text(self,B47ANCEDUI.Renderer.fit(item.text,self:getWidth()-48-indent),43+indent,y+(item.height-B47ANCEDUI.Theme.metrics().font)/2,B47ANCEDUI.Theme.colors.text) end
-        if r.dirty then B47ANCEDUI.Badge.draw(self,'*',2,y+1,'warning') end
-        if r.error then item.tooltip=B47ANCEDUI.Tooltip.plain(name(r.target))..' <LINE> '..tr(r.error) end
+        if self:getWidth()>80 then SharedUI.Renderer.text(self,SharedUI.Renderer.fit(item.text,self:getWidth()-48-indent),43+indent,y+(item.height-SharedUI.Theme.metrics().font)/2,SharedUI.Theme.colors.text) end
+        if r.dirty then SharedUI.Badge.draw(self,'*',2,y+1,'warning') end
+        if r.error then item.tooltip=SharedUI.Tooltip.plain(name(r.target))..' <LINE> '..tr(r.error) end
         return y+item.height
     end
     local function choose(r)
         if s.busy then return end
-        B47ANCEDUI.RowTooltip.hide(rail)
+        SharedUI.RowTooltip.hide(rail)
         capture(); status('Loading')
         s:select(r.target,function(result) if result=='ok' then bind() else status(result);highlight:clear() end end)
     end
@@ -160,7 +160,7 @@ function M.attach(p)
         if button==Joypad.AButton then local item=self.items[self.selected]; if item then choose(item.item) end
         elseif button==Joypad.XButton then local item=self.items[self.selected];if item and item.item.target.whole then toggle(item.item) end
         elseif button==Joypad.YButton then
-            local item=self.items[self.selected];if item then B47ANCEDUI.Tooltip.inspect(p.playerNum,item.tooltip,p) end
+            local item=self.items[self.selected];if item then SharedUI.Tooltip.inspect(p.playerNum,item.tooltip,p) end
         elseif button==Joypad.BButton then setJoypadFocus(p.playerNum,p) end
     end
     local function button(key,action)
@@ -239,7 +239,7 @@ function M.attach(p)
         local x=getMouseX and getMouseX() or p.x;local y=getMouseY and getMouseY() or p.y
         local menu=ISContextMenu.get(p.playerNum,x,y)
         local building=menu:addOption(tr('ScopeBuilding'),p,function() selectView({kind='building'}) end);building.notAvailable=not s.viewInfo.buildingAvailable
-        B47ANCEDUI.Tooltip.context(building,tr(s.viewInfo.buildingAvailable and 'ScopeTip' or 'BuildingDisabledTip'),p.playerNum,menu)
+        SharedUI.Tooltip.context(building,tr(s.viewInfo.buildingAvailable and 'ScopeTip' or 'BuildingDisabledTip'),p.playerNum,menu)
         local rooms=menu:addOption(tr('RoomScope'));local roomMenu=ISContextMenu:getNew(menu);menu:addSubMenu(rooms,roomMenu)
         local customCount=0
         for _,room in ipairs(s.viewInfo.customRooms or {}) do if Q.RoomAccess.designated(room) then
@@ -275,7 +275,7 @@ function M.attach(p)
         end)
         local selected=s.selected;local parent=selected and selected.target.group and s:parent(selected.target.group)
         copy.notAvailable=not selected or selected.target.whole or not parent or parent.partial or #(selected.target.siblings or {})<2
-        B47ANCEDUI.Tooltip.context(copy,tr(copy.notAvailable and 'PartialGroupTip' or 'CopyWholeTip'),p.playerNum,menu)
+        SharedUI.Tooltip.context(copy,tr(copy.notAvailable and 'PartialGroupTip' or 'CopyWholeTip'),p.playerNum,menu)
         menu:addOption(tr('Containers'),p,function() setJoypadFocus(p.playerNum,rail) end)
         if p.joyfocus then setJoypadFocus(p.playerNum,menu) end
     end
@@ -293,14 +293,14 @@ function M.attach(p)
     buttons.cancel=button('Cancel',function() p:closePicker() end)
     local oldClose=p.closePicker
     p.closePicker=function(self)
-        if s:close() then active[self]=nil;sprites:clear();B47ANCEDUI.RowTooltip.hide(rail);highlight:clear();return oldClose(self) end
+        if s:close() then active[self]=nil;sprites:clear();SharedUI.RowTooltip.hide(rail);highlight:clear();return oldClose(self) end
     end
     p.close=p.closePicker
     local oldRemove=p.removeFromUIManager
     p.removeFromUIManager=function(self,...)
         active[self]=nil
         sprites:clear()
-        B47ANCEDUI.RowTooltip.hide(rail)
+        SharedUI.RowTooltip.hide(rail)
         highlight:clear()
         return oldRemove(self,...)
     end
@@ -342,7 +342,7 @@ function M.attach(p)
         self.getWidth,self.getHeight=getWidth,getHeight
         if not ok then error(err) end
         self.lastWidth,self.lastHeight=w,h
-        rail.itemheight=B47ANCEDUI.Theme.metrics().railRow
+        rail.itemheight=SharedUI.Theme.metrics().railRow
         for _,entry in ipairs(rail.items) do entry.height=rail.itemheight end
         rail:setScrollHeight(#rail.items*rail.itemheight)
         local controls={'filter','btnModeCat','btnModeItem','btnModePreset','chkChecked','chkContents','btnPriorityDown','btnPriorityUp','priorityEntry','priorityLabel','listbox','btnAll','btnClear','btnSave'}

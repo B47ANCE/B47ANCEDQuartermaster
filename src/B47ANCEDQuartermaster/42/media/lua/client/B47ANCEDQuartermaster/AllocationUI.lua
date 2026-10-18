@@ -1,3 +1,4 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 -- Virtual allocation controls: draw only visible rows; one drag/dialog at a time.
 local Profile=require 'B47ANCEDQuartermaster/AllocationProfile'
 local Migration=require 'B47ANCEDQuartermaster/Migration'
@@ -72,11 +73,11 @@ end
 function U.draw(p,list,y,height,row)
  local value,state=U.state(p,row);if state=='unavailable' then
   if row.kind~='mod' and p.requiresAllocationInfo then local left=U.geometry(list)
-   B47ANCEDUI.Renderer.text(list,tr('AllocationUnavailable'),left,y+3,B47ANCEDUI.Theme.colors.muted,UIFont.Small)
+   SharedUI.Renderer.text(list,tr('AllocationUnavailable'),left,y+3,SharedUI.Theme.colors.muted,UIFont.Small)
   end
   return
  end
- local left,right,track=U.geometry(list);local renderer=B47ANCEDUI.Renderer;local colors=B47ANCEDUI.Theme.colors
+ local left,right,track=U.geometry(list);local renderer=SharedUI.Renderer;local colors=SharedUI.Theme.colors
  renderer.rect(list,left-3,y,right-left+6,height-1,colors.raised)
  local lineY=y+height/2;renderer.rect(list,left,lineY-1,track,2,colors.border)
  if value~=nil then
@@ -118,20 +119,20 @@ function U.exact(p,row)
   if not Profile.percent(input) then owner.title=tr('AllocationInvalid');return end
   U.set(owner,row,input)
  end,p.playerNum)
- dialog:initialise();dialog:addToUIManager();B47ANCEDUI.Dialog.decorate(dialog,p.playerNum,p);setJoypadFocus(p.playerNum,dialog)
+ dialog:initialise();dialog:addToUIManager();SharedUI.Dialog.decorate(dialog,p.playerNum,p);setJoypadFocus(p.playerNum,dialog)
 end
 function U.context(p,row,menu)
  if not row or row.kind=='mod' or not U.index(p) then return end
  local value,state=U.state(p,row);if state=='unavailable' then return end
  local option=menu:addOption(tr('AllocationControl'));local sub=ISContextMenu:getNew(menu);menu:addSubMenu(option,sub);option.notAvailable=p.qmss.model.readOnly==true
  sub:addOption(tr('AllocationExact'),p,function() U.exact(p,row) end)
- sub:addOption(tr('AllocationDetails'),p,function() B47ANCEDUI.Tooltip.inspect(p.playerNum,tr('AllocationCeilingsTip')..'\n'..tr('AllocationKeyboardTip'),p) end)
+ sub:addOption(tr('AllocationDetails'),p,function() SharedUI.Tooltip.inspect(p.playerNum,tr('AllocationCeilingsTip')..'\n'..tr('AllocationKeyboardTip'),p) end)
  for _,delta in ipairs({-5,5}) do local step=delta
   local nextValue=math.max(0,math.min(100,(value or 100)+step))
   if nextValue~=value then sub:addOption(tr(step<0 and 'AllocationDecrease' or 'AllocationIncrease'),p,function() U.set(p,row,nextValue) end) end
  end
  if p.allocation and (state=='explicit' or state=='mixed') then sub:addOption(tr('AllocationInherit'),p,function() U.reset(p,row) end) end
- B47ANCEDUI.menu(sub)
+ SharedUI.menu(sub)
 end
 function U.info(p)
  if not p.requiresAllocationInfo or p.allocationInfo or p.allocationInfoPending or not Q.Authority then return end
@@ -161,7 +162,7 @@ local function apply(p,profile,done)
   if not p.allocationOnly and p.targetKind=='box' and p.containerUI and selected then preview.scope=p.containerUI.name(selected.target) end
   local text=tr('AllocationPreviewText',preview.scope,preview.categories,preview.items)..'\n'..tr('AllocationPreviewPreserved')
   if preview.defaultChanged then text=text..'\n'..tr('AllocationDefaultPreview',preview.oldDefault,preview.newDefault) end
-  B47ANCEDUI.Dialog.confirm(p.playerNum,text,{accept=tr('Apply'),cancel=tr('Cancel')},function(mode)
+  SharedUI.Dialog.confirm(p.playerNum,text,{accept=tr('Apply'),cancel=tr('Cancel')},function(mode)
    if mode=='accept' and not p.removed and (p.allocationOnly or not session or session.selected==selected) then p.allocation=Profile.copy(profile);p.allocationCacheReady=false
     if session and session.selected and not p.allocationOnly then session.selected.working.allocation=p.allocation;session.selected.dirty=session:dirty(session.selected) end
     if done then done() end
@@ -191,10 +192,10 @@ function U.actions(p,menu)
    for _,row in ipairs(result.over or {}) do lines[#lines+1]=tr('AllocationOverLimit',row.key,string.format('%.2f',row.used),string.format('%.2f',row.limit)) end
    if #(result.over or {})==0 then lines[#lines+1]=tr('AllocationNoOverLimit') end
    if result.truncated then lines[#lines+1]=tr('AllocationTruncated') end
-   B47ANCEDUI.Tooltip.inspect(p.playerNum,table.concat(lines,'\n')..'\n'..tr('AllocationShadow'),p)
+   SharedUI.Tooltip.inspect(p.playerNum,table.concat(lines,'\n')..'\n'..tr('AllocationShadow'),p)
   end)
  end) end
- if p.qmss.model.readOnly then B47ANCEDUI.menu(sub);return end
+ if p.qmss.model.readOnly then SharedUI.menu(sub);return end
  local reset=sub:addOption(tr('AllocationResetAll'),p,function() apply(p,Profile.empty()) end)
  reset.notAvailable=p.allocation==nil
  if p.allocationRoomDefaults and p.roomDefinition and p.roomDefinition.roomType~='unassigned' then sub:addOption(tr('AllocationRoomDefaults'),p,function() p.allocationRoomDefaults() end) end
@@ -217,7 +218,7 @@ function U.actions(p,menu)
    end)
   end
  end
- B47ANCEDUI.menu(sub)
+ SharedUI.menu(sub)
 end
 function U.press(p,list,row,x)
  if not row or row.kind=='mod' or not U.index(p) then return false end
@@ -242,6 +243,6 @@ function U.notice(p)
  local entry=p.priorityEntry;local left=entry.x+entry:getWidth()+10;local right=p.listbox.x+p.listbox:getWidth()
  local mode=p.allocationInfo and p.allocationInfo.mode or Migration.option('AllocationMode') or 2
  local text=tr(p.requiresAllocationInfo and not p.allocationInfo and ((p.allocationInfoAttempts or 0)>=30 and 'AllocationUnavailable' or 'AllocationPreparing') or mode==1 and 'AllocationOff' or 'AllocationShadow')
- if right-left>30 then B47ANCEDUI.Renderer.text(p,B47ANCEDUI.Renderer.fit(text,right-left,UIFont.Small),left,entry.y+3,B47ANCEDUI.Theme.colors.accent,UIFont.Small) end
+ if right-left>30 then SharedUI.Renderer.text(p,SharedUI.Renderer.fit(text,right-left,UIFont.Small),left,entry.y+3,SharedUI.Theme.colors.accent,UIFont.Small) end
 end
 return U

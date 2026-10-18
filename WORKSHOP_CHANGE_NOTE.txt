@@ -1,4 +1,5 @@
-[b]Version 0.21.0-dev.5[/b]
+[b]Version 0.22.0-dev.1[/b]
+Source-only: shared UI now requires B47ANCEDUI API 1 (no assigned Workshop item). Not packaged or published; dedicated NOT TESTED.
 
 New transparent crate/checklist mod icon; thumbnail unchanged. Integrates the clipboard ledger, application-CD installation, automatic post-Sort ledger writing and unified computer desktop. Requires B47ANCEDRooms and B47ANCEDPCFramework.
 

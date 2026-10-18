@@ -1,3 +1,4 @@
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 require 'ISUI/ISComboBox'
 require 'ISUI/ISTextBox'
 local Q=B47ANCEDQuartermaster
@@ -33,7 +34,7 @@ function V.attach(p,u,add,button)
      end)
     end
    end,p.playerNum)
-  dialog:initialise();dialog:addToUIManager();B47ANCEDUI.Dialog.decorate(dialog,p.playerNum,p);setJoypadFocus(p.playerNum,dialog)
+  dialog:initialise();dialog:addToUIManager();SharedUI.Dialog.decorate(dialog,p.playerNum,p);setJoypadFocus(p.playerNum,dialog)
  end
  u.paperNew=button('ShoppingPaperNew',function() prompt(false,false) end)
  u.paperRename=button('ShoppingPaperRename',function() prompt(false,true) end)

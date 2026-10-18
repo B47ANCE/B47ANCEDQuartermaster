@@ -10,6 +10,7 @@ from PIL import Image,ImageDraw,ImageFont
 import argparse,os
 args=argparse.ArgumentParser(description='Host-render the real computer Lua layout; not native PZ pixels.')
 args.add_argument('--output',type=Path,required=True)
+args.add_argument('--ui',type=Path,required=True,help='Standalone B47ANCEDUI checkout')
 args.add_argument('--pc-framework',type=Path,required=True,help='Paired standalone PC Framework source checkout')
 args=args.parse_args()
 ROOT=Path(__file__).resolve().parents[1]
@@ -27,6 +28,9 @@ except OSError:
 labels=json.loads((SRC/'shared/Translate/EN/UI.json').read_text(encoding='utf-8'))
 labels.update(json.loads((PC/'shared/Translate/EN/UI.json').read_text(encoding='utf-8')))
 lua=LuaRuntime(unpack_returned_tuples=True)
+UI_CLIENT=args.ui.resolve()/'src/B47ANCEDUI/42/media/lua/client'
+assert (UI_CLIENT/'B47ANCEDUI/API.lua').is_file()
+lua.globals().package.path=UI_CLIENT.as_posix()+'/?.lua;'+lua.globals().package.path
 lua.globals().translate=lambda k,*args:labels.get(k,k)
 lua.globals().measure=lambda s:font.getlength(str(s))
 lua.execute('package.path=... .. "/client/?.lua;" .. ... .. "/shared/?.lua;" .. package.path',SRC.as_posix(),SRC.as_posix())
@@ -67,10 +71,13 @@ function ISComboBox:render()
 end
 package.loaded['ISUI/ISComboBox']=ISComboBox
 require 'B47ANCEDUI/Theme';require 'B47ANCEDUI/Renderer'
+require 'B47ANCEDUI/Clipboard'
 B47ANCEDUI.Layout={place=function(w,x,y,a,b) w.x=x;w.y=y;w.width=a;w.height=b end}
 B47ANCEDUI.Tooltip={attach=function() end,dispose=function() end};B47ANCEDUI.Focus={restore=function() end}
 B47ANCEDUI.bounds=function(w) w.x=0;w.y=0 end
 package.loaded['B47ANCEDUI/Controls']=true
+-- Host pixel approximation only; paired tests, not this preview, validate the public provider/factories.
+package.loaded['B47ANCEDQuartermaster/UIProvider']=B47ANCEDUI
 require 'B47ANCEDPCUI/Theme';require 'B47ANCEDPCUI/Renderer'
 B47ANCEDPCUI.Layout=B47ANCEDUI.Layout;B47ANCEDPCUI.Tooltip=B47ANCEDUI.Tooltip;B47ANCEDPCUI.Focus=B47ANCEDUI.Focus;B47ANCEDPCUI.bounds=B47ANCEDUI.bounds
 package.loaded['B47ANCEDPCUI/Controls']=true
