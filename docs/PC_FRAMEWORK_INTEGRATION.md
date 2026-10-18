@@ -1,6 +1,6 @@
 # PC Framework extraction
 
-Project Version: 0.19.0-dev.2
+Project Version: 0.19.0-dev.3
 
 Quartermaster requires `B47ANCEDRooms` and `B47ANCEDPCFramework` on the server and every client. PC Framework 0.3.0-dev.1 / registration API 1 is the paired development source for the retained CRT/taskbar. Powered-PC support first appeared in framework 0.2.0-dev.1. PC Framework has no assigned Workshop item yet; do not publish this dependency combination until distribution is arranged explicitly. This source work does not change Quartermaster's existing Workshop item 3807217050.
 

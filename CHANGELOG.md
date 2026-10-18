@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.19.0-dev.3] - 2026-10-17
+
+- Redraw the paper ledger metal clamp with a wider beveled steel plate, rivets, raised spring tab and rolled jaw overlapping the sheet. Retain title clearance, row geometry and all ledger behavior.
+- Presentation-only PATCH checkpoint; source-rendered visual review and focused offline UI/version/manifest checks pass. Native visual acceptance remains NOT TESTED; no deploy or publication.
+
 ## [0.19.0-dev.2] - 2026-10-17
 
 - Reconcile the clipboard/ledger work with the standalone PC Framework integration. Preserve owned CRT/taskbar presentation in PC Framework 0.3.0-dev.1 rather than duplicating a desktop in Quartermaster.

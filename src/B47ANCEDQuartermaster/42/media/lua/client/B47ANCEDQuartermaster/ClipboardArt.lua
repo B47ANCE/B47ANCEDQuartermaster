@@ -4,7 +4,7 @@ local U=B47ANCEDUI;local R=U.Renderer;local A={}
 local function c(r,g,b) return {r=r,g=g,b=b,a=1} end
 local P={board=c(.35,.25,.15),edge=c(.20,.14,.09),grain=c(.43,.32,.20),paper=c(.94,.92,.82),
  sheet=c(.98,.97,.89),shade=c(.70,.68,.58),ink=c(.17,.20,.23),rule=c(.70,.77,.78),red=c(.74,.43,.40),
- metal=c(.57,.59,.57),metalLight=c(.84,.85,.79),metalDark=c(.28,.30,.29)}
+ metal=c(.61,.64,.65),metalLight=c(.88,.90,.90),metalDark=c(.28,.31,.33),metalShade=c(.46,.50,.52)}
 A.colors={grey=P.paper,white=P.sheet,light=c(.96,.95,.86),shadow=P.rule,black=P.ink,
  muted=c(.37,.36,.30),blue=c(.24,.31,.36),selection=c(.84,.86,.77),selectedText=P.ink}
 function A.draw(panel,view,m)
@@ -16,13 +16,29 @@ function A.draw(panel,view,m)
  R.rect(panel,18,52,w-40,h-70,P.sheet)
  -- Ruling belongs only to the scrolling table, not the header/details/buttons.
  R.rect(panel,view.left-10,60,1,h-86,P.red)
- -- Folded steel clip, top handle, screw heads and its cast shadow.
- local cw=math.max(110,m.font*5);local x=math.floor((w-cw)/2)
- R.rect(panel,x+3,17,cw,35,P.shade);R.rect(panel,x,12,cw,35,P.metalDark)
- R.rect(panel,x+2,14,cw-4,29,P.metal);R.rect(panel,x+3,15,cw-6,2,P.metalLight)
- R.rect(panel,x+8,38,cw-16,6,P.metalLight);R.rect(panel,x+12,39,cw-24,2,P.metalDark)
- R.border(panel,w/2-15,4,30,19,P.metalDark);R.border(panel,w/2-13,6,26,15,P.metalLight)
- for _,sx in ipairs({x+10,x+cw-14}) do R.rect(panel,sx,23,4,4,P.metalDark);R.rect(panel,sx+1,23,2,1,P.metalLight) end
+ -- Spring clamp: rounded hanging loop behind the plate, riveted shoulders,
+ -- raised thumb tab and a rolled jaw that actually overlaps the paper at y=52.
+ local cw=math.max(148,m.font*5);local x=math.floor((w-cw)/2);local middle=math.floor(w/2)
+ R.rect(panel,middle-11,4,22,2,P.metalDark);R.rect(panel,middle-14,6,28,2,P.metalLight)
+ R.rect(panel,middle-16,8,3,12,P.metalDark);R.rect(panel,middle+13,8,3,12,P.metalDark)
+ R.rect(panel,middle-14,8,1,11,P.metalLight);R.rect(panel,middle+13,8,1,11,P.metalLight)
+ R.rect(panel,x+5,21,cw-4,43,P.shade)
+ R.rect(panel,x+6,14,cw-12,2,P.metalDark);R.rect(panel,x+2,16,cw-4,4,P.metalDark)
+ R.rect(panel,x,20,cw,34,P.metalDark);R.rect(panel,x+2,54,cw-4,6,P.metalDark)
+ R.rect(panel,x+6,60,cw-12,2,P.metalDark)
+ R.rect(panel,x+5,17,cw-10,3,P.metalLight);R.rect(panel,x+2,20,cw-4,24,P.metal)
+ R.rect(panel,x+2,20,2,24,P.metalLight);R.rect(panel,x+cw-4,20,2,24,P.metalShade)
+ -- Broad, restrained reflections distinguish the curved jaw from a flat box.
+ R.rect(panel,x+2,44,cw-4,3,P.metalShade);R.rect(panel,x+3,47,cw-6,2,P.metalDark)
+ R.rect(panel,x+3,49,cw-6,3,P.metalLight);R.rect(panel,x+4,52,cw-8,4,P.metal)
+ R.rect(panel,x+5,56,cw-10,3,P.metalShade);R.rect(panel,x+8,59,cw-16,1,P.metalLight)
+ R.rect(panel,middle-29,20,58,19,P.metalDark);R.rect(panel,middle-27,18,54,19,P.metalLight)
+ R.rect(panel,middle-26,21,52,13,P.metal);R.rect(panel,middle-24,34,48,3,P.metalShade)
+ R.rect(panel,middle-22,37,44,2,P.metalLight)
+ for _,sx in ipairs({x+16,x+cw-22}) do
+  R.rect(panel,sx+1,25,4,6,P.metalDark);R.rect(panel,sx,26,6,4,P.metalDark)
+  R.rect(panel,sx+1,26,4,3,P.metalLight);R.rect(panel,sx+2,28,2,2,P.metalShade)
+ end
  local title=getText('UI_QMSS_LedgerClipboardTitle')
  R.text(panel,R.fit(title,w-2*view.left),view.left,66,P.ink)
  -- The native resize widget stays active when its ordinary window frame is hidden.

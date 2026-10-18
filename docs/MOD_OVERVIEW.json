@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.19.0-dev.2",
+  "version": "0.19.0-dev.3",
   "reviewed": true,
-  "source_digest": "3c367c6a8618e357e23a6791d18d89c2faaefdad999ed7b8d0c31707a1ca501d",
+  "source_digest": "d3c370c37a7a1f04dd72db591f24b93ff4986cfaa92c70fd19590182b0b784da",
   "features": [
     {
       "status": "Source",
@@ -44,10 +44,10 @@
     },
     {
       "status": "Source",
-      "text": "Portrait paper clipboard with scroll-aligned ruling, separate selected-item details and resize grip with three-column ledger and page-turn controls. Server limits live computer statistics and automatic freshness to the exact recorded building; off-site/safehouse-wide CDs retain ordinary historical access. Supply Sheet creation requires a reusable vanilla clipboard and writing implement; paper/notebook is consumed."
+      "text": "Portrait paper clipboard with a beveled spring clamp gripping the sheet, scroll-aligned ruling, separate selected-item details and resize grip with three-column ledger and page-turn controls. Server limits live computer statistics and automatic freshness to the exact recorded building; off-site/safehouse-wide CDs retain ordinary historical access. Supply Sheet creation requires a reusable vanilla clipboard and writing implement; paper/notebook is consumed."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.19.0-dev.2; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.19.0-dev.3; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",

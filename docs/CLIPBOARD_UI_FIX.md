@@ -1,6 +1,20 @@
 # Clipboard UI correction and PC integration
 
-Project Version: 0.19.0-dev.2
+Project Version: 0.19.0-dev.3
+
+## Current metal clamp correction — 0.19.0-dev.3
+
+[VERIFIED SOURCE] Compatible presentation-only PATCH checkpoint. The previous clip ended at y=47 while paper began at y=52, leaving a visible gap. The original Lua geometry now draws wider beveled steel shoulders, two rivets, a raised spring tab and a rolled jaw through y=62. Its shadow ends at y=64, clear of the title at y=66. All supported font-size minimums contain the clamp. No new engine API, raster asset, gameplay setting or networking is introduced; ledger contents, controls, privacy, native transfers and PC Framework remain unchanged.
+
+[TESTED OFFLINE] Actual-source paper preview visually reviewed. Existing focused ledger/UI fixtures pass at font heights 14/24/32/42, including reader/table/footer bounds, pagination and computer task lifecycle. Version consistency and production-manifest/deployment-parity checks pass. No new implementation-mirroring geometry test was added for this reversible art-only change. The full paired regression suite below belongs to dev.2; it was not rerun for the clamp-only delta.
+
+Exact current commands: `python -B scripts/render_computer_preview.py --pc-framework <paired-PC-Framework-checkout> --output <external-preview-directory>`; focused `tests/test_ledger_ui.lua` through the existing Lua 5.1 fixture harness; `python -B scripts/check_versions.py`; `python -B scripts/check_deployment.py`; `git diff --cached --check`. The preview uses synthetic data and approximate host fonts/widgets, not PZ pixels. Current source: 225 runtime files, SHA-256 `b01e620533ab027152012dda62cfa2d48ccfca64c1dd59fe8ee99df9056e0b66` with the algorithm recorded below. The paired framework remains 0.3.0-dev.1 at 12d320c86a3e22f6db32dc69051167fef589d097.
+
+[RUNTIME GATE] Native clip/large-font acceptance NOT TESTED. Prior G6/G7/stable G8 limits remain; no game/server launch, packaging, deployment or publication.
+
+## Historical dev.2 reconciliation evidence
+
+The remaining report describes the earlier 0.19.0-dev.2 checkpoint. Its source hashes and full-suite results remain historical and are not relabelled as dev.3 evidence.
 
 ## Scope and compatibility
 

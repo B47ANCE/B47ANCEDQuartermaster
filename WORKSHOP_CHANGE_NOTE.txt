@@ -1,8 +1,6 @@
-[b]Version 0.19.0-dev.2[/b]
+[b]Version 0.19.0-dev.3[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Paper supply ledgers open as portrait clipboards. Ruled rows stay aligned while scrolling, selected-item details have their own space, and the resize grip is visible.
+Refine the paper ledger metal clip: wider steel shoulders, a raised spring tab, rivets and a rolled jaw that grips the sheet. Portrait proportions, aligned ruled rows, clear entry details and page controls remain.
 
-Reconciles the required PC Framework integration while retaining its bulky CRT, original icons and drive/writer/ledger taskbar. Quartermaster keeps ledger privacy, media, freshness and CD Writer behavior. The reusable clipboard recipe and same-building automatic computer refresh policy remain.
-
-Source-only preparation. Offline paired regressions and version/source checks pass; native client and dedicated acceptance are pending. PC Framework has no assigned Workshop item. No packaging, deployment or upload performed.
+Presentation-only source checkpoint. Focused offline UI, version and source-manifest checks pass; native visual acceptance is pending. Paired PC Framework 0.3.0-dev.1 remains required and has no assigned Workshop item. No packaging, deployment or upload performed.

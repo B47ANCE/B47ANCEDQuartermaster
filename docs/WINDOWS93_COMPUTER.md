@@ -1,6 +1,6 @@
 # Windows '93 computer desktop
 
-Project Version: 0.19.0-dev.2
+Project Version: 0.19.0-dev.3
 
 Computers open an original Lua-drawn Windows '93 desktop inside a beige CRT monitor. The bulky molded case has a thick front bezel, deep chamfered glass rim, offset vented rear housing, a broad lower control deck, central model badge, green power light and a physical power button. A tall swivel neck and substantial beveled pedestal support the case. The desktop, taskbar and status text stay inside the glass. Opening the desktop never auto-runs the ledger.
 

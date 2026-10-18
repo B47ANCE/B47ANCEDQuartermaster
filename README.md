@@ -8,7 +8,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.19.0-dev.2 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/fix/clipboard-ui).
+The Workshop feature guide is below. This branch also contains **0.19.0-dev.3 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/fix/clipboard-ui).
 
 ## Development work in this branch
 
@@ -16,7 +16,7 @@ The computer desktop and reusable drive service are supplied by the required [B4
 
 - Windows ’93 computer presentation now has a bulky original beige CRT case, thick recessed bezel, broad lower control panel, substantial stand and status light and pixel-art desktop/application icons. Softer case shading and a working taskbar retain separate drive, writer and ledger tasks, with minimize/restore, app switching and Show Desktop. The ledger application uses a Windows 93 table with Item, Quantity and Location columns, a live/snapshot status strip, page counts and selected-entry details. Native visual acceptance remains pending. [Computer UI details](docs/WINDOWS93_COMPUTER.md).
 
-- Paper supply ledgers open a portrait wooden clipboard with scroll-aligned ruled sheets, Item / Quantity / Location columns, entry details and previous/next-sheet controls. Computers refresh live inventory only inside the exact native building recorded by the loaded ledger; off-site and safehouse-wide CDs remain historical under normal expiry. [Clipboard and local-computer policy](docs/CLIPBOARD_AND_LOCAL_COMPUTER.md). [Current UI correction and paired validation](docs/CLIPBOARD_UI_FIX.md).
+- Paper supply ledgers open a portrait wooden clipboard with a beveled steel clamp gripping the page and scroll-aligned ruled sheets, Item / Quantity / Location columns, entry details and previous/next-sheet controls. Computers refresh live inventory only inside the exact native building recorded by the loaded ledger; off-site and safehouse-wide CDs remain historical under normal expiry. [Clipboard and local-computer policy](docs/CLIPBOARD_AND_LOCAL_COMPUTER.md). [Current UI correction and paired validation](docs/CLIPBOARD_UI_FIX.md).
 
 - Room organization uses B47ANCEDRooms designations only; building scope uses native PZ buildings. Native-room selectors/fallbacks are retired. Existing building-ledger coverage and dormant native-room allocation records are preserved. [Scope corrections and test report](docs/DESIGNATED_ROOM_SCOPES.md).
 
