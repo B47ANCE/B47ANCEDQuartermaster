@@ -1,6 +1,8 @@
 # PC Framework extraction
 
-Project Version: 0.20.0-dev.2
+Project Version: 0.21.0-dev.1
+
+Current Sort policy is the separate default-on [paper search/pickup and deferred writing workflow](SORT_LEDGER.md), Movement 12 / Ledger 5. Application installation and computer/CD behavior below remain otherwise unchanged; older capability/evidence checkpoints retain their original identity.
 
 Quartermaster requires `B47ANCEDRooms` and `B47ANCEDPCFramework` on the server and every client. PC Framework 0.5.0-dev.2 / registration and CD program API 1 is the paired integration source for the retained CRT/taskbar and genuine installer CD. Powered-PC support first appeared in framework 0.2.0-dev.1. PC Framework has no assigned Workshop item yet; do not publish this dependency combination until distribution is arranged explicitly. This source work does not change Quartermaster's existing Workshop item 3807217050.
 

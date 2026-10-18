@@ -125,6 +125,14 @@ option B47ANCEDQuartermaster.LedgerBurnSeconds
     translation = B47ANCEDQuartermaster_LedgerBurnSeconds,
 }
 
+option B47ANCEDQuartermaster.SortUpdatesLedger
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDQuartermaster,
+    translation = B47ANCEDQuartermaster_SortUpdatesLedger,
+}
+
 option B47ANCEDQuartermaster.RequireLedgerForSorting
 {
     type = boolean,

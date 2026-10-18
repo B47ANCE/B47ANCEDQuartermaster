@@ -564,5 +564,13 @@
   "UI_QMSS_ProgramInstalling": "Installing Quartermaster...",
   "UI_QMSS_ProgramInstalled": "Quartermaster installed",
   "UI_QMSS_ProgramInstalledHelp": "Installed: eject CD, open Quartermaster.",
-  "UI_QMSS_ProgramInstallDenied": "The Application CD or computer access is unavailable."
+  "UI_QMSS_ProgramInstallDenied": "The Application CD or computer access is unavailable.",
+  "UI_QMSS_SortLedgerRequired": "Sorting needs a carried Supply Sheet and a pen or pencil. Accessible completed ledgers in this building are checked first; otherwise carry a blank or unfinished sheet.",
+  "UI_QMSS_SortWritingRequired": "Carry a pen or pencil to sort and update the ledger.",
+  "UI_QMSS_SortLedgerSearching": "Checking the building for a completed ledger...",
+  "UI_QMSS_SortLedgerWriting": "Sorting finished. Updating the ledger...",
+  "UI_QMSS_SortLedgerSaved": "Sorting finished. Paper ledger updated. Unvisited entries keep their previous inspection time.",
+  "UI_QMSS_SortLedgerSyncPending": "Paper ledger saved; inventory notification is pending. Do not repeat the sort to retry writing.",
+  "UI_QMSS_SortLedgerUnchanged": "Sorting finished. No storage entries needed updating.",
+  "UI_QMSS_SortLedgerSkipped": "Sorting finished. Automatic ledger updates are disabled."
 }

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.21.0-dev.1] - 2026-10-17
+
+- Default-on Sort ledger workflow: bounded server building search prioritizes a completed accessible paper ledger, collects it through native transfer, otherwise uses carried blank/unfinished paper. Require carried paper and pen/pencil throughout sorting.
+- After the entire successful Sort, a server-granted native writing action updates confirmed touched storage on the paper. Blank papers remain partial; untouched timestamps and existing CD snapshots are preserved.
+- Server sandbox opt-out restores previous behavior; Ledger Disabled bypasses this feature. Ledger/movement capabilities advance; all peers must update/reconnect. Native and dedicated acceptance pending; no package, deploy or publication.
+
 ## [0.20.0-dev.2] - 2026-10-17
 
 - Place the Application CD in commercial office desks/counters, office supply shelves/crates and computer retail/stock pools, including warehouse offices mapped as native office rooms. Remove generic electronics drops; home desks and general warehouse cargo remain unchanged.

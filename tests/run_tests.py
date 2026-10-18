@@ -17,6 +17,7 @@ PARSER = argparse.ArgumentParser()
 PARSER.add_argument('--quartermaster', type=Path, default=Path(r'E:\Program Files (x86)\Steam\steamapps\workshop\content\108600\3761216758\mods\Quartermaster\42'))
 PARSER.add_argument('--package', action='store_true')
 PARSER.add_argument('--only-program', action='store_true', help='Focused Application CD server/UI and metadata fixtures')
+PARSER.add_argument('--only-sort-ledger', action='store_true', help='Focused server sorting-ledger workflow')
 PARSER.add_argument('--pc-framework', type=Path, default=ROOT.parent / 'B47ANCEDPCFramework', help='Required standalone PC Framework checkout')
 PARSER.add_argument('--rooms', type=Path, default=ROOT.parent / 'B47ANCEDRooms', help='Standalone Rooms checkout for paired production integration tests')
 PARSER.add_argument('--require-rooms', action='store_true', help='Fail instead of reporting unavailable paired integration')
@@ -42,6 +43,11 @@ def runtime():
     lua.execute("getActivatedMods=function() return {size=function() return 1 end,get=function() return 'B47ANCEDQuartermaster' end} end")
     return lua
 
+if ARGS.only_sort_ledger:
+    runtime().execute((ROOT/'tests/test_sort_ledger.lua').read_text(encoding='utf-8'))
+    runtime().execute((ROOT/'tests/test_sort_ledger_ui.lua').read_text(encoding='utf-8'))
+    raise SystemExit(0)
+
 if ARGS.only_program:
     import runpy
     for name in ('test_program_installation.lua','test_program_installer_ui.lua'):
@@ -52,6 +58,8 @@ if ARGS.only_program:
 for path in (SOURCE / '42/media/lua').rglob('*.lua'):
     runtime().execute('assert(loadstring(...))', path.read_text(encoding='utf-8'))
 print('PASS Lua 5.1 syntax')
+runtime().execute((ROOT / 'tests/test_sort_ledger.lua').read_text(encoding='utf-8'))
+runtime().execute((ROOT / 'tests/test_sort_ledger_ui.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_carry_budget.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_container_sources.lua').read_text(encoding='utf-8'))
 runtime().execute((ROOT / 'tests/test_progress.lua').read_text(encoding='utf-8'))

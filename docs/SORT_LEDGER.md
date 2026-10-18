@@ -1,0 +1,73 @@
+# Sort with a physical paper ledger
+
+Project Version: 0.21.0-dev.1
+
+## Player workflow
+
+The default-on server option **SortUpdatesLedger** applies to inventory, selected-container, floor/proximity, vehicle-source, designated-room and building Sort. Carry a **pen or pencil**. The server first searches accessible, loaded physical storage in the player's native building for a completed Supply Sheet covering that location. Carried completed papers are also considered. A completed accessible ledger takes precedence over a carried blank/unfinished sheet; carried completed papers win over stored papers, then stored choices use distance and native item ID as deterministic ordering. Stale but completed papers can be used: this updates touched entries without renewing the whole building's freshness.
+
+If the chosen completed paper is stored, the player walks there and **picks up that exact native item through the existing transfer executor** before sorting. This includes normal nested storage bags, using captured native bag IDs/references and the existing ContainerSources validation. Native access, removal, carrying weight and space still apply. A full inventory or changed/inaccessible chosen source fails visibly rather than cloning the paper or bypassing access. The paper stays carried after sorting. The search does not force-load chunks, sweep vehicles, inspect ground objects, or manufacture a paper.
+
+If no accessible completed ledger is found, use a carried **blank or unfinished Supply Sheet**. A carried ledger in a carried bag is supported through native recursive ownership. Forged labels, corrupt/future records and papers for another scope do not become blank sheets. Outdoors, the existing safehouse scope can be used; where neither a native building nor a supported safehouse scope exists, report scope unavailable rather than creating a global ledger. Loaded/accessible search is the provable scope; no claim is made about unloaded or private storage.
+
+The selected paper and writing supplies remain required during Sort and are protected from this mod's automatic transfers, including carried bags containing them. This is not a lock against manual/vanilla transfers. Paper loss, tool loss, access changes or scope changes stop new grants; already completed native moves remain completed. No item is dropped/deleted or forcibly rolled back by bookkeeping.
+
+After the **entire successful job**, including all carried and physical sources of a room/building sweep, one native timed **writing action** records confirmed touched storage. It uses the vanilla book/paper pose used by ISWriteSomething and existing LedgerBaseSeconds plus LedgerEntrySeconds per prepared row. Transfer groups and timing are unchanged. A no-movement job needs no write, except that a confirmed ledger pickup itself can change its source storage. Canceled, failed or uncertain jobs do not write a success snapshot. Canceling the writing action leaves physical moves complete and the previous ledger unchanged; inspect again if needed.
+
+Only touched physical compartments are refreshed. Bag-source changes refresh their stationary physical parent; quantities retain the ledger's existing top-level native item/stack semantics, without inventing a flattened nested-inventory ledger. Ground/vehicle sources have no building storage entry, but their confirmed physical destinations are updated.
+
+**Blank sheets stay partial.** Sorting does not claim to have inspected an entire building. Unvisited entries and the original whole-scope inspection/expiry timestamp remain unchanged; normal full inspection is still needed for a completed/fresh ledger. Shopping collection retains its existing fresh-completed-ledger/computer rule. Computers and installed software do not replace the required paper in this new Sort mode. Planning Shopping and computer installation are otherwise unchanged.
+
+## Settings and compatibility
+
+| Setting | Default | Behavior |
+| --- | --- | --- |
+| SortUpdatesLedger | true | Building-first paper search/native pickup, carried paper plus pen/pencil for all Sort, deferred writing. |
+| RequireLedgerForSorting | true | Applies to the previous Room/Building freshness/computer rule when SortUpdatesLedger is off. |
+| LedgerMode | 1 | Disabled (2) bypasses this workflow and removes the ledger requirement as before. |
+| LedgerBaseSeconds / LedgerEntrySeconds | existing defaults | Reused for post-sort writing; no duplicate duration setting. |
+
+These are authoritative server sandbox choices. Missing/invalid SortUpdatesLedger values keep the new behavior enabled; only explicit false opts out. Existing saves receive the default without deleting or rewriting saved records. All names/tooltips/statuses use the 29-locale English fallback policy. Meaningful configuration is server-owned; coordinates, scan/admission bounds and protocol limits are internal safety constraints.
+
+MINOR development iteration from 0.20.0-dev.2: deliberate default gameplay change, no physical item IDs or ledger schema replacement. **Movement capability 12 and Ledger capability 5** require matching server/clients and reconnect. Ledger schema 1 remains readable, with an optional sortUpdated timestamp; old records retain their actual observations. SortUpdatesLedger=false restores the previous workflow. No existing artifact is relabeled or deleted.
+
+## Server authority and persistence
+
+Clients request preparation and next writing work with no submitted ledger identity, quantities, category counts, destinations or claimed completion. The server chooses the paper, retains exact native references, uses its own scope signature, and validates genuine snapshot bindings. Stored-paper pickup is a narrow server-owned withdrawal, independent of Shopping knowledge. New TAKE checks real membership, native capacity, current writer and current inspect/withdraw permission; the server confirms exact native carriage before allowing Sort. Existing incarnation-marked native descriptors and transfer reconstruction are reused. An unrelated item cannot be substituted for the selected paper.
+
+SortLedger contexts are ephemeral, actor-owned and bounded. Trips binds a context to its server session/sweep and authoritative source set. Movement only records touched targets after native TAKE/PUT membership is observed. A grant or a client completion message alone is insufficient. All source trips must end with no outstanding operations before writing is offered. The ordinary unbound movePlan shortcut is refused in this mode; server-owned Trips remains the sorting path. Safe returns and read-only observations retain their prior behavior.
+
+Before writing, bounded ContentAnalysis prepares current native contents of touched storage. Native action reconstruction is single-use and actor-bound, with the existing dedicated sender challenge/confirmation and authoritative native progress check. Completion revalidates paper ownership/binding/revision, writing tool, physical objects/compartments/markers, current inspect permissions, scope and exact analysis references/counts/types/quantities/conditions/weights/categories. Concurrent changes reject the whole write, rather than half-applying it. No new authority is inferred from an item ModData label or client UI flag.
+
+The existing server ModData ledger registry owns persistence and media bindings. Completed writing constructs replacement entry/order tables without mutating old ones. An unshared paper snapshot reuses its ID with a higher revision. If another paper/CD or an unresolved conversion journal references it, copy-on-write preserves the old generation and binds only this paper to the new one. This avoids a new persistent generation for every ordinary Sort. Existing count/row/schema bounds still apply; failures preserve prior records. Item ModData is synchronized with syncItemModData after commit. Notification failure reports saved/pending and never replays the write as a new physical operation.
+
+Disconnect/death/expiry cleanup cancels bookkeeping. A canceled pickup whose native outcome is unknown is observed without retry/rollback; its obsolete grant is retired after the bounded observation window. Late client offers are relinquished. Reconnect/server restart abandons unfinished ephemeral work and preserves the last committed snapshot; it does not automatically resume or claim success. Actual native save/restart/sync ordering still needs dedicated testing.
+
+The accepted vanilla native-transfer authority boundary remains: Lua cannot retract an already dispatched transfer or lock unrelated vanilla/manual inventory actions. No Java/custom bridge, client-owned shared state or broader engine protection is introduced.
+
+## Bounds and evidence
+
+Server building search is incremental: at most 512 work units and a two-millisecond deadline per slice, four-millisecond tick budget, 16 contexts, 16 nested bag levels, 4,096 instances per container and 65,536 examined instances per search. Oversized or changed scans fail explicitly, never silently claim no completed ledger. World squares are not force loaded. The normal scope cursor, 4,096 touched-compartment and 32,768 row caps are retained. Post-sort analysis is incremental; final atomic row validation is bounded by those caps. All are implementation safety limits, not gameplay tuning controls.
+
+Only native scope classification is cached up to one second; immediate scope containment and current permissions, real ownership, writing supplies and media revision are rechecked on grants. Destination ranking uses a lightweight scope hint after the synchronous planning slice's actor check; it never authorizes a native transfer. TAKE/PUT always perform the full check. No catalog or full-building item scan runs on every transfer. Native latency/frame/server-tick measurements are NOT TESTED; these structural bounds are not a performance claim.
+
+[VERIFIED SOURCE] Installed Project Zomboid 42.21.0 / Steam build 25485521: existing native inventory transfer, exact item ownership, ModData synchronization, scope/room permission and challenged LedgerAction paths are reused. ISWriteSomething.lua lines 46-60 uses ReadType/book, CharacterActionAnims.Read, hand-model override and EventRead for paper writing; ISBaseTimedAction.lua exposes their wrappers. Fingerprints are recorded alongside this report. No game/third-party source bodies or assets were copied.
+
+[TESTED OFFLINE, Windows / Python 3.12 / Lupa Lua 5.1] Full Quartermaster suite with actual Rooms 0.2.0-dev.6 and paired PC Framework 0.5.0-dev.2; focused server/client workflow fixtures. Fixtures verify building-first completed-paper selection over blank paper, native nested-bag pickup, no direct inventory mutation, carried blank/partial fallback, required/protected tool, exact native outcome observations, one write after both actual server area sources, copy-on-write CD preservation, unchanged expiry, unshared snapshot reuse, no premature/replayed write, tool/inventory change refusal, private-storage fallback, default/Disabled/explicit opt-outs, client pickup sequencing, no writing while movement runs, native-result-before-callback and late/canceled-offer cleanup. Existing native-shaped SP/MP pipeline/grouping, conservation, failed transaction, ground, vehicle and whole-sweep regressions remain offline evidence.
+
+Commands from this feature worktree (host Python with Lupa; paths supplied explicitly):
+
+```powershell
+python -B tests/run_tests.py --only-sort-ledger --pc-framework <paired-PC-Framework>
+python -B tests/run_tests.py --require-rooms --rooms <Rooms> --pc-framework <paired-PC-Framework>
+python -B scripts/check_versions.py
+python -B scripts/check_deployment.py
+python -B tests/test_deployment.py
+git -c core.safecrlf=false diff --cached --check
+```
+
+Changed production paths: shared SortLedger.lua (new), Ledger.lua, LedgerMedia.lua, LedgerRequirement.lua, LedgerAction.lua, Movement.lua, Trips.lua, Protocol.lua, Authority.lua; client LedgerUI.lua, Sorter.lua, RoomSort.lua and SortControls.lua; sandbox-options.txt; 29 UI/Sandbox fallback pairs and current identity/mod metadata. Source manifest is 229 files. Tests, current feature docs, changelog, README, source overview and future Workshop text accompany the implementation. No package, local deployment, Workshop publication, game/server launch or merge is authorized here.
+
+[RUNTIME GATE] G6 native client NOT TESTED; G7 dedicated multiplayer NOT TESTED/BLOCKED; stable G8 BLOCKED. Required: real building scan/pickup in storage/bags/across floors, full carry refusal, inaccessible and unloaded storage, paper/writer loss during walking/transfers/writing, two players contending for one paper/container, permission and room revision changes, native paper pose/cancel and progress, real item ModData synchronization, native save/restart/reconnect, and measured large-building search/write latency. Existing release evidence is not current proof for this feature.
+
+Current source receipt: **229 runtime files**, SHA-256 `223b296029e10acb7eec065ec33304f7c6b10379c63f2951c6fb03263a430d3e`; [native/source fingerprints](SORT_LEDGER_EVIDENCE.json). No current package was produced.

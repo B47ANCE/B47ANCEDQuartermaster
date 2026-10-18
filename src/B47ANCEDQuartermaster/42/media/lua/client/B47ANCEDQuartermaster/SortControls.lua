@@ -7,6 +7,8 @@ require 'ISUI/LootWindow/ISLootWindowContainerControls'
 require 'ISUI/ISContextMenu'
 local Q=B47ANCEDQuartermaster
 local S=Q.Sorter
+local function ledgerWork(num) local work=Q.LedgerUI and Q.LedgerUI.work[num];return work and work.sort end
+local function sorting(num) return S.active[num] or Q.RoomSort and Q.RoomSort.active[num] or ledgerWork(num) end
 local pendingMenus={}
 local Compatibility=require 'B47ANCEDQuartermaster/Compatibility'
 local External=require 'B47ANCEDQuartermaster/ContainerSources'
@@ -39,6 +41,7 @@ local function singleSort(playerNum,container)
     if not player or isGamePaused() then return end
     if B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[playerNum] then B47ANCEDQuartermaster.RoomSort.cancel(playerNum);return end
     if S.active[playerNum] then S.cancel(playerNum);return end
+    if ledgerWork(playerNum) then Q.LedgerUI.cancelSort(playerNum);return end
     local ok=S.start(playerNum,container,function(status,completed,failed,reasons)
         if status=='ok' and completed==0 then player:setHaloNote(nothing(reasons))
         elseif status=='ok' or status=='cancelled' then player:setHaloNote(getText(status=='ok' and 'UI_B47_SortFinished' or 'UI_B47_SortStopped',completed,failed))
@@ -52,6 +55,7 @@ local function perform(playerNum,container)
     local area=require 'B47ANCEDQuartermaster/RoomSort'
     if area.active[playerNum] then area.cancel(playerNum);return end
     if S.active[playerNum] then S.cancel(playerNum);return end
+    if ledgerWork(playerNum) then Q.LedgerUI.cancelSort(playerNum);return end
     if pendingMenus[playerNum] then return end
     pendingMenus[playerNum]=player
     Q.Authority.request(playerNum,'areaOptions',{},function(result)
@@ -87,14 +91,14 @@ local function install(base,registry,name,floor)
     function handler:playerIndex() return self.playerNum or (self.inventoryWindow and self.inventoryWindow.player) or (self.lootWindow and self.lootWindow.player) or 0 end
     function handler:shouldBeVisible()
         local player=getSpecificPlayer(self:playerIndex())
-        return player and (S.active[self:playerIndex()]~=nil or B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[self:playerIndex()]~=nil or supported(player,self.container))
+        return player and (sorting(self:playerIndex()) or supported(player,self.container))
     end
     function handler:getControl()
-        return self:getButtonControl(getText((S.active[self:playerIndex()] or B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[self:playerIndex()]) and 'UI_B47_StopSorting' or 'UI_B47_Sort'))
+        return self:getButtonControl(getText(sorting(self:playerIndex()) and 'UI_B47_StopSorting' or 'UI_B47_Sort'))
     end
     function handler:perform() perform(self:playerIndex(),self.container) end
     function handler:handleJoypadContextMenu(context)
-        self:addJoypadContextMenuOption(context,getText((S.active[self:playerIndex()] or B47ANCEDQuartermaster.RoomSort and B47ANCEDQuartermaster.RoomSort.active[self:playerIndex()]) and 'UI_B47_StopSorting' or 'UI_B47_Sort'))
+        self:addJoypadContextMenuOption(context,getText(sorting(self:playerIndex()) and 'UI_B47_StopSorting' or 'UI_B47_Sort'))
     end
     local register=floor and registry.AddFloorHandler or registry.AddHandler
     register(handler)

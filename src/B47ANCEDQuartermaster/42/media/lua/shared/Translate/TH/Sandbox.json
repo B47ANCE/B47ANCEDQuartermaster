@@ -29,7 +29,7 @@
   "Sandbox_B47ANCEDQuartermaster_LedgerBurnSeconds": "Ledger CD copying time",
   "Sandbox_B47ANCEDQuartermaster_LedgerBurnSeconds_tooltip": "Seconds required to copy a completed paper ledger at a powered desktop computer. Server controlled; 10-120, default 30. One compatible vanilla CD is converted; paper is retained.",
   "Sandbox_B47ANCEDQuartermaster_RequireLedgerForSorting": "Require fresh ledger for Room/Building Sort",
-  "Sandbox_B47ANCEDQuartermaster_RequireLedgerForSorting_tooltip": "Require a fresh completed ledger covering the work location for Room/Building Sort. Inventory and selected-container Sort never require one. Disabled Ledger mode bypasses this requirement. Existing setting values are retained.",
+  "Sandbox_B47ANCEDQuartermaster_RequireLedgerForSorting_tooltip": "When automatic paper-ledger updates are off, require fresh paper or powered computer knowledge for Room/Building Sort. Inventory/selected-container Sort remains available without it. When automatic updates are on, use its carried-paper and writing-tool workflow instead.",
   "Sandbox_B47ANCEDQuartermaster_RequireLedgerForCollecting": "Require a ledger for Shopping collection",
   "Sandbox_B47ANCEDQuartermaster_RequireLedgerForCollecting_tooltip": "Require a fresh completed location ledger for Shopping collection. Planning and list editing remain available. Disabled Ledger mode bypasses this requirement.",
   "Sandbox_B47ANCEDQuartermaster_LedgerComputerRange": "Nearby ledger computer range",
@@ -61,5 +61,7 @@
   "Sandbox_B47ANCEDQuartermaster_ApplicationInstallSeconds": "Application installation time (seconds)",
   "Sandbox_B47ANCEDQuartermaster_ApplicationInstallSeconds_tooltip": "Native action duration to install Quartermaster from its genuine loaded Application CD. Range 5-120 seconds; default 20. Movement, power/access loss or cancellation prevents completion. The CD is retained.",
   "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight": "Application CD loot weight",
-  "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight_tooltip": "Relative loot-table weight in commercial office desks/counters, office supply shelves/crates and computer store/stock containers. Range 0-10; default 1. Zero disables these drops. Not a percentage. Only affects new native loot rolls; existing containers and items are not changed. Restart to apply distribution settings."
+  "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight_tooltip": "Relative loot-table weight in commercial office desks/counters, office supply shelves/crates and computer store/stock containers. Range 0-10; default 1. Zero disables these drops. Not a percentage. Only affects new native loot rolls; existing containers and items are not changed. Restart to apply distribution settings.",
+  "Sandbox_B47ANCEDQuartermaster_SortUpdatesLedger": "Update paper ledger while sorting",
+  "Sandbox_B47ANCEDQuartermaster_SortUpdatesLedger_tooltip": "Default on. Every Sort requires a carried Supply Sheet and a pen or pencil. First search accessible loaded building storage for a completed ledger covering the location and pick it up through normal transfer. Otherwise use a carried blank or unfinished sheet. Write confirmed touched storage after the whole successful Sort. Blank sheets remain partial; unvisited entries are not made fresh. Computers do not replace paper in this mode. Off restores the previous sorting requirements. Disabled Ledger mode bypasses this option."
 }

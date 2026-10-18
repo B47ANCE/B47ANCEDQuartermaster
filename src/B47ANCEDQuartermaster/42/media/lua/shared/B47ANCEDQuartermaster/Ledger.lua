@@ -58,6 +58,10 @@ function L.snapshotFor(item)
  if j and (not journalValid(j) or j.phase~='committed' or j.output~=item:getID()) then return end
  return snapshot(r,item)
 end
+function L.unboundPaper(item)
+ local r=root()
+ return r and item and item:getFullType()==Media.sheet and r.media[tostring(item:getID())]==nil and item:getModData().B47Ledger==nil or false
+end
 local function allowed(actor,t)
  return Q.Targets.valid(t,actor) and Q.RoomAccess.can(actor,t,'inspect')
 end
@@ -69,7 +73,7 @@ local function physical(t)
  local md=t.obj:getModData();local id=md.B47LedgerPhysical
  if type(id)~='string' or #id>80 then id=uuid();if not id then return end;md.B47LedgerPhysical=id;t.obj:transmitModData() end
  local d=Q.Targets.descriptor(t)
- return id..':'..d.x..':'..d.y..':'..d.z..':'..t.ci,d
+ return id..':'..d.x..':'..d.y..':'..d.z..':'..t.ci,d,id
 end
 local function liveJob(actor,j,full)
  if not j or j.actor~=actor or actor:isDead() or Media.owned(actor,j.paper:getID(),Media.sheet)~=j.paper then return false end
@@ -101,15 +105,13 @@ function L.cleanup(actor)
  local token=L.actors[actor];local g=token and L.grants[token]
  if g then L.grants[token]=nil end
  L.actors[actor]=nil;L.jobs[actor]=nil;L.readers[actor]=nil
+ if Q.SortLedger then Q.SortLedger.cleanup(actor) end
 end
 local function retire(g,status,committed)
  L.grants[g.token]=nil;if L.actors[g.actor]==g.token then L.actors[g.actor]=nil end
  emit(g.actor,'result',{token=g.token,status=status});return committed==true or status=='ok'
 end
-local function writer(actor)
- local inv=actor:getInventory()
- return inv:containsTypeRecurse('Base.Pen') or inv:containsTypeRecurse('Base.Pencil')
-end
+local writer=Media.writer
 local function insertEntry(s,key)
  local a=s.entries[key];local low,high=1,#s.order
  local function less(b)
@@ -150,7 +152,56 @@ local function grant(actor,kind,seconds,fields)
  L.grants[token]=g;L.actors[actor]=token
  local class=require 'B47ANCEDQuartermaster/LedgerAction'
  g.action=class.raw(actor,token,seconds)
- return {status='action',token=token,seconds=seconds,kind=kind,position=g.target and Q.Targets.descriptor(g.target)}
+ if kind=='sortWrite' then g.action.writingPaper=fields.sortContext.paper:getID() end
+ return {status='action',token=token,seconds=seconds,kind=kind,paper=g.action.writingPaper,position=g.target and Q.Targets.descriptor(g.target)}
+end
+L.physical=physical;L.prepareRows=prepareRows
+local function sortShared(r,c)
+ if not c.base then return true end
+ local count=0
+ for item,id in pairs(r.media) do
+  count=count+1;if count>16384 then return nil end
+  if id==c.base.id and item~=tostring(c.paper:getID()) then return true end
+ end
+ for _,journal in pairs(r.burns) do
+  count=count+1;if count>32768 then return nil end
+  if type(journal)~='table' then return nil end
+  if journal.snapshot==c.base.id and journal.phase~='rolledBack' then return true end
+ end
+ return false
+end
+function L.sortGrant(actor,context)
+ local r=root();if not r then return {status='schema'} end
+ local shared=sortShared(r,context);if shared==nil or shared and r.count>=2048 then return {status='tooLarge'} end
+ local entries=0;for _,record in ipairs(context.records) do entries=entries+#record.rows end
+ if entries>32768 then return {status='tooLarge'} end
+ return grant(actor,'sortWrite',option('LedgerBaseSeconds',0,120,10)+entries*option('LedgerEntrySeconds',1,5,1),{sortContext=context})
+end
+local function sortComplete(actor,c)
+ local r=root();if not r then return 'schema' end
+ local shared=sortShared(r,c);if shared==nil or shared and r.count>=2048 then return 'tooLarge' end
+ local id=shared and uuid() or c.base.id;if not id or shared and r.snapshots[id] then return 'failed' end
+ local old=c.base
+ local s={schema=1,id=id,scope={kind=c.scope.kind,label=c.scope.label},signature=c.signature,revision=(old and old.revision or 0)+1,
+  entries={},order={},totalRows=old and old.totalRows or 0,began=old and old.began or stamp(),finished=old and old.finished,
+  complete=old and old.complete or false,status=old and old.status or 'LedgerPartial',sortUpdated=stamp()}
+ if old then for key,entry in pairs(old.entries) do s.entries[key]=entry end;for n,key in ipairs(old.order) do s.order[n]=key end end
+ for _,record in ipairs(c.records) do
+  local rows=prepareRows(record);if not rows then return 'LedgerChanged' end
+  local previous=s.entries[record.key];local rid,name=Scope.room(actor,record.target.obj:getSquare());if not rid then return 'RoomPermissionUnavailable' end
+  s.totalRows=s.totalRows-(previous and #previous.rows or 0)+#rows
+  if s.totalRows>32768 then return 'tooLarge' end
+  local label=record.target.container:getCustomName();if type(label)~='string' or #label==0 or #label>256 then label=record.target.container:getType() end
+  s.entries[record.key]={key=record.key,position=record.position,room=rid,roomName=name,container=label,rows=rows,recorded=stamp()}
+  if previous then for n,key in ipairs(s.order) do if key==record.key then table.remove(s.order,n);break end end end
+  insertEntry(s,record.key)
+ end
+ if #s.order>4096 then return 'tooLarge' end
+ -- Copy-on-write: existing CDs and other sheets retain the original generation.
+ r.snapshots[id]=s;if shared then r.count=r.count+1 end;r.media[tostring(c.paper:getID())]=id
+ Q.SortLedger.cleanup(actor)
+ local synced=pcall(Media.stamp,actor,c.paper,id,s.complete)
+ return synced and 'SortLedgerSaved' or 'SortLedgerSyncPending'
 end
 function L.grantShopping(actor,fields)
  if L.actors[actor] or L.jobs[actor] or Q.Movement.runs[actor] or Q.Movement.operations[actor] then return {status='busy'} end
@@ -168,6 +219,7 @@ function L.valid(actor,token,action)
  -- multiplier must not cancel a legitimate long writing action.
  if g.kind=='shoppingPaper' then return require('B47ANCEDQuartermaster/ShoppingLists').valid(actor,g) end
  if not Policy.enabled() then return false end
+ if g.kind=='sortWrite' then return require('B47ANCEDQuartermaster/SortLedger').writeValid(actor,g.sortContext) end
  if g.kind=='programInstall' then
   local ctx=Program.resolve(actor,g.computer,g.programRequest)
   return ctx~=nil and ctx.item==g.setupItem and not require('B47ANCEDQuartermaster/LedgerDrives').occupied(g.computer)
@@ -203,6 +255,10 @@ function L.complete(actor,token,action)
  if g.kind=='shoppingPaper' then
   local status=require('B47ANCEDQuartermaster/ShoppingLists').complete(actor,g)
   return retire(g,status,status=='ShoppingPaperCreated' or status=='ShoppingPaperSyncPending')
+ end
+ if g.kind=='sortWrite' then
+  local status=sortComplete(actor,g.sortContext)
+  return retire(g,status,status=='SortLedgerSaved' or status=='SortLedgerSyncPending')
  end
  if g.kind=='programInstall' then
   local status=Program.install(actor,g.computer,g.programRequest)
@@ -423,6 +479,9 @@ function L.handle(actor,command,args)
  if isClient() or not actor or actor:isDead() or type(args)~='table' then return {status='invalid'} end
  local confirming=command=='ledgerConfirm' and type(args.token)=='string' and L.grants[args.token]
  if not Policy.enabled() and command~='ledgerCancel' and not (confirming and confirming.actor==actor and confirming.kind=='shoppingPaper') then return {status='LedgerDisabled'} end
+ if command=='ledgerSortPrepare' then return require('B47ANCEDQuartermaster/SortLedger').prepare(actor,args) end
+ if command=='ledgerSortNext' then return require('B47ANCEDQuartermaster/SortLedger').next(actor) end
+ if Q.SortLedger and Q.SortLedger.contexts[actor] and (command=='ledgerBegin' or command=='ledgerBurn' or command=='ledgerProgramInstall') then return {status='busy'} end
  if command=='ledgerSetupList' or command=='ledgerSetupMount' or command=='ledgerSetupEject' then return Program.drive(actor,command,args) end
  if command=='ledgerProgramRun' then return Program.authorize(actor,Media.object(args.computer),args) end
  if command=='ledgerProgramInstall' then
@@ -472,6 +531,7 @@ local nextTick=0
 function L.tick()
  if isClient() then return end
  if getTimestampMs()<nextTick then return end;nextTick=getTimestampMs()+250
+ if Q.SortLedger then Q.SortLedger.tick() end
  if not Policy.enabled() then
   -- Preserve records, but disabled inspection jobs must not occupy the actor
   -- and block the independent physical Shopping List creation workflow.

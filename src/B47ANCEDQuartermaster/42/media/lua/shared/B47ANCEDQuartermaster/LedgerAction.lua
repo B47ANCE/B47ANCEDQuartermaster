@@ -7,7 +7,9 @@ function C:new(character,token)
  if not isClient() then return L.reconstruct(character,token) end
  local offer=L.clientOffers[token]
  if not offer or offer.actor~=character then return end
- return C.raw(character,token,offer.seconds)
+ local action=C.raw(character,token,offer.seconds)
+ if offer.kind=='sortWrite' then action.writingPaper=offer.paper end
+ return action
 end
 function C.raw(character,token,seconds)
  local o=ISBaseTimedAction.new(C,character);o.token=token;o.seconds=seconds;o.maxTime=seconds*50
@@ -21,7 +23,12 @@ end
 function C:serverStart() return L.start(self.character,self.token,self) end
 function C:start()
  if not isClient() and not isServer() and not L.start(self.character,self.token,self) then self:forceStop();return end
- self:setActionAnim('Loot')
+ local paper=self.writingPaper and require('B47ANCEDQuartermaster/LedgerMedia').owned(self.character,self.writingPaper,'B47ANCEDQuartermaster.SupplySheet')
+ if paper then
+  -- Vanilla ISWriteSomething uses the book/read pose for writing on paper.
+  self:setAnimVariable('ReadType','book');self:setActionAnim(CharacterActionAnims.Read)
+  self:setOverrideHandModels(nil,paper);self.character:reportEvent('EventRead')
+ else self:setActionAnim('Loot') end
 end
 function C:complete() return L.complete(self.character,self.token,self) end
 local function cancel(self)

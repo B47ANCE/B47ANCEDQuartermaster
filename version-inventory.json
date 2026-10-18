@@ -129,6 +129,14 @@
     {
       "path": "docs/APPLICATION_CD_EVIDENCE.json",
       "pattern": "^  \"project_version\": \"(?P<version>[^\\\"]+)\""
+    },
+    {
+      "path": "docs/SORT_LEDGER.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/SORT_LEDGER_EVIDENCE.json",
+      "pattern": "^  \"project_version\": \"(?P<version>[^\\\"]+)\""
     }
   ],
   "changelog": {

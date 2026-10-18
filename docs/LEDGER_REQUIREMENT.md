@@ -1,6 +1,8 @@
 # Ledger requirement for sorting and collection
 
-Project Version: 0.20.0-dev.2
+Project Version: 0.21.0-dev.1
+
+Current Sort workflow: default-on `SortUpdatesLedger` requires carried paper and pen/pencil, searches accessible loaded building storage for a completed covering ledger first, uses native pickup, accepts carried blank/unfinished fallback and writes confirmed touched storage once after the full successful job. It overrides the older Sort-only freshness/computer exception below while enabled. Shopping collection and computer application installation are unchanged. Movement 12 / Ledger 5 require matching peers. [Current implementation, boundaries and validation](SORT_LEDGER.md). Earlier checkpoint evidence remains historical.
 
 Current application prerequisite: find and run the Quartermaster Application CD installer on each PC before computer ledger reads/writes or automatic knowledge provision (server opt-out supported). Paper ledgers and ordinary Sort remain independent. Ledger capability is now 4. [Exact implementation, settings, validation and migration limits](APPLICATION_CD.md). Earlier checkpoint sections retain their original evidence.
 
@@ -8,7 +10,7 @@ Physical Shopping now has separate writing supplies and carried shopping papers;
 
 See [ledger modes, freshness, renewal and the current acceptance report](LEDGER_FRESHNESS.md).
 
-## Behavior
+## Previous Sort behavior (when SortUpdatesLedger is off) and current Shopping behavior
 
 Inventory and selected-container Sort never require a ledger. By default, Room/Building Sort and Shopping **collection** require a fresh completed ledger covering each work location; Disabled Ledger mode bypasses both requirements. Shopping list planning/editing, recipe additions, Wanted/Needed planning, container configuration and recording a new ledger remain available without one. This avoids a circular prerequisite.
 

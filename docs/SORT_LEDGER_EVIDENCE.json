@@ -1,0 +1,31 @@
+{
+  "project_version": "0.21.0-dev.1",
+  "game_version": "42.21.0",
+  "steam_build": "25485521",
+  "baseline_commit": "7692a3acdc777587824a2661c857fbdfaf6b947d",
+  "evidence": "VERIFIED SOURCE / TESTED OFFLINE (host Lua 5.1); NOT native or dedicated execution",
+  "native": [
+    {
+      "path": "media/lua/shared/TimedActions/ISWriteSomething.lua",
+      "sha256": "01bdab27c9b2cbf026a32b591a972e4ce30ce28c29b165ed7a3a9f11a82e56c3"
+    },
+    {
+      "path": "media/lua/shared/TimedActions/ISBaseTimedAction.lua",
+      "sha256": "ad72e57f976bd1564d59d08d98d06f8c8d4acea6386aace48e0d99ce9d02a1f0"
+    },
+    {
+      "path": "media/lua/client/TimedActions/ISInventoryTransferAction.lua",
+      "sha256": "96ee554609f9ae029809643d50e4f31dbc5a7d21a558934be0804fd909c345b4"
+    }
+  ],
+  "notes": [
+    "Paper writing reuses native ISWriteSomething book/read pose, wrappers and EventRead; no invented write animation.",
+    "Pickup uses the existing native ISInventoryTransferAction metatable and verified executor, including existing external nested-container identities. Lua does not retract already-dispatched native transfers or secure unrelated vanilla actions.",
+    "All current runtime files are original Lua/script/assets; no custom Java/JAR or third-party implementation imported."
+  ],
+  "source": {
+    "files": 229,
+    "sha256": "223b296029e10acb7eec065ec33304f7c6b10379c63f2951c6fb03263a430d3e",
+    "algorithm": "sorted source-relative UTF-8 path, NUL, binary per-file SHA-256 folded through SHA-256"
+  }
+}

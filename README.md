@@ -8,9 +8,11 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-The Workshop feature guide is below. This branch also contains **0.20.0-dev.2 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/application-cd).
+The Workshop feature guide is below. This branch also contains **0.21.0-dev.1 development work** (source only). The previous 0.16.0-dev.2 package was published for Workshop MP testing; this iteration is not deployed or published. Native client/dedicated acceptance remains pending. [This candidate’s source and build files](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/sort-ledger-write).
 
 ## Development work in this branch
+
+**Sort and update the paper ledger** (default on): carry a pen or pencil. Quartermaster first searches accessible loaded building storage for a completed ledger covering the work location and picks it up using a normal native transfer. If none is found, it uses a carried blank or unfinished Supply Sheet. After the entire successful inventory/container/room/building Sort, one timed writing action records confirmed touched storage. Blank sheets remain partial, unvisited entries retain their old inspection time, and existing ledger CDs keep their snapshots. Server option `SortUpdatesLedger` restores the previous workflow when off; Disabled Ledger mode bypasses it. [Workflow, authority, limits and tests](docs/SORT_LEDGER.md).
 
 Find a **Quartermaster Application CD** in commercial office desks/counters, office supply shelves/crates or computer retail/stock containers (including warehouse offices that use native office loot). Put it in accessible storage beside a powered PC, open **Quartermaster Setup**, load the CD in **CD-ROM (D:)** and run **SETUP.EXE**. Choose **Install Quartermaster** and complete the native action. Installation belongs to that PC and survives a service reload; the reusable Application CD stays in storage. Eject it before opening Quartermaster to write/read ledger CDs. Existing PCs require installation by default; server sandbox settings control the prerequisite, install time and new-loot weight. [Workflow, authority, persistence and validation](docs/APPLICATION_CD.md).
 
@@ -31,7 +33,7 @@ The computer desktop and reusable drive service are supplied by the required [B4
 - Selected native vehicle/trailer cargo and nested storage bags, with native access checks and cargo-area walking.
 - Pre-authorization full-crate fallback and permitted source returns; safe retention when a return or native outcome is unavailable.
 
-Movement protocol 11, Ledger 4 and Rooms 4 require matching server/client builds and reconnect. Saved category rules, selections, presets and priorities are unchanged. No automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks or unverified virtual storage. Actual PZ SP and dedicated testing for this iteration are pending. See [behavior, clean-room audit, validation and limitations](docs/PROGRESS_CARRY_AND_CONTAINERS.md).
+Movement protocol 12, Ledger 5 and Rooms 4 require matching server/client builds and reconnect. Saved category rules, selections, presets and priorities are unchanged. No automatic parked-vehicle area sweeps, vehicle destination designations, fluid tanks or unverified virtual storage. Actual PZ SP and dedicated testing for this iteration are pending. See [behavior, clean-room audit, validation and limitations](docs/PROGRESS_CARRY_AND_CONTAINERS.md).
 
 ## Sorting
 
@@ -57,7 +59,7 @@ Dibs! provides personal item labels and separate Wanted and Needed lists. Set su
 
 ## Building Supply Ledger
 
-**Inventory and selected-container Sort always work without a ledger. Room/Building Sort and Shopping collection require a fresh completed ledger by default.** Carry a paper ledger covering the work location, or load a matching ledger CD at a powered computer in the same building or nearby. Shopping planning and container configuration do not require a supply ledger. Creating/editing physical shopping lists requires their writing supplies. Server options choose ledger mode and an update interval (default 7 in-game days), or disable the requirements. Computers can require manual inspection/CD updates or refresh automatically while powered inside the exact building recorded by the loaded ledger. Off-site and safehouse-wide CDs remain readable snapshots under ordinary expiry. See [requirements, computer range and controls](docs/LEDGER_REQUIREMENT.md).
+**Every Sort uses carried paper and a pen/pencil by default**, with building-ledger search/pickup and a deferred write as described above. With `SortUpdatesLedger` off, inventory and selected-container Sort work without a ledger, while Room/Building Sort retain their separate fresh-ledger requirement. Shopping collection keeps its fresh completed-ledger requirement; a partial sheet is insufficient. Carry a paper ledger covering the work location, or load a matching ledger CD at a powered computer in the same building or nearby. Shopping planning and container configuration do not require a supply ledger. Creating/editing physical shopping lists requires their writing supplies. Server options choose ledger mode and an update interval (default 7 in-game days), or disable the requirements. Computers can require manual inspection/CD updates or refresh automatically while powered inside the exact building recorded by the loaded ledger. Off-site and safehouse-wide CDs remain readable snapshots under ordinary expiry. See [requirements, computer range and controls](docs/LEDGER_REQUIREMENT.md).
 
 Craft a **Quartermaster Building Supply Sheet** from a sheet of paper or notebook, with a retained clipboard and pen/pencil. Right-click the carried sheet to record or resume a building or safehouse. Your character walks to storage and spends time documenting each physical compartment, including unconfigured storage. Floor loot, dropped bags and carried inventories are excluded.
 
@@ -104,7 +106,7 @@ For automated cleaning, install the separate [B47ANCE'd Auto Clean](https://stea
 
 ## Development and documentation
 
-Use [this development source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/application-cd) for current source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
+Use [this development source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/sort-ledger-write) for current source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
 
 From that source checkout, with Python and the host-only Lupa dependency available:
 

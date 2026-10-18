@@ -84,18 +84,23 @@ local function valid(player,op)
     return true
 end
 function M.withdraw(player,record,carrierID,run)
-    if isClient() or not record or record.revoked or not T.valid(record.target,player) or not B47ANCEDQuartermaster.RoomAccess.can(player,record.target,'withdraw') then return {status='invalid'} end
+    if isClient() or not record or record.revoked or not sourceValid(record.target,player) or not B47ANCEDQuartermaster.RoomAccess.can(player,record.target,'withdraw') then return {status='invalid'} end
     local position=T.descriptor(record.target)
     for _,key in ipairs({'x','y','z','ci'}) do if position[key]~=record.position[key] then return {status='invalid'} end end
     local container=record.target.container
-    local known,why=Knowledge.operation(player,{withdrawal=true,source=record.target});if not known then return {status=why} end
+    local pickup=run.kind=='ledgerPickup'
+    if pickup then
+        if not require('B47ANCEDQuartermaster/SortLedger').pickupValid(player,run) then return {status='invalid'} end
+    else
+        local known,why=Knowledge.operation(player,{withdrawal=true,source=record.target});if not known then return {status=why} end
+    end
     local item=run.item
     local carrier=M.carrier(player,carrierID)
     if not eligible(player,item) or not present(container,item) or not container:isRemoveItemAllowed(item) then return {status='invalid'} end
     if not carrier or not accepts(player,carrier,item) or not Carry.accepts(player,carrier,item) then return {status='capacity'} end
     local meta=identity(record.target)
     local op={id=fresh(),time=getTimestampMs(),item=item,source=record.target,sourceRecord=record,container=container,
-        carrier=carrier,carrierID=carrierID,withdrawal=true,phase='planned',shoppingRun=run,sourceMarker=meta.instance}
+        carrier=carrier,carrierID=carrierID,withdrawal=true,phase='planned',shoppingRun=not pickup and run or nil,ledgerPickup=pickup and run or nil,sourceMarker=meta.instance}
     return {status='ok',operation=op.id,itemID=item:getID(),source=meta,carrierID=carrierID,withdrawal=true},op
 end
 function M.planOne(player,args,context)
@@ -128,7 +133,7 @@ function M.planOne(player,args,context)
         local library=context and context.library or B47ANCEDQuartermaster.Presets.snapshot()
         local knowledgeRejected=false
         local choice,rejection=P.choose(player,args.session,item,library and library.definitions or {},function(t,it,candidate)
-            if not Knowledge.check(player,t.obj:getSquare(),context and context.area and 'area' or 'sort') then knowledgeRejected=true;return false end
+            if not Knowledge.candidate(player,t.obj:getSquare(),context and context.area and 'area' or 'sort') then knowledgeRejected=true;return false end
             if context and context.planning then
                 return candidate.rulesReady and accepts(player,t.container,it) and (not context.accepts or context.accepts(t,it))
             end
@@ -171,7 +176,7 @@ function M.spill(player,op)
         return total
     end
     local choice=P.choose(player,run.session,op.item,library and library.definitions or {},function(t,it,candidate)
-        if not candidate or not candidate.rulesReady or not t or not t.container or not Knowledge.check(player,t.obj:getSquare(),op.area and 'area' or 'sort') or op.spillTried[t.container] or t.container==op.container then return false end
+        if not candidate or not candidate.rulesReady or not t or not t.container or not Knowledge.candidate(player,t.obj:getSquare(),op.area and 'area' or 'sort') or op.spillTried[t.container] or t.container==op.container then return false end
         return accepts(player,t.container,it) and it:getActualWeight()<=math.max(0,t.container:getEffectiveCapacity(player)-t.container:getCapacityWeight()-reserved(t.container))
     end,op.trace)
     if not choice or not choice.target or not choice.key then return nil end
@@ -217,6 +222,7 @@ function M.handle(player,command,args)
     if M.runs[player] and args.operation then op=M.runs[player].operations[args.operation] end
     if op and getTimestampMs()-op.time>=lifetime then M.operations[player]=nil;op=nil end
     if command=='movePlan' then
+        if require('B47ANCEDQuartermaster/SortLedger').enabled() then return {status='SortLedgerRequired'} end
         if op or M.runs[player] then return {status='busy'} end
         local offer,record=M.planOne(player,args)
         M.operations[player]=record
@@ -236,6 +242,7 @@ function M.handle(player,command,args)
         if op.phase~='put' then return {status='invalid'} end
         -- Confirmation is read-only. Never retry or roll back an uncertain move.
         if not present(op.destination.container,op.item) then return {status='waiting'} end
+        require('B47ANCEDQuartermaster/SortLedger').observed(player,op,op.destination)
         forget(player,op);return {status='ok'}
     end
     if command=='moveReverted' then
@@ -250,7 +257,8 @@ function M.handle(player,command,args)
         -- Once native TAKE succeeded, report that fact even if later eligibility
         -- changes. A confirmation never grants another transfer or mutates items.
         if not present(op.carrier,op.item) then return {status='waiting'} end
-        B47ANCEDQuartermaster.Shopping.confirm(player,op)
+        if op.ledgerPickup then require('B47ANCEDQuartermaster/SortLedger').confirmPickup(player,op.ledgerPickup)
+        else B47ANCEDQuartermaster.Shopping.confirm(player,op) end
         forget(player,op);return {status='ok',collected=true}
     end
     -- Observations above and safe return below do not require new knowledge.
@@ -259,7 +267,11 @@ function M.handle(player,command,args)
         local valid,why=require('B47ANCEDQuartermaster/ShoppingLists').runValid(player,op.shoppingRun);if not valid then return {status=why,reason=why} end
     end
     if command=='moveTake' or command=='movePut' then
-        local known,why=Knowledge.operation(player,op);if not known then return {status=why,reason=why} end
+        if op.ledgerPickup then
+            if not require('B47ANCEDQuartermaster/SortLedger').pickupValid(player,op.ledgerPickup) then return {status='LedgerChanged'} end
+        else
+            local known,why=Knowledge.operation(player,op);if not known then return {status=why,reason=why} end
+        end
     end
     local operationValid,operationReason=valid(player,op)
     if not operationValid then forget(player,op);return {status='invalid',reason=operationReason} end
@@ -287,6 +299,7 @@ function M.handle(player,command,args)
     elseif command=='moveCarried' then
         if op.phase~='take' and op.phase~='carried' then return {status='invalid'} end
         if not present(op.carrier,op.item) then return {status='waiting'} end
+        require('B47ANCEDQuartermaster/SortLedger').observed(player,op,op.source)
         op.phase='carried';return {status='ok'}
     elseif command=='movePut' then
         if op.withdrawal then return {status='invalid'} end
@@ -330,6 +343,10 @@ end
 if Events and Events.OnTick then
     Events.OnTick.Add(function()
         for player,op in pairs(M.operations) do
+            if op.ledgerPickup and op.cancelRequested then
+                if present(op.carrier,op.item) then M.handle(player,'moveCarried',{operation=op.id})
+                elseif getTimestampMs()-op.time>=15000 then forget(player,op) end
+            end
             if getTimestampMs()-op.time>=lifetime then M.operations[player]=nil end
         end
         for player,run in pairs(M.runs) do if getTimestampMs()-run.time>=lifetime then M.runs[player]=nil end end

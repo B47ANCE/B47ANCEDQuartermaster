@@ -53,7 +53,7 @@ for key,value in pairs(retained) do assert(world[key]==value,'allocation replace
 assert(ModData.getOrCreate('B47ANCEDQuartermasterLedger').keep==ledgerBefore,'preset migration touched ledger authority root')
 assert(ModData.getOrCreate('B47ANCEDQuartermasterShoppingPapers').keep==papersBefore,'preset migration touched physical Shopping Lists')
 local Protocol=require 'B47ANCEDQuartermaster/Protocol'
-for command,version in pairs({movePut=11,personalList=2,shoppingBegin=3,ledgerRead=4,roomList=4,loadGet=1,commit=6,presetChange=3,allocationInfo=1}) do
+for command,version in pairs({movePut=12,personalList=2,shoppingBegin=3,ledgerRead=5,roomList=4,loadGet=1,commit=6,presetChange=3,allocationInfo=1}) do
  assert(Protocol.version(command)==version,'allocation downgraded current family '..command)
  assert(not Protocol.accepts(command,{protocol=version-1}),'old wire version accepted for '..command)
 end

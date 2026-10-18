@@ -38,8 +38,26 @@ local function finish(op,status)
  if op.callback then op.callback(status) end
 end
 local function response(op,result)
- if op.closed or getSpecificPlayer(op.num)~=op.actor then return end
+ if op.closed or getSpecificPlayer(op.num)~=op.actor then
+  if result.status=='pickup' and result.offer then Q.Authority.request(op.num,'moveCancel',{operation=result.offer.operation,outcome='notSubmitted'},function() end) end
+  if result.status=='action' and result.token then Q.Authority.request(op.num,'ledgerCancel',{token=result.token},function() end) end
+  return
+ end
  op.pending=false;op.at=getTimestampMs()+250
+ if op.sort and result.status=='ready' then
+  op.sortPreparing=false;op.sorting=true
+  if not op.continueSort() then finish(op,'busy') end
+  return
+ end
+ if op.sort and result.status=='pickup' then
+  op.actionPending=true
+  if not Q.Executor.acceptOffer(op.num,result.offer,function(status)
+   if op.closed then return end
+   op.actionPending=false;op.at=getTimestampMs()+250
+   if status~='ok' then finish(op,status) end
+  end) then op.actionPending=false;finish(op,'busy') end
+  return
+ end
  if result.status=='ok' or result.status=='waiting' then if result.target then op.target=result.target end;return end
  if result.status=='walk' then
   if op.lastWalk==result.target then op.walks=op.walks+1 else op.lastWalk=result.target;op.walks=1 end
@@ -54,12 +72,12 @@ local function response(op,result)
  if result.status=='action' then
   if #queue(op.actor)>0 then finish(op,'busy');return end
   op.token=result.token;op.actionPending=true
-  L.clientOffers[result.token]={actor=op.actor,seconds=result.seconds}
+  L.clientOffers[result.token]={actor=op.actor,seconds=result.seconds,kind=result.kind,paper=result.paper}
   local action=Action:new(op.actor,result.token)
   if not action then finish(op,'failed');return end
   action.b47LedgerWork=op;ISTimedActionQueue.add(action);return
  end
- if result.status=='LedgerChanged' then
+ if result.status=='LedgerChanged' and not op.sort then
   op.changed=(op.changed or 0)+1
   if op.changed<=3 then return end
  end
@@ -69,10 +87,32 @@ local function nativeResult(actor,result)
  local num=actor:getPlayerNum();local op=V.work[num]
  if not op or op.token~=result.token then return end
  L.clientOffers[result.token]=nil;op.token=nil;op.actionPending=false;op.target=nil;op.at=getTimestampMs()+250
+ if op.sort then finish(op,result.status);return end
  if result.status=='LedgerChanged' then op.changed=(op.changed or 0)+1;if op.changed<=3 then return end end
  if result.status=='ShoppingPaperCreated' then finish(op,result.status) elseif result.status~='ok' then finish(op,result.status) elseif op.burn then finish(op,'ok') end
 end
 L.clientResult=nativeResult
+function V.prepareSort(num,continueSort,failed)
+ if V.work[num] then return false,'busy' end
+ local actor=getSpecificPlayer(num);if not actor or #queue(actor)>0 then return false,'busy' end
+ V.work[num]={actor=actor,num=num,sort=true,sortPreparing=true,continueSort=continueSort,callback=failed,at=0}
+ note(actor,'SortLedgerSearching');return true
+end
+function V.sortFinished(num,status,callback)
+ local op=V.work[num]
+ if not op or not op.sort then callback(status);return end
+ op.callback=function(result)
+  callback((result=='SortLedgerSaved' or result=='SortLedgerSyncPending' or result=='done') and 'ok' or result)
+ end
+ if status~='ok' then finish(op,status);return end
+ op.sorting=false;op.sortWriting=true;op.at=0;note(op.actor,'SortLedgerWriting')
+end
+function V.cancelSort(num)
+ local op=V.work[num];if not op or not op.sort then return end
+ V.cancel(num)
+ Q.Executor.cancel(num)
+ if op.callback then op.callback('cancelled') end
+end
 function V.record(num,item,scope)
  if V.work[num] then return end
  local actor=getSpecificPlayer(num);if not actor or #queue(actor)>0 then return end
@@ -314,8 +354,9 @@ function V.tick()
   elseif op.navigation and #queue(op.actor)==0 then
    V.work[num]=nil;op.closed=true
    if Media.computer(op.actor,op.computer,true) and getTimestampMs()-op.started<120000 then op.done() else note(op.actor,'LedgerUnreachable') end
-  elseif not op.pending and not op.actionPending and #queue(op.actor)==0 and getTimestampMs()>=(op.at or 0) then
-   op.pending=true;Q.Authority.request(num,'ledgerNext',{target=op.target},function(r) response(op,r) end)
+  elseif not op.sorting and not op.pending and not op.actionPending and #queue(op.actor)==0 and getTimestampMs()>=(op.at or 0) then
+   local command=op.sortPreparing and 'ledgerSortPrepare' or op.sortWriting and 'ledgerSortNext' or 'ledgerNext'
+   op.pending=true;Q.Authority.request(num,command,{target=op.target},function(r) response(op,r) end)
   end
  end
 end
