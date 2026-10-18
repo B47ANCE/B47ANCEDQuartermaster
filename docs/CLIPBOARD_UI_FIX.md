@@ -1,8 +1,8 @@
 # Clipboard UI correction and PC integration
 
-Project Version: 0.19.0-dev.3
+Project Version: 0.20.0-dev.1
 
-## Current metal clamp correction — 0.19.0-dev.3
+## Historical metal clamp correction — 0.19.0-dev.3
 
 [VERIFIED SOURCE] Compatible presentation-only PATCH checkpoint. The previous clip ended at y=47 while paper began at y=52, leaving a visible gap. The original Lua geometry now draws wider beveled steel shoulders, two rivets, a raised spring tab and a rolled jaw through y=62. Its shadow ends at y=64, clear of the title at y=66. All supported font-size minimums contain the clamp. No new engine API, raster asset, gameplay setting or networking is introduced; ledger contents, controls, privacy, native transfers and PC Framework remain unchanged.
 

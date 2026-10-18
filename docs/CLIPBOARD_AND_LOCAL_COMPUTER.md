@@ -1,6 +1,6 @@
 # Paper clipboard and local computer inventory
 
-Project Version: 0.19.0-dev.3
+Project Version: 0.20.0-dev.1
 
 ## 0.18.0-dev.8 recipe checkpoint
 

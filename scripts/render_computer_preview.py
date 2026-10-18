@@ -56,7 +56,7 @@ function W:drawTextCentre(s,x,y,r,g,b,a) drawtext(self,s,x,y,r,g,b,a,true) end
 function W:clear() self.options={} end
 function W:addOptionWithData(text,data) table.insert(self.options,{text=text,data=data}) end
 function W:prerender() end;function W:render() end
-ISPanelJoypad=W;ISPanel=W;ISButton=setmetatable({},W);ISButton.__index=ISButton
+ISPanelJoypad=W;ISPanel=W;package.loaded['ISUI/ISPanelJoypad']=W;ISButton=setmetatable({},W);ISButton.__index=ISButton
 ISCollapsableWindowJoypad=setmetatable({},W);ISCollapsableWindowJoypad.__index=ISCollapsableWindowJoypad
 ISComboBox=setmetatable({},W);ISComboBox.__index=ISComboBox
 function ISComboBox:render()
@@ -157,7 +157,15 @@ for _,p in ipairs({'TimedActions/ISTimedActionQueue','TimedActions/WalkToTimedAc
 package.loaded['B47ANCEDQuartermaster/Ledger']={clientOffers={}}
 function screen.computer:getSquare() return {getX=function() return 11000 end,getY=function() return 9600 end,getZ=function() return 0 end} end
 function screen.computer:getObjectIndex() return 0 end
+local previewComputer=screen.computer;local previewMD={B47QMProgramVersion='1'}
+function previewComputer:getModData() return previewMD end
+function actor:setHaloNote() end
+local setupMounted=false
+local setupRow={id=4,name='Quartermaster Application CD',fullType='B47ANCEDQuartermaster.ApplicationCD',drive='setup-preview',token='setup-preview-choice'}
 B47ANCEDQuartermaster.Authority={request=function(num,command,args,callback)
+ if command=='ledgerSetupList' then callback({status='ok',choices={setupRow},mounted=setupMounted and setupRow or nil});return end
+ if command=='ledgerSetupMount' then setupMounted=true;callback({status='ok',mounted=setupRow});return end
+ if command=='ledgerProgramRun' then callback({status='ok',program={id='quartermaster.setup',version='1'},media=setupRow});return end
  local rows={}
  local samples={{'Nails',200,'Base.Nails','Workshop','Wooden Crate'}, {'Hammer',3,'Base.Hammer','Workshop','Tool Cabinet'}, {'Canned Beans',12,'Base.TinnedBeans','Pantry','Cupboard'}, {'Bandage',8,'Base.Bandage','Medical','Wall Cabinet'}, {'9mm Rounds',150,'Base.Bullets9mm','Armory','Wooden Crate'}, {'Water Bottle',6,'Base.WaterBottle','Kitchen','Cupboard'}}
  for i,s in ipairs(samples) do rows[i]={name=s[1],quantity=s[2],fullType=s[3],condition=10,room=s[4],roomID='sample-'..s[4],container=s[5],position={x=11000+i,y=9600,z=0,ci=0},recorded=148.5} end
@@ -166,10 +174,11 @@ end}
 local media=package.loaded['B47ANCEDQuartermaster/LedgerMedia'];media.owned=function(_,id) return id==1 and paper or nil end
 local V=require 'B47ANCEDQuartermaster/LedgerUI'
 openPaper=function() clipboard=V.read(0,paper) end
+openInstaller=function() screen:close();previewMD.B47QMProgramVersion=nil;screen=V.computer(0,previewComputer);screen:openDrive();screen.content.insert.onclick();screen:runDisc() end
 hooks.read=function(disc,host) return V.read(0,disc,screen.computer,host) end
 
 ''')
-states=[('Desktop',''),('Start menu','screen.start.onclick()'),('Loaded ledger CD',"screen:openDrive();screen.content.insert.onclick()"),('CD Writer','screen:eject();screen:openWriter()'),('Supply Ledger',"screen:openDrive();screen.content.insert.onclick();screen:runDisc()"),('Paper Ledger',"openPaper()")]
+states=[('Desktop',''),('Start menu','screen.start.onclick()'),('Loaded ledger CD',"screen:openDrive();screen.content.insert.onclick()"),('CD Writer','screen:eject();screen:openWriter()'),('Supply Ledger',"screen:openDrive();screen.content.insert.onclick();screen:runDisc()"),('Paper Ledger',"openPaper()"),('Application CD Setup',"openInstaller()")]
 images=[]
 for i,(title,code) in enumerate(states):
  canvas=Image.new('RGBA',(int(lua.globals().screen.width),int(lua.globals().screen.height)),(28,28,26,255))
@@ -179,9 +188,10 @@ for i,(title,code) in enumerate(states):
  lua.globals().previewSurface=surface;lua.execute('walk(previewSurface)')
  p=OUT/f'computer-{i+1}.png';canvas.convert('RGB').save(p);images.append((title,canvas.copy()))
  if title=='Paper Ledger':canvas.convert('RGB').save(OUT/'paper-ledger.png')
+ if title=='Application CD Setup':canvas.convert('RGB').save(OUT/'application-setup.png')
 thumbW=700
 thumbH=round(thumbW*images[0][1].height/images[0][1].width)
-sheet=Image.new('RGB',(thumbW*2+48,thumbH*3+176),(24,27,28));d=ImageDraw.Draw(sheet)
+sheet=Image.new('RGB',(thumbW*2+48,thumbH*((len(images)+1)//2)+220),(24,27,28));d=ImageDraw.Draw(sheet)
 d.text((16,12),'Quartermaster computer UI - source-rendered preview',font=heading,fill=(235,236,230))
 d.text((16,38),'Actual Lua layout, palette and symbols. Host fonts/native controls approximate; not a PZ screenshot.',font=font,fill=(175,185,185))
 for i,(title,img) in enumerate(images):

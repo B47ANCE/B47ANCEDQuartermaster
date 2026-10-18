@@ -1,6 +1,8 @@
 # Physical Supply Ledger and Dangerous Load
 
-Project Version: 0.19.0-dev.3
+Project Version: 0.20.0-dev.1
+
+Current application prerequisite: find and run the Quartermaster Application CD installer on each PC before computer ledger reads/writes or automatic knowledge provision (server opt-out supported). Paper ledgers and ordinary Sort remain independent. Ledger capability is now 4. [Exact implementation, settings, validation and migration limits](APPLICATION_CD.md). Earlier checkpoint sections retain their original evidence.
 
 Current reader: paper ledgers use a ruled clipboard with three columns and page-turn controls. Computers can show live stock and waive expiry only in the exact native building recorded by their CD. Off-site/outdoor computers and safehouse-wide CDs fall back to recorded history and ordinary freshness. Existing privacy, inspection, CD binding and native transfer boundaries remain. See [current policy and validation](CLIPBOARD_AND_LOCAL_COMPUTER.md).
 

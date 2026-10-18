@@ -64,7 +64,7 @@ function G.check(actor,sq,kind)
  if not ids then return false,'LedgerRequired' end
  for _,id in ipairs(ids) do
   local disc,s,computer=Drives.provider(actor,id)
-  if disc then
+  if disc and require('B47ANCEDQuartermaster/LedgerProgram').has(actor,computer,false) then
    local cs=computer:getSquare();local cb=building(cs)
    local localComputer=Policy.computerMatches(s,cb and cb.signature)
    if Policy.fresh(s,localComputer) and G.covers(s,sq) then

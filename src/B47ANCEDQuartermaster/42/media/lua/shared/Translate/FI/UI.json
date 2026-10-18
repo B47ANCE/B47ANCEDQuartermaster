@@ -553,5 +553,16 @@
   "UI_QMSS_LedgerClipboardPrevious": "Previous sheet",
   "UI_QMSS_LedgerClipboardNext": "Next sheet",
   "UI_QMSS_LedgerComputerOffsite": "Recorded inventory only. Live computer updates require the exact building recorded by this ledger; safehouse-wide ledgers have no single building.",
-  "UI_QMSS_LedgerTableOffsite": "Off-site snapshot"
+  "UI_QMSS_LedgerTableOffsite": "Off-site snapshot",
+  "UI_QMSS_ProgramSetup": "Quartermaster Setup",
+  "UI_QMSS_ProgramRequired": "Install Quartermaster from an Application CD on this computer first.",
+  "UI_QMSS_ProgramInstallIntro": "Read ledgers and write ledger CDs.",
+  "UI_QMSS_ProgramInstallRetained": "Application CD stays reusable in storage.",
+  "UI_QMSS_ProgramInstallStorage": "Installation applies to this computer only.",
+  "UI_QMSS_ProgramInstallReady": "Ready to install.",
+  "UI_QMSS_ProgramInstall": "Install Quartermaster",
+  "UI_QMSS_ProgramInstalling": "Installing Quartermaster...",
+  "UI_QMSS_ProgramInstalled": "Quartermaster installed",
+  "UI_QMSS_ProgramInstalledHelp": "Installed: eject CD, open Quartermaster.",
+  "UI_QMSS_ProgramInstallDenied": "The Application CD or computer access is unavailable."
 }

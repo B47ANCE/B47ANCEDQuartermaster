@@ -121,6 +121,14 @@
     {
       "path": "docs/CLIPBOARD_UI_FIX.md",
       "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/APPLICATION_CD.md",
+      "pattern": "^Project Version: (?P<version>\\S+)$"
+    },
+    {
+      "path": "docs/APPLICATION_CD_EVIDENCE.json",
+      "pattern": "^  \"project_version\": \"(?P<version>[^\\\"]+)\""
     }
   ],
   "changelog": {
@@ -146,6 +154,11 @@
       "category": "pz",
       "reference": "src/B47ANCEDQuartermaster/42/mod.info: versionMin",
       "reason": "PZ compatibility, not project version"
+    },
+    {
+      "category": "compatibility",
+      "reference": "LedgerProgram.lua version=1 / CD program API 1 / PC Framework 0.5.0-dev.2",
+      "reason": "Independent application-program compatibility, framework API and dependency versions; not Quartermaster project version."
     }
   ],
   "historical": [

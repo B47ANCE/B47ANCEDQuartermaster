@@ -7,7 +7,7 @@ root = Path(__file__).resolve().parents[1]
 source = root / 'src/B47ANCEDQuartermaster/42'
 code = (source / 'media/scripts/b47_supply_ledger.txt').read_text(encoding='utf-8')
 assert code.count('{') == code.count('}')
-assert re.findall(r'^\s*item\s+(\w+)\s*$', code, re.M) == ['ShoppingPaper', 'SupplySheet', 'SupplyDisc']
+assert re.findall(r'^\s*item\s+(\w+)\s*$', code, re.M) == ['ShoppingPaper', 'SupplySheet', 'ApplicationCD', 'SupplyDisc']
 assert 'OnTest = B47SupplyLedgerEnabled,' in code
 assert 'ItemType = base:normal' in code and 'Tags = InHandCraft' in code
 assert re.search(r'item 1 \[Base\.Pen;Base\.Pencil\] mode:keep,', code)

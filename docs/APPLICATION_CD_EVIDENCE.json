@@ -1,0 +1,38 @@
+{
+  "project_version": "0.20.0-dev.1",
+  "game_version": "42.21.0",
+  "steam_build": "25485521",
+  "status": "VERIFIED SOURCE / TESTED OFFLINE",
+  "runtime": "NOT TESTED",
+  "native": [
+    {
+      "path": "media/lua/server/Items/SuburbsDistributions.lua",
+      "sha256": "25a15471f95fb56ebe7ac405c4a85705d18b3ee12a2bd7fe379e2c71e3bc36b1"
+    },
+    {
+      "path": "media/lua/server/Items/ProceduralDistributions.lua",
+      "sha256": "7e32d249a0aa3e7461dd397b0e727a3559029438f42957ddd90d47799ed33ba2"
+    },
+    {
+      "path": "media/scripts/generated/items/normal.txt",
+      "sha256": "b76cf5f91dce33567ca2bda305c4e450be297aae6b1fc11b5b34dcb280d74567"
+    }
+  ],
+  "observations": [
+    "Installed SuburbsDistributions.lua registers OnPreDistributionMerge.Add at line 208; its pre-merge callback is empty. Native event timing itself is NOT TESTED.",
+    "Installed procedural distributions define OfficeDesk, ElectronicStoreMisc and CrateElectronics with alternating item-name / numeric-weight items arrays.",
+    "ApplicationCD reuses the existing verified Disc icon and Disk world model shape from the native CD item; original Lua script definition, no new bitmap asset or copied source."
+  ],
+  "framework": {
+    "api_source_commit": "10041fc77124b9845a946474400f66e718c1b030",
+    "crt_source_commit": "12d320c86a3e22f6db32dc69051167fef589d097",
+    "registration": "PC.registerCDProgram",
+    "server": "CDPrograms.new / resolve / authorize",
+    "api_version": 1
+  },
+  "authority": "Authenticated Quartermaster transport and challenged native LedgerAction own the install mutation; framework resolves real mounted media/power/access. Per-PC installation receipt is Quartermaster-owned server ModData schema 1.",
+  "limits": [
+    "Source inspection and native-shaped tests do not prove native execution, loot generation, synchronization, save restart or dedicated multiplayer.",
+    "Native object metadata transport and inherited ledger native-action boundary remain subject to documented vanilla authority limitations."
+  ]
+}

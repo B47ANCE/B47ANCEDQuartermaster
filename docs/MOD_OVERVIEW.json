@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.19.0-dev.3",
+  "version": "0.20.0-dev.1",
   "reviewed": true,
-  "source_digest": "d3c370c37a7a1f04dd72db591f24b93ff4986cfaa92c70fd19590182b0b784da",
+  "source_digest": "1d5f294eb8ff8e42e9c45288fbc5b205b08826b30c09363a36fb267f226eac64",
   "features": [
     {
       "status": "Source",
@@ -45,9 +45,13 @@
     {
       "status": "Source",
       "text": "Portrait paper clipboard with a beveled spring clamp gripping the sheet, scroll-aligned ruling, separate selected-item details and resize grip with three-column ledger and page-turn controls. Server limits live computer statistics and automatic freshness to the exact recorded building; off-site/safehouse-wide CDs retain ordinary historical access. Supply Sheet creation requires a reusable vanilla clipboard and writing implement; paper/notebook is consumed."
+    },
+    {
+      "status": "Source",
+      "text": "Found Application CD runs SETUP.EXE via PC Framework CD program API 1. Server native-action completion installs per exact PC; guards digital reads/writes/automatic knowledge. Reusable disc, server prerequisite/time/loot settings; old ledger data preserved."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.19.0-dev.3; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.20.0-dev.1; G7/stable G8 BLOCKED. Requires separate PC Framework development source, which has no assigned Workshop item. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",
@@ -55,7 +59,8 @@
     "docs/WINDOWS93_COMPUTER.md",
     "docs/CLIPBOARD_AND_LOCAL_COMPUTER.md",
     "docs/PC_FRAMEWORK_INTEGRATION.md",
-    "docs/CLIPBOARD_UI_FIX.md"
+    "docs/CLIPBOARD_UI_FIX.md",
+    "docs/APPLICATION_CD.md"
   ],
   "relations": [
     {
@@ -66,7 +71,7 @@
     {
       "target": "local-2c6a6aca81aa",
       "kind": "Required",
-      "text": "Independent desktop/device/server-drive host; Quartermaster supplies ledger privacy, data and app callbacks."
+      "text": "CD program API 1, desktop/device/server-drive host. Quartermaster owns installation receipts, native timing, ledger privacy/data and app callbacks."
     }
   ]
 }

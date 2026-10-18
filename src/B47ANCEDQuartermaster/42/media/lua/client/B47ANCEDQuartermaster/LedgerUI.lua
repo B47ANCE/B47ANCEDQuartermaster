@@ -7,6 +7,7 @@ local L=require 'B47ANCEDQuartermaster/Ledger'
 local Media=require 'B47ANCEDQuartermaster/LedgerMedia'
 local Scope=require 'B47ANCEDQuartermaster/LedgerScope'
 local Policy=require 'B47ANCEDQuartermaster/LedgerPolicy'
+local Program=require 'B47ANCEDQuartermaster/LedgerProgram'
 local Action=require 'B47ANCEDQuartermaster/LedgerAction'
 local Computer=require 'B47ANCEDQuartermaster/ComputerUI'
 local LedgerTable=require 'B47ANCEDQuartermaster/LedgerTable'
@@ -22,7 +23,7 @@ function V.cancel(num)
  if getSpecificPlayer(num)==op.actor then
   local current=queue(op.actor)[1]
   if current and current.b47LedgerWork==op and current.action then current:forceStop() end
-  Q.Authority.request(num,'ledgerCancel',{},function() end)
+  if not op.install or op.token then Q.Authority.request(num,'ledgerCancel',{token=op.token},function() end) end
  end
  if op.token then L.clientOffers[op.token]=nil end
 end
@@ -30,9 +31,9 @@ local function finish(op,status)
  if op.closed then return end
  op.closed=true;V.work[op.num]=nil
  if op.token then L.clientOffers[op.token]=nil end
- if status~='ok' and status~='done' and status~='ShoppingPaperCreated' and status~='ShoppingPaperSyncPending' then Q.Authority.request(op.num,'ledgerCancel',{},function() end) end
+ if not op.install and status~='ok' and status~='done' and status~='ShoppingPaperCreated' and status~='ShoppingPaperSyncPending' then Q.Authority.request(op.num,'ledgerCancel',{},function() end) end
  local key=status=='ok' and 'LedgerSaved' or status=='done' and (op.summary or 'LedgerComplete') or status
- local screen=Computer.active[op.num];if op.burn and screen then screen:message(key) end
+ local screen=Computer.active[op.num];if (op.burn or op.install) and screen then screen:message(key) end
  note(op.actor,key)
  if op.callback then op.callback(status) end
 end
@@ -90,6 +91,14 @@ function V.burn(num,paper,cd,computer)
  local op={actor=actor,num=num,pending=true,burn=true};V.work[num]=op
  local sq=computer:getSquare();local d={x=sq:getX(),y=sq:getY(),z=sq:getZ(),index=computer:getObjectIndex()}
  Q.Authority.request(num,'ledgerBurn',{item=paper:getID(),cd=cd:getID(),computer=d},function(r) response(op,r) end)
+end
+function V.installProgram(num,computer,media,callback)
+ local actor=getSpecificPlayer(num)
+ if not actor or V.work[num] or #queue(actor)>0 then if callback then callback('busy') end;return end
+ local op={actor=actor,num=num,pending=true,install=true,single=true,callback=callback};V.work[num]=op
+ local sq=computer:getSquare();if not sq then finish(op,'LedgerPower');return end
+ Q.Authority.request(num,'ledgerProgramInstall',{program=Program.id,media=media.id,drive=media.drive,
+  computer={x=sq:getX(),y=sq:getY(),z=sq:getZ(),index=computer:getObjectIndex()}},function(r) response(op,r) end)
 end
 function V.atComputer(num,computer,done)
  local actor=getSpecificPlayer(num);if not actor or V.work[num] or #queue(actor)>0 then return end
@@ -271,7 +280,7 @@ function V.inventoryMenu(num,menu,items)
 end
 local PC=require 'B47ANCEDPCFramework/API'
 PC.registerApplication('quartermaster',function(num,computer)
- if not Policy.enabled() or not computer then return end
+ if not Policy.enabled() or not computer or not Program.localInstalled(computer) then return end
  return {inventory=inventory,enabled=Policy.enabled,canUse=Media.computer,
   text=tr,file='QUARTERMASTER.EXE',toolTitle=tr('ComputerWriter'),
   canRun=function(item) return item and item:getFullType()==Media.disc end,
@@ -286,7 +295,8 @@ PC.registerApplication('quartermaster',function(num,computer)
   busy=function() return V.work[num]~=nil end,
   close=function() local op=V.work[num];if op and op.burn then V.cancel(num) end end}
 end,tr('LedgerDigitalTitle'))
-function V.computer(num,computer) return PC.open(num,computer,'quartermaster') end
+require('B47ANCEDQuartermaster/ProgramInstaller')(PC,V)
+function V.computer(num,computer) return PC.open(num,computer,Program.localInstalled(computer) and 'quartermaster' or Program.id) end
 function V.worldMenu(num,menu,objects,test)
  if test or not Policy.enabled() then return end
  local actor=getSpecificPlayer(num);if not actor then return end

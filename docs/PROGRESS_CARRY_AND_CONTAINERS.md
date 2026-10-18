@@ -1,6 +1,6 @@
 # Overall progress, full carries and native container sources
 
-Project Version: 0.19.0-dev.3
+Project Version: 0.20.0-dev.1
 
 Current-source note: the carry/source behavior below was introduced in 0.12.0-dev.1. The current iteration adds [Dangerous Load and the physical Supply Ledger](LEDGER_AND_LOAD.md); the normal comfort allowance remains unchanged. Dated 0.12 evidence retains its original version and does not prove native 0.13/0.14 behavior.
 

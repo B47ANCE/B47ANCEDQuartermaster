@@ -1,6 +1,7 @@
 -- Existing owned UI surface plus the native base-action class; no pixel proof.
 dofile(TEST_ROOT..'/test_load_settings_ui.lua')
-local Q,U=B47ANCEDQuartermaster,B47ANCEDUI;local f=CONTAINER_FIXTURE;local actor=f.player
+local Q,U=B47ANCEDQuartermaster,B47ANCEDUI;SandboxVars.B47ANCEDQuartermaster.RequireComputerApplication=false -- existing UI behavior; installer is tested separately
+local f=CONTAINER_FIXTURE;local actor=f.player
 local callbacks={};Events={}
 for _,name in ipairs({'OnTick','OnFillInventoryObjectContextMenu','OnFillWorldObjectContextMenu','OnServerCommand'}) do Events[name]={Add=function(fn) callbacks[name]=fn end} end
 local q={queue={}};ISTimedActionQueue={getTimedActionQueue=function() return q end,add=function(a) q.queue[#q.queue+1]=a end}

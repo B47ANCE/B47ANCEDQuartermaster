@@ -1,5 +1,6 @@
 -- Production native-action/service paths with host-owned engine-shaped fixtures.
 dofile(TEST_ROOT..'/fixtures/containers.lua');dofile(TEST_ROOT..'/fixtures/catalog.lua')
+SandboxVars.B47ANCEDQuartermaster.RequireComputerApplication=false -- legacy fixtures; installation has dedicated production-path tests
 SandboxVars.B47ANCEDQuartermaster.LedgerMode=4 -- historical production baseline, independent of default mode
 local f=CONTAINER_FIXTURE;local actor=f.player;local list=f.list;local serial=100
 function getRandomUUID() serial=serial+1;return 'fixture-ledger-'..serial end

@@ -16,6 +16,14 @@ module B47ANCEDQuartermaster
         Icon = Notebook,
         WorldStaticModel = EmptyNotebook,
     }
+    item ApplicationCD
+    {
+        DisplayCategory = Literature,
+        ItemType = base:normal,
+        Weight = 0.01,
+        Icon = Disc,
+        WorldStaticModel = Disk,
+    }
     item SupplyDisc
     {
         DisplayCategory = Literature,

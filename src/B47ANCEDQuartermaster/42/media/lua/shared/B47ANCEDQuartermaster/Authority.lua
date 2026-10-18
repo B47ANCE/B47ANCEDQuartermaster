@@ -23,14 +23,14 @@ local SortTrace=require 'B47ANCEDQuartermaster/SortTrace'
 local Protocol=require 'B47ANCEDQuartermaster/Protocol'
 local peers=setmetatable({},{__mode='k'})
 local negotiations=setmetatable({},{__mode='k'})
-local readOnly={shoppingPaperRead=true,ledgerDriveList=true,hello=true,ledgerRead=true,loadGet=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true,roomList=true,roomGet=true,roomDiscover=true,areaOptions=true,areaDiscover=true}
+local readOnly={ledgerSetupList=true,ledgerProgramRun=true,shoppingPaperRead=true,ledgerDriveList=true,hello=true,ledgerRead=true,loadGet=true,discover=true,load=true,presetsList=true,personalList=true,dibsInspect=true,roomList=true,roomGet=true,roomDiscover=true,areaOptions=true,areaDiscover=true}
 for _,command in ipairs({'allocationInfo','allocationRoomList','allocationRoomGet','allocationPreset','allocationPreview','allocationDiagnostics','allocationInspect'}) do readOnly[command]=true end
 local tracked={discover=true,load=true,commit=true}
 local lastTick
 -- Technical admission limits bound expensive read work, not discovery gameplay
 -- range. Only the authenticated server player is used as the bucket owner.
 local budgets=setmetatable({},{__mode='k'})
-local limits={shoppingPaperRead={3,2},shoppingPaperCreate={2,0.5},shoppingPaperSelect={3,2},shoppingPaperRename={2,1},ledgerDriveList={3,1},ledgerDriveMount={2,1},ledgerDriveEject={2,1},ledgerBegin={2,0.5},ledgerNext={4,5},ledgerRead={4,5},ledgerBurn={2,0.5},ledgerConfirm={4,4},ledgerCancel={4,4},loadGet={4,2},loadChange={2,2},discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5},roomList={2,1},roomGet={4,4},roomDiscover={4,4},areaOptions={2,1},areaDiscover={2,2}}
+local limits={ledgerSetupList={3,1},ledgerSetupMount={2,1},ledgerSetupEject={2,1},ledgerProgramRun={2,1},ledgerProgramInstall={2,0.5},shoppingPaperRead={3,2},shoppingPaperCreate={2,0.5},shoppingPaperSelect={3,2},shoppingPaperRename={2,1},ledgerDriveList={3,1},ledgerDriveMount={2,1},ledgerDriveEject={2,1},ledgerBegin={2,0.5},ledgerNext={4,5},ledgerRead={4,5},ledgerBurn={2,0.5},ledgerConfirm={4,4},ledgerCancel={4,4},loadGet={4,2},loadChange={2,2},discover={2,0.5},tripDiscover={2,0.5},tripNext={2,4},moveBatch={8,16},dibsInspect={2,1},personalList={4,2},shoppingBegin={2,0.5},roomList={2,1},roomGet={4,4},roomDiscover={4,4},areaOptions={2,1},areaDiscover={2,2}}
 for _,command in ipairs({'allocationInfo','allocationRoomList','allocationRoomGet','allocationPreset','allocationPreview','allocationDiagnostics'}) do limits[command]={2,2} end
 limits.allocationRoomCommit={2,1};limits.allocationInspect={2,1}
 function A.admit(player,command)

@@ -1,6 +1,8 @@
-[b]Version 0.19.0-dev.3[/b]
+[b]Version 0.20.0-dev.1[/b]
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
 
-Refine the paper ledger metal clip: wider steel shoulders, a raised spring tab, rivets and a rolled jaw that grips the sheet. Portrait proportions, aligned ruled rows, clear entry details and page controls remain.
+Find a Quartermaster Application CD, load it beside a powered PC and run SETUP.EXE. Install Quartermaster on that PC before reading ledger CDs, writing paper ledgers to CD or using its automatic ledger knowledge. The Application CD stays reusable in storage. Eject it after installation.
 
-Presentation-only source checkpoint. Focused offline UI, version and source-manifest checks pass; native visual acceptance is pending. Paired PC Framework 0.3.0-dev.1 remains required and has no assigned Workshop item. No packaging, deployment or upload performed.
+Installation uses PC Framework CD program API 1 and a server-validated native timed action. Existing ledger items/snapshots remain intact; existing PCs start uninstalled by default. Server settings control the requirement, install time and new-loot weight. Paper workflows and inventory/container Sort are unchanged.
+
+Source-only development with paired PC Framework 0.5.0-dev.2. Offline regression and source checks pass; native SP/dedicated acceptance remain pending. No package, deployment or Workshop upload.

@@ -1,8 +1,8 @@
 # PC Framework extraction
 
-Project Version: 0.19.0-dev.3
+Project Version: 0.20.0-dev.1
 
-Quartermaster requires `B47ANCEDRooms` and `B47ANCEDPCFramework` on the server and every client. PC Framework 0.3.0-dev.1 / registration API 1 is the paired development source for the retained CRT/taskbar. Powered-PC support first appeared in framework 0.2.0-dev.1. PC Framework has no assigned Workshop item yet; do not publish this dependency combination until distribution is arranged explicitly. This source work does not change Quartermaster's existing Workshop item 3807217050.
+Quartermaster requires `B47ANCEDRooms` and `B47ANCEDPCFramework` on the server and every client. PC Framework 0.5.0-dev.2 / registration and CD program API 1 is the paired integration source for the retained CRT/taskbar and genuine installer CD. Powered-PC support first appeared in framework 0.2.0-dev.1. PC Framework has no assigned Workshop item yet; do not publish this dependency combination until distribution is arranged explicitly. This source work does not change Quartermaster's existing Workshop item 3807217050.
 
 [VERIFIED source] The desktop, shared native computer helpers and server drive engine are extracted into the standalone [B47ANCED PC Framework](https://github.com/B47ANCE/B47ANCEDPCFramework). Framework runtime has no Quartermaster imports. Quartermaster's `ComputerUI.lua` is now a compatibility alias; `LedgerUI.lua` registers `quartermaster`, `QUARTERMASTER.EXE`, the reader, and `ComputerWriter.lua`. Only the framework subscribes its world computer menu. Bare framework use opens without Quartermaster or ledger data. Disabling Quartermaster ledgers removes its app while leaving the independent desktop available; disabling the framework closes all framework desktops and fails computer access.
 
@@ -32,3 +32,7 @@ PC Framework 0.2.0-dev.1 removes the one-facing hardware restriction: all four p
 ## Reconciliation checkpoint — 0.19.0-dev.2
 
 The user approved reconciling upstream extraction with the owned clipboard/CRT branch, and preserving the newer CRT/taskbar in the framework. Quartermaster contains no second desktop or ComputerArt module. PC Framework 0.3.0-dev.1 supplies retained drive/writer/app tasks and original art; Quartermaster ComputerWriter uses the existing writer callback and its ledger reader revalidates cached pages on resume. The portrait clipboard and table ruling fixes are local presentation. Existing exact-building live/freshness checks, kept clipboard recipe, schemas, permissions and native transfer grouping remain. [Current evidence and commands](CLIPBOARD_UI_FIX.md). Prior checkpoint evidence above retains its original scope.
+
+## Application CD consumer
+
+Quartermaster registers quartermaster.setup through PC.registerCDProgram and validates launch/installation through the framework CDPrograms server service. Application media uses its own actual DriveService bindings; the existing data-CD service remains separate. Quartermaster coordinates both drive namespaces to prevent mounting setup and ledger media simultaneously, and blocks writing while setup media remains loaded. The framework does not install or mutate inventory: Quartermaster owns the per-PC receipt and existing challenged native-action completion. [Current contract and runtime gates](APPLICATION_CD.md). Use the paired 0.5.0-dev.2 integration; the original SDK/API and CRT branches remain preserved.

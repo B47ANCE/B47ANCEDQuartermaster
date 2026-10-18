@@ -55,5 +55,11 @@
   "Sandbox_B47ANCEDQuartermaster_PrimaryOverflowAt": "Primary room overflow threshold (%)",
   "Sandbox_B47ANCEDQuartermaster_PrimaryOverflowAt_tooltip": "Default Primary fill threshold for newly created room allocation profiles. Server controlled, 0–100%, default 60. Existing explicit room values remain unchanged.",
   "Sandbox_B47ANCEDQuartermaster_SecondaryReturnAt": "Secondary room return threshold (%)",
-  "Sandbox_B47ANCEDQuartermaster_SecondaryReturnAt_tooltip": "Default Secondary fill threshold for newly created room allocation profiles. Server controlled, 0–100%, default 80. Existing explicit room values remain unchanged."
+  "Sandbox_B47ANCEDQuartermaster_SecondaryReturnAt_tooltip": "Default Secondary fill threshold for newly created room allocation profiles. Server controlled, 0–100%, default 80. Existing explicit room values remain unchanged.",
+  "Sandbox_B47ANCEDQuartermaster_RequireComputerApplication": "Require Quartermaster installation",
+  "Sandbox_B47ANCEDQuartermaster_RequireComputerApplication_tooltip": "Require a found Quartermaster Application CD to install the app on each PC before ledger-CD reading, CD writing or automatic computer ledger access. Default enabled, including existing PCs. Existing paper/CD records are preserved. Disable to retain immediate computer access. Paper workflows and ordinary inventory/container Sort are unchanged.",
+  "Sandbox_B47ANCEDQuartermaster_ApplicationInstallSeconds": "Application installation time (seconds)",
+  "Sandbox_B47ANCEDQuartermaster_ApplicationInstallSeconds_tooltip": "Native action duration to install Quartermaster from its genuine loaded Application CD. Range 5-120 seconds; default 20. Movement, power/access loss or cancellation prevents completion. The CD is retained.",
+  "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight": "Application CD loot weight",
+  "Sandbox_B47ANCEDQuartermaster_ApplicationCDLootWeight_tooltip": "Relative loot-table weight in office desks, electronics stores and electronics crates. Range 0-10; default 1. Zero disables these drops. Not a percentage. Only affects new native loot rolls; existing containers and items are not changed. Restart to apply distribution settings."
 }

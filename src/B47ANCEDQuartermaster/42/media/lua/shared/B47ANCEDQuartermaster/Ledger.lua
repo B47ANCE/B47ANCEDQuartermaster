@@ -6,6 +6,7 @@ local HistoricalAccess=require 'B47ANCEDQuartermaster/LedgerAccess'
 local Options=require 'B47ANCEDQuartermaster/Migration'
 local Policy=require 'B47ANCEDQuartermaster/LedgerPolicy'
 local Live=require 'B47ANCEDQuartermaster/LedgerLive'
+local Program=require 'B47ANCEDQuartermaster/LedgerProgram'
 local Q=B47ANCEDQuartermaster
 local L={jobs={},grants={},actors={},readers={},clientOffers={},recordCache={}};Q.Ledger=L
 local function integer(n,min,max) return type(n)=='number' and n==n and n%1==0 and n>=min and n<=max end
@@ -167,9 +168,14 @@ function L.valid(actor,token,action)
  -- multiplier must not cancel a legitimate long writing action.
  if g.kind=='shoppingPaper' then return require('B47ANCEDQuartermaster/ShoppingLists').valid(actor,g) end
  if not Policy.enabled() then return false end
+ if g.kind=='programInstall' then
+  local ctx=Program.resolve(actor,g.computer,g.programRequest)
+  return ctx~=nil and ctx.item==g.setupItem and not require('B47ANCEDQuartermaster/LedgerDrives').occupied(g.computer)
+ end
  if g.kind=='inspect' then return liveJob(actor,g.job) and allowed(actor,g.target) and stationary(g.record) and Scope.includes(g.job.scope,g.target.obj:getSquare()) and Media.reachable(actor,g.target.obj) and writer(actor) end
  return Media.owned(actor,g.paper:getID(),Media.sheet)==g.paper and Media.owned(actor,g.cd:getID())==g.cd
-  and Media.usable(g.cd) and Media.computer(actor,g.computer,true) and g.snapshot.complete==true
+  and Media.usable(g.cd) and Media.computer(actor,g.computer,true) and Program.has(actor,g.computer,true) and g.snapshot.complete==true
+  and not Program.occupied(g.computer)
   and not require('B47ANCEDQuartermaster/LedgerDrives').occupied(g.computer)
 end
 function L.start(actor,token,action)
@@ -197,6 +203,10 @@ function L.complete(actor,token,action)
  if g.kind=='shoppingPaper' then
   local status=require('B47ANCEDQuartermaster/ShoppingLists').complete(actor,g)
   return retire(g,status,status=='ShoppingPaperCreated' or status=='ShoppingPaperSyncPending')
+ end
+ if g.kind=='programInstall' then
+  local status=Program.install(actor,g.computer,g.programRequest)
+  return retire(g,status,status=='ProgramInstalled')
  end
  if g.kind=='inspect' then
   local rows=prepareRows(g);if not rows then g.job.prepared=nil;return retire(g,'LedgerChanged') end
@@ -337,6 +347,7 @@ local function read(actor,args)
  local digital=item:getFullType()==Media.disc
  computer=computer or digital and Media.object(args.computer)
  if digital and not Media.computer(actor,computer,true) then return {status='LedgerPower'} end
+ if digital and not Program.has(actor,computer,true) then return {status='ProgramRequired'} end
  if type(args.query or '')~='string' or #(args.query or '')>128 or type(args.room or '')~='string' or #(args.room or '')>128 then return {status='invalid'} end
  if not digital and ((args.query or '')~='' or (args.room or '')~='') then return {status='invalid'} end
  if args.entry~=nil or args.row~=nil or args.cursor~=nil and (type(args.cursor)~='string' or #args.cursor>80) then return {status='invalid'} end
@@ -412,6 +423,18 @@ function L.handle(actor,command,args)
  if isClient() or not actor or actor:isDead() or type(args)~='table' then return {status='invalid'} end
  local confirming=command=='ledgerConfirm' and type(args.token)=='string' and L.grants[args.token]
  if not Policy.enabled() and command~='ledgerCancel' and not (confirming and confirming.actor==actor and confirming.kind=='shoppingPaper') then return {status='LedgerDisabled'} end
+ if command=='ledgerSetupList' or command=='ledgerSetupMount' or command=='ledgerSetupEject' then return Program.drive(actor,command,args) end
+ if command=='ledgerProgramRun' then return Program.authorize(actor,Media.object(args.computer),args) end
+ if command=='ledgerProgramInstall' then
+  if L.actors[actor] or L.jobs[actor] or Q.Movement.runs[actor] or Q.Movement.operations[actor] then return {status='busy'} end
+  local computer=Media.object(args.computer);local ctx,status=Program.resolve(actor,computer,args)
+  if not ctx then return {status=status} end
+  local drives=require 'B47ANCEDQuartermaster/LedgerDrives'
+  if drives.occupied(computer) or drives.busy(computer) then return {status='LedgerDriveOccupied'} end
+  return grant(actor,'programInstall',option('ApplicationInstallSeconds',5,120,20),{computer=computer,setupItem=ctx.item,
+   programRequest={program=ctx.program.id,media=ctx.item:getID(),drive=ctx.drive}})
+ end
+ if command=='ledgerDriveMount' and Program.occupied(Media.object(args.computer)) then return {status='LedgerDriveOccupied'} end
  if command=='ledgerDriveList' or command=='ledgerDriveMount' or command=='ledgerDriveEject' then return require('B47ANCEDQuartermaster/LedgerDrives').handle(actor,command,args) end
  if command=='ledgerBegin' then if L.actors[actor] or Q.Movement.runs[actor] or Q.Movement.operations[actor] then return {status='busy'} end;return begin(actor,args) end
  if command=='ledgerNext' then local j=L.jobs[actor];return j and nextWork(actor,j,args) or {status='invalid'} end
@@ -429,6 +452,8 @@ function L.handle(actor,command,args)
   local paper,s,r=binding(actor,args.item);local cd=Media.owned(actor,args.cd);local computer=Media.object(args.computer)
   if not paper or paper:getFullType()~=Media.sheet or not s or not s.complete or not Media.cd(cd) or not Media.usable(cd) then return {status='invalid'} end
   if not Media.computer(actor,computer,true) then return {status='LedgerPower'} end
+  if not Program.has(actor,computer,true) then return {status='ProgramRequired'} end
+  if Program.occupied(computer) then return {status='LedgerDriveOccupied'} end
   local drives=require 'B47ANCEDQuartermaster/LedgerDrives'
   if drives.occupied(computer) then return {status='LedgerDriveOccupied'} end
   if drives.busy(computer) then return {status='busy'} end

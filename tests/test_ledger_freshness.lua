@@ -135,6 +135,6 @@ assert(L.handle(actor,'ledgerRead',{item=F.paper:getID()}).status=='ok')
 currentPaper.finished=finished
 -- Independent compatibility families prevent silently mixing old scope semantics.
 local Protocol=require 'B47ANCEDQuartermaster/Protocol'
-assert(Protocol.version('ledgerRead')==3 and not Protocol.accepts('ledgerRead',{protocol=2}))
+assert(Protocol.version('ledgerRead')==4 and not Protocol.accepts('ledgerRead',{protocol=3}))
 assert(Protocol.version('areaDiscover')==4 and not Protocol.accepts('areaDiscover',{protocol=3}) and Protocol.version('movePut')==11)
 print('PASS OFFLINE ledger modes: manual Sort without knowledge, area gate, default/expiry boundary/world time, live/historical statistics, privacy revocation, native renewal/CD immutability, powered automatic computer and real CD/power loss, disabled/re-enable preservation and mixed-peer refusal; native/dedicated NOT TESTED')

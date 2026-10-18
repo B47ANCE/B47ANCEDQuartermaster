@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.0-dev.1] - 2026-10-17
+
+- Add a found Quartermaster Application CD and explicit SETUP.EXE installer through PC Framework CD program API 1. Native timed completion creates a server-owned receipt bound to the exact PC; setup media is retained and reusable.
+- Require installation for computer ledger reads/writes and automatic ledger knowledge by default, preserving paper/CD records and ordinary Sort. Server sandbox options control the prerequisite, install duration and new office/electronics loot weight.
+- Ledger protocol advances to 4; peers must update and reconnect. No snapshot migration or automatic legacy-PC installation. Use paired PC Framework 0.5.0-dev.2 integration, preserving the CRT/taskbar and public SDK/API branches.
+- Full offline paired regressions and focused installation/loot/UI checks pass; native SP/dedicated NOT TESTED. See docs/APPLICATION_CD.md. No package, deploy, publication or shared-main merge.
+
 ## [0.19.0-dev.3] - 2026-10-17
 
 - Redraw the paper ledger metal clamp with a wider beveled steel plate, rivets, raised spring tab and rolled jaw overlapping the sheet. Retain title clearance, row geometry and all ledger behavior.

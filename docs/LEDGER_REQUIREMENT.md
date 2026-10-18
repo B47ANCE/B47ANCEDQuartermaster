@@ -1,6 +1,8 @@
 # Ledger requirement for sorting and collection
 
-Project Version: 0.19.0-dev.3
+Project Version: 0.20.0-dev.1
+
+Current application prerequisite: find and run the Quartermaster Application CD installer on each PC before computer ledger reads/writes or automatic knowledge provision (server opt-out supported). Paper ledgers and ordinary Sort remain independent. Ledger capability is now 4. [Exact implementation, settings, validation and migration limits](APPLICATION_CD.md). Earlier checkpoint sections retain their original evidence.
 
 Physical Shopping now has separate writing supplies and carried shopping papers; those do not replace the completed supply ledger required for collection. Planning/reading do not require a supply ledger. See [physical Shopping](PHYSICAL_SHOPPING_LISTS.md).
 
