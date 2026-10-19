@@ -69,5 +69,5 @@
   "Sandbox_B47ANCEDQuartermaster_StockCheckSeconds": "Stock check interval",
   "Sandbox_B47ANCEDQuartermaster_StockCheckSeconds_tooltip": "Seconds between PC stock-check rounds. Only authorized, recorded storage is read; no per-frame inventory scans.",
   "Sandbox_B47ANCEDQuartermaster_LedgerMultipleCDs": "Multiple ledger CDs / Base Ledger",
-  "Sandbox_B47ANCEDQuartermaster_LedgerMultipleCDs_tooltip": "Allow the PC app to read newest local ledger CDs and combine linked powered PCs. Each area requires its own powered, loaded PC and matching local ledger CD."
+  "Sandbox_B47ANCEDQuartermaster_LedgerMultipleCDs_tooltip": "Allow the PC app to read newest local ledger CDs and combine linked powered PCs. A completed CD brought to this PC shows dated history for an offline building; live counts require a loaded, powered PC in that building."
 }

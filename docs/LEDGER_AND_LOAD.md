@@ -1,6 +1,6 @@
 # Physical Supply Ledger and Dangerous Load
 
-Project Version: 0.23.0-dev.1
+Project Version: 0.24.0-dev.1
 
 Current addition: [Stock targets and multi-CD/Base Ledger views](STOCK_AND_BASE_LEDGER.md). Existing authority and historical evidence below remain distinct.
 Current Sort workflow: default-on `SortUpdatesLedger` requires carried paper and pen/pencil, searches accessible loaded building storage for a completed covering ledger first, uses native pickup, accepts carried blank/unfinished fallback and writes confirmed touched storage once after the full successful job. It overrides the older Sort-only freshness/computer exception below while enabled. Shopping collection and computer application installation are unchanged. Movement 12 / Ledger 5 require matching peers. [Current implementation, boundaries and validation](SORT_LEDGER.md). Earlier checkpoint evidence remains historical.

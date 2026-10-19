@@ -24,11 +24,15 @@ storage:Remove(copy);copy.container=nil
 local after=resolve('local');assert(after and after.id~=view.id and V.jobs[actor].chosen[old.signature].snapshot==old)
 F.setPower(false);assert(not V.resolve(actor,F.computer,'local'));F.setPower(true)
 SandboxVars.B47ANCEDQuartermaster.LedgerMultipleCDs=false;local missing,why=V.resolve(actor,F.computer,'base');assert(not missing and why=='BaseLedgerDisabled');SandboxVars.B47ANCEDQuartermaster.LedgerMultipleCDs=true
--- A different area's CD beside this PC is not a substitute for that area's PC.
+-- A completed foreign CD beside this PC supplies recorded history when its
+-- building is unreachable. It cannot make a Base view live or complete.
 local foreign=clone(old);foreign.id='fixture-foreign';foreign.signature='another-building';foreign.scope.key='another-building'
 root.snapshots[foreign.id]=foreign;root.count=root.count+1
 local disc=F.item(Media.disc);root.media[tostring(disc:getID())]=foreign.id;storage:AddItem(disc)
-V.cleanup(actor);view=assert(resolve('base'));assert(#view.stockAreas==1 and not V.jobs[actor].chosen[foreign.signature],'remote-area CD bypassed required local powered PC')
+V.cleanup(actor);view=assert(resolve('base'));assert(#view.stockAreas==2 and not view.complete and not view.baseLive and not view.baseFresh)
+local offlineArea;for _,area in ipairs(view.stockAreas) do if area.offline then offlineArea=area end end
+assert(V.jobs[actor].chosen[foreign.signature].offline and offlineArea,'foreign CD was not labelled as recorded history')
+assert(offlineArea.label:find('UI_QMSS_BaseLedgerOfflineCD',1,true),'foreign area omitted its recording label')
 assert(storage:getItemWithID(F.disc:getID())==F.disc and storage:getItemWithID(disc:getID())==disc,'base view moved real CDs')
 -- A second native building contributes only through its paired powered PC
 -- and its own genuine local CD. Distinct physical compartments are unioned.
@@ -52,6 +56,7 @@ local secondPC=Network.handle(actor,'list',{computer=position});assert(secondPC.
 assert(Network.handle(actor,'connect',{computer=position,revision=secondPC.revision,peer=firstPC.id}).status=='ok')
 actor.square=F.computer:getSquare();V.cleanup(actor);view=assert(resolve('base'))
 assert(#view.stockAreas==2 and #view.order==#old.order+1,'paired buildings did not form a deduplicated Base Ledger')
+assert(not V.jobs[actor].chosen[foreign.signature].offline,'available remote PC did not replace the carried fallback')
 local media=Q.LedgerDrives.handle(actor,'ledgerDriveList',{computer=F.position});assert(media.status=='ok')
 local token;for _,choice in ipairs(media.choices) do if choice.id==F.disc:getID() then token=choice.token end end;assert(token)
 local mounted=Q.LedgerDrives.handle(actor,'ledgerDriveMount',{computer=F.position,token=token});assert(mounted.status=='ok')
@@ -60,7 +65,17 @@ assert(page.status=='ok' and #page.stockAreas==2,'public Base read did not use t
 local remoteCount=0;for _,row in ipairs(page.rows) do if row.position.x==20 then remoteCount=remoteCount+row.quantity;assert(row.stockArea) end end
 assert(remoteCount==77,'Base page lost remote quantities/area identity')
 remotePower=false;V.cleanup(actor);view=assert(resolve('base'));assert(#view.stockAreas==1 and not view.complete,'offline building was included as live/complete')
-remotePower=true;remoteStore.containers[1]:Remove(disc);disc.container=nil;V.cleanup(actor);view=assert(resolve('base'));assert(#view.stockAreas==1 and not view.complete,'remote PC without its own CD contributed an area')
+remoteStore.containers[1]:Remove(disc);storage:AddItem(disc)
+V.cleanup(actor);view=assert(resolve('base'))
+assert(#view.stockAreas==2 and not view.complete and not view.baseLive,'carried remote CD failed as an offline fallback')
+local snapshot=clone(foreign);snapshot.id='fixture-foreign-updated';snapshot.finished=foreign.finished+2;snapshot.revision=foreign.revision+1
+root.snapshots[snapshot.id]=snapshot;root.count=root.count+1
+local updated=F.item(Media.disc);root.media[tostring(updated:getID())]=snapshot.id;storage:AddItem(updated)
+V.cleanup(actor);view=assert(resolve('base'))
+assert(V.jobs[actor].chosen[foreign.signature].snapshot==snapshot,'newly recorded CD did not replace older offline history')
+storage:Remove(updated);updated.container=nil;V.cleanup(actor);view=assert(resolve('base'))
+assert(V.jobs[actor].chosen[foreign.signature].snapshot==foreign,'removed updated CD remained cached')
+remotePower=true;storage:Remove(disc);disc.container=nil;V.cleanup(actor);view=assert(resolve('base'));assert(#view.stockAreas==1 and not view.complete,'missing local and remote CD contributed an area')
 
 actor.square=originalSquare;getGameTime=oldTime
-print('PASS OFFLINE multi-CD/base: real adjacent-media scan, newest complete same-area copy, no double counting, cache invalidation on media loss, power/server setting and foreign-area-copy refusal; no inventory mutation')
+print('PASS OFFLINE multi-CD/base: real adjacent-media scan, newest complete same-area copy, no double counting, cache invalidation on media loss, power/server setting and dated foreign-area fallback; no inventory mutation')

@@ -1,6 +1,6 @@
 # Stock goals and Base Ledger
 
-Project Version: 0.23.0-dev.1
+Project Version: 0.24.0-dev.1
 
 Compatible MINOR development: server-owned shared Stock goals and read-only
 multi-CD/Base Ledger views. Requires paired PC Framework 0.11.0-dev.1 (Connections
@@ -44,9 +44,20 @@ contributing PC; they do not burn, move, mount or modify those CDs.
 Same-area copies resolve to the newest completed snapshot, then highest revision,
 then stable native item ID. Future/invalid completion times are rejected. Each
 area appears once; overlapping physical storage rows are deduplicated. Different
-areas contribute only through a loaded, powered, authorized PC **inside that
-exact native building**, with Quartermaster installed and its own local covering
-ledger CD. An off-site copy alone does not supply live data for another building.
+areas contribute live data only through a loaded, powered, authorized PC **inside
+that exact native building**, with Quartermaster installed and its own local
+covering ledger CD. When the connection or remote building is unavailable, a
+genuine completed CD physically stored beside the viewing PC can supply its
+last recorded contents as a historical fallback. The view labels that area as
+a CD copy with its recording time and marks the combined result partial/static.
+The online building PC wins over a carried CD for the same area. Refresh the
+paper ledger at the source building, then use the CD Writer to rewrite an
+existing ledger CD for that same building or burn a new blank disc. Bring the
+updated disc to the viewing PC. Rewriting keeps the physical disc and preserves
+prior snapshot generations; it updates only this disc’s server-owned binding.
+The native writing action, current ownership, power, installed application and
+unchanged paper/CD identities are checked again before commit.
+No off-site CD is treated as current storage or a basis for live alerts.
 Existing single-CD historical/off-site access is preserved.
 
 Use Framework's **PC Network** app: start pairing at one PC, visit another and
@@ -54,7 +65,8 @@ enter the first address. Public PCs allow address-based pairing without a privat
 invitation. Multiple connected PCs form the Base view. Its Network Status screen
 shows online and offline/unavailable endpoints. Pairing links PCs, never grants
 inventory or Rooms permissions. An offline, private, unloaded or missing-CD
-endpoint is excluded; the resulting Base view is marked partial. Stock goals
+endpoint cannot contribute live data. A completed CD brought to the viewing
+PC may show recorded history; the resulting Base view remains partial. Stock goals
 stay per building/room, not a combined target accidentally applied to the union.
 
 Live versus historical behavior still comes from authoritative ledger sandbox

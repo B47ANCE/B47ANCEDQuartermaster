@@ -227,7 +227,8 @@ function L.valid(actor,token,action)
   return ctx~=nil and ctx.item==g.setupItem and not require('B47ANCEDQuartermaster/LedgerDrives').occupied(g.computer)
  end
  if g.kind=='inspect' then return liveJob(actor,g.job) and allowed(actor,g.target) and stationary(g.record) and Scope.includes(g.job.scope,g.target.obj:getSquare()) and Media.reachable(actor,g.target.obj) and writer(actor) end
- return Media.owned(actor,g.paper:getID(),Media.sheet)==g.paper and Media.owned(actor,g.cd:getID())==g.cd
+ return Media.owned(actor,g.paper:getID(),Media.sheet)==g.paper and L.snapshotFor(g.paper)==g.snapshot
+  and Media.owned(actor,g.cd:getID())==g.cd and (g.kind~='updateCD' or L.snapshotFor(g.cd)==g.prior)
   and Media.usable(g.cd) and Media.computer(actor,g.computer,true) and Program.has(actor,g.computer,true) and g.snapshot.complete==true
   and not Program.occupied(g.computer)
   and not require('B47ANCEDQuartermaster/LedgerDrives').occupied(g.computer)
@@ -265,6 +266,17 @@ function L.complete(actor,token,action)
  if g.kind=='programInstall' then
   local status=Program.install(actor,g.computer,g.programRequest)
   return retire(g,status,status=='ProgramInstalled' or status=='ProgramInstallSyncPending')
+ end
+ if g.kind=='updateCD' then
+  local r=root();if not r or L.snapshotFor(g.cd)~=g.prior or g.prior.signature~=g.snapshot.signature then return retire(g,'LedgerChanged') end
+  local key=tostring(g.cd:getID());local input=r.outputs[key];local journal=input and r.burns[input]
+  if journal and (not journalValid(journal) or journal.phase~='committed' or journal.output~=g.cd:getID()) then return retire(g,'uncertain') end
+  -- The physical disc and old snapshot remain intact. Change only this
+  -- server-owned media binding after the completed native writing action.
+  r.media[key]=g.snapshot.id
+  if journal then journal.snapshot=g.snapshot.id end
+  local synced=pcall(Media.stamp,actor,g.cd,g.snapshot.id,true)
+  return retire(g,synced and 'LedgerDiscUpdated' or 'LedgerDiscSyncPending',true)
  end
  if g.kind=='inspect' then
   local rows=prepareRows(g);if not rows then g.job.prepared=nil;return retire(g,'LedgerChanged') end
@@ -525,21 +537,24 @@ function L.handle(actor,command,args)
  if command=='ledgerBurn' then
   if L.actors[actor] or L.jobs[actor] or Q.Movement.runs[actor] or Q.Movement.operations[actor] then return {status='busy'} end
   local paper,s,r=binding(actor,args.item);local cd=Media.owned(actor,args.cd);local computer=Media.object(args.computer)
-  if not paper or paper:getFullType()~=Media.sheet or not s or not s.complete or not Media.cd(cd) or not Media.usable(cd) then return {status='invalid'} end
+  if not paper or paper:getFullType()~=Media.sheet or not s or not s.complete or not cd or not Media.usable(cd) then return {status='invalid'} end
+  local prior=cd:getFullType()==Media.disc and L.snapshotFor(cd)
+  if not Media.cd(cd) and not prior then return {status='invalid'} end
+  if prior and (prior.signature~=s.signature or prior.id==s.id) then return {status=prior.id==s.id and 'LedgerAlreadyCurrent' or 'LedgerScopeChanged'} end
   if not Media.computer(actor,computer,true) then return {status='LedgerPower'} end
   if not Program.has(actor,computer,true) then return {status='ProgramRequired'} end
   if Program.occupied(computer) then return {status='LedgerDriveOccupied'} end
   local drives=require 'B47ANCEDQuartermaster/LedgerDrives'
   if drives.occupied(computer) then return {status='LedgerDriveOccupied'} end
   if drives.busy(computer) then return {status='busy'} end
-  local journal=r.burns[tostring(cd:getID())]
+  local journal=not prior and r.burns[tostring(cd:getID())]
   if journal and not journalValid(journal) then return {status='schema'} end
   if journal and journal.phase~='rolledBack' then
    if journal.owner~=Q.Personal.identity(actor) then return {status='uncertain'} end
    Media.recover(actor,journal)
    if journal.phase~='rolledBack' then return {status='uncertain'} end
   end
-  return grant(actor,'burn',option('LedgerBurnSeconds',10,120,30),{paper=paper,snapshot=s,cd=cd,computer=computer})
+  return grant(actor,prior and 'updateCD' or 'burn',option('LedgerBurnSeconds',10,120,30),{paper=paper,snapshot=s,cd=cd,computer=computer,prior=prior})
  end
  return {status='invalid'}
 end

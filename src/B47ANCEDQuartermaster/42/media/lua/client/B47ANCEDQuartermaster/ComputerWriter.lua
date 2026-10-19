@@ -29,7 +29,9 @@ return function(screen,hooks)
   end)
   v.prerender=function(self)
    screen:refreshDrive();local sheets,discs,cds=scan();local complete={};for _,p in ipairs(sheets) do if p:getModData().B47Ledger and p:getModData().B47Ledger.complete then complete[#complete+1]=p end end
-   options(self.paper,complete,'ComputerNoSheet');options(self.cd,cds,'ComputerNoCD')
+   local destinations={};for _,cd in ipairs(cds) do destinations[#destinations+1]=cd end
+   for _,cd in ipairs(discs) do if Media.usable(cd) then destinations[#destinations+1]=cd end end
+   options(self.paper,complete,'ComputerNoSheet');options(self.cd,destinations,'ComputerNoCD')
    local w,h=self:getWidth(),self:getHeight();text(self,tr('ComputerSource'),12,8,w-24)
    U.Layout.place(self.paper,12,12+m.font,w-24,m.button);text(self,tr('ComputerDestination'),12,24+m.font+m.button,w-24)
    U.Layout.place(self.cd,12,28+2*m.font+m.button,w-24,m.button)

@@ -31,7 +31,7 @@ local function finish(op,status,abortNative)
  if op.closed then return end
  op.closed=true;V.work[op.num]=nil
  if op.token then L.clientOffers[op.token]=nil end
- if not op.install and status~='ok' and status~='done' and status~='ShoppingPaperCreated' and status~='ShoppingPaperSyncPending' then Q.Authority.request(op.num,'ledgerCancel',{},function() end) end
+ if not op.install and status~='ok' and status~='done' and status~='ShoppingPaperCreated' and status~='ShoppingPaperSyncPending' and status~='LedgerDiscUpdated' and status~='LedgerDiscSyncPending' then Q.Authority.request(op.num,'ledgerCancel',{},function() end) end
  if abortNative then
   -- Close first so native stop/result callbacks cannot complete work twice.
   if op.install and op.token then Q.Authority.request(op.num,'ledgerCancel',{token=op.token},function() end) end
