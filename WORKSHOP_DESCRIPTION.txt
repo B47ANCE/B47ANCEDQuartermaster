@@ -1,5 +1,5 @@
 [h2]Stock and Base Ledger[/h2]
-Set shared room/building Stock targets in the normal menu. Paper and PC show Current / Target / Remaining; the PC alerts on fresh live shortages. Read the newest local ledger CDs or a connected Base Ledger. Live remote data needs a loaded, powered, authorized PC with its own covering CD. A completed CD brought to the current PC supplies dated, partial history while that building is offline. Refresh its paper ledger, then rewrite a matching-building CD or burn a new blank disc to update the portable copy. PC Network shows online/offline status. Unloaded inventory is not live.
+Set room/building Stock targets in the normal menu. Paper and PC show Current / Target / Remaining; the PC alerts on fresh live shortages. Read local ledger CDs or a connected Base Ledger. Live remote data needs a loaded, powered, authorized PC with its own covering CD. A completed CD brought to the current PC supplies dated, partial history while that building is offline. Refresh its paper ledger, then rewrite a matching-building CD or burn a new blank disc. PC Network shows online/offline status. Unloaded inventory is not live.
 
 B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep track of what you need.
 
