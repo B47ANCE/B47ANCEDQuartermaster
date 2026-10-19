@@ -3,4 +3,4 @@ MP testing build - dedicated multiplayer NOT TESTED.
 
 Stock target reads now require room inspection permission, not just discovery. Base Ledger hides area names and recording times for protected areas, including metadata-only reads. Stock discards a paginated count if the ledger revision or live/fresh status changes. Area tokens no longer accumulate for the server lifetime. Native transfers and saved sorting rules are unchanged.
 
-Offline checks passed; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED. This changenote is staged source text; this iteration has not been uploaded.
+Offline checks passed; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED. This upload distributes the build for multiplayer testing.
