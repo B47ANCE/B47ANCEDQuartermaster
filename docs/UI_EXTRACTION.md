@@ -1,6 +1,6 @@
 # Shared UI extraction
 
-Project Version: 0.23.0-dev.1
+Project Version: 0.24.0-dev.1
 
 Current distribution follow-up: UI API 1 is available as Workshop item 3822582242. Quartermaster 0.23.0-dev.1 is retested with UI 0.3.0-dev.1 / PC Framework 0.11.0-dev.1 for the authorized MP testing candidate. The original source-only extraction checkpoint below retains its historical scope; it is not native acceptance.
 2026-10-18: current baseline Quartermaster 0.21.0-dev.5 commit `2c1d663dadd68ec1757845ff90e14b6225908904`. Fresh clean feature worktree; old root checkout remains untouched. Source-only 0.x MINOR adds the required B47ANCEDUI dependency and public API 1; install the new dependency on both peers. No UI Workshop item is assigned, so this source iteration is not yet distributable through Workshop. Existing item IDs/visibility untouched.

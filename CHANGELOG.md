@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.24.0-dev.1] - 2026-10-18
+
+- Add historical Base Ledger fallback from a genuine completed CD brought to the viewing PC when its building cannot contribute through a loaded connected PC. Prefer online building PCs, choose the newest CD per offline area, show recording time, and mark the combined view partial/static. Refresh the source paper ledger, then rewrite an existing matching-area ledger CD or burn a new blank disc. Prior snapshot generations remain immutable.
+- Server-authorized row inspection, stock notification suppression, native transfers and saved ledger schemas remain unchanged. Offline tests pass; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED. Source only; no deploy or Workshop upload.
+
 ## [0.23.0-dev.1] - 2026-10-18
 
 - Add room/building stock goals, paper/PC stock views and low-stock notifications. Support latest-per-area multi-CD and linked Base Ledger views through PC Framework. Sorting, transfers and personal Needed goals unchanged.

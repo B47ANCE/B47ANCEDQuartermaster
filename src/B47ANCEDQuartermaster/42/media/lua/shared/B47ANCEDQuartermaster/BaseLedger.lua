@@ -48,8 +48,9 @@ function V.resolve(actor,computer,mode,hold)
     j.used=getTimestampMs()
     local fresh,live=true,true;local expires
     for _,row in pairs(j.chosen) do
-     fresh=fresh and Policy.fresh(row.snapshot,true);live=live and Policy.live(row.snapshot,true)
-     local deadline=Policy.deadline(row.snapshot,true);if deadline then expires=math.min(expires or deadline,deadline) end
+     fresh=fresh and not row.offline and Policy.fresh(row.snapshot,true)
+     live=live and not row.offline and Policy.live(row.snapshot,true)
+     local deadline=Policy.deadline(row.snapshot,not row.offline);if deadline then expires=math.min(expires or deadline,deadline) end
     end
     j.view.baseFresh=fresh;j.view.baseLive=live;j.view.baseExpires=expires
     return j.view
@@ -60,7 +61,7 @@ function V.resolve(actor,computer,mode,hold)
  end
  if not j then
   local count=0;for _ in pairs(V.jobs) do count=count+1 end;if count>=16 then return nil,'busy' end
-  j={computer=computer,mode=mode,fingerprint=stamp,at=getTimestampMs(),members=list,index=1,sources={},chosen={},partial=#list<(total or #list)};V.jobs[actor]=j
+  j={computer=computer,mode=mode,fingerprint=stamp,at=getTimestampMs(),members=list,index=1,sources={},chosen={},carried={},partial=#list<(total or #list)};V.jobs[actor]=j
  end
  local member=j.members[j.index]
  if member then
@@ -75,14 +76,21 @@ function V.resolve(actor,computer,mode,hold)
   local found=false
   for _,row in ipairs(rows) do
    local s=row.snapshot
-   if s.scope.kind=='building' and s.signature==signature and Policy.complete(s) and recorded(s) then
+   if s.scope.kind=='building' and Policy.complete(s) and recorded(s) and (s.signature==signature or mode=='base' and pc==computer) then
     if #j.sources>=128 then V.jobs[actor]=nil;return nil,'tooLarge' end
     row.computer=pc;row.revision=s.revision;j.sources[#j.sources+1]=row;found=true
-    if not j.chosen[signature] or newer(row,j.chosen[signature]) then j.chosen[signature]=row end
+    if s.signature==signature then
+     if not j.chosen[signature] or newer(row,j.chosen[signature]) then j.chosen[signature]=row end
+    elseif not j.carried[s.signature] or newer(row,j.carried[s.signature]) then j.carried[s.signature]=row end
    end
   end
   if not found then j.partial=true end
   j.index=j.index+1;j.scan=nil;return nil,'waiting'
+ end
+ -- A foreign disc at this PC can supply only its recorded history. Prefer an
+ -- available PC in that building when both sources cover the same area.
+ for signature,row in pairs(j.carried) do
+  if not j.chosen[signature] then row.offline=true;j.chosen[signature]=row;j.partial=true end
  end
  local chosen={};for _,row in pairs(j.chosen) do chosen[#chosen+1]=row end
  table.sort(chosen,function(a,b)
@@ -91,7 +99,9 @@ function V.resolve(actor,computer,mode,hold)
   return a.snapshot.signature<b.snapshot.signature
  end)
  if #chosen==0 then V.jobs[actor]=nil;return nil,'BaseLedgerNoCopies' end
- local generation={};for _,row in ipairs(chosen) do generation[#generation+1]=row.snapshot.id..':'..row.snapshot.revision..':'..row.item:getID() end
+ local generation={};for _,row in ipairs(chosen) do
+  generation[#generation+1]=row.snapshot.id..':'..row.snapshot.revision..':'..row.item:getID()..':'..tostring(row.offline==true)
+ end
  j.generation=table.concat(generation,'|')
  local previous=V.previous[actor]
  local first=chosen[1].snapshot
@@ -102,12 +112,17 @@ function V.resolve(actor,computer,mode,hold)
   if not permitted(actor,row.computer) or Drives.validateMedia(actor,row.computer,row)~=row.snapshot or row.snapshot.revision~=row.revision then V.jobs[actor]=nil;return nil,'LedgerDriveChanged' end
   local s=row.snapshot;local pcScope=Scope.capture({getCurrentSquare=function() return row.computer:getSquare() end},'building')
   local same=pcScope and Policy.computerMatches(s,Scope.signature(pcScope))
-  view.baseFresh=view.baseFresh and Policy.fresh(s,same);view.baseLive=view.baseLive and Policy.live(s,same)
+  view.baseFresh=view.baseFresh and not row.offline and Policy.fresh(s,same)
+  view.baseLive=view.baseLive and not row.offline and Policy.live(s,same)
   local deadline=Policy.deadline(s,same);if deadline then view.baseExpires=math.min(view.baseExpires or deadline,deadline) end
   local sq=row.computer:getSquare();local token=V.areaIDs[s.signature]
   if not token then local count=0;for _ in pairs(V.areaIDs) do count=count+1 end;if count>=256 then V.jobs[actor]=nil;return nil,'tooLarge' end;token=getRandomUUID();V.areaIDs[s.signature]=token end
-  local label=getText('UI_QMSS_BaseLedgerArea',sq:getX(),sq:getY())
-  local area={id=token,label=label,key=s.signature};view.stockAreas[#view.stockAreas+1]=area;view.areaTokens[token]=area
+  local position=row.offline and s.entries[s.order[1]] and s.entries[s.order[1]].position
+  local label=position and getText('UI_QMSS_BaseLedgerArea',position.x,position.y)
+   or row.offline and s.scope.label or getText('UI_QMSS_BaseLedgerArea',sq:getX(),sq:getY())
+  if row.offline then label=label..' — '..getText('UI_QMSS_BaseLedgerOfflineCD',s.finished) end
+  local area={id=token,label=label,key=s.signature,offline=row.offline==true,recorded=s.finished}
+  view.stockAreas[#view.stockAreas+1]=area;view.areaTokens[token]=area
   for _,key in ipairs(s.order) do
    if not view.entries[key] then
     local entry={};for k,v in pairs(s.entries[key]) do entry[k]=v end

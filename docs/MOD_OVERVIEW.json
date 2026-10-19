@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.23.0-dev.1",
+  "version": "0.24.0-dev.1",
   "reviewed": true,
-  "source_digest": "0f466eb36e1867c0fdbf79903e1f68529d13524104c830c973d4a4cd0ad8b256",
+  "source_digest": "24c0ed509d7056a0c215bc37a610c4de9cbcda814cc13fc1a08bef86e00266dd",
   "features": [
     {
       "status": "Source",
@@ -64,10 +64,10 @@
     },
     {
       "status": "Source",
-      "text": "Shared room/building Stock targets, paper/PC reports and PC-only low-stock alerts. Latest-per-area multi-CD/Base Ledger requires paired PC Framework 0.11.0-dev.1 APIs, powered loaded local-copy PCs and current permissions. MP testing candidate; no native/dedicated acceptance claim."
+      "text": "Shared room/building Stock targets, paper/PC reports and PC-only low-stock alerts. Latest-per-area multi-CD/Base Ledger prefers connected loaded local-copy PCs and uses a completed carried CD for dated offline history. Requires paired PC Framework 0.11.0-dev.1 APIs and current permissions. MP testing candidate; no native/dedicated acceptance claim."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.23.0-dev.1; G7/stable G8 BLOCKED. Verified 0.23.0-dev.1 MP testing upload to existing Workshop item 3807217050; no runtime acceptance implied. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current offline pairing uses UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.24.0-dev.1; G7/stable G8 BLOCKED. Source-only offline-CD and in-place CD rewrite follow-up; verified historical 0.23.0-dev.1 MP testing upload to existing Workshop item 3807217050; no runtime acceptance implied. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current offline pairing uses UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",

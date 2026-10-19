@@ -1,12 +1,12 @@
 [h2]Stock and Base Ledger[/h2]
-Set shared room/building Stock targets in the normal menu. Paper and PC show Current / Target / Remaining; the PC alerts on fresh live shortages. Read the newest local ledger CDs or a connected Base Ledger. Each building needs a loaded, powered, authorized PC with its own covering CD. PC Network shows online/offline status. Unloaded inventory is not live.
+Set shared room/building Stock targets in the normal menu. Paper and PC show Current / Target / Remaining; the PC alerts on fresh live shortages. Read the newest local ledger CDs or a connected Base Ledger. Live remote data needs a loaded, powered, authorized PC with its own covering CD. A completed CD brought to the current PC supplies dated, partial history while that building is offline. Refresh its paper ledger, then rewrite a matching-building CD or burn a new blank disc to update the portable copy. PC Network shows online/offline status. Unloaded inventory is not live.
 
 B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep track of what you need.
 
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.23.0-dev.1. Offline regression checks passed; native client and dedicated acceptance are pending. Back up saves and use matching builds on the server and every client.
+Version 0.24.0-dev.1. Offline regression checks passed; native client and dedicated acceptance are pending. Back up saves and use matching builds on the server and every client.
 
 [h2]Sorting made simple[/h2]
 • Choose whole categories or individual items in a searchable tree with native item icons.

@@ -71,6 +71,8 @@ screen.task.onclick();assert(screen.content==panel)
 screen:eject();assert(not V.readers[0] and not screen.mounted,'eject left application running')
 local afterEject=#sent;screen:runDisc();assert(#sent==afterEject,'empty drive ran application')
 local writer=screen:openWriter();local beforeWrite=#sent
+local reusable=false;for _,option in ipairs(writer.cd.options) do if option.data==disc then reusable=true end end
+assert(reusable,'existing ledger CD was not selectable for an in-place update')
 assert(#sent==beforeWrite);writer.write.onclick()
 assert(sent[#sent].command=='ledgerBurn' and sent[#sent].args.item==900 and sent[#sent].args.cd==902,'writer did not require explicit native media choices')
 screen:close();assert(not C.active[0] and not V.work[0],'shutdown left CD conversion active')

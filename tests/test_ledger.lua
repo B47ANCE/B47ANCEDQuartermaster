@@ -108,6 +108,15 @@ assert(not inv:getItemWithID(cd:getID()) and added==1 and removed==1 and inv:get
 local disc;for _,v in ipairs(inv.items) do if v:getFullType()==Media.disc then disc=v end end;assert(disc)
 view=L.handle(actor,'ledgerRead',{item=disc:getID(),computer=pos,query='5.56'});assert(view.status=='ok' and #view.rows==1 and view.digital)
 assert(#L.handle(actor,'ledgerRead',{item=disc:getID(),computer=pos,query='5X56'}).rows==0,'search treated punctuation as a pattern')
+assert(L.handle(actor,'ledgerBurn',{item=paper:getID(),cd=disc:getID(),computer=pos}).status=='LedgerAlreadyCurrent')
+local oldDiscSnapshot=L.snapshotFor(disc);local discID=disc:getID();local beforeItems=#inv.items
+run(paper)
+local updatedPaper=L.snapshotFor(paper);assert(updatedPaper and updatedPaper~=oldDiscSnapshot and updatedPaper.signature==oldDiscSnapshot.signature)
+offer=L.handle(actor,'ledgerBurn',{item=paper:getID(),cd=discID,computer=pos})
+assert(offer.status=='action' and offer.kind=='updateCD');complete(offer)
+assert(#inv.items==beforeItems and inv:getItemWithID(discID)==disc,'updating the CD changed physical inventory')
+assert(L.snapshotFor(disc)==updatedPaper and oldDiscSnapshot.id~=updatedPaper.id,'CD rewrite did not preserve old snapshot generation')
+assert(L.handle(actor,'ledgerBurn',{item=paper:getID(),cd=discID,computer=pos}).status=='LedgerAlreadyCurrent')
 power=false;assert(L.handle(actor,'ledgerRead',{item=disc:getID(),computer=pos}).status=='LedgerPower');power=true
 -- Dedicated constructor sender binding and native clock challenge.
 f.network(false,true);local commands={};function sendServerCommand(p,_,command,data) commands[#commands+1]={actor=p,command=command,data=data} end
