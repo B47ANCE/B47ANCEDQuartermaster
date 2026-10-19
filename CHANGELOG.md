@@ -3,7 +3,7 @@
 ## [0.24.0-dev.1] - 2026-10-18
 
 - Add historical Base Ledger fallback from a genuine completed CD brought to the viewing PC when its building cannot contribute through a loaded connected PC. Prefer online building PCs, choose the newest CD per offline area, show recording time, and mark the combined view partial/static. Refresh the source paper ledger, then rewrite an existing matching-area ledger CD or burn a new blank disc. Prior snapshot generations remain immutable.
-- Server-authorized row inspection, stock notification suppression, native transfers and saved ledger schemas remain unchanged. Offline tests pass; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED. Source only; no deploy or Workshop upload.
+- Server-authorized row inspection, stock notification suppression, native transfers and saved ledger schemas remain unchanged. Offline tests pass; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED. Workshop multiplayer test distribution authorized; no local or server deployment.
 
 ## [0.23.0-dev.1] - 2026-10-18
 

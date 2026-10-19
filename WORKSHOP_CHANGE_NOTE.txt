@@ -3,4 +3,4 @@ MP testing build - dedicated multiplayer NOT TESTED.
 
 Base Ledger can show the last completed CD copy brought to the current PC when a connected building is offline. The area is marked with recording time and the combined view is partial/static. A powered, loaded, authorized PC in the source building remains preferred for live data. Refresh the source paper ledger, then rewrite a matching-building CD or burn a new blank disc to carry updated history. The physical CD stays in place on rewrite; older snapshot generations are preserved. Native transfers and Stock live alerts are unchanged.
 
-Source-only candidate. Offline checks passed; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED. Workshop upload requires separate authorization.
+Offline checks passed; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED. This upload distributes the build for multiplayer testing.
