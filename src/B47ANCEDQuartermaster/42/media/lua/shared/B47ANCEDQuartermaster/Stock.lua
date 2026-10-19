@@ -23,11 +23,31 @@ end
 local function copy(p)
  local out={};for t,n in pairs(p and p.targets or {}) do out[t]=n end;return out
 end
+local function visibleArea(snapshot,listed,token)
+ if not snapshot.stockAreas then return nil,token==nil end
+ for _,public in ipairs(listed or {}) do
+  if not token or public.id==token then
+   local area=snapshot.areaTokens and snapshot.areaTokens[public.id]
+   return area,area~=nil
+  end
+ end
+ return nil,false
+end
 local function room(actor,id,revision,edit)
  if not Access.designated({id=id}) then return end
  local api=Access.service();if not api or type(api.canAccess)~='function' then return end
  local result=api.resolveRoom(actor,id,revision);if result.status~='ok' then return end
- if edit and api.canAccess(actor,id,'configureRoom').state~='allow' then return end
+ if edit then
+  if api.canAccess(actor,id,'configureRoom').state~='allow' then return end
+ else
+  -- Discovery is deliberately weaker than inspection in delegated rooms.
+  if type(api.tiles)~='function' or type(api.canAccessAt)~='function' then return end
+  local geometry=api.tiles(actor,id,result.room.revision)
+  if not geometry or geometry.status~='ok' or type(geometry.tiles)~='table' or #geometry.tiles==0 then return end
+  for _,tile in ipairs(geometry.tiles) do
+   if api.canAccessAt(actor,tile.x,tile.y,tile.z,'inspect').state~='allow' then return end
+  end
+ end
  return result.room
 end
 local function selected(actor,args,edit)
@@ -87,11 +107,11 @@ function S.read(actor,args,readPage)
  local signature=tostring(args.item)..':'..tostring(args.drive)..':'..kind..':'..tostring(rid)..':'..tostring(args.ledgerMode)..':'..tostring(args.stockBuilding)
  local metadata,ctx=readPage(actor,{item=args.item,drive=args.drive,computer=args.computer,ledgerMode=args.ledgerMode,query='',room='',metadataOnly=true})
  if metadata.status~='ok' or not ctx then return metadata end
- local area=ctx.snapshot.stockAreas and (args.stockBuilding and ctx.snapshot.areaTokens[args.stockBuilding] or ctx.snapshot.stockAreas[1])
- if args.stockBuilding and not area then return {status='StockUnavailable'} end
+ local area,visible=visibleArea(ctx.snapshot,metadata.stockAreas,args.stockBuilding)
+ if not visible then return {status='StockUnavailable'} end
  local key=kind=='room' and 'room:'..rid or area and area.key or ctx.snapshot.signature
  local targets,profileRevision=S.profile(key);if not targets then return {status='schema'} end
- if empty(targets) then S.cleanup(actor);return {status='ok',rows={},stockAreas=metadata.stockAreas,scope=ctx.snapshot.scope.label,revision=profileRevision,live=metadata.live,fresh=metadata.fresh,complete=metadata.summary=='LedgerComplete',canNotify=ctx.digital and metadata.live and metadata.fresh and metadata.summary=='LedgerComplete',interval=S.interval()} end
+ if empty(targets) then S.cleanup(actor);return {status='ok',rows={},stockAreas=metadata.stockAreas,scope=metadata.scope,revision=profileRevision,live=metadata.live,fresh=metadata.fresh,complete=metadata.summary=='LedgerComplete',canNotify=ctx.digital and metadata.live and metadata.fresh and metadata.summary=='LedgerComplete',interval=S.interval()} end
  local w=S.work[actor]
  if not w or w.signature~=signature then
   local count=0;for _ in pairs(S.work) do count=count+1 end;if not w and count>=16 then return {status='busy'} end
@@ -111,8 +131,8 @@ function S.read(actor,args,readPage)
   if w.revision and w.revision~=result.revision then S.cleanup(actor);return {status='waiting',summary='StockLoading'} end
   w.revision=result.revision;w.context=context;w.live=result.live==true;w.fresh=result.fresh==true;w.complete=result.summary=='LedgerComplete'
   for _,row in ipairs(result.rows) do
-   local area=context.snapshot.stockAreas and (args.stockBuilding and context.snapshot.areaTokens[args.stockBuilding] or context.snapshot.stockAreas[1])
-   if args.stockBuilding and not area then S.cleanup(actor);return {status='StockUnavailable'} end
+   local area,visible=visibleArea(context.snapshot,result.stockAreas,args.stockBuilding)
+   if not visible then S.cleanup(actor);return {status='StockUnavailable'} end
    local include=kind=='building' and (not area or row.stockArea==area.id)
    if kind=='room' then
     local p=row.position
@@ -138,8 +158,12 @@ function S.read(actor,args,readPage)
   end
   if w.checkOrder[w.checkIndex] then return {status='waiting',summary='StockLoading'} end
   local verified,ctx=readPage(actor,{item=args.item,drive=args.drive,computer=args.computer,ledgerMode=args.ledgerMode,query='',room=''})
-  if verified.status~='ok' or not ctx or ctx.snapshot.id~=context.snapshot.id then S.cleanup(actor);return {status=verified.status=='ok' and 'StockUnavailable' or verified.status} end
-   local area=context.snapshot.stockAreas and (args.stockBuilding and context.snapshot.areaTokens[args.stockBuilding] or context.snapshot.stockAreas[1])
+  if verified.status~='ok' or not ctx or ctx.snapshot.id~=context.snapshot.id or verified.revision~=w.revision
+   or verified.live~=w.live or verified.fresh~=w.fresh or (verified.summary=='LedgerComplete')~=w.complete then
+   S.cleanup(actor);return {status=verified.status=='ok' and 'StockUnavailable' or verified.status}
+  end
+   local area,visible=visibleArea(context.snapshot,verified.stockAreas,args.stockBuilding)
+   if not visible then S.cleanup(actor);return {status='StockUnavailable'} end
    local key=kind=='room' and 'room:'..rid or area and area.key or context.snapshot.signature
    local targets,revision=S.profile(key);if not targets then S.cleanup(actor);return {status='schema'} end
    local rows={};for t,target in pairs(targets) do
@@ -147,7 +171,7 @@ function S.read(actor,args,readPage)
     rows[#rows+1]={fullType=t,name=script and script:getDisplayName() or t,current=n,target=target,remaining=math.max(0,target-n)}
    end;table.sort(rows,function(a,b) return a.fullType<b.fullType end)
    local alert=w.live and w.fresh and w.complete and context.digital==true
-   local out={status='ok',rows=rows,scope=context.snapshot.scope.label,scopeKey=kind=='room' and rid or args.stockBuilding or context.snapshot.id,stockAreas=result.stockAreas,revision=revision,live=w.live,fresh=w.fresh,complete=w.complete,canNotify=alert,interval=S.interval()}
+   local out={status='ok',rows=rows,scope=verified.scope,scopeKey=kind=='room' and rid or args.stockBuilding or context.snapshot.id,stockAreas=verified.stockAreas,revision=revision,live=w.live,fresh=w.fresh,complete=w.complete,canNotify=alert,interval=S.interval()}
    S.cleanup(actor);return out
  end
  return {status='waiting',summary='StockLoading'}

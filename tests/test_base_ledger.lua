@@ -16,6 +16,9 @@ local function resolve(mode)
 end
 local view,status=resolve('local');assert(view,status)
 assert(view.base and #view.stockAreas==1 and #view.order==#newer.order,'same area was counted twice')
+assert(V.areaIDs==nil,'area tokens must not accumulate globally across views')
+local firstAreaToken=view.stockAreas[1].id
+assert(resolve('local').stockAreas[1].id==firstAreaToken,'active view changed its area token')
 assert(view.entries[newer.order[1]].recorded==newer.entries[newer.order[1]].recorded)
 local chosen=false;for _,source in ipairs(V.jobs[actor].sources) do if source.snapshot==newer then chosen=true end end;assert(chosen)
 assert(V.jobs[actor].chosen[newer.signature].snapshot==newer,'newest same-area snapshot not selected')
@@ -62,6 +65,15 @@ local token;for _,choice in ipairs(media.choices) do if choice.id==F.disc:getID(
 local mounted=Q.LedgerDrives.handle(actor,'ledgerDriveMount',{computer=F.position,token=token});assert(mounted.status=='ok')
 local page=Q.Ledger.handle(actor,'ledgerBaseRead',{drive=mounted.mounted.drive,computer=F.position,ledgerMode='base'})
 assert(page.status=='ok' and #page.stockAreas==2,'public Base read did not use the virtual union')
+local historical=require 'B47ANCEDQuartermaster/LedgerAccess';local originalRead=historical.read
+historical.read=function(who,e,cache) if e.position.x==20 then return false end;return originalRead(who,e,cache) end
+local hidden=Q.Ledger.handle(actor,'ledgerBaseRead',{drive=mounted.mounted.drive,computer=F.position,ledgerMode='base',metadataOnly=true})
+assert(hidden.status=='ok' and #hidden.stockAreas==1,'metadata-only read leaked protected area label')
+assert(hidden.scope==getText('UI_QMSS_BaseLedgerTitle'),'overall scope leaked a protected area label')
+assert(hidden.finished==nil and hidden.began==nil and hidden.summary=='LedgerPartial' and not hidden.live,'protected area leaked global ledger metadata')
+local deniedStock=Q.Ledger.handle(actor,'ledgerStock',{drive=mounted.mounted.drive,computer=F.position,ledgerMode='base',stockBuilding=view.stockAreas[2].id})
+assert(deniedStock.status=='StockUnavailable','hidden area token opened a Stock view')
+historical.read=originalRead
 local remoteCount=0;for _,row in ipairs(page.rows) do if row.position.x==20 then remoteCount=remoteCount+row.quantity;assert(row.stockArea) end end
 assert(remoteCount==77,'Base page lost remote quantities/area identity')
 remotePower=false;V.cleanup(actor);view=assert(resolve('base'));assert(#view.stockAreas==1 and not view.complete,'offline building was included as live/complete')

@@ -15,6 +15,28 @@ assert(change({kind='building',revision=0,fullType=fullType,quantity=1}).status=
 assert(change({kind='building',revision=state.revision,fullType=fullType,quantity=0/0}).status=='invalid')
 state=change({kind='building',revision=state.revision,fullType='Fixture.Absent',quantity=10});assert(state.status=='ok' and state.targets[fullType]==300)
 state.targets[fullType]=999;assert(S.handle(actor,'stockGet',{kind='building'}).targets[fullType]==300,'client snapshot changed saved targets')
+-- Rooms discovery and configuration are separate from storage inspection.
+local originalService,originalDesignated=Q.RoomAccess.service,Q.RoomAccess.designated
+local inspect=false
+Q.RoomAccess.designated=function() return true end
+Q.RoomAccess.service=function() return {
+ resolveRoom=function() return {status='ok',room={id='private-room',name='Private',revision=3}} end,
+ tiles=function() return {status='ok',tiles={{x=1,y=2,z=0}},revision=3} end,
+ canAccessAt=function() return {state=inspect and 'allow' or 'deny'} end,
+ canAccess=function() return {state='allow'} end,
+} end
+assert(S.handle(actor,'stockGet',{kind='room',id='private-room'}).status=='RoomAccessDenied','discover-only room leaked stock targets')
+inspect=true;assert(S.handle(actor,'stockGet',{kind='room',id='private-room'}).status=='ok')
+Q.RoomAccess.service,Q.RoomAccess.designated=originalService,originalDesignated
+-- The final page must still belong to the same reader revision.
+local readCount=0
+local fakeContext={snapshot={id='same-snapshot',signature=Scope.signature(Scope.capture(actor,'building')),scope={label='Building'}}}
+local function changingPage()
+ readCount=readCount+1
+ if readCount==1 then return {status='ok',stockAreas={}},fakeContext end
+ return {status='ok',rows={},revision=readCount==2 and 'first' or 'second',summary='LedgerComplete',live=false,fresh=false},fakeContext
+end
+assert(S.read(actor,{stockKind='building',item=F.disc:getID()},changingPage).status=='StockUnavailable','changed reader revision retained old counts')
 local function read(args)
  for _=1,500 do
   local result=L.handle(actor,'ledgerStock',args)

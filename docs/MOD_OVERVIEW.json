@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.24.0-dev.1",
+  "version": "0.24.0-dev.2",
   "reviewed": true,
-  "source_digest": "9c9132ed2febefb56c558e0803a98d71ce6ba747d46886a838a3e67a3bb1e626",
+  "source_digest": "d816e658c53de78a8c1615266c3153725b30e81a97559a58773ce14699a2bcd4",
   "features": [
     {
       "status": "Source",
@@ -67,7 +67,7 @@
       "text": "Shared room/building Stock targets, paper/PC reports and PC-only low-stock alerts. Latest-per-area multi-CD/Base Ledger prefers connected loaded local-copy PCs and uses a completed carried CD for dated offline history. Requires paired PC Framework 0.11.0-dev.1 APIs and current permissions. MP testing candidate; no native/dedicated acceptance claim."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.24.0-dev.1; G7/stable G8 BLOCKED. Offline-CD and in-place CD rewrite are authorized for Workshop multiplayer test distribution; the verified 0.23.0-dev.1 upload remains historical evidence, not runtime acceptance. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current offline pairing uses UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.24.0-dev.2; G7/stable G8 BLOCKED. The 0.24.0-dev.1 Workshop upload is historical distribution evidence, not runtime acceptance; dev.2 is source-only. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current offline pairing uses UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Stock counts remain a bounded observation, not an atomic multi-container inventory transaction. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",

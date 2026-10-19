@@ -1,6 +1,6 @@
-[b]Version 0.24.0-dev.1[/b]
+[b]Version 0.24.0-dev.2[/b]
 MP testing build - dedicated multiplayer NOT TESTED.
 
-Base Ledger can show the last completed CD copy brought to the current PC when a connected building is offline. The area is marked with recording time and the combined view is partial/static. A powered, loaded, authorized PC in the source building remains preferred for live data. Refresh the source paper ledger, then rewrite a matching-building CD or burn a new blank disc to carry updated history. The physical CD stays in place on rewrite; older snapshot generations are preserved. Native transfers and Stock live alerts are unchanged.
+Stock target reads now require room inspection permission, not just discovery. Base Ledger hides area names and recording times for protected areas, including metadata-only reads. Stock discards a paginated count if the ledger revision or live/fresh status changes. Area tokens no longer accumulate for the server lifetime. Native transfers and saved sorting rules are unchanged.
 
-Offline checks passed; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED. This upload distributes the build for multiplayer testing.
+Offline checks passed; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED. This changenote is staged source text; this iteration has not been uploaded.
