@@ -1,6 +1,6 @@
 # Sort with a physical paper ledger
 
-Project Version: 0.24.0-dev.1
+Project Version: 0.24.0-dev.2
 
 ## Player workflow
 

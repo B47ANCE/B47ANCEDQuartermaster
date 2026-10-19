@@ -445,7 +445,27 @@ local function read(actor,args,stock)
  local result={status='ok',rows={},rooms={},scope=s.scope.label,began=s.began,finished=s.finished,summary=s.status or 'LedgerPartial',revision=session.publicRevision,digital=digital,live=live,fresh=fresh,expires=s.base and s.baseExpires or Policy.deadline(s,localComputer),computerOffsite=digital and not localComputer or false}
  local context={snapshot=s,digital=digital,computer=computer,item=item}
  result.stockAreas={}
- for _,area in ipairs(s.stockAreas or {}) do result.stockAreas[#result.stockAreas+1]={id=area.id,label=area.label} end
+ -- Area names and recording times are private historical metadata too. A
+ -- discoverable network PC does not authorize inspection of its source area.
+ if s.stockAreas then
+  local allowed,found,disclosure={},{},{}
+  for _,area in ipairs(s.stockAreas) do allowed[area.id]=true end
+  for _,key in ipairs(s.order) do
+   local e=s.entries[key]
+   if e and allowed[e.stockArea] then
+    found[e.stockArea]=true
+    if not HistoricalAccess.read(actor,e,disclosure) then allowed[e.stockArea]=false end
+   end
+  end
+  for _,area in ipairs(s.stockAreas) do
+   if found[area.id] and allowed[area.id] then result.stockAreas[#result.stockAreas+1]={id=area.id,label=area.label} end
+  end
+ end
+ if s.base and #result.stockAreas<#s.stockAreas then
+  result.scope=getText('UI_QMSS_BaseLedgerTitle')
+  result.began=nil;result.finished=nil;result.expires=nil
+  result.summary='LedgerPartial';result.live=false;result.fresh=false
+ end
  if stock and args.metadataOnly==true then return result,context end
  local rooms={};local bytes=0;local permissions={};local disclosure={}
  local function addRoom(e)

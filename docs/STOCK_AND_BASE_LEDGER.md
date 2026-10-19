@@ -1,6 +1,6 @@
 # Stock goals and Base Ledger
 
-Project Version: 0.24.0-dev.1
+Project Version: 0.24.0-dev.2
 
 Compatible MINOR development: server-owned shared Stock goals and read-only
 multi-CD/Base Ledger views. Requires paired PC Framework 0.11.0-dev.1 (Connections
@@ -76,6 +76,15 @@ cached view can be returned. New-CD discovery is cached for up to ten seconds;
 permission and selected-media validation are not skipped during that interval.
 
 ## Authority, persistence and privacy
+
+The 0.24.0-dev.2 correction checks every tile of a designated room for current
+inspection access before disclosing its Stock targets. Discover-only access is
+insufficient. Base Ledger area labels and recording times are omitted from
+metadata-only and normal reads when any recorded compartment in that area is
+not inspectable. Reader revision/freshness changes invalidate a Stock count;
+area tokens are ephemeral to an actor's active view, rather than retained for
+the server lifetime. These rules are covered by offline fixtures, not yet by a
+native dedicated-server test.
 
 Clients send intent only. Server Stock schema 1 uses ModData
 `B47ANCEDQuartermasterStock`: native building signatures or `room:<UUID>` keys,

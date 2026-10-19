@@ -10,7 +10,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-This source develops shared Stock and Base Ledger features as **0.24.0-dev.1** for Workshop multiplayer testing. The [0.23.0-dev.1 upload receipt](docs/WORKSHOP_STOCK_TESTING_2026_10_18.md) remains historical evidence. Distribution is separate from native acceptance. Native client/dedicated acceptance for this build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
+This source develops shared Stock and Base Ledger features as **0.24.0-dev.2** for Workshop multiplayer testing. The [0.23.0-dev.1 upload receipt](docs/WORKSHOP_STOCK_TESTING_2026_10_18.md) remains historical evidence. Distribution is separate from native acceptance. Native client/dedicated acceptance for this build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
 
 ## Stock and connected computers
 
@@ -122,20 +122,20 @@ For automated cleaning, install the separate [B47ANCE'd Auto Clean](https://stea
 
 ## Development and documentation
 
-Use [this development source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/feature/sort-ledger-write) for current source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
+Use the [current source branch](https://github.com/B47ANCE/B47ANCEDQuartermaster/tree/fix/native-transfer-diagnostics) for source and build instructions. Each checkout's root `VERSION` is its canonical source version. Runtime source lives under `src/B47ANCEDQuartermaster/42`; tooling dependencies are not game dependencies.
 
 From that source checkout, with Python and the host-only Lupa dependency available:
 
 ```powershell
 python -B scripts/check_versions.py
-python -B tests/run_tests.py --require-rooms --ui <B47ANCEDUI-checkout> --pc-framework <B47ANCEDPCFramework-checkout> --pc-framework <framework-checkout>
+python -B tests/run_tests.py --require-rooms --rooms <B47ANCEDRooms-checkout> --ui <B47ANCEDUI-checkout> --pc-framework <B47ANCEDPCFramework-checkout>
 ./Build.ps1 -PythonPath <python.exe>
 ```
 
-- [Native categories and compatibility](https://github.com/B47ANCE/B47ANCEDQuartermaster/blob/feature/rooms-extraction/docs/NATIVE_CATEGORIES_COMPATIBILITY.md)
-- [Rooms integration](https://github.com/B47ANCE/B47ANCEDQuartermaster/blob/feature/rooms-extraction/docs/ROOMS_INTEGRATION.md)
-- [Supply API for other mods](https://github.com/B47ANCE/B47ANCEDQuartermaster/blob/feature/rooms-extraction/docs/SUPPLY_API.md)
-- [Version policy](https://github.com/B47ANCE/B47ANCEDQuartermaster/blob/feature/rooms-extraction/docs/VERSION_POLICY.md)
+- [Native categories and compatibility](docs/NATIVE_CATEGORIES_COMPATIBILITY.md)
+- [Rooms integration](docs/ROOMS_INTEGRATION.md)
+- [Supply API for other mods](docs/SUPPLY_API.md)
+- [Version policy](docs/VERSION_POLICY.md)
 - [Artwork sources and exports](assets/branding/README.md)
 - [Issues and feedback](https://github.com/B47ANCE/B47ANCEDQuartermaster/issues)
 

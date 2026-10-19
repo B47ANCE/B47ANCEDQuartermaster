@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.24.0-dev.2] - 2026-10-18
+
+- Require actual room inspection, separate from discovery, before disclosing shared Stock targets. Hide protected Base Ledger area labels and recording times even from metadata-only reads.
+- Reject Stock totals when the ledger reader revision, freshness or live status changes during a paginated read. Keep Base Ledger area tokens only for the active actor view so long-running servers do not exhaust a global token table.
+- Offline regressions cover access, metadata, revision and token boundaries. Native SP and dedicated MP for this iteration are NOT TESTED; G7 and stable G8 remain blocked. No deployment or Workshop publication.
+
 ## [0.24.0-dev.1] - 2026-10-18
 
 - Add historical Base Ledger fallback from a genuine completed CD brought to the viewing PC when its building cannot contribute through a loaded connected PC. Prefer online building PCs, choose the newest CD per offline area, show recording time, and mark the combined view partial/static. Refresh the source paper ledger, then rewrite an existing matching-area ledger CD or burn a new blank disc. Prior snapshot generations remain immutable.

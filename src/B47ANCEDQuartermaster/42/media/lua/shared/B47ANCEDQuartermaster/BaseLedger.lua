@@ -6,7 +6,7 @@ local Policy=require 'B47ANCEDQuartermaster/LedgerPolicy'
 local Program=require 'B47ANCEDQuartermaster/LedgerProgram'
 local Options=require 'B47ANCEDQuartermaster/Migration'
 local hasNetwork,Network=pcall(require,'B47ANCEDPCFramework/Connections')
-local V={areaIDs={},previous=setmetatable({},{__mode='k'}),jobs=setmetatable({},{__mode='k'})}
+local V={previous=setmetatable({},{__mode='k'}),jobs=setmetatable({},{__mode='k'})}
 local function permitted(actor,pc)
  return require('B47ANCEDQuartermaster/LedgerMedia').computer(actor,pc,false) and Program.has(actor,pc,false)
 end
@@ -115,8 +115,8 @@ function V.resolve(actor,computer,mode,hold)
   view.baseFresh=view.baseFresh and not row.offline and Policy.fresh(s,same)
   view.baseLive=view.baseLive and not row.offline and Policy.live(s,same)
   local deadline=Policy.deadline(s,same);if deadline then view.baseExpires=math.min(view.baseExpires or deadline,deadline) end
-  local sq=row.computer:getSquare();local token=V.areaIDs[s.signature]
-  if not token then local count=0;for _ in pairs(V.areaIDs) do count=count+1 end;if count>=256 then V.jobs[actor]=nil;return nil,'tooLarge' end;token=getRandomUUID();V.areaIDs[s.signature]=token end
+  local sq=row.computer:getSquare();local token=getRandomUUID()
+  if not token then V.jobs[actor]=nil;return nil,'failed' end
   local position=row.offline and s.entries[s.order[1]] and s.entries[s.order[1]].position
   local label=position and getText('UI_QMSS_BaseLedgerArea',position.x,position.y)
    or row.offline and s.scope.label or getText('UI_QMSS_BaseLedgerArea',sq:getX(),sq:getY())
