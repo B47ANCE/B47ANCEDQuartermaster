@@ -23,18 +23,18 @@ function U.attach(p)
         end
     end
     local function add(w) w:initialise();w:instantiate();p:addChild(w);u.widgets[#u.widgets+1]=w;u.owned[w]=true;w:setVisible(false);return w end
-    local function button(label,fn) return add(ISButton:new(0,0,100,24,tr(label),p,fn)) end
+    local function button(label,fn) return add(SharedUI.Button:new(0,0,100,24,tr(label),p,fn)) end
     -- Dedicated views use the shared Add Item picker; never populate the hidden
     -- legacy catalog on menu opening or periodic possession refresh.
     u.catalog=p.options.uiFramework and {} or Q.ItemCatalog.catalog()
     local nameCount={};for _,item in ipairs(u.catalog) do nameCount[item.name]=(nameCount[item.name] or 0)+1 end
     table.sort(u.catalog,function(a,b) return a.name==b.name and a.fullType<b.fullType or a.name<b.name end)
-    u.search=add(ISTextEntryBox:new('',0,0,100,24))
-    u.quantity=add(ISTextEntryBox:new('1',0,0,80,24))
+    u.search=add(SharedUI.TextInput:new('',0,0,100,24))
+    u.quantity=add(SharedUI.NumberInput:new('1',0,0,80,24))
     u.quantity:setTooltip(tr('PhysicalQuantity'))
-    u.catalogList=add(ISScrollingListBox:new(0,0,200,200));u.catalogList.itemheight=22
-    u.shopping=add(ISScrollingListBox:new(0,0,200,100));u.shopping.itemheight=22
-    u.wish=add(ISScrollingListBox:new(0,0,200,100));u.wish.itemheight=22
+    u.catalogList=add(SharedUI.ScrollList:new(0,0,200,200));u.catalogList.itemheight=22
+    u.shopping=add(SharedUI.ScrollList:new(0,0,200,100));u.shopping.itemheight=22
+    u.wish=add(SharedUI.ScrollList:new(0,0,200,100));u.wish.itemheight=22
     for _,lb in ipairs({u.catalogList,u.shopping,u.wish}) do
         lb.drawBorder=true;lb.target=p
         lb.doDrawItem=function(list,y,row) list:drawText(row.text,6,y+3,1,1,1,1,UIFont.Small);return y+row.height end
@@ -46,9 +46,9 @@ function U.attach(p)
             end
         end
     end
-    u.status=add(ISLabel:new(0,0,24,'',1,1,1,1,UIFont.Small,true))
-    u.shopTitle=add(ISLabel:new(0,0,24,tr('ShoppingList'),1,1,1,1,UIFont.Small,true))
-    u.wishTitle=add(ISLabel:new(0,0,24,tr('WishList'),1,1,1,1,UIFont.Small,true))
+    u.status=add(SharedUI.skin(ISLabel:new(0,0,24,'',1,1,1,1,UIFont.Small,true),'label'))
+    u.shopTitle=add(SharedUI.skin(ISLabel:new(0,0,24,tr('ShoppingList'),1,1,1,1,UIFont.Small,true),'label'))
+    u.wishTitle=add(SharedUI.skin(ISLabel:new(0,0,24,tr('WishList'),1,1,1,1,UIFont.Small,true),'label'))
     local function rebuild()
         u.status:setTooltip(nil)
         local filter=string.lower(u.search:getInternalText() or '')
@@ -257,7 +257,7 @@ function U.attach(p)
         local now=getTimestampMs()
         if u.mode=='shopping' and (u.refreshInFlight or 0)==0 and now>=(u.creditRefresh or 0) then u.creditRefresh=now+1000;refresh() end
     end
-    local toggle=ISButton:new(0,0,26,24,'',p,function() U.switch(p,u.mode=='sorting' and 'shopping' or 'sorting') end)
+    local toggle=SharedUI.IconButton:new(0,0,26,24,'',p,function() U.switch(p,u.mode=='sorting' and 'shopping' or 'sorting') end)
     toggle:initialise();toggle:instantiate();p:addChild(toggle);u.toggle=toggle
     toggle:setTooltip(tr('Shopping'))
     -- Original geometric icons; no asset dependency or third-party artwork.

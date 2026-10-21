@@ -124,7 +124,7 @@ end
 function U.context(p,row,menu)
  if not row or row.kind=='mod' or not U.index(p) then return end
  local value,state=U.state(p,row);if state=='unavailable' then return end
- local option=menu:addOption(tr('AllocationControl'));local sub=ISContextMenu:getNew(menu);menu:addSubMenu(option,sub);option.notAvailable=p.qmss.model.readOnly==true
+ local option=menu:addOption(tr('AllocationControl'));local sub=SharedUI.menu(ISContextMenu:getNew(menu));menu:addSubMenu(option,sub);option.notAvailable=p.qmss.model.readOnly==true
  sub:addOption(tr('AllocationExact'),p,function() U.exact(p,row) end)
  sub:addOption(tr('AllocationDetails'),p,function() SharedUI.Tooltip.inspect(p.playerNum,tr('AllocationCeilingsTip')..'\n'..tr('AllocationKeyboardTip'),p) end)
  for _,delta in ipairs({-5,5}) do local step=delta
@@ -181,7 +181,7 @@ end
 U.apply=apply
 function U.actions(p,menu)
  if not U.index(p) then return end
- local option=menu:addOption(tr('AllocationActions'));local sub=ISContextMenu:getNew(menu);menu:addSubMenu(option,sub)
+ local option=menu:addOption(tr('AllocationActions'));local sub=SharedUI.menu(ISContextMenu:getNew(menu));menu:addSubMenu(option,sub)
  if p.requiresAllocationInfo and not p.allocationInfo then sub:addOption(tr('AllocationRefreshMetadata'),p,function() p.allocationInfoAttempts=0;p.allocationInfoRetry=0;U.info(p) end) end
  local session=p.qmsSession;local selected=session and session.selected
  if selected and not selected.target.whole then sub:addOption(tr('AllocationInspect'),p,function()
@@ -202,7 +202,7 @@ function U.actions(p,menu)
  if p.qmsSession or p.options.parent and p.options.parent.qmsSession then sub:addOption(tr('AllocationSavePreset'),p,function() p:promptPreset('new') end) end
  local defs=p:getPresetStore();local keys={};for key,def in pairs(defs) do if def.allocation then keys[#keys+1]=key end end;table.sort(keys)
  if #keys>0 then
-  local presets=ISContextMenu:getNew(sub);sub:addSubMenu(sub:addOption(tr('AllocationApplyPreset')),presets)
+  local presets=SharedUI.menu(ISContextMenu:getNew(sub));sub:addSubMenu(sub:addOption(tr('AllocationApplyPreset')),presets)
   for _,key in ipairs(keys) do local name=key;presets:addOption(defs[name].label or name,p,function() apply(p,defs[name].allocation) end) end
  end
  local index=U.index(p);local orphans={}
@@ -211,7 +211,7 @@ function U.actions(p,menu)
  end end
  if #orphans>0 then
   table.sort(orphans,function(a,b) return a.kind..a.key<b.kind..b.key end)
-  local orphanMenu=ISContextMenu:getNew(sub);sub:addSubMenu(sub:addOption(tr('AllocationOrphans',#orphans)),orphanMenu)
+  local orphanMenu=SharedUI.menu(ISContextMenu:getNew(sub));sub:addSubMenu(sub:addOption(tr('AllocationOrphans',#orphans)),orphanMenu)
   for n=1,math.min(#orphans,32) do local orphan=orphans[n]
    orphanMenu:addOption(tr('AllocationRemoveOrphan',orphan.key),p,function()
     local changed=Profile.reset(p.allocation,orphan.kind=='cats' and 'category' or 'item',orphan.key);apply(p,changed)

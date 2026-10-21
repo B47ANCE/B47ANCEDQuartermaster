@@ -393,7 +393,7 @@ function Q.adapt(p)
         if not combined(self) then local result = a.original.clear(self, ...); updateCount(self); return result end
         Q.visibleAction(self, 'clear')
     end
-    a.bulkButton = ISButton:new(0, 0, 90, 26, tr('Bulk'), p, function(self)
+    a.bulkButton = SharedUI.Button:new(0, 0, 90, 26, tr('Bulk'), p, function(self)
         if not combined(self) then self:presetMenu();return end
         local entry = lb.items[lb.selected]
         Q.context(self, entry and entry.item, self:getAbsoluteX()+20, self:getAbsoluteY()+40)

@@ -40,7 +40,7 @@ function U.install(class,kind,footer)
     class.createChildren=function(self,...)
         if create then create(self,...) end
         if self.b47CookShopping then return end
-        local b=ISButton:new(0,0,80,24,tr('AddToShopping'),self,function(owner)
+        local b=SharedUI.Button:new(0,0,80,24,tr('AddToShopping'),self,function(owner)
             local id,intent,n=U.selection(owner,kind)
             local reason=kind=='evolved' and 'evolvedUnsupported' or 'unsupported'
             if owner.logic and owner.logic.isManualSelectInputs and owner.logic:isManualSelectInputs() then reason='ManualRecipeUnsupported' end
@@ -55,7 +55,7 @@ function U.install(class,kind,footer)
                 end,intent,(class==PJCK_CraftActionPanel or class==PJCK_CookingInfo) and 'cook' or nil,owner)
             end,owner.player:getPlayerNum(),owner)
         end)
-        b:initialise();b:instantiate();SharedUI.skin(b,'button');self:addChild(b);self.b47CookShopping=b;place(self)
+        b:initialise();b:instantiate();self:addChild(b);self.b47CookShopping=b;place(self)
         if self.insertNewLineOfButtons and self.joypadButtonsY and self.allJoypadButtons then self:insertNewLineOfButtons(b) end
     end
     if kind=='evolved' or footer then

@@ -1,6 +1,12 @@
 # Shared UI extraction
 
-Project Version: 0.24.0-dev.3
+Project Version: 0.24.0-dev.4
+
+## Full owned-control integration (2026-10-21)
+
+[VERIFIED source] Quartermaster-owned buttons, scroll lists and text/number entries use B47ANCEDUI public API 1 factories. Native labels and combo boxes use scoped `skin`/`Dropdown.style`; owned allocation/room context submenus use `menu`. PC Framework continues to style its hosted computer desktop and owns its Stock quantity input; native modal dialogs use `Dialog.decorate`; the paper HUD, modal dimmer and divider remain purpose-built Quartermaster visuals. No third-party widget tree or global class is restyled. Gameplay callbacks, server requests, saved state and native transfers are unchanged.
+
+[TESTED offline] Public-provider boundary, paired UI fixtures and full Quartermaster suite pass against UI 0.5.0-dev.11. [RUNTIME GATE] Native visual/controller and dedicated MP for this source iteration remain untested. No deploy or publication.
 
 ## Current public-API integration audit (2026-10-21)
 

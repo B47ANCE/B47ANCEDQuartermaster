@@ -13,8 +13,10 @@ def run(ui):
     provider=(client/'B47ANCEDQuartermaster/UIProvider.lua').read_text()
     assert "require 'B47ANCEDUI/API'" in provider and 'requireVersion(1)' in provider
     for p in (client/'B47ANCEDQuartermaster').glob('*.lua'):
-        for module in re.findall(r"require\s*\(?\s*['\"](B47ANCEDUI/[^'\"]+)",p.read_text()):
+        contents=p.read_text(encoding='utf-8')
+        for module in re.findall(r"require\s*\(?\s*['\"](B47ANCEDUI/[^'\"]+)",contents):
             assert module=='B47ANCEDUI/API' and p.name=='UIProvider.lua',(p,module)
+        assert not re.search(r'\b(?:ISButton|ISScrollingListBox|ISTextEntryBox):new\(',contents),p.name
     for p in source.rglob('*.lua'): LuaRuntime().execute('assert(loadstring(...))',p.read_text(encoding='utf-8'))
     # Quartermaster-owned native menus must use the public, instance-scoped adapter.
     for name in ('WindowLayout.lua', 'MultiContainer.lua', 'SortControls.lua'):

@@ -52,7 +52,7 @@ function M.attach(p)
     local s=Q.Session.new(origin,p.playerNum); p.qmsSession=s;p.requiresAllocationInfo=true
     active[p]=s;observeWorld()
     local highlight=Q.WorldHighlight.new(p.playerNum);p.worldHighlight=highlight
-    local rail=ISScrollingListBox:new(8,30,54,200)
+    local rail=SharedUI.ScrollList:new(8,30,54,200)
     rail:initialise(); rail:instantiate(); rail.itemheight=SharedUI.Theme.metrics().railRow; rail.drawBorder=true
     p:addChild(rail)
     SharedUI.RowTooltip.attach(rail,p.playerNum)
@@ -164,7 +164,7 @@ function M.attach(p)
         elseif button==Joypad.BButton then setJoypadFocus(p.playerNum,p) end
     end
     local function button(key,action)
-        local b=ISButton:new(0,0,90,24,tr(key),p,function() if not s.busy and (s.id or key=='Refresh') then action() end end)
+        local b=SharedUI.Button:new(0,0,90,24,tr(key),p,function() if not s.busy and (s.id or key=='Refresh') then action() end end)
         b:initialise(); b:instantiate(); p:addChild(b); return b
     end
     buttons.whole=button('WholeContainer',function()

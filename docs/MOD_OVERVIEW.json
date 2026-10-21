@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.24.0-dev.3",
+  "version": "0.24.0-dev.4",
   "reviewed": true,
-  "source_digest": "2fca6eba1f4cd82b53cd3dc2b5c189794af2de975cb6f804ef97a3f388edbe41",
+  "source_digest": "d79c237ce02e11d7ca978d0d57ef30806cf9dcda8bf8905952a8b9e472f8afcb",
   "features": [
     {
       "status": "Source",
@@ -68,10 +68,10 @@
     },
     {
       "status": "Source",
-      "text": "Quartermaster-owned layout, container-scope and Sort menus use the shared UI API 1 context-menu adapter, including submenus; gameplay callbacks remain Quartermaster-owned."
+      "text": "Quartermaster-owned controls and menus use shared UI API 1 factories and scoped styling, including sorting, Shopping, preferences, pickers, Stock and optional recipe buttons; custom paper/HUD and PC Framework desktop presentation retain their owners."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.24.0-dev.3; G7/stable G8 BLOCKED. The 0.24.0-dev.1 Workshop upload is historical distribution evidence, not runtime acceptance; dev.2 and dev.3 are source-only. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current UI-menu offline pairing uses UI 0.5.0-dev.11 (API 1); older Stock/ledger evidence used UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Stock counts remain a bounded observation, not an atomic multi-container inventory transaction. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.24.0-dev.4; G7/stable G8 BLOCKED. The 0.24.0-dev.1 Workshop upload is historical distribution evidence, not runtime acceptance; dev.2 through dev.4 are source-only. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current UI-menu offline pairing uses UI 0.5.0-dev.11 (API 1); older Stock/ledger evidence used UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Stock counts remain a bounded observation, not an atomic multi-container inventory transaction. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",

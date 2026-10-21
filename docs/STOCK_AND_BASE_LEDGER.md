@@ -1,6 +1,6 @@
 # Stock goals and Base Ledger
 
-Project Version: 0.24.0-dev.3
+Project Version: 0.24.0-dev.4
 
 Compatible MINOR development: server-owned shared Stock goals and read-only
 multi-CD/Base Ledger views. Requires paired PC Framework 0.11.0-dev.1 (Connections

@@ -6,6 +6,7 @@ require 'ISUI/ISScrollingListBox'
 require 'B47ANCEDQuartermaster/ItemPicker'
 require 'B47ANCEDQuartermaster/ShoppingAddUI'
 require 'B47ANCEDQuartermaster/UI'
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 local Q=B47ANCEDQuartermaster;local U={};Q.PreferencesUI=U
 local Window=ISPanelJoypad:derive('B47ShoppingPreferences')
 local function tr(k) return getText('UI_QMSS_'..k) end
@@ -23,10 +24,10 @@ function Window:close()
 end
 function Window:build()
     local function child(w) w:initialise();w:instantiate();self:addChild(w);return w end
-    local function button(key,x,y,w,fn) return child(ISButton:new(x,y,w,24,tr(key),self,fn)) end
-    self.title=child(ISLabel:new(10,10,24,tr('ShoppingPreferences'),1,1,1,1,UIFont.Small,true))
+    local function button(key,x,y,w,fn) return child(SharedUI.Button:new(x,y,w,24,tr(key),self,fn)) end
+    self.title=child(SharedUI.skin(ISLabel:new(10,10,24,tr('ShoppingPreferences'),1,1,1,1,UIFont.Small,true),'label'))
     self.global=button('GlobalDefaults',10,42,190,function(p) p.fullType=nil;p:refresh() end)
-    self.overrides=child(ISScrollingListBox:new(10,76,190,270));self.overrides.itemheight=24
+    self.overrides=child(SharedUI.ScrollList:new(10,76,190,270));self.overrides.itemheight=24
     self.overrides.onmousedown=function(_,row) self.fullType=row.fullType;self:refresh() end
     self.overrides.target=self
     self.addOverride=button('AddOverride',10,352,190,function(p)
@@ -37,8 +38,8 @@ function Window:build()
     self.resetItem=button('ResetItemOverride',10,442,190,function(p) p:edit({action='remove',fullType=p.fullType}) end)
     self.labels={};self.controls={}
     for i,k in ipairs(fields) do
-        self.labels[k]=child(ISLabel:new(214,50+(i-1)*58,22,tr('Preference_'..k),1,1,1,1,UIFont.Small,true))
-        self.controls[k]=child(ISComboBox:new(214,74+(i-1)*58,334,24,self,function() end))
+        self.labels[k]=child(SharedUI.skin(ISLabel:new(214,50+(i-1)*58,22,tr('Preference_'..k),1,1,1,1,UIFont.Small,true),'label'))
+        self.controls[k]=child(SharedUI.Dropdown.style(ISComboBox:new(214,74+(i-1)*58,334,24,self,function() end)))
     end
     self.confirm=button('DuplicateConfirmation',214,410,334,function(p)
         p:edit({action='confirm',value=not p.snapshot.preferences.confirm})

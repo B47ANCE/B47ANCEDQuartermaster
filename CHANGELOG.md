@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.24.0-dev.4] - 2026-10-21
+
+- Use B47ANCE'd UI API 1 factories and scoped styling for Quartermaster-owned buttons, lists, text/number inputs, labels and dropdowns across sorting, Shopping, preferences, item/stock pickers and optional recipe controls. Style nested allocation/room menus through the same adapter. Preserve native callbacks, custom paper/HUD drawing and PC Framework-hosted desktop style.
+- Offline paired UI, public API boundary and full regression checks; native visual/controller and dedicated multiplayer tests remain pending. No deployment or Workshop publication.
+
 ## [0.24.0-dev.3] - 2026-10-21
 
 - Style Quartermaster-owned layout, scope, and Sort menus and their submenus through B47ANCEDUI public API 1. Sorting actions and server-owned gameplay state are unchanged.
