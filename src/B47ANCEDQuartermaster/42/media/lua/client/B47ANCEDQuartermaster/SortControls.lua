@@ -73,7 +73,7 @@ local function perform(playerNum,container)
         pendingMenus[playerNum]=nil
         if getSpecificPlayer(playerNum)~=player then return end
         if result.status~='ok' then player:setHaloNote(getText('UI_QMSS_'..result.status));return end
-        local menu=ISContextMenu.get(playerNum,getMouseX(),getMouseY())
+        local menu=SharedUI.menu(ISContextMenu.get(playerNum,getMouseX(),getMouseY()))
         local function start(view)
             local ok=area.start(playerNum,view,function(status,moved,skipped,reasons,ledgerOutcome)
                 report(player,status=='ok' and moved==0 and nothing(reasons) or getText('UI_QMSS_RoomSortSummary',getText('UI_QMSS_'..(status=='ok' and 'RoomSortComplete' or status=='cancelled' and 'RoomSortCancelled' or status)),moved,skipped),ledgerOutcome)
@@ -85,14 +85,13 @@ local function perform(playerNum,container)
         local function selectRoom(room) start({kind='customRoom',room=room.id,revision=room.revision}) end
         if #rooms==1 then menu:addOption(getText('UI_QMSS_SortRoom'),nil,function() selectRoom(rooms[1]) end)
         elseif #rooms>1 then
-            local option=menu:addOption(getText('UI_QMSS_SortRoom'));local sub=ISContextMenu:getNew(menu);menu:addSubMenu(option,sub)
+            local option=menu:addOption(getText('UI_QMSS_SortRoom'));local sub=SharedUI.menu(ISContextMenu:getNew(menu));menu:addSubMenu(option,sub)
             for _,room in ipairs(rooms) do local selected=room;sub:addOption(selected.label or selected.name,nil,function() selectRoom(selected) end) end
         end
         if supported(player,container) then
             menu:addOption(getText(container==player:getInventory() and 'UI_QMSS_SortOnlyInventory' or 'UI_QMSS_SortOnlyContainer'),nil,function() singleSort(playerNum,container) end)
         end
         menu:addOption(getText('UI_QMSS_DangerousLoadTitle'),nil,function() require('B47ANCEDQuartermaster/LoadSettingsUI').open(playerNum) end)
-        if SharedUI and SharedUI.menu then SharedUI.menu(menu) end
         if player:getJoypadBind()~=-1 then setJoypadFocus(playerNum,menu) end
     end)
 end

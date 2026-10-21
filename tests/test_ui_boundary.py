@@ -16,6 +16,11 @@ def run(ui):
         for module in re.findall(r"require\s*\(?\s*['\"](B47ANCEDUI/[^'\"]+)",p.read_text()):
             assert module=='B47ANCEDUI/API' and p.name=='UIProvider.lua',(p,module)
     for p in source.rglob('*.lua'): LuaRuntime().execute('assert(loadstring(...))',p.read_text(encoding='utf-8'))
+    # Quartermaster-owned native menus must use the public, instance-scoped adapter.
+    for name in ('WindowLayout.lua', 'MultiContainer.lua', 'SortControls.lua'):
+        contents=(client/'B47ANCEDQuartermaster'/name).read_text(encoding='utf-8')
+        assert re.search(r'(?:SharedUI|U)\.menu\(ISContextMenu\.get\(',contents),name
+        assert not re.search(r'(?<!\.menu\()ISContextMenu:getNew\(menu\)',contents),name
     assert not any('/B47ANCEDUI/' in p for p in json.loads((ROOT/'scripts/production-files.json').read_text()))
     print('PASS OFFLINE required UI dependency, one public API boundary, no bundled implementation and Quartermaster Lua 5.1 syntax')
 if __name__=='__main__':

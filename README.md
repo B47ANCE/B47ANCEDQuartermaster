@@ -10,7 +10,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-This source develops shared Stock and Base Ledger features as **0.24.0-dev.2** for Workshop multiplayer testing. The [0.23.0-dev.1 upload receipt](docs/WORKSHOP_STOCK_TESTING_2026_10_18.md) remains historical evidence. Distribution is separate from native acceptance. Native client/dedicated acceptance for this build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
+This source is developed as **0.24.0-dev.3**. It integrates current B47ANCE'd UI API 1 styling for Quartermaster-owned menus; Stock and Base Ledger remain available as described below. The [0.23.0-dev.1 upload receipt](docs/WORKSHOP_STOCK_TESTING_2026_10_18.md) remains historical evidence. Distribution is separate from native acceptance. Native client/dedicated acceptance for this build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
 
 ## Stock and connected computers
 
@@ -18,7 +18,7 @@ Set shared room/building item targets from **Stock** in the normal Quartermaster
 
 Choose This CD, Latest local CDs or Base ledger in the digital reader. Newest completed copies cover each area once. Connect PCs using the Framework's PC Network app: start pairing on one, visit another and enter its address, or connect to a public PC. Network Status shows online and offline/unavailable computers. A live remote building needs a loaded, powered, accessible PC with Quartermaster installed and its own local ledger CD. When it is unavailable, bring a completed CD from that building to this PC to read its dated, partial offline history. Refresh the paper ledger in the source building, then rewrite the matching-area CD at its PC or burn a new blank disc. Connections never bypass access rules or simulate unloaded inventory.
 
-This development source requires paired PC Framework **0.11.0-dev.1**, Rooms **0.2.0-dev.7** and UI **0.3.0-dev.1** for the tested offline combination. [Workflow, settings, authority, persistence and acceptance limits](docs/STOCK_AND_BASE_LEDGER.md).
+The earlier Stock/ledger offline combination used PC Framework **0.11.0-dev.1**, Rooms **0.2.0-dev.7** and UI **0.3.0-dev.1**. The menu integration is tested offline against UI **0.5.0-dev.11**, still public API 1. [Workflow, settings, authority, persistence and acceptance limits](docs/STOCK_AND_BASE_LEDGER.md).
 
 ## Current integrated features
 

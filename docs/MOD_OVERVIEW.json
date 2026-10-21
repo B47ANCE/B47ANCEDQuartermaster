@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.24.0-dev.2",
+  "version": "0.24.0-dev.3",
   "reviewed": true,
-  "source_digest": "d816e658c53de78a8c1615266c3153725b30e81a97559a58773ce14699a2bcd4",
+  "source_digest": "2fca6eba1f4cd82b53cd3dc2b5c189794af2de975cb6f804ef97a3f388edbe41",
   "features": [
     {
       "status": "Source",
@@ -65,9 +65,13 @@
     {
       "status": "Source",
       "text": "Shared room/building Stock targets, paper/PC reports and PC-only low-stock alerts. Latest-per-area multi-CD/Base Ledger prefers connected loaded local-copy PCs and uses a completed carried CD for dated offline history. Requires paired PC Framework 0.11.0-dev.1 APIs and current permissions. MP testing candidate; no native/dedicated acceptance claim."
+    },
+    {
+      "status": "Source",
+      "text": "Quartermaster-owned layout, container-scope and Sort menus use the shared UI API 1 context-menu adapter, including submenus; gameplay callbacks remain Quartermaster-owned."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.24.0-dev.2; G7/stable G8 BLOCKED. The 0.24.0-dev.1 Workshop upload is historical distribution evidence, not runtime acceptance; dev.2 is source-only. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current offline pairing uses UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Stock counts remain a bounded observation, not an atomic multi-container inventory transaction. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.24.0-dev.3; G7/stable G8 BLOCKED. The 0.24.0-dev.1 Workshop upload is historical distribution evidence, not runtime acceptance; dev.2 and dev.3 are source-only. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current UI-menu offline pairing uses UI 0.5.0-dev.11 (API 1); older Stock/ledger evidence used UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Stock counts remain a bounded observation, not an atomic multi-container inventory transaction. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/ALLOCATION_INTEGRATION.md",

@@ -1,6 +1,6 @@
 # Required Rooms dependency
 
-Project Version: 0.24.0-dev.2
+Project Version: 0.24.0-dev.3
 
 ## Current development iteration
 

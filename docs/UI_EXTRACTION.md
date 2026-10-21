@@ -1,6 +1,12 @@
 # Shared UI extraction
 
-Project Version: 0.24.0-dev.2
+Project Version: 0.24.0-dev.3
+
+## Current public-API integration audit (2026-10-21)
+
+[VERIFIED source] UI 0.5.0-dev.11 (`33ef6e3` on `origin/main`) retains public client API major 1. Quartermaster continues to import only `B47ANCEDUI/API` via `UIProvider`, and now routes its own layout, container-scope, active-room-sort and Sort context menus, including created submenus, through the scoped `menu` adapter. Existing gameplay callbacks, permission checks, server requests and saved state are unchanged. The adapter is instance-scoped; it does not restyle unrelated native/other-mod menus.
+
+[TESTED offline] UI provider version and full offline suite pass. Quartermaster's paired UI fixtures, public-provider boundary and full offline regression suite pass against UI 0.5.0-dev.11. This is API/source evidence only; native PZ visual, controller and dedicated MP validation remain [RUNTIME GATE]. Historical UI 0.3.0-dev.1 pairing below remains tied to its original candidate, not this source iteration. No local deployment or Workshop publication was performed.
 
 Current distribution follow-up: UI API 1 is available as Workshop item 3822582242. Quartermaster 0.23.0-dev.1 is retested with UI 0.3.0-dev.1 / PC Framework 0.11.0-dev.1 for the authorized MP testing candidate. The original source-only extraction checkpoint below retains its historical scope; it is not native acceptance.
 2026-10-18: current baseline Quartermaster 0.21.0-dev.5 commit `2c1d663dadd68ec1757845ff90e14b6225908904`. Fresh clean feature worktree; old root checkout remains untouched. Source-only 0.x MINOR adds the required B47ANCEDUI dependency and public API 1; install the new dependency on both peers. No UI Workshop item is assigned, so this source iteration is not yet distributable through Workshop. Existing item IDs/visibility untouched.

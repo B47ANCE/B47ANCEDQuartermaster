@@ -1,6 +1,3 @@
-[b]Version 0.24.0-dev.2[/b]
-MP testing build - dedicated multiplayer NOT TESTED.
+[b]Version 0.24.0-dev.3[/b]
 
-Stock target reads now require room inspection permission, not just discovery. Base Ledger hides area names and recording times for protected areas, including metadata-only reads. Stock discards a paginated count if the ledger revision or live/fresh status changes. Area tokens no longer accumulate for the server lifetime. Native transfers and saved sorting rules are unchanged.
-
-Offline checks passed; native SP/dedicated NOT TESTED, G7/stable G8 BLOCKED. This upload distributes the build for multiplayer testing.
+Quartermaster-owned layout, container-scope and Sort menus now use B47ANCE'd UI API 1 styling, including submenus. Sorting behavior is unchanged. Source-only development iteration; not uploaded to Workshop. Native PZ and dedicated multiplayer for this iteration are NOT TESTED.

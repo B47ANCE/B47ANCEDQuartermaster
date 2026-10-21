@@ -58,7 +58,7 @@ function G.change(p,action)
  p:layout();p:configJoypad();G.save(p)
 end
 function G.menu(p)
- local menu=ISContextMenu.get(p.playerNum,(p.getX and p:getX() or p.x)+p:getWidth()-160,(p.getY and p:getY() or p.y)+U.Theme.metrics().header)
+ local menu=U.menu(ISContextMenu.get(p.playerNum,(p.getX and p:getX() or p.x)+p:getWidth()-160,(p.getY and p:getY() or p.y)+U.Theme.metrics().header))
  menu.origin=p -- Native context-menu B/action restoration uses origin.
  for _,row in ipairs({{'WindowLarger','larger'},{'WindowSmaller','smaller'},{'ContainerPanelWider','railMore'},{'ContainerPanelNarrower','railLess'},{'ResetWindowLayout','reset'},{'WindowAppearance','appearance'}}) do
   menu:addOption(tr(row[1]),p,function(owner) if row[2]=='appearance' then require 'B47ANCEDQuartermaster/AppearanceUI';Q.AppearanceUI.open(owner) else G.change(owner,row[2]) end end)

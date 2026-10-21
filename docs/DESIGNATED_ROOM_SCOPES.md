@@ -1,6 +1,6 @@
 # Designated-room scope follow-up
 
-Project Version: 0.24.0-dev.2
+Project Version: 0.24.0-dev.3
 
 ## Purpose and preserved boundaries
 

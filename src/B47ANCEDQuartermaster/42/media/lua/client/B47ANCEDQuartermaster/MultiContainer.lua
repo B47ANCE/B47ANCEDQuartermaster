@@ -237,10 +237,10 @@ function M.attach(p)
     local function scopeMenu()
         if not s.viewInfo then return end
         local x=getMouseX and getMouseX() or p.x;local y=getMouseY and getMouseY() or p.y
-        local menu=ISContextMenu.get(p.playerNum,x,y)
+        local menu=SharedUI.menu(ISContextMenu.get(p.playerNum,x,y))
         local building=menu:addOption(tr('ScopeBuilding'),p,function() selectView({kind='building'}) end);building.notAvailable=not s.viewInfo.buildingAvailable
         SharedUI.Tooltip.context(building,tr(s.viewInfo.buildingAvailable and 'ScopeTip' or 'BuildingDisabledTip'),p.playerNum,menu)
-        local rooms=menu:addOption(tr('RoomScope'));local roomMenu=ISContextMenu:getNew(menu);menu:addSubMenu(rooms,roomMenu)
+        local rooms=menu:addOption(tr('RoomScope'));local roomMenu=SharedUI.menu(ISContextMenu:getNew(menu));menu:addSubMenu(rooms,roomMenu)
         local customCount=0
         for _,room in ipairs(s.viewInfo.customRooms or {}) do if Q.RoomAccess.designated(room) then
             local selected=room;customCount=customCount+1;roomMenu:addOption(room.label or room.name,p,function() selectView({kind='customRoom',room=selected.id,revision=selected.revision}) end)
@@ -268,7 +268,7 @@ function M.attach(p)
             if not ok then status('busy') else s.selected=nil;clearSelection();highlight:clear();status('RoomSorting') end
         end)
         sort.notAvailable=s.busy or not sorting and (not s.view or s.view.kind~='customRoom')
-        local proximity=menu:addOption(tr('ProximityScope'));local radiusMenu=ISContextMenu:getNew(menu);menu:addSubMenu(proximity,radiusMenu)
+        local proximity=menu:addOption(tr('ProximityScope'));local radiusMenu=SharedUI.menu(ISContextMenu:getNew(menu));menu:addSubMenu(proximity,radiusMenu)
         for radius=1,s.viewInfo.maxRadius do local n=radius;radiusMenu:addOption(tr('ScopeProximity',n),p,function() selectView({kind='proximity',radius=n}) end) end
         local copy=menu:addOption(tr('CopyWhole'),p,function()
             capture();s.whole=true;s:applyWhole(function(result) s.whole=false;refreshRail();if s.selected then bind() end;status(result=='ok' and 'Staged' or result) end)
@@ -281,7 +281,7 @@ function M.attach(p)
     end
     buttons.containers=button('Containers',function()
         if Q.RoomSort and Q.RoomSort.active[p.playerNum] then
-            local menu=ISContextMenu.get(p.playerNum,getMouseX(),getMouseY())
+            local menu=SharedUI.menu(ISContextMenu.get(p.playerNum,getMouseX(),getMouseY()))
             menu:addOption(tr('RoomStopSorting'),p,function() Q.RoomSort.cancel(p.playerNum) end);return
         end
         s:request('roomList',{},function(result)

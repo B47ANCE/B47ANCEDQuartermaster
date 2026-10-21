@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.24.0-dev.3] - 2026-10-21
+
+- Style Quartermaster-owned layout, scope, and Sort menus and their submenus through B47ANCEDUI public API 1. Sorting actions and server-owned gameplay state are unchanged.
+- Audit UI 0.5.0-dev.11 public API and run its offline suite plus Quartermaster paired UI checks. Native visual/controller and dedicated MP acceptance remain untested for this iteration. No deployment or Workshop upload.
+
 ## [0.24.0-dev.2] - 2026-10-18
 
 - Require actual room inspection, separate from discovery, before disclosing shared Stock targets. Hide protected Base Ledger area labels and recording times even from metadata-only reads.
