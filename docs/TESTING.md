@@ -1,6 +1,8 @@
 # Testing
 
-Project Version: 0.24.0-dev.4
+Project Version: 0.24.0-dev.5
+
+[TESTED offline, 2026-10-23] The visible Group Items by Mod control passes paired UI layout tests at 640/1100/1280 widths and 14/24/32 font heights, toggles the existing local preference, and leaves staged selections unchanged. Existing model and preference persistence fixtures remain part of the full suite. Native visual/controller and dedicated MP are NOT TESTED for dev.5; G7 and stable G8 remain blocked. No deployment or publication.
 
 [TESTED offline, 2026-10-21] Full owned-control UI API 1 integration passes paired UI fixtures and public-provider boundary against UI 0.5.0-dev.11; full Quartermaster regression, deployment-layout parity and version checks pass in this iteration. Native visual/controller and dedicated MP remain [RUNTIME GATE].
 
@@ -99,7 +101,7 @@ User confirms dev.20 loaded but visible Category labels remained vanilla with Ne
 
 Compatible PATCH correction on dev.19: Category cells use the canonical resolver cache and current localized labels. Compatibility is checked during rendering rather than permanently skipping registration during early Lua loading. Native row.cat, sorting, grouping and item definitions stay unchanged. Full offline regression and frozen 5,092-item comparison passed; actual B42.21 inventory/loot/controller/scaling and second-language client acceptance remain UNTESTED. Dev.19 Stage A instrumentation is retained; its dedicated timing gate remains BLOCKED. See `dist/handoffs/dev20-inventory-category.md`. No deployment or publication.
 
-Current source version: 0.24.0-dev.4. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
+Current source version: 0.24.0-dev.5. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
 
 Historical note: Recorded source snapshot: 0.4.0-dev.50. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
 

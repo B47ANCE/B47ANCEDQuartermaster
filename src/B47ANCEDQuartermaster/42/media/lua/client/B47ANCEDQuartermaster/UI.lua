@@ -112,6 +112,12 @@ function V.attach(p)
  end)
  v.sortSearch=U.SearchField.attach(p,p.filter,tr('SearchItems'));if u then u.owned[v.sortSearch.clear]=true end
  v.sortSearch.clear:setTooltip(tr('ClearSearch'))
+ v.modGrouping=U.Button:new(0,0,100,m.button,tr('GroupItemsByMod'),p,function()
+  Q.UIOptions.setGroupByMod(not Q.UIOptions.groupByMod())
+ end)
+ v.modGrouping:initialise();v.modGrouping:instantiate();p:addChild(v.modGrouping)
+ v.modGrouping:setTooltip(tr('GroupItemsByMod'))
+ if u then u.owned[v.modGrouping]=true end
  if not u then v.cancel=U.Button:new(0,0,100,m.button,tr('Cancel'),p,function(owner) owner:closePicker() end);v.cancel:initialise();v.cancel:instantiate();p:addChild(v.cancel) end
  if u then
   u.view='shopping';u.shoppingTab=tab('ShoppingList',function() u.view='shopping';u.selected=nil;u.selectedProject=nil;u.selectedSource=nil;u.selectedRequirement=nil;u.rebuild();p:configJoypad() end)
@@ -163,7 +169,12 @@ function V.attach(p)
    visible(self.filter,true);visible(self.listbox,true)
    at(self.filter,left,body,width,t.button);v.sortSearch:layout()
    local modes=body+t.button+gap
-   at(self.btnModeCat,left,modes,width*.70-gap,t.button);at(self.btnModePreset,left+width*.70,modes,width*.30,t.button)
+   local categoryWidth=width*.48-gap;local presetWidth=width*.22-gap
+   at(self.btnModeCat,left,modes,categoryWidth,t.button)
+   at(self.btnModePreset,left+width*.48,modes,presetWidth,t.button)
+   at(v.modGrouping,left+width*.70,modes,width*.30,t.button)
+   title(v.modGrouping,(Q.UIOptions.groupByMod() and '[x] ' or '[ ] ')..tr('GroupItemsByMod'))
+   visible(v.modGrouping,true)
    local filters=modes+t.button+gap
    at(self.chkChecked,left,filters,width*.48,t.button);at(self.chkContents,left+width*.50,filters,width*.50,t.button)
    local priority=filters+t.button+gap
@@ -202,6 +213,7 @@ function V.attach(p)
     visible(b.refresh,true);visible(b.containers,true)
    elseif v.cancel then at(v.cancel,left+width*.66,h-t.button-statusHeight,width*.34,t.button);visible(v.cancel,true) end
   else
+   visible(v.modGrouping,false)
    -- Personal supply state has no selected-container/Whole Container ownership.
    if rail then visible(rail.rail,false);for _,b in pairs(rail.buttons) do visible(b,false) end end
    visible(self.filter,false);visible(v.sortSearch.clear,false)
@@ -293,7 +305,7 @@ function V.attach(p)
  p.configJoypad=function(self)
   U.Focus.visibleRows(self,function(owner)
    joy(owner);owner:insertNewLineOfButtons(v.sorting,u and v.shopping or nil,v.stock,v.help,self.b47LayoutButton)
-   if u and u.mode=='shopping' then owner:insertNewLineOfButtons(u.shoppingTab,u.wantedTab,u.neededTab,u.preferences,u.stateFilter,u.shoppingSearch.clear);owner:insertNewLineOfButtons(u.paperPicker,u.paperNew,u.paperRename,u.paperImport) else owner:insertNewLineOfButtons(v.sortSearch.clear,v.cancel) end
+   if u and u.mode=='shopping' then owner:insertNewLineOfButtons(u.shoppingTab,u.wantedTab,u.neededTab,u.preferences,u.stateFilter,u.shoppingSearch.clear);owner:insertNewLineOfButtons(u.paperPicker,u.paperNew,u.paperRename,u.paperImport) else owner:insertNewLineOfButtons(v.sortSearch.clear,v.modGrouping,v.cancel) end
   end)
  end
  Q.WindowLayout.attach(p)

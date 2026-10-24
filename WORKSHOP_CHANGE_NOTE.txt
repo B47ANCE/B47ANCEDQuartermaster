@@ -1,3 +1,3 @@
-[b]Version 0.24.0-dev.4[/b]
+[b]Version 0.24.0-dev.5[/b]
 
-Quartermaster-owned controls and menus now use B47ANCE'd UI API 1 styling across sorting, Shopping, preferences, pickers, Stock and optional recipe buttons. Sorting behavior is unchanged. Source-only development iteration; not uploaded to Workshop. Native PZ and dedicated multiplayer for this iteration are NOT TESTED.
+Categories & Items now shows Group Items by Mod as a visible toggle. Turn it off to show items directly under categories without mod headings. This is a local display choice; sorting rules and saved selections are unchanged. Source-only development iteration; not uploaded to Workshop. Native PZ and dedicated multiplayer for this iteration are NOT TESTED.

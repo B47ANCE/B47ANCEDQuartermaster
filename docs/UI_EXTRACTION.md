@@ -1,6 +1,12 @@
 # Shared UI extraction
 
-Project Version: 0.24.0-dev.4
+Project Version: 0.24.0-dev.5
+
+## Visible mod-grouping preference (2026-10-23)
+
+[VERIFIED source] Categories & Items now shows **Group Items by Mod** beside the mode controls. It uses the existing client-local `UIOptions` file and model rebuild: off places items directly below their category, while on adds mod headings. A changed preference refreshes open pickers and controller focus without changing staged rules, selections, server configuration or transfers. This is presentation-only, so no server sandbox option is appropriate.
+
+[TESTED offline] UI fixture checks sorting/shopping visibility, compact and large-font bounds, toggle state, and preservation of staged selections. [RUNTIME GATE] Native visual/controller acceptance remains pending.
 
 ## Full owned-control integration (2026-10-21)
 

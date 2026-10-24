@@ -502,6 +502,7 @@ function Q.onGroupByModChanged()
             a.model.introduced=introduced or {}
             a.rangeAnchor=nil
             p:rebuild()
+            p:layout()
             p:configJoypad()
         end
     end

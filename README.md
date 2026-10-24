@@ -10,7 +10,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-This source is developed as **0.24.0-dev.4**. It uses B47ANCE'd UI API 1 for Quartermaster-owned controls and menus; Stock and Base Ledger remain available as described below. The [0.23.0-dev.1 upload receipt](docs/WORKSHOP_STOCK_TESTING_2026_10_18.md) remains historical evidence. Distribution is separate from native acceptance. Native client/dedicated acceptance for this build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
+This source is developed as **0.24.0-dev.5**. It uses B47ANCE'd UI API 1 for Quartermaster-owned controls and menus; Stock and Base Ledger remain available as described below. The [0.23.0-dev.1 upload receipt](docs/WORKSHOP_STOCK_TESTING_2026_10_18.md) remains historical evidence. Distribution is separate from native acceptance. Native client/dedicated acceptance for this build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
 
 ## Stock and connected computers
 
@@ -58,7 +58,7 @@ Movement protocol 12, Ledger 5 and Rooms 4 require matching server/client builds
 - Share Whole Container settings across furniture sections, or customize individual sections.
 - Sort carried inventory, a selected container, the current room or an entire building. Room and building operations include carried bags.
 - Sort supported floor and Proximity Inventory items into configured storage.
-- Search categories and items, filter by Only Checked or Only Contents, and optionally group items by mod.
+- Search categories and items, filter by Only Checked or Only Contents, and use the visible **Group Items by Mod** toggle to show or hide mod headings. With it off, items appear directly under their categories; this local display choice leaves sorting rules intact.
 - Use vanilla categories or categories supplied by Better Sorting, Better Containers or Extended Categories.
 
 ## Shopping and Dibs!
