@@ -6,7 +6,7 @@ B47ANCE'd Quartermaster helps you organize storage, put supplies away and keep t
 Tell each container what belongs inside, then sort your inventory, a room or an entire building from one menu.
 
 [b]MP testing build - dedicated multiplayer NOT TESTED[/b]
-Version 0.24.0-dev.2. Offline regression checks passed; native client and dedicated acceptance are pending. Back up saves and use matching builds on the server and every client.
+Version 0.24.0-dev.5. Offline regression checks passed; native client and dedicated acceptance are pending. Back up saves and use matching builds on the server and every client.
 
 [h2]Sorting made simple[/h2]
 • Choose whole categories or individual items in a searchable tree with native item icons.
@@ -14,7 +14,7 @@ Version 0.24.0-dev.2. Offline regression checks passed; native client and dedica
 • Save and reuse sorting presets, copy settings between containers and set destination priorities.
 • Sort your carried inventory, a selected container, the current room or the entire building. Room and building sorting include your carried bags.
 • Sort supported floor, Proximity Inventory, selected vehicle/trailer cargo and nested carried-bag sources into configured storage. Native access and capacity checks still apply.
-• Find what you need with category/item search, Only Checked, Only Contents and optional grouping by mod.
+• Search and filter items. Turn off Group Items by Mod to list items directly under categories.
 • Make quick changes with Shift-click ranges, Ctrl-click, Select All Visible, Clear All Visible and Invert Visible.
 
 Open Quartermaster from your player inventory. Select categories to include them, expand them to choose individual items, then save your container's rules.
@@ -66,4 +66,4 @@ Native client/dedicated acceptance pending. CDs stay in accessible storage besid
 
 Room organization uses designated B47ANCEDRooms rooms only; native buildings define building scope. Allocation limits and live role routing remain disabled.
 
-PC Framework 0.11.0-dev.1 and UI 0.3.0-dev.1 provide the current tested offline API combination. Stock checks, multiple CDs and invitation lifetime have server sandbox controls. Dedicated multiplayer NOT TESTED.
+PC Framework 0.11.0-dev.1 and UI 0.5.0-dev.11 pass current offline API checks. Stock checks, multiple CDs and invitation lifetime have server sandbox controls. Dedicated multiplayer NOT TESTED.

@@ -13,7 +13,11 @@ function V.open(num,owner,source,host,knownRooms,preferred)
  if not host then Q.UI.popup(p,tr('StockTitle')) end
  local originalPrerender=p.prerender
  local pending=false;local closed=false;local generation=0;local due=0;local current;local data={targets={},revision=0};local rows={};local selected
- local function add(widget,kind) widget:initialise();widget:instantiate();p:addChild(widget);if host then pc.decorate(widget,kind or 'panel') end;return widget end
+ local function add(widget,kind)
+  widget:initialise();widget:instantiate();p:addChild(widget)
+  if host then pc.decorate(widget,kind or 'panel') else U.skin(widget,kind) end
+  return widget
+ end
  local function button(key,fn) return add(U.Button:new(0,0,120,m.button,tr(key),p,fn),'button') end
  local status=add(ISLabel:new(0,0,m.font,'',colors.text.r,colors.text.g,colors.text.b,1,U.Theme.fonts.body,true))
  local refresh
@@ -30,7 +34,9 @@ function V.open(num,owner,source,host,knownRooms,preferred)
   U.Renderer.text(self,t.remaining~=nil and tostring(t.remaining) or '—',width*.79,y+4,color)
   return y+self.itemheight
  end
- local quantity=add(ISTextEntryBox:new('1',0,0,100,m.button),'input');quantity:setTooltip(tr('StockQuantityHelp'))
+ local quantity=host and require('B47ANCEDPCFramework/UI').textEntry(p,{value='1',width=100,height=m.button})
+  or add(U.NumberInput:new('1',0,0,100,m.button),'input')
+ quantity:setTooltip(tr('StockQuantityHelp'))
  list.onJoypadDown=function(self,key) if key==Joypad.AButton then local row=self.items[self.selected];if row then self.onmousedown(p,row.item) end elseif key==Joypad.BButton then setJoypadFocus(num,p) end end
  list.target=p;list.onmousedown=function(_,row) selected=row.fullType;quantity:setText(tostring(row.target)) end
  local function render(result)

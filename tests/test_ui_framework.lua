@@ -42,7 +42,11 @@ for _,size in ipairs({{640,460},{1100,800},{1280,720}}) do
   assert(p.listbox.anchorRight==false and p.listbox.anchorBottom==false,'tree native anchor conflicts with explicit layout')
   assert(p.listbox.y+p.listbox.height<=p.btnSave.y-7,'tree covered sorting footer')
   assert(p.btnSave.y+p.btnSave.height<=p:getHeight()-8,'Save clipped')
+  assert(p.b47UI.modGrouping:isVisible(),'mod grouping preference hidden in Sorting')
+  assert(p.btnModeCat.x+p.btnModeCat.width<=p.btnModePreset.x and p.btnModePreset.x+p.btnModePreset.width<=p.b47UI.modGrouping.x,'sorting controls overlap')
+  assert(p.b47UI.modGrouping.x+p.b47UI.modGrouping.width<=p:getWidth()-12,'mod grouping preference clipped')
   Q.ShoppingUI.switch(p,'shopping');p:layout()
+  assert(not p.b47UI.modGrouping:isVisible(),'sorting preference leaked into Shopping')
   assert(not p.containerUI.rail:isVisible(),'personal view suggests container ownership')
   assert(u.shopping.y+u.shopping.height<=u.collect.y-7,'Shopping table covered actions')
   for _,button in ipairs({u.collect,u.collectRemaining,u.cancel,u.closePersonal}) do
@@ -74,6 +78,14 @@ end
 getPlayerScreenWidth,getPlayerScreenHeight=oldScreenWidth,oldScreenHeight
 font=14;p:setWidth(1100);p:setHeight(800);p:layout()
 Q.ShoppingUI.switch(p,'sorting')
+local groupedBefore=Q.UIOptions.groupByMod()
+local selectedBefore=p.selectedItems
+p.b47UI.modGrouping.onclick(p)
+assert(Q.UIOptions.groupByMod()~=groupedBefore,'visible preference did not toggle')
+assert(p.b47UI.modGrouping.title:find(Q.UIOptions.groupByMod() and '[x]' or '[ ]',1,true),'visible preference did not refresh')
+assert(p.selectedItems==selectedBefore,'presentation preference changed selections')
+p.b47UI.modGrouping.onclick(p)
+assert(Q.UIOptions.groupByMod()==groupedBefore,'preference cannot toggle back')
 local firstGroup=p.qmss.model.groups[1]
 if firstGroup and firstGroup.mods[1] then
  p.qmss.expanded[firstGroup.id]=true;p.qmss.expanded[firstGroup.mods[1].id]=true;p:rebuild()

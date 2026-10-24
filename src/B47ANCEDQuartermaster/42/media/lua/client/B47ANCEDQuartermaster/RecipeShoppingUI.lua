@@ -27,7 +27,7 @@ function U.install(class,kind)
     class.createChildren=function(self,...)
         create(self,...)
         local button
-        button=ISButton:new(0,0,30,24,'+',self,function(owner)
+        button=SharedUI.IconButton:new(0,0,30,24,'+',self,function(owner)
             local recipe=owner.logic:getRecipe();if not recipe then return end
             local name=recipe:getName()
             local n=kind=='craft' and owner.entryBox and tonumber(owner.entryBox:getInternalText()) or 1
@@ -38,7 +38,7 @@ function U.install(class,kind)
                 end,nil,nil,owner)
             end,owner.player:getPlayerNum(),owner)
         end)
-        button:initialise();button:instantiate();SharedUI.skin(button,'button');button:setTooltip(tr('AddToShopping'));self:addChild(button);self.b47Shopping=button
+        button:initialise();button:instantiate();button:setTooltip(tr('AddToShopping'));self:addChild(button);self.b47Shopping=button
     end
     class.calculateLayout=function(self,...)
         layout(self,...)

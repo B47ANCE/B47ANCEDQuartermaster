@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.24.0-dev.5] - 2026-10-23
+
+- Show the existing client-local Group Items by Mod preference directly in Categories & Items, including controller navigation. With grouping off, items appear under their category without mod headings; saved rules and selections are unchanged.
+- Offline UI layout and preference-toggle regression checks pass. Native PZ visual/controller and dedicated multiplayer testing for this iteration remain untested. No deployment or Workshop publication.
+
+## [0.24.0-dev.4] - 2026-10-21
+
+- Use B47ANCE'd UI API 1 factories and scoped styling for Quartermaster-owned buttons, lists, text/number inputs, labels and dropdowns across sorting, Shopping, preferences, item/stock pickers and optional recipe controls. Style nested allocation/room menus through the same adapter. Preserve native callbacks, custom paper/HUD drawing and PC Framework-hosted desktop style.
+- Offline paired UI, public API boundary and full regression checks; native visual/controller and dedicated multiplayer tests remain pending. No deployment or Workshop publication.
+
+## [0.24.0-dev.3] - 2026-10-21
+
+- Style Quartermaster-owned layout, scope, and Sort menus and their submenus through B47ANCEDUI public API 1. Sorting actions and server-owned gameplay state are unchanged.
+- Audit UI 0.5.0-dev.11 public API and run its offline suite plus Quartermaster paired UI checks. Native visual/controller and dedicated MP acceptance remain untested for this iteration. No deployment or Workshop upload.
+
 ## [0.24.0-dev.2] - 2026-10-18
 
 - Require actual room inspection, separate from discovery, before disclosing shared Stock targets. Hide protected Base Ledger area labels and recording times even from metadata-only reads.

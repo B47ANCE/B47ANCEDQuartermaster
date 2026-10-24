@@ -5,6 +5,7 @@ require 'ISUI/ISButton'
 require 'B47ANCEDQuartermaster/Authority'
 require 'B47ANCEDQuartermaster/ShoppingAddUI'
 require 'B47ANCEDQuartermaster/UI'
+local SharedUI=require 'B47ANCEDQuartermaster/UIProvider'
 local Q=B47ANCEDQuartermaster
 local P={};Q.ItemPicker=P
 require 'B47ANCEDQuartermaster/ItemCatalog'
@@ -31,8 +32,8 @@ end
 function Window:build()
     local function child(w) w:initialise();w:instantiate();self:addChild(w);return w end
     local w,h=self:getWidth(),self:getHeight()
-    self.search=child(ISTextEntryBox:new('',12,34,w-24,24))
-    self.list=child(ISScrollingListBox:new(12,64,w-24,h-164));self.list.itemheight=32
+    self.search=child(SharedUI.TextInput:new('',12,34,w-24,24))
+    self.list=child(SharedUI.ScrollList:new(12,64,w-24,h-164));self.list.itemheight=32
     self.list.doDrawItem=function(lb,y,row)
         if ISInventoryItem then ISInventoryItem.renderScriptItemIcon(lb,row.item.script,4,y+2,1,26,26) end
         lb:drawText(row.item.displayLabel or row.item.name,36,y+5,1,1,1,1,UIFont.Small)
@@ -52,11 +53,11 @@ function Window:build()
         if key==Joypad.AButton then local row=lb.items[lb.selected];if row then lb.onmousedown(self,row.item) end
         elseif key==Joypad.BButton then self:close() end
     end
-    self.quantity=child(ISTextEntryBox:new('1',12,h-88,100,24))
+    self.quantity=child(SharedUI.NumberInput:new('1',12,h-88,100,24))
     self.quantity:setTooltip(getText('UI_QMSS_'..(self.kind=='stock' and 'StockQuantityHelp' or 'PhysicalQuantity')))
     self.quantity.onTextChangeFunction=enable
-    self.add=child(ISButton:new(124,h-88,w-226,24,getText('UI_QMSS_'..(w<480 and 'Add' or self.kind=='stock' and 'StockAdd' or self.kind=='needed' and 'NeededAdd' or (self.kind=='wish' or self.kind=='wanted') and 'WishAdd' or 'ShoppingAdd')),self,function(owner) owner:submit() end));self.add:setEnable(false)
-    self.cancel=child(ISButton:new(w-90,h-88,78,24,getText('UI_QMSS_Cancel'),self,function(owner) owner:close() end))
+    self.add=child(SharedUI.Button:new(124,h-88,w-226,24,getText('UI_QMSS_'..(w<480 and 'Add' or self.kind=='stock' and 'StockAdd' or self.kind=='needed' and 'NeededAdd' or (self.kind=='wish' or self.kind=='wanted') and 'WishAdd' or 'ShoppingAdd')),self,function(owner) owner:submit() end));self.add:setEnable(false)
+    self.cancel=child(SharedUI.Button:new(w-90,h-88,78,24,getText('UI_QMSS_Cancel'),self,function(owner) owner:close() end))
     if self.kind=='override' then self.quantity:setVisible(false);self.add:setTitle(getText('UI_QMSS_AddOverride')) end
     local function search()
         self.list:clear();self.selectedType=nil;self.add:setEnable(false)
