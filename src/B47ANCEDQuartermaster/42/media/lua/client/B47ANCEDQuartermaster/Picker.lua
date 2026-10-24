@@ -78,20 +78,20 @@ Picker.close=Picker.closePicker
 function Picker:createChildren()
     ISCollapsableWindowJoypad.createChildren(self)
     local function add(widget) widget:initialise();widget:instantiate();self:addChild(widget);return widget end
-    local function button(title,fn) return add(ISButton:new(0,0,100,26,title,self,fn)) end
-    self.filter=add(ISTextEntryBox:new('',0,0,200,24))
+    local function button(title,fn) return add(SharedUI.Button:new(0,0,100,26,title,self,fn)) end
+    self.filter=add(SharedUI.TextInput:new('',0,0,200,24))
     self.filter.onTextChangeFunction=function() self:rebuild() end
     self.btnModeCat=button(tr('Combined'),function(p) p:setMode('cats') end)
     self.btnModeItem=button(tr('Combined'),function(p) p:setMode('cats') end)
     self.btnModePreset=button(tr('Presets'),function(p) p:setMode('presets') end)
     self.chkChecked=button(tr('OnlyChecked'),function(p) p.onlyChecked=not p.onlyChecked;p:rebuild() end)
     self.chkContents=button(tr('OnlyContents'),function(p) p.onlyContents=not p.onlyContents;p:rebuild() end)
-    self.priorityLabel=add(ISLabel:new(0,0,24,tr('Priority'),1,1,1,1,UIFont.Small,true))
+    self.priorityLabel=add(SharedUI.skin(ISLabel:new(0,0,24,tr('Priority'),1,1,1,1,UIFont.Small,true),'label'))
     self.btnPriorityDown=button('-',function(p) p:setPriority(p.priority-1) end)
     self.btnPriorityUp=button('+',function(p) p:setPriority(p.priority+1) end)
-    self.priorityEntry=add(ISTextEntryBox:new(tostring(self.priority),0,0,64,24))
+    self.priorityEntry=add(SharedUI.NumberInput:new(tostring(self.priority),0,0,64,24))
     self.priorityEntry.onTextChangeFunction=function() self:setPriority(self.priorityEntry:getInternalText()) end
-    self.listbox=add(ISScrollingListBox:new(0,0,200,200))
+    self.listbox=add(SharedUI.ScrollList:new(0,0,200,200))
     local lb=self.listbox;lb.itemheight=22;lb.drawBorder=true;lb.target=self
     lb.onmousedown=function(p,name)
         local def=p:getPresetStore()[name]

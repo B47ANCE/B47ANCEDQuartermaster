@@ -77,7 +77,7 @@ function U.menu(parent)
   local menu=SharedUI.menu(ISContextMenu.get(parent.playerNum,getMouseX(),getMouseY()))
   for _,room in ipairs(result.rooms) do local r=room
    if #(r.profileKeys or {})>1 then
-    local sub=ISContextMenu:getNew(menu);menu:addSubMenu(menu:addOption(r.name),sub)
+    local sub=SharedUI.menu(ISContextMenu:getNew(menu));menu:addSubMenu(menu:addOption(r.name),sub)
     for _,key in ipairs(r.profileKeys) do local id=key;sub:addOption(id,parent,function() U.open(parent,r,id) end) end
    else menu:addOption(r.name,parent,function() U.open(parent,r,r.profileKeys and r.profileKeys[1]) end) end
   end

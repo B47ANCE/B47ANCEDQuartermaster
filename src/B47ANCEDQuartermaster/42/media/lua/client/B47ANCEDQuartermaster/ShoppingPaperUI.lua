@@ -12,10 +12,10 @@ function V.attach(p,u,add,button)
   if result.status=='ok' then u.lists=result;u.selected=nil;u.selectedProject=nil;u.selectedSource=nil;u.selectedRequirement=nil;u.selectedFrom=nil;u.rebuild()
   else message(result.status) end
  end
- u.paperPicker=add(ISComboBox:new(0,0,200,28,p,function(_,combo)
+ u.paperPicker=add(SharedUI.Dropdown.style(ISComboBox:new(0,0,200,28,p,function(_,combo)
   local item=u.paperOptions and u.paperOptions[combo.selected]
   if item and not u.paperUpdating then Q.Authority.request(p.playerNum,'shoppingPaperSelect',{item=item},changed) end
- end))
+ end)))
  u.paperPicker:setTooltip(tr('ShoppingPaperSelectTip'))
  local function prompt(import,rename)
   local meta=u.lists.paper or {};local current
