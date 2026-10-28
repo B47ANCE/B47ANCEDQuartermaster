@@ -1,3 +1,3 @@
 [b]Version 0.24.0-dev.6[/b]
 
-Optional Knox Inventory stable/beta compatibility adds Quartermaster Sort and Configure to the carried-item grid context menu. The existing native transfer and server-authoritative sorting path is unchanged. Source-only development iteration; not uploaded to Workshop. Knox native SP and dedicated beta multiplayer acceptance are NOT TESTED.
+Optional Knox Inventory stable/beta compatibility adds Quartermaster Sort and Configure to the carried-item grid context menu. The existing native transfer and server-authoritative sorting path is unchanged. MP testing build - dedicated multiplayer NOT TESTED. Knox native SP and dedicated beta multiplayer acceptance are pending.
