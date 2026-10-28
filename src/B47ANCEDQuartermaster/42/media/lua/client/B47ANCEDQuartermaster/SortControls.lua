@@ -116,3 +116,38 @@ end
 install(ISInventoryWindowControlHandler,ISInventoryWindowContainerControls,'B47InventorySortControl')
 install(ISLootWindowObjectControlHandler,ISLootWindowContainerControls,'B47LootSortControl')
 install(ISLootWindowFloorControlHandler,ISLootWindowContainerControls,'B47FloorSortControl',true)
+
+-- Knox replaces the inventory window, but its item grid delegates to the native
+-- item context menu. Keep this entry client-only; sorting still uses Q.Authority.
+local function knoxInventoryMenu(playerNum,context,items)
+    if not (Knox and type(Knox.forPlayer)=='function' and Knox.forPlayer(playerNum)) then return end
+    local player=getSpecificPlayer(playerNum)
+    if not player or not context or not ISInventoryPane or type(ISInventoryPane.getActualItems)~='function' then return end
+    local actual=ISInventoryPane.getActualItems(items or {})
+    local owned=false
+    for _,item in ipairs(actual or {}) do
+        local container=item and item.getContainer and item:getContainer()
+        if container and (container==player:getInventory() or
+            (container.isInCharacterInventory and container:isInCharacterInventory(player))) then
+            owned=true;break
+        end
+    end
+    if not owned or context.b47KnoxMenu then return end
+    context.b47KnoxMenu=true
+    local option=context:addOption(getText('UI_QMSS_OpenMenu'))
+    local submenu=SharedUI.menu(ISContextMenu:getNew(context))
+    context:addSubMenu(option,submenu)
+    local function showQuartermaster(action)
+        -- Knox's full-screen inventory otherwise covers the Quartermaster window.
+        local screen=KnoxScreen and KnoxScreen.instance
+        if screen and type(screen.close)=='function' then screen:close() end
+        action()
+    end
+    submenu:addOption(getText(sorting(playerNum) and 'UI_B47_StopSorting' or 'UI_B47_Sort'),nil,
+        function() showQuartermaster(function() perform(playerNum,player:getInventory()) end) end)
+    submenu:addOption(getText('UI_QMSS_Configure'),nil,
+        function() showQuartermaster(function() Q.openPicker(nil,nil,playerNum) end) end)
+end
+if Events and Events.OnFillInventoryObjectContextMenu then
+    Events.OnFillInventoryObjectContextMenu.Add(knoxInventoryMenu)
+end

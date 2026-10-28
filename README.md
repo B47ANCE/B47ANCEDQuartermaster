@@ -10,7 +10,7 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-This source is developed as **0.24.0-dev.5**. It uses B47ANCE'd UI API 1 for Quartermaster-owned controls and menus; Stock and Base Ledger remain available as described below. The [0.23.0-dev.1 upload receipt](docs/WORKSHOP_STOCK_TESTING_2026_10_18.md) remains historical evidence. Distribution is separate from native acceptance. Native client/dedicated acceptance for this build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
+This source is developed as **0.24.0-dev.6**. It uses B47ANCE'd UI API 1 for Quartermaster-owned controls and menus; Stock and Base Ledger remain available as described below. The [0.23.0-dev.1 upload receipt](docs/WORKSHOP_STOCK_TESTING_2026_10_18.md) remains historical evidence. Distribution is separate from native acceptance. Native client/dedicated acceptance for this build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
 
 ## Stock and connected computers
 
@@ -144,6 +144,10 @@ Dedicated multiplayer tests passed for the earlier Quartermaster build according
 **Mod ID:** `B47ANCEDQuartermaster`
 
 **Workshop ID:** `3807217050`
+
+### Knox Inventory (optional)
+
+With Knox Inventory stable or beta active, right-click a carried item in its grid and choose **Open Quartermaster Menu**. The submenu provides **Sort** and **Configure Sorting**. Quartermaster closes the full-screen Knox inventory before showing its own menu. The normal vanilla inventory controls remain available when Knox is absent. This adapter changes only the client entry point; native transfers and server validation are unchanged. Native Knox single-player and dedicated beta multiplayer tests remain pending. Knox itself has separate dependencies; Quartermaster does not bundle or require them.
 
 Created by B47ANCE. Original Lua-only implementation; no third-party mod source or assets are bundled.
 

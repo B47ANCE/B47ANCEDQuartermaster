@@ -1,6 +1,6 @@
 # Quartermaster Application CD and PC installation
 
-Project Version: 0.24.0-dev.5
+Project Version: 0.24.0-dev.6
 
 Current Sort policy is the separate default-on [paper search/pickup and deferred writing workflow](SORT_LEDGER.md), Movement 12 / Ledger 5. Successful installation now automatically releases the setup-drive binding without moving or consuming the CD; older capability/evidence checkpoints retain their original identity.
 

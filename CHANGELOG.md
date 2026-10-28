@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.24.0-dev.6] - 2026-10-28
+
+- Add optional Knox Inventory stable/beta item-grid context entry for Quartermaster Sort and Configure; existing server-authoritative sort path is unchanged.
+- Offline checks only. Native Knox SP and dedicated beta MP compatibility remain untested. No deployment or Workshop publication.
+
 ## [0.24.0-dev.5] - 2026-10-23
 
 - Show the existing client-local Group Items by Mod preference directly in Categories & Items, including controller navigation. With grouping off, items appear under their category without mod headings; saved rules and selections are unchanged.

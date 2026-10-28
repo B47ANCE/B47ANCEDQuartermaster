@@ -2,10 +2,14 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.24.0-dev.5",
+  "version": "0.24.0-dev.6",
   "reviewed": true,
-  "source_digest": "d05a82bb73f3d2c6d4747a04fc69f8a7e664e551068461ae6c04a7b43ed311f5",
+  "source_digest": "c9cdd4cef3ff297e010009a1460921e40b01f87f2a28e439ca1c46cbb0756de5",
   "features": [
+    {
+      "status": "Source",
+      "text": "Optional Knox Inventory stable/beta carried-item context entry for Sort and Configure; native transfer authority is unchanged."
+    },
     {
       "status": "Source",
       "text": "Configure category/item storage rules, priorities, presets and whole-furniture sections."
@@ -75,9 +79,10 @@
       "text": "Categories & Items exposes the client-local Group Items by Mod toggle. Off shows items directly below categories; on adds mod headings. Neither choice edits saved sorting rules or server state."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.24.0-dev.5; G7/stable G8 BLOCKED. The 0.24.0-dev.1 Workshop upload is historical distribution evidence, not runtime acceptance; dev.2 through dev.5 are source-only. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current UI-menu offline pairing uses UI 0.5.0-dev.11 (API 1); older Stock/ledger evidence used UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Stock counts remain a bounded observation, not an atomic multi-container inventory transaction. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.24.0-dev.6; optional Knox Inventory stable/beta UI adapter needs native acceptance; G7/stable G8 BLOCKED. The 0.24.0-dev.1 Workshop upload is historical distribution evidence, not runtime acceptance; dev.2 through dev.5 are source-only. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current UI-menu offline pairing uses UI 0.5.0-dev.11 (API 1); older Stock/ledger evidence used UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Stock counts remain a bounded observation, not an atomic multi-container inventory transaction. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
+    "docs/KNOX_INVENTORY_COMPATIBILITY.md",
     "docs/ALLOCATION_INTEGRATION.md",
     "docs/DESIGNATED_ROOM_SCOPES.md",
     "docs/WINDOWS93_COMPUTER.md",
