@@ -2,9 +2,9 @@
   "schema": 1,
   "id": "qm",
   "name": "Quartermaster",
-  "version": "0.24.0-dev.6",
+  "version": "0.24.0-dev.7",
   "reviewed": true,
-  "source_digest": "c9cdd4cef3ff297e010009a1460921e40b01f87f2a28e439ca1c46cbb0756de5",
+  "source_digest": "a45ffcc1072043f09860d83824ed0580c0025856293ea2588f655fef89e1a7c0",
   "features": [
     {
       "status": "Source",
@@ -16,7 +16,7 @@
     },
     {
       "status": "Source",
-      "text": "Sort inventory, containers, rooms, buildings and eligible floor items; shopping demands and Dibs lists."
+      "text": "Sort inventory, containers, rooms, buildings and eligible floor items; keep native Sort visible on empty selected sources and proximity inventories without a world-object parent; shopping demands and Dibs lists."
     },
     {
       "status": "Source",
@@ -79,7 +79,7 @@
       "text": "Categories & Items exposes the client-local Group Items by Mod toggle. Off shows items directly below categories; on adds mod headings. Neither choice edits saved sorting rules or server state."
     }
   ],
-  "limits": "Native SP/dedicated NOT TESTED for 0.24.0-dev.6; optional Knox Inventory stable/beta UI adapter needs native acceptance; G7/stable G8 BLOCKED. The 0.24.0-dev.1 Workshop upload is historical distribution evidence, not runtime acceptance; dev.2 through dev.5 are source-only. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current UI-menu offline pairing uses UI 0.5.0-dev.11 (API 1); older Stock/ledger evidence used UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Stock counts remain a bounded observation, not an atomic multi-container inventory transaction. Advisory allocation remains unenforced.",
+  "limits": "Native SP/dedicated NOT TESTED for 0.24.0-dev.7; optional Knox Inventory stable/beta UI adapter needs native acceptance; G7/stable G8 BLOCKED. The 0.24.0-dev.1 Workshop upload is historical distribution evidence, not runtime acceptance; dev.2 through dev.5 are source-only. Requires Rooms, PC Framework 0.11.0-dev.1 and UI API 1; UI API 1 is Workshop item 3822582242; current UI-menu offline pairing uses UI 0.5.0-dev.11 (API 1); older Stock/ledger evidence used UI 0.3.0-dev.1. Base live inventory requires loaded powered authorized local-copy PCs; historical/partial stock cannot notify. Stock counts remain a bounded observation, not an atomic multi-container inventory transaction. Advisory allocation remains unenforced.",
   "evidence": [
     "README.md",
     "docs/KNOX_INVENTORY_COMPATIBILITY.md",

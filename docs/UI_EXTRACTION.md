@@ -1,6 +1,6 @@
 # Shared UI extraction
 
-Project Version: 0.24.0-dev.6
+Project Version: 0.24.0-dev.7
 
 ## Visible mod-grouping preference (2026-10-23)
 

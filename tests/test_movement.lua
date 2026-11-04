@@ -420,8 +420,11 @@ function Base:new() return setmetatable({},self) end
 ISInventoryWindowControlHandler=Base;ISLootWindowObjectControlHandler=Base
 ISLootWindowFloorControlHandler=Base
 ISInventoryWindowContainerControls={AddHandler=function(c) controls[#controls+1]=c end}
+function ISInventoryWindowContainerControls:arrange() end
 local floorControls={}
 ISLootWindowContainerControls={AddHandler=ISInventoryWindowContainerControls.AddHandler,AddFloorHandler=function(c) floorControls[#floorControls+1]=c end}
+function ISLootWindowContainerControls:arrange() end
+function ISLootWindowContainerControls:handleJoypadContextMenu() end
 for _,path in ipairs({'ISUI/InventoryWindow/ISInventoryWindowControlHandler','ISUI/InventoryWindow/ISInventoryWindowContainerControls',
     'ISUI/LootWindow/ISLootWindowObjectControlHandler','ISUI/LootWindow/ISLootWindowFloorControlHandler','ISUI/LootWindow/ISLootWindowContainerControls','ISUI/ISContextMenu'}) do package.loaded[path]=true end
 -- This executor-only fixture has no native UI environment; real provider is covered by paired UI suites.
@@ -437,6 +440,19 @@ local oldSpecific=getSpecificPlayer;getSpecificPlayer=function() return f.player
 for i=1,8 do transientEmpty=i%2==0;assert(floorHandler:shouldBeVisible(),'floor Sort must remain visible during empty proxy rebuild') end
 aggregate.getType=function() return 'proximity' end
 for i=1,8 do transientEmpty=i%2==0;assert(floorHandler:shouldBeVisible(),'parentless aggregate Sort must remain visible') end
+-- Native does not dispatch floor handlers for proximity proxies. The adapter
+-- must add its owned control without requiring a world-object parent.
+local shown={visible=false}
+function shown:setX() end;function shown:setY() end;function shown:setVisible(value) self.visible=value end
+function shown:getHeight() return 20 end
+floorHandler.getControl=function() return shown end
+local lootControls=setmetatable({controls={},lootWindow={player=0,resizeWidget={y=30},getWidth=function() return 200 end},
+    getDisplayedContainer=function() return aggregate end,getDisplayedObject=function() return nil end,
+    checkHandler=function() return floorHandler end,addChild=function() end,setHeight=function(self,h) self.height=h end,
+    setX=function() end,setY=function() end,setWidth=function() end,setVisible=function() end,
+    fixMouseOverButton=function() end}, {__index=ISLootWindowContainerControls})
+lootControls:arrange()
+assert(shown.visible and #lootControls.controls==1,'proximity Sort control must be displayed')
 getSpecificPlayer=oldSpecific
 -- The real inventory control opens a scope menu; only the chosen callback starts.
 local openedMenu
