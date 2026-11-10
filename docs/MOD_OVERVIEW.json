@@ -4,8 +4,12 @@
   "name": "Quartermaster",
   "version": "0.24.0-dev.7",
   "reviewed": true,
-  "source_digest": "a45ffcc1072043f09860d83824ed0580c0025856293ea2588f655fef89e1a7c0",
+  "source_digest": "9a7c193ec5f0b4fe2f0c63995805d96b3de07193ed878dbe9f54a26e6b25a395",
   "features": [
+    {
+      "status": "Source",
+      "text": "Ledger UI and held-paper HUD initialize from client Lua after shared modules; sandbox threshold labels avoid formatter percent errors. Quartermaster declares Rooms, PC Framework and UI dependencies."
+    },
     {
       "status": "Source",
       "text": "Optional Knox Inventory stable/beta carried-item context entry for Sort and Configure; native transfer authority is unchanged."

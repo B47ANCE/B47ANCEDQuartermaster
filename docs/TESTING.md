@@ -2,6 +2,8 @@
 
 Project Version: 0.24.0-dev.7
 
+[TESTED offline, 2026-11-10] Shared-phase bootstrap now loads with client modules deliberately unavailable; the client bootstrap names the ledger UI and held-paper HUD. Dependency checks verify Quartermaster → Rooms, PC Framework, UI; Rooms → UI; UI and PC Framework have no reverse required-mod declaration. All 29 sandbox fallback files have no raw percent formatter tokens in the two threshold labels/tooltips. `tests/run_tests.py --only-polish` and the full paired offline suite pass with UI 0.5.0-dev.11, PC Framework 0.11.0-dev.1 and Rooms 0.2.0-dev.10 source. `scripts/check_deployment.py` and `scripts/check_versions.py` pass. UI 0.12.0-dev.3 offline pairing is blocked by its unstubbed native `ISSliderPanel` import in the older test harness; this is not native acceptance. The reported third-party main-menu stall is not reproduced, and native client/dedicated MP remain [RUNTIME GATE].
+
 [TESTED offline, 2026-10-23] The visible Group Items by Mod control passes paired UI layout tests at 640/1100/1280 widths and 14/24/32 font heights, toggles the existing local preference, and leaves staged selections unchanged. Existing model and preference persistence fixtures remain part of the full suite. Native visual/controller and dedicated MP are NOT TESTED for dev.5; G7 and stable G8 remain blocked. No deployment or publication.
 
 [TESTED offline, 2026-10-21] Full owned-control UI API 1 integration passes paired UI fixtures and public-provider boundary against UI 0.5.0-dev.11; full Quartermaster regression, deployment-layout parity and version checks pass in this iteration. Native visual/controller and dedicated MP remain [RUNTIME GATE].

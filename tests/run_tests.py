@@ -27,6 +27,10 @@ PARSER.add_argument('--only-ui', action='store_true', help='Shared UI public pro
 PARSER.add_argument('--rooms', type=Path, default=ROOT.parent / 'B47ANCEDRooms', help='Standalone Rooms checkout for paired production integration tests')
 PARSER.add_argument('--require-rooms', action='store_true', help='Fail instead of reporting unavailable paired integration')
 ARGS = PARSER.parse_args()
+import runpy
+runpy.run_path(str(ROOT / 'tests/test_dependency_bootstrap.py'), init_globals={
+    'SOURCE': ROOT / 'src/B47ANCEDQuartermaster', 'ARGS': ARGS, 'LuaRuntime': LuaRuntime,
+})
 SOURCE = ROOT / 'src' / 'B47ANCEDQuartermaster'
 CLIENT = SOURCE / '42/media/lua/client'
 upstream = ARGS.quartermaster

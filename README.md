@@ -14,6 +14,8 @@ This source is developed as **0.24.0-dev.7**. It uses B47ANCE'd UI API 1 for Qua
 
 ## Stock and connected computers
 
+The loader uses Quartermaster's declared Rooms, PC Framework and UI dependencies; Rooms also requires UI. Ledger presentation initializes from client Lua after shared modules, while server-owned ledger state remains on the server.
+
 Set shared room/building item targets from **Stock** in the normal Quartermaster menu. Paper and PC ledgers show Current / Target / Remaining; personal Dibs! Needed stays separate. The PC app automatically posts low-stock notifications only from complete, fresh live data.
 
 Choose This CD, Latest local CDs or Base ledger in the digital reader. Newest completed copies cover each area once. Connect PCs using the Framework's PC Network app: start pairing on one, visit another and enter its address, or connect to a public PC. Network Status shows online and offline/unavailable computers. A live remote building needs a loaded, powered, accessible PC with Quartermaster installed and its own local ledger CD. When it is unavailable, bring a completed CD from that building to this PC to read its dated, partial offline history. Refresh the paper ledger in the source building, then rewrite the matching-area CD at its PC or burn a new blank disc. Connections never bypass access rules or simulate unloaded inventory.
