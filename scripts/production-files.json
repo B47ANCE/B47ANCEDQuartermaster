@@ -1,5 +1,6 @@
 [
   "42/icon.png",
+  "42/media/lua/client/B47ANCEDQuartermasterLedgerClient.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/Adapter.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/AllocationUI.lua",
   "42/media/lua/client/B47ANCEDQuartermaster/AppearanceUI.lua",

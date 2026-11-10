@@ -5,6 +5,8 @@ getTimestampMs=function() return clock end
 getActivatedMods=function() return {size=function() return 2 end,get=function(_,n) return n==0 and 'B47ANCEDQuartermaster' or 'B47ANCEDRooms' end} end
 instanceof=function() return false end
 triggerEvent=function() end
+-- Build 42.21 native transfer helper rejects a bag being placed inside itself.
+ItemContainer={chainContainsContainingItem=function() return false end}
 package.loaded['B47ANCEDQuartermaster/Authority']=true
 local rooms={canAccessAt=function(_,x,y,z,action) return {state='allow'} end}
 package.loaded['B47ANCEDRooms/API']=rooms

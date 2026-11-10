@@ -1,6 +1,10 @@
 # Testing
 
-Project Version: 0.24.0-dev.6
+Project Version: 0.24.0-dev.7
+
+[TESTED offline, 2026-11-10] Shared-phase bootstrap now loads with client modules deliberately unavailable; the client bootstrap names the ledger UI and held-paper HUD. Dependency checks verify Quartermaster → Rooms, PC Framework, UI; Rooms → UI; UI and PC Framework have no reverse required-mod declaration. All 29 sandbox fallback files have no raw percent formatter tokens in the two threshold labels/tooltips. `tests/run_tests.py --only-polish` and the full paired offline suite pass with UI 0.5.0-dev.11, PC Framework 0.11.0-dev.1 and Rooms 0.2.0-dev.10 source. `scripts/check_deployment.py` and `scripts/check_versions.py` pass. UI 0.12.0-dev.3 offline pairing is blocked by its unstubbed native `ISSliderPanel` import in the older test harness; this is not native acceptance. The reported third-party main-menu stall is not reproduced, and native client/dedicated MP remain [RUNTIME GATE].
+
+The shared UI CI checkout is pinned to Rooms commit `72a6ad0` so its dependency contract test uses the reviewed dev.10 source; the previous dev.7 pin lacked the required UI declaration. The paired Stock/Base host contract command passes offline with the new Rooms source.
 
 [TESTED offline, 2026-10-23] The visible Group Items by Mod control passes paired UI layout tests at 640/1100/1280 widths and 14/24/32 font heights, toggles the existing local preference, and leaves staged selections unchanged. Existing model and preference persistence fixtures remain part of the full suite. Native visual/controller and dedicated MP are NOT TESTED for dev.5; G7 and stable G8 remain blocked. No deployment or publication.
 
@@ -101,7 +105,7 @@ User confirms dev.20 loaded but visible Category labels remained vanilla with Ne
 
 Compatible PATCH correction on dev.19: Category cells use the canonical resolver cache and current localized labels. Compatibility is checked during rendering rather than permanently skipping registration during early Lua loading. Native row.cat, sorting, grouping and item definitions stay unchanged. Full offline regression and frozen 5,092-item comparison passed; actual B42.21 inventory/loot/controller/scaling and second-language client acceptance remain UNTESTED. Dev.19 Stage A instrumentation is retained; its dedicated timing gate remains BLOCKED. See `dist/handoffs/dev20-inventory-category.md`. No deployment or publication.
 
-Current source version: 0.24.0-dev.6. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
+Current source version: 0.24.0-dev.7. Native-only storage retirement is the current development candidate. See NATIVE_CATEGORIES_COMPATIBILITY.md for validation and limits.
 
 Historical note: Recorded source snapshot: 0.4.0-dev.50. Stage A adds bounded correlated Sort timing, immediate preparation acknowledgement, and independent B47 carry-allocation regression. Background destination-index optimization awaits correlated native root-cause evidence; no gameplay/cache decisions changed. See `dist/handoffs/dev19-responsiveness.md`. Native dedicated timing remains BLOCKED.
 

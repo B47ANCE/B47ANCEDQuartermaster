@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           repository: B47ANCE/B47ANCEDRooms
-          ref: e12573c2d493c44415509f67387e6ca90a784f87
+          ref: 72a6ad00b227a61ca5bf4517f187a2d65eeede68
           path: .test-deps/B47ANCEDRooms
           persist-credentials: false
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065

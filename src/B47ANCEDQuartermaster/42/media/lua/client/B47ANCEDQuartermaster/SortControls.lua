@@ -21,7 +21,6 @@ local function supported(player,container)
     -- Floor/aggregate proxies may be transiently empty while their UI rebuilds.
     -- Keep intent controls stable; acquisition still validates actual item sources.
     if container==player:getInventory() then return true end
-    if container:isEmpty() then return false end
     if External.hint(container,player) then return true end
     local item=container:getContainingItem()
     if item then return B47ANCEDQuartermaster.Movement.carrier(player,item:getID())==container end
@@ -112,10 +111,67 @@ local function install(base,registry,name,floor)
     end
     local register=floor and registry.AddFloorHandler or registry.AddHandler
     register(handler)
+    return handler
 end
-install(ISInventoryWindowControlHandler,ISInventoryWindowContainerControls,'B47InventorySortControl')
+local inventorySortHandler=install(ISInventoryWindowControlHandler,ISInventoryWindowContainerControls,'B47InventorySortControl')
 install(ISLootWindowObjectControlHandler,ISLootWindowContainerControls,'B47LootSortControl')
-install(ISLootWindowFloorControlHandler,ISLootWindowContainerControls,'B47FloorSortControl',true)
+local fallbackSortHandler=install(ISLootWindowFloorControlHandler,ISLootWindowContainerControls,'B47FloorSortControl',true)
+
+-- Native loot controls dispatch object handlers only for a world object and
+-- floor handlers only for the literal "floor" type. Proximity inventories and
+-- nested containers can have neither, although Sorter supports their handles.
+local nativeLootArrange=ISLootWindowContainerControls.arrange
+function ISLootWindowContainerControls:arrange()
+    nativeLootArrange(self)
+    local container=self:getDisplayedContainer()
+    if not container or self:getDisplayedObject() or container:getType()=='floor' then return end
+    local handler=self:checkHandler(fallbackSortHandler,nil,container)
+    if not handler:shouldBeVisible() then return end
+    local control=handler:getControl()
+    control:setX(1)
+    control:setY(1)
+    control:setVisible(true)
+    self:addChild(control)
+    table.insert(self.controls,control)
+    self:setHeight(control:getHeight()+2)
+    self:setX(0)
+    self:setY(self.lootWindow.resizeWidget.y-self.height)
+    self:setWidth(self.lootWindow:getWidth())
+    self:setVisible(true)
+    self:fixMouseOverButton()
+end
+local nativeLootJoypad=ISLootWindowContainerControls.handleJoypadContextMenu
+function ISLootWindowContainerControls:handleJoypadContextMenu(context)
+    nativeLootJoypad(self,context)
+    local container=self:getDisplayedContainer()
+    if not container or self:getDisplayedObject() or container:getType()=='floor' then return end
+    local handler=self:checkHandler(fallbackSortHandler,nil,container)
+    if handler:shouldBeVisible() then handler:handleJoypadContextMenu(context) end
+end
+
+-- The player panel normally withholds every native control until the loot
+-- panel is initialized. Keep our player control usable during that interval.
+local nativeInventoryArrange=ISInventoryWindowContainerControls.arrange
+function ISInventoryWindowContainerControls:arrange()
+    nativeInventoryArrange(self)
+    if #self.controls>0 then return end
+    local container=self:getDisplayedContainer()
+    if not container then return end
+    local handler=self:checkHandler(inventorySortHandler,container)
+    if not handler:shouldBeVisible() then return end
+    local control=handler:getControl()
+    control:setX(1)
+    control:setY(1)
+    control:setVisible(true)
+    self:addChild(control)
+    table.insert(self.controls,control)
+    self:setHeight(control:getHeight()+2)
+    self:setX(0)
+    self:setY(self.inventoryWindow.resizeWidget.y-self.height)
+    self:setWidth(self.inventoryWindow:getWidth())
+    self:setVisible(true)
+    self:fixMouseOverButton()
+end
 
 -- Knox replaces the inventory window, but its item grid delegates to the native
 -- item context menu. Keep this entry client-only; sorting still uses Q.Authority.

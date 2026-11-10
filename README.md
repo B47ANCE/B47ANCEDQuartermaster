@@ -10,9 +10,11 @@ Tell each container what belongs inside, then sort your inventory, a room or an 
 
 [Get Quartermaster on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3807217050) | [Required: B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442)
 
-This source is developed as **0.24.0-dev.6**. It uses B47ANCE'd UI API 1 for Quartermaster-owned controls and menus; Stock and Base Ledger remain available as described below. The [0.23.0-dev.1 upload receipt](docs/WORKSHOP_STOCK_TESTING_2026_10_18.md) remains historical evidence. Distribution is separate from native acceptance. Native client/dedicated acceptance for this build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
+This source is developed as **0.24.0-dev.7**. It uses B47ANCE'd UI API 1 for Quartermaster-owned controls and menus; Stock and Base Ledger remain available as described below. The [0.23.0-dev.1 upload receipt](docs/WORKSHOP_STOCK_TESTING_2026_10_18.md) remains historical evidence. Distribution is separate from native acceptance. Native client/dedicated acceptance for this build remains pending. Requires [B47ANCE'd Rooms](https://steamcommunity.com/sharedfiles/filedetails/?id=3820077442) and [B47ANCED PC Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3822042011) on every peer.
 
 ## Stock and connected computers
+
+The loader uses Quartermaster's declared Rooms, PC Framework and UI dependencies; Rooms also requires UI. Ledger presentation initializes from client Lua after shared modules, while server-owned ledger state remains on the server.
 
 Set shared room/building item targets from **Stock** in the normal Quartermaster menu. Paper and PC ledgers show Current / Target / Remaining; personal Dibs! Needed stays separate. The PC app automatically posts low-stock notifications only from complete, fresh live data.
 

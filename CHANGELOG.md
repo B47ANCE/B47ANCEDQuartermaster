@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.24.0-dev.7] - 2026-11-04
+
+- Load ledger UI and held-paper HUD from the client Lua phase while retaining server authority and native transfers.
+- Fix Primary/Secondary sandbox threshold text formatting in all 29 fallback locales. Confirm declared Quartermaster, Rooms, PC Framework and UI dependency graph.
+- Third-party main-menu stall remains unconfirmed; native client and dedicated acceptance are pending.
+- Keep the native Sort control available on empty selected containers and on proximity or nested sources without a direct world-object parent. Include the controller menu path. Existing server validation remains authoritative.
+- Offline regression suite passed. Native client and dedicated multiplayer acceptance remain pending. No deployment or Workshop publication.
+
 ## [0.24.0-dev.6] - 2026-10-28
 
 - Add optional Knox Inventory stable/beta item-grid context entry for Quartermaster Sort and Configure; existing server-authoritative sort path is unchanged.
